@@ -5,16 +5,31 @@
  * @format
  */
 
-import { useEffect } from 'react';
-
+import { useEffect, useState } from 'react';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NewAppScreen } from '@react-native/new-app-screen';
 import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
 import BootSplash from 'react-native-bootsplash';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import "./global.css"
+import OnboardingScreen from './src/screens/OnboardingScreen';
+
+const Stack = createNativeStackNavigator();
+
+const HomeScreen = () => {
+  const isDarkMode = useColorScheme() === 'dark';
+  return (
+    <View style={styles.container}>
+      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+      <NewAppScreen templateFileName="App.tsx" />
+    </View>
+  )
+}
 
 function App() {
-  const isDarkMode = useColorScheme() === 'dark';
+  const [hasOnboarded, setHasOnboarded] = useState(false);
 
   useEffect(() => {
     const init = async () => {
@@ -27,11 +42,21 @@ function App() {
     });
   }, []);
 
+  useEffect(() => {
+    const checkOnboarding = async () => {
+      const onboarded = await AsyncStorage.getItem("hasOnboarded");
+      setHasOnboarded(onboarded === "true");
+    };
+    checkOnboarding();
+  }, []);
+
   return (
-    <View style={styles.container}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <NewAppScreen templateFileName="App.tsx" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName={hasOnboarded ? "Home" : "Onboarding"} screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="Onboarding" component={OnboardingScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
