@@ -15,8 +15,10 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import "./global.css"
 import OnboardingScreen from './src/screens/OnboardingScreen';
+import { RootStackParamList } from './src/types/types';
+import LoginScreen from './src/screens/LoginScreen';
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const HomeScreen = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -29,7 +31,7 @@ const HomeScreen = () => {
 }
 
 function App() {
-  const [hasOnboarded, setHasOnboarded] = useState(false);
+  const [ hasOnboarded, setHasOnboarded ] = useState(false);
 
   useEffect(() => {
     const init = async () => {
@@ -52,9 +54,10 @@ function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName={hasOnboarded ? "Home" : "Onboarding"} screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="Home" component={HomeScreen} />
-          <Stack.Screen name="Onboarding" component={OnboardingScreen} />
+      <Stack.Navigator initialRouteName={hasOnboarded ? "Login" : "Onboarding"} screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Onboarding" component={OnboardingScreen} />
+        <Stack.Screen name="Login" component={LoginScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

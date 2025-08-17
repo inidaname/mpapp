@@ -12,16 +12,17 @@ import { FontAwesome6 } from '@react-native-vector-icons/fontawesome6';
 
 interface Props extends NativeStackScreenProps<RootStackParamList> { }
 
+interface PageRef {
+  setPage: React.Dispatch<React.SetStateAction<number>>;
+}
+
 const OnboardingScreen: React.FC<Props> = ({ navigation }) => {
-  const pagerRef = useRef<{
-    setPage: React.Dispatch<React.SetStateAction<number>>;
-  } | null>(null);
+  const pagerRef = useRef<PageRef | null>(null);
   const [ page, setPage ] = useState(0);
-  console.log('navigation', navigation);
 
   const finishOnboarding = async () => {
     await AsyncStorage.setItem('hasOnboarded', 'true');
-    navigation.replace('Home');
+    navigation.replace('Login');
   };
 
   return (

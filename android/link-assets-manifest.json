@@ -32,6 +32,10 @@
     {
       "path": "assets/fonts/Raleway-SemiBold.ttf",
       "sha1": "3dd2bfca1944f82e928417d0399b8725b83728aa"
+    },
+    {
+      "path": "assets/fonts/Raleway-Thin.ttf",
+      "sha1": "24ab661e5c643c4c08f7c020fc198669dd746c70"
     }
   ]
 }

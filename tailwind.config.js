@@ -4,10 +4,30 @@ module.exports = {
   content: [ "./App.tsx", "./src/screens/**/*.{js,jsx,ts,tsx}", "./src/components/**/*.{js,jsx,ts,tsx}" ],
   presets: [ require("nativewind/preset") ],
   theme: {
+    colors: {
+      brand: {
+        '50': '#eff7ff',
+        '100': '#dbecfe',
+        '200': '#bfdefe',
+        '300': '#93cafd',
+        '400': '#60acfa',
+        '500': '#3b8af6',
+        '600': '#256ceb',
+        '700': '#215ce1',
+        '800': '#1e47af',
+        '900': '#1e3f8a',
+        '950': '#172854',
+      },
+    },
     extend: {
       fontFamily: {
         raleway: [ "Raleway-Regular" ],
         'raleway-bold': [ "Raleway-Bold" ],
+        'raleway-semibold': [ "Raleway-SemiBold" ],
+        'raleway-medium': [ "Raleway-Medium" ],
+        'raleway-light': [ "Raleway-Light" ],
+        'raleway-extralight': [ "Raleway-ExtraLight" ],
+        'raleway-thin': [ "Raleway-Thin" ],
       }
     }
   },
