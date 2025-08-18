@@ -1,0 +1,268 @@
+/* eslint-disable react-native/no-inline-styles */
+import type React from 'react';
+import { RootStackParamList } from '../types/types';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import {
+  Animated,
+  Dimensions,
+  View,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+  Image,
+} from 'react-native';
+import { useEffect, useRef, useState } from 'react';
+import { OtpInput } from 'react-native-otp-entry';
+import AppText from '../components/typo/AppText';
+import PhoneNumberInput from '../components/PhoneNumberInput';
+import { useForm } from 'react-hook-form';
+import { SUPPORT_COUNTRIES } from '../data/supporting-countries';
+
+interface Props extends NativeStackScreenProps<RootStackParamList> {}
+interface ChildProps
+  extends Pick<NativeStackScreenProps<RootStackParamList>, 'navigation'> {
+  onContinue: () => void;
+  onSelectCountry: (item: CountryData) => void;
+}
+
+const { width } = Dimensions.get('window');
+
+const EmailVerification: React.FC<Pick<ChildProps, 'onContinue'>> = ({
+  onContinue,
+}) => {
+  return (
+    <View className="flex-1 items-center justify-between px-6">
+      <View className="w-full items-center mt-10">
+        <View className="h-36" />
+        <AppText weight="medium" className="text-3xl mb-2">
+          Email Verification
+        </AppText>
+        <AppText weight="light" className="text-center mb-6 text-lg">
+          We have sent you a verification code to your given email
+          <AppText> ahmadali123@gmail.com</AppText>
+        </AppText>
+        <OtpInput
+          focusColor="#215ce1"
+          numberOfDigits={4}
+          onTextChange={text => console.log(text)}
+          theme={{
+            pinCodeContainerStyle: { width: 60, height: 60 },
+            containerStyle: { width: '90%', marginVertical: 20 },
+            pinCodeTextStyle: { fontFamily: 'Raleway-Regular', fontSize: 20 },
+          }}
+        />
+        <AppText className="text-brand-700 underline text-xl mt-2">
+          Resend code
+        </AppText>
+      </View>
+      <TouchableOpacity
+        onPress={onContinue}
+        className="bg-brand-700 w-full px-6 py-3 rounded-2xl h-16 justify-center items-center mb-10"
+      >
+        <AppText weight="semibold" className="text-white text-xl">
+          Continue
+        </AppText>
+      </TouchableOpacity>
+    </View>
+  );
+};
+
+const PhoneVerification: React.FC<Pick<ChildProps, 'onContinue'>> = ({
+  onContinue,
+}) => {
+  const { control } = useForm();
+  return (
+    <View className="flex-1 items-center justify-between px-4">
+      <View className="w-full items-center mt-10">
+        <Image
+          source={require('../../assets/phone_question.png')}
+          className="my-6"
+        />
+        <AppText weight="semibold" className="text-2xl mb-2">
+          Phone Verification
+        </AppText>
+        <AppText className="text-center text-lg mb-6">
+          Enter your phone number on which we can send you a verification code
+        </AppText>
+        <PhoneNumberInput
+          name="phone"
+          control={control}
+          label="Phone Number"
+          rules={{ required: 'Phone number required' }}
+        />
+        <View className="w-full justify-center items-end pr-6">
+          <AppText className="underline text-brand-700 my-2">
+            Resend Code
+          </AppText>
+        </View>
+        <OtpInput
+          focusColor="#215ce1"
+          numberOfDigits={4}
+          onTextChange={text => console.log(text)}
+          theme={{
+            pinCodeContainerStyle: { width: 60, height: 60 },
+            containerStyle: { width: '90%', marginVertical: 20 },
+            pinCodeTextStyle: { fontFamily: 'Raleway-Regular', fontSize: 20 },
+          }}
+        />
+      </View>
+      <TouchableOpacity
+        onPress={onContinue}
+        className="bg-brand-700 w-full px-6 py-3 rounded-2xl h-16 justify-center items-center mb-10"
+      >
+        <AppText weight="semibold" className="text-white text-xl">
+          Continue
+        </AppText>
+      </TouchableOpacity>
+    </View>
+  );
+};
+
+const CountrySelect: React.FC<Omit<ChildProps, 'onContinue'>> = ({
+  navigation,
+  onSelectCountry,
+}) => {
+  const [countries, setCountries] = useState<CountryData[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [selected, setSelected] = useState<CountryData | null>(null);
+
+  useEffect(() => {
+    fetch('https://cdn.simplelocalize.io/public/v1/countries')
+      .then(res => res.json())
+      .then((data: CountryData[]) => {
+        setCountries(
+          data.filter(item => SUPPORT_COUNTRIES.includes(item.name)),
+        );
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error(err);
+        setLoading(false);
+      });
+  }, []);
+
+  const handleContinue = () => {
+    if (selected) {
+      onSelectCountry(selected);
+      navigation.navigate('Home');
+    }
+  };
+
+  if (loading) {
+    return <AppText>Loading Countries</AppText>;
+  }
+
+  return (
+    <View className="flex-1 px-4">
+      <Text className="text-2xl font-bold text-center my-4">
+        Select Country
+      </Text>
+      <ScrollView>
+        {countries.map(country => (
+          <TouchableOpacity
+            key={country.code}
+            className="flex-row items-center justify-between py-0 w-full"
+            onPress={() => setSelected(country)}
+          >
+            <View className="px-4 rounded-2xl my-4 py-4 justify-between items-center bg-gray-300/20 flex flex-row w-full">
+              <View className="flex flex-row items-center">
+                <Image
+                  className="w-10 h-10 rounded-full"
+                  source={{
+                    uri: `https://flagcdn.com/w40/${country.code.toLowerCase()}.png`,
+                  }}
+                />
+                <AppText weight="medium" className="text-xl uppercase mx-2">
+                  {country.name}
+                </AppText>
+                <AppText className="text-2xl text-gray-500">
+                  {country.currency_code}
+                </AppText>
+              </View>
+              <View
+                className={`w-8 h-8 items-center justify-center p-1 rounded-full ${
+                  selected?.code === country.code
+                    ? 'border border-brand-500'
+                    : 'border border-gray-400'
+                }`}
+              >
+                <View
+                  className={`w-5 h-5 rounded-full ${
+                    selected?.code === country.code
+                      ? 'border-brand-500 bg-brand-500'
+                      : ''
+                  }`}
+                />
+              </View>
+            </View>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
+      <TouchableOpacity
+        disabled={!selected}
+        onPress={handleContinue}
+        className={`w-full px-6 py-3 rounded-2xl h-16 justify-center items-center mb-10 ${
+          selected ? 'bg-brand-700' : 'bg-brand-300'
+        }`}
+      >
+        <AppText weight="semibold" className="text-white text-xl">
+          Continue
+        </AppText>
+      </TouchableOpacity>
+    </View>
+  );
+};
+
+const VerifyEmailScreen: React.FC<Props> = ({ navigation }) => {
+  const [step, setStep] = useState(0);
+  const [_, onSelectCountry] = useState<CountryData | null>(null);
+  const translateX = useRef(new Animated.Value(0)).current;
+
+  const goNext = () => {
+    Animated.timing(translateX, {
+      toValue: -(step + 1) * width,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+    setStep(prev => prev + 1);
+  };
+
+  return (
+    <View className="w-full bg-white flex-1">
+      <View className="flex flex-row jusity-center items-center mx-auto mt-20">
+        {[0, 1, 2].map(i => (
+          <View
+            key={i}
+            className={`h-2 w-20 mx-1 rounded-full ${step >= i ? 'bg-brand-400' : 'bg-gray-300'}`}
+          />
+        ))}
+        {/* <View className='bg-brand-400 w-20 h-2 mx-1 rounded-md' />
+        <View className='bg-gray-300 w-20 h-2 mx-1 rounded-md' />
+        <View className='bg-gray-300 w-20 h-2 mx-1 rounded-md' /> */}
+      </View>
+      <Animated.View
+        style={{
+          flexDirection: 'row',
+          width: width * 3,
+          flex: 1,
+          transform: [{ translateX }],
+        }}
+      >
+        <View style={{ width }}>
+          <EmailVerification onContinue={goNext} />
+        </View>
+        <View style={{ width }}>
+          <PhoneVerification onContinue={goNext} />
+        </View>
+        <View style={{ width }}>
+          <CountrySelect
+            onSelectCountry={onSelectCountry}
+            navigation={navigation}
+          />
+        </View>
+      </Animated.View>
+    </View>
+  );
+};
+
+export default VerifyEmailScreen;

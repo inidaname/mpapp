@@ -19,7 +19,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
     defaultValues: { password: '' },
   });
 
-  const handlePress = () => console.log('Pressed the');
+  const handlePress = () => navigation.navigate("VerifyEmailScreen");
   return (
     <ScrollView contentContainerClassName="min-h-full justify-start items-start bg-white flex-col">
       <View className="mt-20 w-full items-center">
