@@ -17,6 +17,7 @@ import AppText from '../components/typo/AppText';
 import PhoneNumberInput from '../components/PhoneNumberInput';
 import { useForm } from 'react-hook-form';
 import { SUPPORT_COUNTRIES } from '../data/supporting-countries';
+import Back from '../components/typo/Back';
 
 interface Props extends NativeStackScreenProps<RootStackParamList> {}
 interface ChildProps
@@ -229,16 +230,16 @@ const VerifyEmailScreen: React.FC<Props> = ({ navigation }) => {
 
   return (
     <View className="w-full bg-white flex-1">
-      <View className="flex flex-row jusity-center items-center mx-auto mt-20">
-        {[0, 1, 2].map(i => (
-          <View
-            key={i}
-            className={`h-2 w-20 mx-1 rounded-full ${step >= i ? 'bg-brand-400' : 'bg-gray-300'}`}
-          />
-        ))}
-        {/* <View className='bg-brand-400 w-20 h-2 mx-1 rounded-md' />
-        <View className='bg-gray-300 w-20 h-2 mx-1 rounded-md' />
-        <View className='bg-gray-300 w-20 h-2 mx-1 rounded-md' /> */}
+      <View className="w-full flex flex-row justify-between items-center mt-20">
+        <Back />
+        <View className="flex flex-row justify-center items-center mx-auto">
+          {[0, 1, 2].map(i => (
+            <View
+              key={i}
+              className={`h-2 w-20 mx-1 rounded-full ${step >= i ? 'bg-brand-400' : 'bg-gray-300'}`}
+            />
+          ))}
+        </View>
       </View>
       <Animated.View
         style={{
