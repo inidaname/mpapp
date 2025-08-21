@@ -7,8 +7,6 @@
 
 import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { NewAppScreen } from '@react-native/new-app-screen';
-import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
 import BootSplash from 'react-native-bootsplash';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -20,18 +18,9 @@ import LoginScreen from './src/screens/LoginScreen';
 import SignupScreen from './src/screens/SignupScreen';
 import VerifyEmailScreen from './src/screens/VerifyEmail';
 import ForgotPasswordScreen from './src/screens/ForgotPasswordScreen';
+import HomeScreen from './src/screens/HomeScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
-
-const HomeScreen = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.container}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <NewAppScreen templateFileName="App.tsx" />
-    </View>
-  );
-};
 
 function App() {
   const [hasOnboarded, setHasOnboarded] = useState(false);
@@ -71,11 +60,5 @@ function App() {
     </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
 
 export default App;
