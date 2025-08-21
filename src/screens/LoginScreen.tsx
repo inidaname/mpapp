@@ -2,7 +2,7 @@ import React from 'react';
 
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../types/types';
-import { Image, Text, Pressable, View } from 'react-native';
+import { Image, Text, Pressable, View, TouchableOpacity } from 'react-native';
 import { FontAwesome6 } from '@react-native-vector-icons/fontawesome6';
 
 import FormInput from '../components/FormInput';
@@ -10,9 +10,10 @@ import { useForm } from 'react-hook-form';
 import ButtonComponent from '../components/Button';
 import { ScrollView } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import AppText from '../components/typo/AppText';
 // import { Button } from '@react-navigation/elements';
 
-interface Props extends NativeStackScreenProps<RootStackParamList> { }
+interface Props extends NativeStackScreenProps<RootStackParamList> {}
 
 const LoginScreen: React.FC<Props> = ({ navigation }) => {
   const { control } = useForm({
@@ -70,15 +71,17 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
           keyboardType="visible-password"
           rules={{ required: 'Password is required' }}
         />
-        <Text className="font-raleway-medium text-xl mb-4 text-brand-700">
-          Forgot Password?
-        </Text>
+        <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
+          <AppText weight="medium" className="text-xl mb-4 text-brand-700">
+            Forgot Password?
+          </AppText>
+        </TouchableOpacity>
         <ButtonComponent label="Continue" onPress={handlePress} />
       </View>
       <View className="flex-row w-full items-center justify-center px-6 py-2">
         {/* Left gradient line */}
         <LinearGradient
-          colors={[ 'transparent', '#437DFF', 'transparent' ]}
+          colors={['transparent', '#437DFF', 'transparent']}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}
           className="flex-1 h-5"
@@ -89,7 +92,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
 
         {/* Right gradient line */}
         <LinearGradient
-          colors={[ 'transparent', '#437DFF', 'transparent' ]}
+          colors={['transparent', '#437DFF', 'transparent']}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}
           className="flex-1 h-5"
@@ -113,16 +116,18 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
           />
         </View>
       </View>
-      <View className='flex flex-row justify-center items-center w-full mb-2 mt-4 h-24'>
-        <Text className='font-raleway text-lg'>
+      <View className="flex flex-row justify-center items-center w-full mb-2 mt-4 h-24">
+        <Text className="font-raleway text-lg">
           Don&apos;t have an account?
         </Text>
-        <Pressable onPress={() => navigation.navigate("Signup")}>
-          <Text className='font-raleway text-lg text-brand-600'> Create Account</Text>
+        <Pressable onPress={() => navigation.navigate('Signup')}>
+          <Text className="font-raleway text-lg text-brand-600">
+            {' '}
+            Create Account
+          </Text>
         </Pressable>
-
       </View>
-    </ScrollView >
+    </ScrollView>
   );
 };
 

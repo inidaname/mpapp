@@ -5,6 +5,7 @@ export type RootStackParamList = {
   Onboarding: undefined;
   VerifyEmailScreen: undefined;
   VerifyPhoneScreen: undefined;
+  ForgotPassword: undefined;
   Profile: { userId: string }; // Profile screen expects a userId
   Settings: { theme: 'dark' | 'light' } | undefined; // Settings screen can optionally take a theme
 };

@@ -23,16 +23,12 @@ const AppText: React.FC<AppTextProps> = ({
   children,
   ...props
 }) => {
-  const fontFamily = weightMap[ weight ] || weightMap.regular;
+  const fontFamily = weightMap[weight] || weightMap.regular;
   return (
-    <RNText
-      className={`${className ?? ''} font-${fontFamily}`}
-      {...props}
-    >
+    <RNText className={`${className ?? ''} font-${fontFamily}`} {...props}>
       {children}
     </RNText>
   );
 };
 
 export default AppText;
-
