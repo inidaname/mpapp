@@ -12,14 +12,14 @@ import { ScrollView } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 // import { Button } from '@react-navigation/elements';
 
-interface Props extends NativeStackScreenProps<RootStackParamList> { }
+interface Props extends NativeStackScreenProps<RootStackParamList> {}
 
 const LoginScreen: React.FC<Props> = ({ navigation }) => {
   const { control } = useForm({
     defaultValues: { password: '' },
   });
 
-  const handlePress = () => navigation.navigate("VerifyEmailScreen");
+  const handlePress = () => navigation.navigate('VerificationScreen');
   return (
     <ScrollView contentContainerClassName="min-h-full justify-start items-start bg-white flex-col">
       <View className="mt-20 w-full items-center">
@@ -105,13 +105,13 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
         />
         <ButtonComponent label="Continue" onPress={handlePress} />
       </View>
-      <View className="flex-row w-full items-center justify-center px-6 py-2">
+      <View className="flex-row w-full items-center justify-center my-6 px-6 py-2">
         {/* Left gradient line */}
         <LinearGradient
-          colors={[ 'transparent', '#437DFF', 'transparent' ]}
+          colors={['transparent', '#437DFF', 'transparent']}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}
-          className="flex-1 h-5"
+          className="flex-1 h-1"
         />
 
         {/* Or text */}
@@ -119,10 +119,10 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
 
         {/* Right gradient line */}
         <LinearGradient
-          colors={[ 'transparent', '#437DFF', 'transparent' ]}
+          colors={['transparent', '#437DFF', 'transparent']}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}
-          className="flex-1 h-5"
+          className="flex-1 h-1"
         />
       </View>
       <View className="flex-row justify-center items-center w-full">
@@ -143,15 +143,13 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
           />
         </View>
       </View>
-      <View className='flex flex-row justify-center items-center w-full mb-2 mt-4 h-24'>
-        <Text className='font-raleway text-lg'>
-          Already have an account?
-        </Text>
-        <Pressable onPress={() => navigation.navigate("Login")}>
-          <Text className='font-raleway text-lg text-brand-600'> Login</Text>
+      <View className="flex flex-row justify-center items-center w-full mb-2 mt-4 h-24">
+        <Text className="font-raleway text-lg">Already have an account?</Text>
+        <Pressable onPress={() => navigation.navigate('Login')}>
+          <Text className="font-raleway text-lg text-brand-600"> Login</Text>
         </Pressable>
       </View>
-    </ScrollView >
+    </ScrollView>
   );
 };
 

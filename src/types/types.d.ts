@@ -3,7 +3,7 @@ export type RootStackParamList = {
   Login: undefined;
   Signup: undefined;
   Onboarding: undefined;
-  VerifyEmailScreen: undefined;
+  VerificationScreen: undefined;
   VerifyPhoneScreen: undefined;
   ForgotPassword: undefined;
   Profile: { userId: string }; // Profile screen expects a userId

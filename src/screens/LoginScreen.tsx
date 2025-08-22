@@ -78,13 +78,13 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
         </TouchableOpacity>
         <ButtonComponent label="Continue" onPress={handlePress} />
       </View>
-      <View className="flex-row w-full items-center justify-center px-6 py-2">
+      <View className="flex-row w-full items-center justify-center px-6 my-4 py-2">
         {/* Left gradient line */}
         <LinearGradient
           colors={['transparent', '#437DFF', 'transparent']}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}
-          className="flex-1 h-5"
+          className="flex-1 h-1"
         />
 
         {/* Or text */}
@@ -95,7 +95,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
           colors={['transparent', '#437DFF', 'transparent']}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}
-          className="flex-1 h-5"
+          className="flex-1 h-1"
         />
       </View>
       <View className="flex-row justify-center items-center w-full">

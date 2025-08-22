@@ -181,19 +181,17 @@ const CountrySelect: React.FC<Omit<ChildProps, 'onContinue'>> = ({
                 </AppText>
               </View>
               <View
-                className={`w-8 h-8 items-center justify-center p-1 rounded-full ${
+                className={`w-8 h-8 items-center justify-center rounded-full ${
                   selected?.code === country.code
                     ? 'border border-brand-500'
                     : 'border border-gray-400'
                 }`}
               >
-                <View
-                  className={`w-5 h-5 rounded-full ${
-                    selected?.code === country.code
-                      ? 'border-brand-500 bg-brand-500'
-                      : ''
-                  }`}
-                />
+                {selected?.code === country.code && (
+                  <View
+                    className={`w-4 h-4 items-center justify-center border-brand-500 bg-brand-500 rounded-full`}
+                  />
+                )}
               </View>
             </View>
           </TouchableOpacity>
@@ -214,7 +212,7 @@ const CountrySelect: React.FC<Omit<ChildProps, 'onContinue'>> = ({
   );
 };
 
-const VerifyEmailScreen: React.FC<Props> = ({ navigation }) => {
+const VerificationScreen: React.FC<Props> = ({ navigation }) => {
   const [step, setStep] = useState(0);
   const [_, onSelectCountry] = useState<CountryData | null>(null);
   const translateX = useRef(new Animated.Value(0)).current;
@@ -266,4 +264,4 @@ const VerifyEmailScreen: React.FC<Props> = ({ navigation }) => {
   );
 };
 
-export default VerifyEmailScreen;
+export default VerificationScreen;
