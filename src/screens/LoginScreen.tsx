@@ -1,31 +1,31 @@
-import React from 'react';
+import React from "react";
 
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../types/types';
-import { Image, Text, Pressable, View, TouchableOpacity } from 'react-native';
-import { FontAwesome6 } from '@react-native-vector-icons/fontawesome6';
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../types/types";
+import { Image, Pressable, Text, TouchableOpacity, View } from "react-native";
+import { MaterialIcons } from "@react-native-vector-icons/material-icons";
 
-import FormInput from '../components/FormInput';
-import { useForm } from 'react-hook-form';
-import ButtonComponent from '../components/Button';
-import { ScrollView } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
-import AppText from '../components/typo/AppText';
+import FormInput from "../components/FormInput";
+import { useForm } from "react-hook-form";
+import ButtonComponent from "../components/Button";
+import { ScrollView } from "react-native";
+import LinearGradient from "react-native-linear-gradient";
+import AppText from "../components/typo/AppText";
 // import { Button } from '@react-navigation/elements';
 
 interface Props extends NativeStackScreenProps<RootStackParamList> {}
 
 const LoginScreen: React.FC<Props> = ({ navigation }) => {
   const { control } = useForm({
-    defaultValues: { password: '' },
+    defaultValues: { password: "" },
   });
 
-  const handlePress = () => console.log('Pressed the');
+  const handlePress = () => console.log("Pressed the");
   return (
     <ScrollView contentContainerClassName="min-h-full justify-start items-start bg-white flex-col">
       <View className="mt-20 w-full items-center">
         <Image
-          source={require('../../assets/logo.png')}
+          source={require("../../assets/logo.png")}
           width={500}
           resizeMode="center"
         />
@@ -43,24 +43,22 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
           label="Email Address"
           placeholder="Enter Email Address"
           leftIcon={
-            <FontAwesome6
-              iconStyle="solid"
-              name="envelope"
+            <MaterialIcons
+              name="mail"
               size={20}
               color="gray"
             />
           }
           control={control}
           keyboardType="email-address"
-          rules={{ required: 'Email is required' }}
+          rules={{ required: "Email is required" }}
         />
         <FormInput
           name="password"
           label="Password"
           placeholder="Enter Password"
           leftIcon={
-            <FontAwesome6
-              iconStyle="solid"
+            <MaterialIcons
               name="lock"
               size={20}
               color="gray"
@@ -69,9 +67,9 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
           isPassword={true}
           control={control}
           keyboardType="visible-password"
-          rules={{ required: 'Password is required' }}
+          rules={{ required: "Password is required" }}
         />
-        <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
+        <TouchableOpacity onPress={() => navigation.navigate("ForgotPassword")}>
           <AppText weight="medium" className="text-xl mb-4 text-brand-700">
             Forgot Password?
           </AppText>
@@ -81,7 +79,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
       <View className="flex-row w-full items-center justify-center px-6 my-4 py-2">
         {/* Left gradient line */}
         <LinearGradient
-          colors={['transparent', '#437DFF', 'transparent']}
+          colors={["transparent", "#437DFF", "transparent"]}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}
           className="flex-1 h-1"
@@ -92,7 +90,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
 
         {/* Right gradient line */}
         <LinearGradient
-          colors={['transparent', '#437DFF', 'transparent']}
+          colors={["transparent", "#437DFF", "transparent"]}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}
           className="flex-1 h-1"
@@ -101,7 +99,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
       <View className="flex-row justify-center items-center w-full">
         <View className="border border-gray-300 border-2 h-28 w-28 rounded-full mx-4 p-4 items-center justify-center">
           <Image
-            source={require('../../assets/apple.png')}
+            source={require("../../assets/apple.png")}
             resizeMethod="scale"
             resizeMode="cover"
             className="w-20 h-20"
@@ -109,7 +107,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
         </View>
         <View className="border border-gray-300 border-2 h-28 w-28 rounded-full mx-4 p-4 items-center justify-center">
           <Image
-            source={require('../../assets/google.png')}
+            source={require("../../assets/google.png")}
             resizeMethod="scale"
             resizeMode="cover"
             className="w-16 h-16"
@@ -120,9 +118,9 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
         <Text className="font-raleway text-lg">
           Don&apos;t have an account?
         </Text>
-        <Pressable onPress={() => navigation.navigate('Signup')}>
+        <Pressable onPress={() => navigation.navigate("Signup")}>
           <Text className="font-raleway text-lg text-brand-600">
-            {' '}
+            {" "}
             Create Account
           </Text>
         </Pressable>

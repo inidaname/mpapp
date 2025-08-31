@@ -21,6 +21,7 @@ import SignupScreen from './src/screens/SignupScreen';
 import VerificationScreen from './src/screens/VerificationScreen';
 import ForgotPasswordScreen from './src/screens/ForgotPasswordScreen';
 import HomeScreen from './src/screens/HomeScreen';
+import CurrencyDetail from './src/screens/CurrencyDetails';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -55,6 +56,7 @@ function App() {
             screenOptions={{ headerShown: false }}
           >
             <Stack.Screen name="Home" component={HomeScreen} />
+            <Stack.Screen name="CurrencyDetail" component={CurrencyDetail} />
             <Stack.Screen name="Onboarding" component={OnboardingScreen} />
             <Stack.Screen name="Login" component={LoginScreen} />
             <Stack.Screen name="Signup" component={SignupScreen} />

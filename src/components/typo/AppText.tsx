@@ -1,15 +1,15 @@
-import React from 'react';
-import { Text as RNText, TextProps } from 'react-native';
+import React from "react";
+import { Text as RNText, TextProps } from "react-native";
 
 const weightMap = {
-  regular: 'raleway',
-  light: 'raleway-light',
-  thin: 'raleway-thin',
-  medium: 'raleway-medium',
-  semibold: 'raleway-semibold',
-  bold: 'raleway-bold',
-  black: 'raleway-black',
-  extralight: 'raleway-extralight',
+  regular: "",
+  light: "-light",
+  thin: "-thin",
+  medium: "-medium",
+  semibold: "-semibold",
+  bold: "-bold",
+  black: "-black",
+  extralight: "-extralight",
 };
 
 export type AppTextProps = TextProps & {
@@ -17,15 +17,33 @@ export type AppTextProps = TextProps & {
   className?: string;
 };
 
+export const FigureText: React.FC<AppTextProps> = (
+  { weight = "regular", className, children, ...props },
+) => {
+  const fontFamily = weightMap[weight] || weightMap.regular;
+
+  return (
+    <RNText
+      className={`${className ?? ""} font-montserrat${fontFamily}`}
+      {...props}
+    >
+      {children}
+    </RNText>
+  );
+};
+
 const AppText: React.FC<AppTextProps> = ({
-  weight = 'regular',
+  weight = "regular",
   className,
   children,
   ...props
 }) => {
   const fontFamily = weightMap[weight] || weightMap.regular;
   return (
-    <RNText className={`${className ?? ''} font-${fontFamily}`} {...props}>
+    <RNText
+      className={`${className ?? ""} font-raleway${fontFamily}`}
+      {...props}
+    >
       {children}
     </RNText>
   );

@@ -6,7 +6,7 @@ export type RootStackParamList = {
   VerificationScreen: undefined;
   VerifyPhoneScreen: undefined;
   ForgotPassword: undefined;
-  CurrencyDetail: {currency: string};
+  CurrencyDetail: { currency: string };
   Profile: { userId: string }; // Profile screen expects a userId
   Settings: { theme: 'dark' | 'light' } | undefined; // Settings screen can optionally take a theme
 };
@@ -16,3 +16,8 @@ export interface Country {
   code: string;
   dial_code: string;
 }
+
+export type CurrencyDetailNavigationProp = import("@react-navigation/native-stack").NativeStackNavigationProp<
+  RootStackParamList,
+  "CurrencyDetail"
+>;

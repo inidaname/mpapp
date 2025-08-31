@@ -28,6 +28,13 @@ module.exports = {
         'raleway-light': [ "Raleway-Light" ],
         'raleway-extralight': [ "Raleway-ExtraLight" ],
         'raleway-thin': [ "Raleway-Thin" ],
+        montserrat: [ "Montserrat-Regular" ],
+        'montserrat-bold': [ "Montserrat-Bold" ],
+        'montserrat-semibold': [ "Montserrat-SemiBold" ],
+        'montserrat-medium': [ "Montserrat-Medium" ],
+        'montserrat-light': [ "Montserrat-Light" ],
+        'montserrat-extralight': [ "Montserrat-ExtraLight" ],
+        'montserrat-thin': [ "Montserrat-Thin" ],
       }
     }
   },
