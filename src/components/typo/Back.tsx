@@ -8,7 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 const Back: React.FC = () => {
   const { goBack } = useNavigation();
   return (
-    <TouchableOpacity className="absolute left-0 ml-6" onPress={() => goBack()}>
+    <TouchableOpacity className="absolute left-0 ml-2 py-2 px-3" onPress={() => goBack()}>
       <FontAwesome6
         name="chevron-left"
         iconStyle="solid"
