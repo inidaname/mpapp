@@ -43,7 +43,10 @@ const CurrencyDetail: React.FC<Props> = ({ navigation }) => {
             </View>
             <AppText className="text-lg text-center">Receive</AppText>
           </TouchableOpacity>
-          <TouchableOpacity className="justify-center items-center">
+          <TouchableOpacity
+            onPress={() => navigation.navigate("ConversionScreen")}
+            className="justify-center items-center"
+          >
             <View className="bg-gray-200 w-20 h-20 rounded-full mb-3 items-center justify-center">
               <MaterialIcons name="swap-horiz" size={40} color={"#215CE1"} />
             </View>
