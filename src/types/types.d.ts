@@ -6,6 +6,7 @@ export type RootStackParamList = {
   VerificationScreen: undefined;
   VerifyPhoneScreen: undefined;
   ConversionScreen: undefined;
+  AddFundsScreen: undefined;
   ForgotPassword: undefined;
   CurrencyDetail: { currency: string };
   Profile: { userId: string }; // Profile screen expects a userId

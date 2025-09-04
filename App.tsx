@@ -23,6 +23,7 @@ import ForgotPasswordScreen from "./src/screens/ForgotPasswordScreen";
 import HomeScreen from "./src/screens/HomeScreen";
 import CurrencyDetail from "./src/screens/CurrencyDetails";
 import ConversionScreen from "./src/screens/ConversionScreen";
+import AddFundsScreen from "./src/screens/AddFundsScreen";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -61,6 +62,10 @@ function App() {
             <Stack.Screen
               name="ConversionScreen"
               component={ConversionScreen}
+            />
+            <Stack.Screen
+              name="AddFundsScreen"
+              component={AddFundsScreen}
             />
             <Stack.Screen name="Onboarding" component={OnboardingScreen} />
             <Stack.Screen name="Login" component={LoginScreen} />

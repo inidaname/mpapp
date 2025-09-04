@@ -52,7 +52,10 @@ const CurrencyDetail: React.FC<Props> = ({ navigation }) => {
             </View>
             <AppText className="text-lg text-center">Convert</AppText>
           </TouchableOpacity>
-          <TouchableOpacity className="justify-center items-center">
+          <TouchableOpacity
+            onPress={() => navigation.navigate("AddFundsScreen")}
+            className="justify-center items-center"
+          >
             <View className="bg-gray-200 w-20 h-20 rounded-full mb-3 items-center justify-center">
               <MaterialIcons name="add" size={40} color={"#215CE1"} />
             </View>

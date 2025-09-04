@@ -11,7 +11,7 @@ import {
 } from "react-native";
 
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { useForm } from "react-hook-form";
+// import { useForm } from "react-hook-form";
 
 import { MaterialIcons } from "@react-native-vector-icons/material-icons";
 
@@ -25,7 +25,7 @@ import ButtonComponent from "../components/Button";
 interface Props extends NativeStackScreenProps<RootStackParamList> {}
 
 const ConversionScreen: React.FC<Props> = () => {
-  const { control } = useForm();
+  // const { control } = useForm();
   const [confirmVisible, setConfirmVisible] = useState(false);
   const [successVisible, setSuccessVisible] = useState(false);
   return (
