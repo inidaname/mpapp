@@ -15,6 +15,7 @@ const weightMap = {
 export type AppTextProps = TextProps & {
   weight?: keyof typeof weightMap;
   className?: string;
+  fontFamily?: string;
 };
 
 export const FigureText: React.FC<AppTextProps> = (
@@ -23,25 +24,45 @@ export const FigureText: React.FC<AppTextProps> = (
   const fontFamily = weightMap[weight] || weightMap.regular;
 
   return (
-    <RNText
-      className={`${className ?? ""} font-montserrat${fontFamily}`}
+    <AppText
+      className={className}
+      weight={fontFamily as keyof typeof weightMap}
+      fontFamily="montserrat"
       {...props}
     >
       {children}
-    </RNText>
+    </AppText>
+  );
+};
+
+export const PoppinText: React.FC<AppTextProps> = (
+  { weight = "regular", className, children, ...props },
+) => {
+  const fontFamily = weightMap[weight] || weightMap.regular;
+
+  return (
+    <AppText
+      className={className}
+      weight={fontFamily as keyof typeof weightMap}
+      fontFamily="poppings"
+      {...props}
+    >
+      {children}
+    </AppText>
   );
 };
 
 const AppText: React.FC<AppTextProps> = ({
   weight = "regular",
   className,
+  fontFamily = "raleway",
   children,
   ...props
 }) => {
-  const fontFamily = weightMap[weight] || weightMap.regular;
+  const weightFonte = weightMap[weight] || weightMap.regular;
   return (
     <RNText
-      className={`${className ?? ""} font-raleway${fontFamily}`}
+      className={`${className ?? ""} font-${fontFamily}${weightFonte}`}
       {...props}
     >
       {children}

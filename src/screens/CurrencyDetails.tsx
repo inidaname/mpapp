@@ -31,7 +31,10 @@ const CurrencyDetail: React.FC<Props> = ({ navigation }) => {
           </FigureText>
         </FigureText>
         <View className="w-full flex-row justify-around items-start mt-14">
-          <TouchableOpacity className="justify-center items-center">
+          <TouchableOpacity
+            onPress={() => navigation.navigate("SendToBankScreen")}
+            className="justify-center items-center"
+          >
             <View className="bg-gray-200 w-20 h-20 rounded-full mb-3 items-center justify-center">
               <MaterialIcons name="north-east" size={40} color={"#215CE1"} />
             </View>

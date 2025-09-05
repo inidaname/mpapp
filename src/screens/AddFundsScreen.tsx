@@ -9,18 +9,15 @@ import USDC from "../../assets/Web3Icons/usdc_logo.svg";
 import { MaterialIcons } from "@react-native-vector-icons/material-icons";
 import { useState } from "react";
 import ButtonComponent from "../components/Button";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../types/types";
+import KeyPad from "../components/utils/KeyPad";
 
-const AddFundsScreen: React.FC = () => {
+interface Props extends NativeStackScreenProps<RootStackParamList> {}
+
+const AddFundsScreen: React.FC<Props> = () => {
   const [amount, setAmount] = useState("");
   const [successVisible, setSuccessVisible] = useState(false);
-
-  const handlePress = (val: string) => {
-    if (val === "x") {
-      setAmount((prev) => prev.slice(0, -1));
-    } else {
-      setAmount((prev) => prev + val);
-    }
-  };
 
   return (
     <View className="flex-1 w-full bg-white">
@@ -34,34 +31,8 @@ const AddFundsScreen: React.FC = () => {
       </View>
 
       <View className="w-full flex-1 mt-20 px-6">
-        <View className="items-center mb-4">
-          <FigureText className="text-6xl font-semibold">
-            ${amount || ""}
-          </FigureText>
-        </View>
-        <View className="w-full border-t border-gray-200 my-3" />
-        <AppText className="text-center text-gray-500 mb-8">
-          Available Account Balance: $750.00
-        </AppText>
-
-        <View className="flex-row flex-wrap justify-center">
-          {["1", "2", "3", "4", "5", "6", "7", "8", "9", ".", "0", "x"].map((
-            key,
-          ) => (
-            <TouchableOpacity
-              key={key}
-              onPress={() => handlePress(key)}
-              className="w-1/4 mx-3 p-4 items-center justify-center"
-            >
-              <View className="bg-gray-100 w-24 h-16 rounded-2xl items-center justify-center">
-                <FigureText className="text-2xl font-semibold">
-                  {key}
-                </FigureText>
-              </View>
-            </TouchableOpacity>
-          ))}
-        </View>
-        <View className="px-6 mt-6">
+        <KeyPad amount={amount} setAmount={setAmount} />
+        <View className="px-6 mt-24">
           <ButtonComponent
             label="Add"
             onPress={() => setSuccessVisible(true)}

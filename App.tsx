@@ -24,6 +24,8 @@ import HomeScreen from "./src/screens/HomeScreen";
 import CurrencyDetail from "./src/screens/CurrencyDetails";
 import ConversionScreen from "./src/screens/ConversionScreen";
 import AddFundsScreen from "./src/screens/AddFundsScreen";
+import SendToBankScreen from "./src/screens/SendToBankScreen";
+import AddBankScreen from "./src/screens/AddBankScreen";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -59,6 +61,14 @@ function App() {
           >
             <Stack.Screen name="Home" component={HomeScreen} />
             <Stack.Screen name="CurrencyDetail" component={CurrencyDetail} />
+            <Stack.Screen
+              name="SendToBankScreen"
+              component={SendToBankScreen}
+            />
+            <Stack.Screen
+              name="AddBankScreen"
+              component={AddBankScreen}
+            />
             <Stack.Screen
               name="ConversionScreen"
               component={ConversionScreen}

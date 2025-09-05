@@ -35,6 +35,13 @@ module.exports = {
         'montserrat-light': [ "Montserrat-Light" ],
         'montserrat-extralight': [ "Montserrat-ExtraLight" ],
         'montserrat-thin': [ "Montserrat-Thin" ],
+        poppins: [ "Poppins-Regular" ],
+        'poppins-bold': [ "Poppins-Bold" ],
+        'poppins-semibold': [ "Poppins-SemiBold" ],
+        'poppins-medium': [ "Poppins-Medium" ],
+        'poppins-light': [ "Poppins-Light" ],
+        'poppins-extralight': [ "Poppins-ExtraLight" ],
+        'poppins-thin': [ "Poppins-Thin" ],
       }
     }
   },
