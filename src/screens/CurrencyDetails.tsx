@@ -40,7 +40,10 @@ const CurrencyDetail: React.FC<Props> = ({ navigation }) => {
             </View>
             <AppText className="text-lg text-center">Send</AppText>
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("RecentActivitiesScreen")}
+            className="justify-center items-center"
+          >
             <View className="bg-gray-200 w-20 h-20 rounded-full mb-3 items-center justify-center">
               <MaterialIcons name="south-west" size={40} color={"#215CE1"} />
             </View>

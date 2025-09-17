@@ -1,14 +1,18 @@
 export type RootStackParamList = {
+  StartScreen: undefined;
   Home: undefined;
   Login: undefined;
   Signup: undefined;
   Onboarding: undefined;
+  AddUserScreen: undefined;
   VerificationScreen: undefined;
   VerifyPhoneScreen: undefined;
   ConversionScreen: undefined;
   AddFundsScreen: undefined;
   AddBankScreen: undefined;
   SendToBankScreen: undefined;
+  WalletScreen: undefined;
+  RecentActivitiesScreen: undefined;
   ForgotPassword: undefined;
   CurrencyDetail: { currency: string };
   Profile: { userId: string }; // Profile screen expects a userId
@@ -19,6 +23,11 @@ export interface Country {
   name: string;
   code: string;
   dial_code: string;
+}
+
+export type HomeStackParams = {
+  Send: undefined;
+  Revceive: undefined;
 }
 
 export type CurrencyDetailNavigationProp = import("@react-navigation/native-stack").NativeStackNavigationProp<

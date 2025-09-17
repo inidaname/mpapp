@@ -23,7 +23,7 @@ const ForgotPasswordScreen: React.FC<Props> = ({ navigation }) => {
     if (startPassword === "start") {
       setStartPassword("verify");
     } else {
-      navigation.navigate("Home");
+      navigation.navigate("StartScreen");
     }
   };
   const { control } = useForm();

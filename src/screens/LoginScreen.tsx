@@ -6,21 +6,34 @@ import { Image, Pressable, Text, TouchableOpacity, View } from "react-native";
 import { MaterialIcons } from "@react-native-vector-icons/material-icons";
 
 import FormInput from "../components/FormInput";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import ButtonComponent from "../components/Button";
 import { ScrollView } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import AppText from "../components/typo/AppText";
+import { useLoginMutation } from "../service/endpoints/auth-endpoints";
 // import { Button } from '@react-navigation/elements';
 
 interface Props extends NativeStackScreenProps<RootStackParamList> {}
 
 const LoginScreen: React.FC<Props> = ({ navigation }) => {
-  const { control } = useForm({
-    defaultValues: { password: "" },
+  const { control, handleSubmit } = useForm<LoginInput>({
+    defaultValues: { password: "", username: "" },
   });
 
-  const handlePress = () => console.log("Pressed the");
+  const [login, { isLoading }] = useLoginMutation();
+
+  const handlePress: SubmitHandler<LoginInput> = async (values) => {
+    console.log("values", values);
+    try {
+      const loginUser = await login(values).unwrap();
+      navigation.replace("Home");
+      console.log("loginUser", loginUser);
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+
   return (
     <ScrollView contentContainerClassName="min-h-full justify-start items-start bg-white flex-col">
       <View className="mt-20 w-full items-center">
@@ -39,9 +52,9 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
       <View className="h-[40px]" />
       <View className="w-full px-5">
         <FormInput
-          name="email"
+          name="username"
           label="Email Address"
-          placeholder="Enter Email Address"
+          placeholder="Enter Username"
           leftIcon={
             <MaterialIcons
               name="mail"
@@ -74,7 +87,11 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
             Forgot Password?
           </AppText>
         </TouchableOpacity>
-        <ButtonComponent label="Continue" onPress={handlePress} />
+        <ButtonComponent
+          isLoading={isLoading}
+          label="Continue"
+          onPress={handleSubmit(handlePress)}
+        />
       </View>
       <View className="flex-row w-full items-center justify-center px-6 my-4 py-2">
         {/* Left gradient line */}
@@ -96,7 +113,9 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
           className="flex-1 h-1"
         />
       </View>
-      <View className="flex-row justify-center items-center w-full">
+      <View className="h-28 w-28 mx-4 p-4 items-center justify-center" />
+      {
+        /* <View className="flex-row justify-center items-center w-full">
         <View className="border border-gray-300 border-2 h-28 w-28 rounded-full mx-4 p-4 items-center justify-center">
           <Image
             source={require("../../assets/apple.png")}
@@ -113,7 +132,8 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
             className="w-16 h-16"
           />
         </View>
-      </View>
+      </View> */
+      }
       <View className="flex flex-row justify-center items-center w-full mb-2 mt-4 h-24">
         <Text className="font-raleway text-lg">
           Don&apos;t have an account?

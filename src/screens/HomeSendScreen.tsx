@@ -1,14 +1,13 @@
-// screens/HomeScreen.tsx
 import React, { useState } from "react";
-import { Image, ScrollView, TouchableOpacity, View } from "react-native";
-import CheckBox from "@react-native-community/checkbox";
+
+import { TouchableOpacity, View } from "react-native";
 import AppText from "../components/typo/AppText";
+import CheckBox from "@react-native-community/checkbox";
 import USDC from "../../assets/Web3Icons/usdc_logo.svg";
 import MaterialIcons from "@react-native-vector-icons/material-icons";
-
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../types/types";
-import MenuPopover from "../components/utils/MenuPopOver";
+
 interface Props extends NativeStackScreenProps<RootStackParamList> {}
 
 const CustomTabBar: React.FC<Props> = ({ navigation }) => {
@@ -82,42 +81,11 @@ const CustomTabBar: React.FC<Props> = ({ navigation }) => {
   );
 };
 
-const HomeScreen: React.FC<Props> = ({ navigation, route }) => {
+const HomeSendScreen: React.FC<Props> = ({ navigation, route }) => {
   const [balanceHidden, setBalanceHidden] = useState(false);
-  // const [feesSeparate, setFeesSeparate] = useState(true);
-
   return (
-    <View className="flex-1 bg-white">
-      <ScrollView contentContainerStyle={{ paddingBottom: 80 }}>
-        {/* Header */}
-        <View className="flex-row items-center justify-between px-4 pt-12">
-          <View className="flex-row items-center">
-            <Image
-              source={{ uri: "https://i.pravatar.cc/100" }}
-              className="w-12 h-12 rounded-full"
-            />
-            <AppText className="ml-3 text-brand-600 font-semibold">
-              @codecrafter21
-            </AppText>
-          </View>
-          <View className="flex-row items-center space-x-3">
-            <TouchableOpacity className="p-2 rounded-full">
-              <Image source={require("../../assets/blue_sphare.png")} />
-            </TouchableOpacity>
-            <MenuPopover />
-          </View>
-        </View>
-
-        {/* Tabs */}
-        <View className="flex-row mt-6 px-4 border-b border-gray-200">
-          <TouchableOpacity className="flex-1 items-center pb-2 border-b-2 border-blue-500">
-            <AppText className="text-blue-600 font-semibold">Send</AppText>
-          </TouchableOpacity>
-          <TouchableOpacity className="flex-1 items-center pb-2">
-            <AppText className="text-gray-500">Receive</AppText>
-          </TouchableOpacity>
-        </View>
-
+    <>
+      <View className="bg-white flex-1">
         {/* Balance */}
         <View className="items-center mt-6">
           <AppText className="text-gray-500">Total Balance in USDC</AppText>
@@ -177,29 +145,10 @@ const HomeScreen: React.FC<Props> = ({ navigation, route }) => {
             </AppText>
           </TouchableOpacity>
         </View>
-      </ScrollView>
+      </View>
       <CustomTabBar navigation={navigation} route={route} />
-      {
-        /* <View className="absolute bottom-0 inset-x-0 flex-row bg-gray-100 h-20 items-center justify-between px-10">
-        <TouchableOpacity className="items-center">
-          <Ionicons name="time-outline" size={22} color="gray" />
-          <AppText className="text-gray-500 text-xs mt-1">
-            Recent Activities
-          </AppText>
-        </TouchableOpacity>
-
-        <TouchableOpacity className="bg-blue-600 p-4 rounded-full -mt-8">
-          <Ionicons name="add" size={24} color="white" />
-        </TouchableOpacity>
-
-        <TouchableOpacity className="items-center">
-          <Ionicons name="person-add-outline" size={22} color="gray" />
-          <AppText className="text-gray-500 text-xs mt-1">Add User</AppText>
-        </TouchableOpacity>
-      </View> */
-      }
-    </View>
+    </>
   );
 };
 
-export default HomeScreen;
+export default HomeSendScreen;
