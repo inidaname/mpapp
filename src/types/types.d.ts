@@ -5,7 +5,7 @@ export type RootStackParamList = {
   Signup: undefined;
   Onboarding: undefined;
   AddUserScreen: undefined;
-  VerificationScreen: undefined;
+  VerificationScreen: { email: string };
   VerifyPhoneScreen: undefined;
   ConversionScreen: undefined;
   AddFundsScreen: undefined;
@@ -33,4 +33,9 @@ export type HomeStackParams = {
 export type CurrencyDetailNavigationProp = import("@react-navigation/native-stack").NativeStackNavigationProp<
   RootStackParamList,
   "CurrencyDetail"
+>;
+
+type VerificationScreenNavigationProp = import("@react-navigation/native-stack").NativeStackNavigationProp<
+  RootStackParamList,
+  "VerificationScreen"
 >;

@@ -8,7 +8,8 @@ import USDC from "../../assets/Web3Icons/usdc_logo.svg";
 import AppText, { FigureText } from "../components/typo/AppText";
 import { MaterialIcons } from "@react-native-vector-icons/material-icons";
 
-interface Props extends NativeStackScreenProps<RootStackParamList> {}
+interface Props
+  extends NativeStackScreenProps<RootStackParamList, "CurrencyDetail"> {}
 
 const CurrencyDetail: React.FC<Props> = ({ navigation }) => {
   return (

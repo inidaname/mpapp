@@ -6,7 +6,12 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { Control, Controller } from "react-hook-form";
+import {
+  Control,
+  Controller,
+  FieldValues,
+  RegisterOptions,
+} from "react-hook-form";
 import { MaterialIcons } from "@react-native-vector-icons/material-icons";
 
 interface FormInputProps {
@@ -16,7 +21,10 @@ interface FormInputProps {
   placeholder?: string;
   leftIcon?: React.ReactElement;
   isPassword?: boolean;
-  rules?: object;
+  rules?: Omit<
+    RegisterOptions<FieldValues, string>,
+    "setValueAs" | "disabled" | "valueAsNumber" | "valueAsDate"
+  >;
   keyboardType?: KeyboardTypeOptions | undefined;
 }
 
@@ -59,7 +67,7 @@ const FormInput: React.FC<FormInputProps> = ({
                 onChangeText={onChange}
                 value={value}
                 keyboardType={keyboardType}
-                className="flex-1 h-16 text-[18px] font-raleway self-end text-base"
+                className="flex-1 h-16 text-[18px] text-black font-raleway self-end text-base"
               />
 
               {isPassword && (

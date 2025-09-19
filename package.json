@@ -27,6 +27,8 @@
     "react-native": "0.81.1",
     "react-native-bootsplash": "^6.3.10",
     "react-native-country-picker-modal": "^2.0.0",
+    "react-native-keyboard-aware-scroll-view": "^0.9.5",
+    "react-native-keychain": "^10.0.0",
     "react-native-linear-gradient": "^2.8.3",
     "react-native-otp-entry": "^1.8.5",
     "react-native-pager-view": "^6.9.1",
