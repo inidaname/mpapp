@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../types/types";
+import { FullNavStack } from "../types/types";
 import { Alert, Image, Pressable, ScrollView, Text, View } from "react-native";
 import { MaterialIcons } from "@react-native-vector-icons/material-icons";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -12,9 +12,9 @@ import ButtonComponent from "../components/Button";
 import { useRegisterMutation } from "../service/endpoints/auth-endpoints";
 import AppText from "../components/typo/AppText";
 
-interface Props extends NativeStackScreenProps<RootStackParamList, "Login"> {}
+interface Props extends NativeStackScreenProps<FullNavStack, "Signup"> {}
 
-const LoginScreen: React.FC<Props> = ({ navigation }) => {
+const SignupScreen: React.FC<Props> = ({ navigation }) => {
   const [register, { isLoading }] = useRegisterMutation();
   const [error, setError] = useState<string | null>(null);
 
@@ -174,4 +174,4 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
   );
 };
 
-export default LoginScreen;
+export default SignupScreen;

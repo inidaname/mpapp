@@ -1,25 +1,30 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { getToken } from '../helpers/token-helper';
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import * as Keychain from "react-native-keychain";
+import { SERVICE_NAME } from "../config/TOKEN";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: "https://devapi.insfers.com/",
   mode: "cors",
-  prepareHeaders: (headers) => {
-    // headers.set('Accept', 'application/json');
-    const token = getToken();
+  prepareHeaders: async (headers) => {
+    try {
+      const creds = await Keychain.getGenericPassword({
+        service: SERVICE_NAME,
+      });
 
-    if (token) {
-      headers.set('authorization', `Bearer ${token}`);
+      if (creds) {
+        headers.set("authorization", `Bearer ${creds.password}`);
+      }
+    } catch (err) {
+      console.warn("No token found", err);
     }
-    // headers.set('Content-Type', 'application/json');
 
     return headers;
   },
-})
+});
 
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery,
   endpoints: () => ({}),
-  tagTypes: [ "icons" ]
-})
+  tagTypes: ["icons"],
+});

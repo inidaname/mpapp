@@ -4,6 +4,7 @@ import { Image, View } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../types/types";
 import ButtonComponent from "../components/Button";
+import CreateWallet from "../components/Main/CreateWallets";
 
 interface Props extends NativeStackScreenProps<RootStackParamList> {}
 
@@ -13,7 +14,7 @@ const StartScreen: React.FC<Props> = ({ navigation }) => {
       <View className="w-full items-center">
         <Image source={require("../../assets/logo.png")} />
         <View className="w-full mt-14 items-center px-6">
-          <ButtonComponent label="Create a new wallet" />
+          <CreateWallet navigation={navigation} />
           <ButtonComponent
             label="I already have a wallet"
             onPress={() => navigation.navigate("Home")}

@@ -1,22 +1,22 @@
-// authStorage.ts
 import * as Keychain from "react-native-keychain";
 
-// Save JWT token
-export async function saveToken(token: string) {
-  const tokenSet = await Keychain.setGenericPassword(process.env.TOKEN_NAME!, token, {
-    accessible: Keychain.ACCESSIBLE.WHEN_UNLOCKED,
-  });
+const SERVICE_NAME = "insfersAuth_token";
 
-  console.log('tokenSet', tokenSet)
+// Save token
+export async function saveToken(token: string) {
+  return Keychain.setGenericPassword(SERVICE_NAME, token, {
+    accessible: Keychain.ACCESSIBLE.WHEN_UNLOCKED,
+    service: SERVICE_NAME,
+  });
 }
 
-// Get JWT token
+// Get token
 export async function getToken() {
-  const creds = await Keychain.getGenericPassword();
+  const creds = await Keychain.getGenericPassword({ service: SERVICE_NAME });
   return creds ? creds.password : null;
 }
 
-// Delete JWT token
+// Delete token
 export async function deleteToken() {
-  await Keychain.resetGenericPassword();
+  return Keychain.resetGenericPassword({ service: SERVICE_NAME });
 }

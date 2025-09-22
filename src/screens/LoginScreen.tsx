@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../types/types";
+import { FullNavStack } from "../types/types";
 import { Image, Pressable, Text, TouchableOpacity, View } from "react-native";
 import { MaterialIcons } from "@react-native-vector-icons/material-icons";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -13,13 +13,17 @@ import { ScrollView } from "react-native";
 // import LinearGradient from "react-native-linear-gradient";
 import AppText from "../components/typo/AppText";
 import { useLoginMutation } from "../service/endpoints/auth-endpoints";
-import { saveToken } from "../helpers/token-helper";
+import { useAuthToken } from "../hooks/useAuthToken";
+// import { useAppDispatch } from "../store/redux";
+// import { setToken } from "../store/reducers/auth-slice";
 // import { Button } from '@react-navigation/elements';
 
-interface Props extends NativeStackScreenProps<RootStackParamList> {}
+interface Props extends NativeStackScreenProps<FullNavStack> {}
 
 const LoginScreen: React.FC<Props> = ({ navigation }) => {
   const [error, setError] = useState<string | null>(null);
+  const { saveToken } = useAuthToken();
+  // const dispatch = useAppDispatch();
 
   const { control, handleSubmit } = useForm<LoginInput>({
     defaultValues: { password: "", email: "" },
@@ -31,8 +35,9 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
     console.log("values", values);
     try {
       const loginUser = await login(values).unwrap();
+      // dispatch(setToken(loginUser.data.accessToken));
       saveToken(loginUser.data.accessToken);
-      navigation.replace("Home");
+      // navigation.replace("Home");
       console.log("loginUser", loginUser);
     } catch (err: any) {
       // navigation.replace("Home");
