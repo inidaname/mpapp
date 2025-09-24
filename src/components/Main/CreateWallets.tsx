@@ -4,10 +4,10 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 import ButtonComponent from "../Button";
 import { useCreateWalletMutation } from "../../service/endpoints/wallets-endpoints";
-import { RootStackParamList } from "../../types/types";
+import { FullNavStack } from "../../types/types";
 
 const CreateWallet: React.FC<
-  Pick<NativeStackScreenProps<RootStackParamList>, "navigation">
+  Pick<NativeStackScreenProps<FullNavStack>, "navigation">
 > = () => {
   const [createWallet, { isLoading }] = useCreateWalletMutation();
 
@@ -15,7 +15,7 @@ const CreateWallet: React.FC<
     try {
       const wallet = await createWallet({
         accountType: "SCA",
-        blockchains: "SOL",
+        blockchains: ["SOL-DEVNET"],
       }).unwrap();
       console.log("wallet", wallet);
     } catch (err) {

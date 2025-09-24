@@ -1,5 +1,6 @@
 import React from "react";
 import { Text as RNText, TextProps } from "react-native";
+import { twMerge } from "tailwind-merge";
 
 const weightMap = {
   regular: "",
@@ -62,7 +63,9 @@ const AppText: React.FC<AppTextProps> = ({
   const weightFonte = weightMap[weight] || weightMap.regular;
   return (
     <RNText
-      className={`${className ?? ""} font-${fontFamily}${weightFonte}`}
+      className={`${
+        twMerge("text-black", className)
+      } font-${fontFamily}${weightFonte}`}
       {...props}
     >
       {children}

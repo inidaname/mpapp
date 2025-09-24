@@ -2,11 +2,11 @@ import type React from "react";
 
 import { Image, View } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../types/types";
-import ButtonComponent from "../components/Button";
+import { FullNavStack } from "../types/types";
 import CreateWallet from "../components/Main/CreateWallets";
+import GetWallet from "../components/Main/GetWalletDetail";
 
-interface Props extends NativeStackScreenProps<RootStackParamList> {}
+interface Props extends NativeStackScreenProps<FullNavStack> {}
 
 const StartScreen: React.FC<Props> = ({ navigation }) => {
   return (
@@ -15,10 +15,7 @@ const StartScreen: React.FC<Props> = ({ navigation }) => {
         <Image source={require("../../assets/logo.png")} />
         <View className="w-full mt-14 items-center px-6">
           <CreateWallet navigation={navigation} />
-          <ButtonComponent
-            label="I already have a wallet"
-            onPress={() => navigation.navigate("Home")}
-          />
+          <GetWallet navigation={navigation} />
         </View>
       </View>
     </View>

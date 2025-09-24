@@ -5,11 +5,11 @@ import PagerView from "react-native-pager-view";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { onboardingSlides } from "../data/onboarding";
-import { RootStackParamList } from "../types/types";
+import { FullNavStack } from "../types/types";
 import LinearGradient from "react-native-linear-gradient";
 import { MaterialIcons } from "@react-native-vector-icons/material-icons";
 
-interface Props extends NativeStackScreenProps<RootStackParamList> {}
+interface Props extends NativeStackScreenProps<FullNavStack> {}
 
 interface PageRef {
   setPage: React.Dispatch<React.SetStateAction<number>>;

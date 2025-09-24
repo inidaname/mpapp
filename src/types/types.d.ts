@@ -6,11 +6,11 @@ export type RootStackParamList = {
   AddFundsScreen: undefined;
   AddBankScreen: undefined;
   SendToBankScreen: undefined;
+  ProfileScreen: undefined;
   WalletScreen: undefined;
   RecentActivitiesScreen: undefined;
   CurrencyDetail: { currency: string };
-  Profile: { userId: string }; // Profile screen expects a userId
-  Settings: { theme: 'dark' | 'light' } | undefined; // Settings screen can optionally take a theme
+  SettingsScreen: undefined;
 };
 
 export type AuthStackParamList = {
@@ -19,9 +19,9 @@ export type AuthStackParamList = {
   VerificationScreen: { email: string };
   VerifyPhoneScreen: undefined;
   ForgotPassword: undefined;
-}
+};
 
-export type FullNavStack = AuthStackParamList & RootStackParamList
+export type FullNavStack = AuthStackParamList & RootStackParamList;
 
 export interface Country {
   name: string;
@@ -32,14 +32,16 @@ export interface Country {
 export type HomeStackParams = {
   Send: undefined;
   Revceive: undefined;
-}
+};
 
-export type CurrencyDetailNavigationProp = import("@react-navigation/native-stack").NativeStackNavigationProp<
-  RootStackParamList,
-  "CurrencyDetail"
->;
+export type CurrencyDetailNavigationProp =
+  import("@react-navigation/native-stack").NativeStackNavigationProp<
+    RootStackParamList,
+    "CurrencyDetail"
+  >;
 
-type VerificationScreenNavigationProp = import("@react-navigation/native-stack").NativeStackNavigationProp<
-  RootStackParamList,
-  "VerificationScreen"
->;
+type VerificationScreenNavigationProp =
+  import("@react-navigation/native-stack").NativeStackNavigationProp<
+    RootStackParamList,
+    "VerificationScreen"
+  >;

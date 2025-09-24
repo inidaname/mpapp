@@ -13,17 +13,16 @@ import { ScrollView } from "react-native";
 // import LinearGradient from "react-native-linear-gradient";
 import AppText from "../components/typo/AppText";
 import { useLoginMutation } from "../service/endpoints/auth-endpoints";
-import { useAuthToken } from "../hooks/useAuthToken";
-// import { useAppDispatch } from "../store/redux";
-// import { setToken } from "../store/reducers/auth-slice";
+import { useAppDispatch } from "../store/redux";
+import { setToken } from "../store/reducers/auth-slice";
+import { saveToken } from "../helpers/token-helper";
 // import { Button } from '@react-navigation/elements';
 
 interface Props extends NativeStackScreenProps<FullNavStack> {}
 
 const LoginScreen: React.FC<Props> = ({ navigation }) => {
   const [error, setError] = useState<string | null>(null);
-  const { saveToken } = useAuthToken();
-  // const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
 
   const { control, handleSubmit } = useForm<LoginInput>({
     defaultValues: { password: "", email: "" },
@@ -35,10 +34,13 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
     console.log("values", values);
     try {
       const loginUser = await login(values).unwrap();
-      // dispatch(setToken(loginUser.data.accessToken));
-      saveToken(loginUser.data.accessToken);
-      // navigation.replace("Home");
-      console.log("loginUser", loginUser);
+      dispatch(
+        setToken({
+          token: loginUser.data.accessToken,
+          user_id: loginUser.data.id,
+        }),
+        await saveToken(loginUser.data.accessToken),
+      );
     } catch (err: any) {
       // navigation.replace("Home");
       console.log("err", err);

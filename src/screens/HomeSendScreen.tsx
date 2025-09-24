@@ -7,6 +7,7 @@ import USDC from "../../assets/Web3Icons/usdc_logo.svg";
 import MaterialIcons from "@react-native-vector-icons/material-icons";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../types/types";
+import { useAppSelector } from "../store/redux";
 
 interface Props extends NativeStackScreenProps<RootStackParamList> {}
 
@@ -83,16 +84,17 @@ const CustomTabBar: React.FC<Props> = ({ navigation }) => {
 
 const HomeSendScreen: React.FC<Props> = ({ navigation, route }) => {
   const [balanceHidden, setBalanceHidden] = useState(false);
+  const { profile } = useAppSelector((state) => state.user);
   return (
     <>
       <View className="bg-white flex-1">
         {/* Balance */}
         <View className="items-center mt-6">
           <AppText className="text-gray-500">Total Balance in USDC</AppText>
-          <View className="flex-row items-center mt-4">
+          <View className="flex-row items-center justify-center mt-4">
             <USDC width={30} height={30} />
-            <AppText className="text-4xl font-bold ml-2 w-40">
-              {balanceHidden ? "••••.••" : "2,803.12"}
+            <AppText className="text-4xl text-center font-bold ml-2 w-auto">
+              {balanceHidden ? "••••.••" : profile?.Wallet[0].balance}
             </AppText>
           </View>
           <TouchableOpacity onPress={() => setBalanceHidden(!balanceHidden)}>

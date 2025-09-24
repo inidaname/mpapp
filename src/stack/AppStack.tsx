@@ -2,7 +2,7 @@ import type React from "react";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import { ActivityIndicator, View } from "react-native";
+// import { ActivityIndicator, View } from "react-native";
 
 import { RootStackParamList } from "../types/types";
 import AddBankScreen from "../screens/AddBankScreen";
@@ -15,7 +15,10 @@ import SendToBankScreen from "../screens/SendToBankScreen";
 import StartScreen from "../screens/StartScreen";
 import HomeStackTabs from "./HomeStacks";
 import AuthStack from "./AuthStach";
-import { useAuthToken } from "../hooks/useAuthToken";
+import ProfileScreen from "../screens/ProfileScreen";
+import SettingsScreen from "../screens/SettingsScreen";
+import { useAppSelector } from "../store/redux";
+import { useGetUserProfileQuery } from "../service/endpoints/user-endpoints";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -27,6 +30,8 @@ const MainStack: React.FC = () => {
       <Stack.Screen name="CurrencyDetail" component={CurrencyDetail} />
       <Stack.Screen name="SendToBankScreen" component={SendToBankScreen} />
       <Stack.Screen name="AddBankScreen" component={AddBankScreen} />
+      <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
+      <Stack.Screen name="SettingsScreen" component={SettingsScreen} />
       <Stack.Screen
         name="RecentActivitiesScreen"
         component={RecentActivitiesScreen}
@@ -39,16 +44,16 @@ const MainStack: React.FC = () => {
 };
 
 const AppStack: React.FC = () => {
-  const { token, loading } = useAuthToken();
+  const { token } = useAppSelector((state) => state.auth);
 
-  if (loading) {
-    return (
-      // eslint-disable-next-line react-native/no-inline-styles
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <ActivityIndicator size="large" />
-      </View>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     // eslint-disable-next-line react-native/no-inline-styles
+  //     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+  //       <ActivityIndicator size="large" />
+  //     </View>
+  //   );
+  // }
   return token ? <MainStack /> : <AuthStack />;
 };
 

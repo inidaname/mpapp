@@ -16,6 +16,6 @@ interface OTPInput {
 }
 
 interface CreateWalletInput {
-  blockchains: "SOL" | "SOL-DEVNET";
+  blockchains: string[];
   accountType: "EOA" | "SCA";
 }
