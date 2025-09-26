@@ -1,14 +1,14 @@
 import type React from "react";
+import { useEffect } from "react";
 
 import { Image, TouchableOpacity, View } from "react-native";
 
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import AppText from "../typo/AppText";
 import MenuPopover from "../utils/MenuPopOver";
 import { useNavigation } from "@react-navigation/native";
 import { FullNavStack } from "../../types/types";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useAppSelector } from "../../store/redux";
-import { useEffect } from "react";
 import { useLazyGetUserProfileQuery } from "../../service/endpoints/user-endpoints";
 
 const HeaderComponent: React.FC = () => {

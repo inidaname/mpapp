@@ -74,3 +74,63 @@ interface UserProfile {
   is_active: boolean;
   Wallet: WalletData[];
 }
+
+interface WallectDetail extends WalletData {
+  circle: CircleData;
+}
+
+interface CircleData {
+  "data": {
+    "tokenBalances": {
+      "token": {
+        "id": "ecf919b4-517f-5fde-b82b-393d1092e5fc";
+        "blockchain": "SOL-DEVNET";
+        "name": "Solana-Devnet";
+        "symbol": "SOL-DEVNET";
+        "decimals": 9;
+        "isNative": true;
+        "updateDate": "2024-02-28T13:55:28Z";
+        "createDate": "2024-02-28T13:55:28Z";
+      };
+      "amount": "5";
+      "updateDate": "2025-09-26T11:34:39Z";
+    }[];
+  };
+}
+
+interface SendSuccess {
+  "id": "cmg0spcow0006m9jb1nifh1wh";
+  "user_id": "cmfpfa3x50003m910b68tprcm";
+  "wallet_id": "cmfv449vv0008m910i5u1ybfl";
+  "currency_id": null;
+  "offline_transaction_id": null;
+  "transaction_hash": null;
+  "sender_address": "BWZ5NYXoxfR84bwhTJ2NaYufynt2haTE7mFXqehFsubd";
+  "recipient_address": "A3jzQ471nggNQ2CWanJHvG2Z2wgSNDmqpr26iJrw3DZ1";
+  "amount": "2";
+  "source": null;
+  "destination": null;
+  "features": null;
+  "source_deposit_instructions": null;
+  "balance_before": "10";
+  "balance_after": null;
+  "token_symbol": null;
+  "token_id": "8fb3cadb-0ef4-573d-8fcd-e194f961c728";
+  "circle_transaction_id": "b821739d-de13-5a55-bbe8-76e9c89d3219";
+  "bridge_transaction_id": null;
+  "transaction_type": null;
+  "status": "PENDING";
+  "blockchain": "SOL-DEVNET";
+  "gas_fee": null;
+  "exchange_rate": null;
+  "local_currency": null;
+  "local_amount": null;
+  "created_offline": false;
+  "synced_at": "2025-09-26T12:05:39.584Z";
+  "created_at": "2025-09-26T12:05:39.584Z";
+  "updated_at": "2025-09-26T12:05:39.584Z";
+  "circleTransaction": {
+    "id": "b821739d-de13-5a55-bbe8-76e9c89d3219";
+    "state": "INITIATED";
+  };
+}

@@ -1,12 +1,17 @@
 import React, { useCallback, useState } from "react";
 import { Pressable, View } from "react-native";
-import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
-import AppText from "../typo/AppText";
+
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { MaterialIcons } from "@react-native-vector-icons/material-icons";
-import { useFocusEffect } from "@react-navigation/native";
+import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
+
+import AppText from "../typo/AppText";
+import { FullNavStack } from "../../types/types";
 
 export default function PopupMenu() {
   const [visible, setVisible] = useState(false);
+  const navigate = useNavigation<NativeStackNavigationProp<FullNavStack>>();
 
   useFocusEffect(
     useCallback(() => {
@@ -37,11 +42,12 @@ export default function PopupMenu() {
             className="px-4 py-4 my-2 border-b border-gray-100 flex-row justify-between items-center"
             onPress={() => {
               setVisible(false);
-              console.log("Profile clicked");
+              navigate.navigate("SendToBankScreen");
             }}
           >
             <AppText className="text-gray-800">Transfer To Bank</AppText>
             <View
+              // eslint-disable-next-line react-native/no-inline-styles
               style={{ borderRadius: "50%" }}
               className="bg-[#14141480] w-8 h-8 rounded-full justify-center items-center"
             >
@@ -53,7 +59,7 @@ export default function PopupMenu() {
             className="px-4 py-4 my-2 border-y border-gray-100 flex-row justify-between items-center"
             onPress={() => {
               setVisible(false);
-              console.log("Settings clicked");
+              navigate.navigate("WalletScreen");
             }}
           >
             <AppText className="text-gray-800">Wallet Details</AppText>
@@ -69,7 +75,7 @@ export default function PopupMenu() {
             className="px-4 py-4 my-2 border-t border-gray-100 flex-row justify-between items-center"
             onPress={() => {
               setVisible(false);
-              console.log("Settings clicked");
+              navigate.navigate("RecentActivitiesScreen");
             }}
           >
             <AppText className="text-gray-800">Notifications</AppText>

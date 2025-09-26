@@ -1,11 +1,14 @@
 export type RootStackParamList = {
   StartScreen: undefined;
-  Home: undefined;
+  Home: import("@react-navigation/native-stack").NativeStackNavigatorProps<
+    HomeStackParams
+  >;
   AddUserScreen: undefined;
   ConversionScreen: undefined;
   AddFundsScreen: undefined;
   AddBankScreen: undefined;
   SendToBankScreen: undefined;
+  ScanWalletScreen: undefined;
   ProfileScreen: undefined;
   WalletScreen: undefined;
   RecentActivitiesScreen: undefined;
@@ -21,7 +24,10 @@ export type AuthStackParamList = {
   ForgotPassword: undefined;
 };
 
-export type FullNavStack = AuthStackParamList & RootStackParamList;
+export type FullNavStack =
+  & AuthStackParamList
+  & RootStackParamList
+  & HomeStackParams;
 
 export interface Country {
   name: string;
@@ -30,7 +36,7 @@ export interface Country {
 }
 
 export type HomeStackParams = {
-  Send: undefined;
+  Send: { wallet_address?: string } | undefined;
   Revceive: undefined;
 };
 

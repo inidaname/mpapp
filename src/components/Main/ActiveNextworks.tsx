@@ -14,7 +14,7 @@ const ActiveNetworks: React.FC = () => {
         <MaterialIcons name="warning" color="#FF0000" size={20} />
         <AppText
           weight="regular"
-          className="text-[#FF0000] text-md w-full ml-3"
+          className="text-[#FF0000] text-sm w-full ml-3"
         >
           Any other usdc blockchain is not supported.
         </AppText>

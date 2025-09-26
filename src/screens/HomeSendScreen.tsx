@@ -1,15 +1,18 @@
-import React, { useState } from "react";
+/* eslint-disable react-native/no-inline-styles */
+import React, { useEffect, useState } from "react";
 
 import { TouchableOpacity, View } from "react-native";
 import AppText from "../components/typo/AppText";
-import CheckBox from "@react-native-community/checkbox";
 import USDC from "../../assets/Web3Icons/usdc_logo.svg";
 import MaterialIcons from "@react-native-vector-icons/material-icons";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../types/types";
+import { FullNavStack } from "../types/types";
 import { useAppSelector } from "../store/redux";
+import { useCameraPermission } from "react-native-vision-camera";
+import SendComponent from "../components/Main/SendComponent";
+import { useGetWalletByIdQuery } from "../service/endpoints/wallets-endpoints";
 
-interface Props extends NativeStackScreenProps<RootStackParamList> {}
+interface Props extends NativeStackScreenProps<FullNavStack, "Send"> {}
 
 const CustomTabBar: React.FC<Props> = ({ navigation }) => {
   const DIP_WIDTH = 140;
@@ -60,7 +63,7 @@ const CustomTabBar: React.FC<Props> = ({ navigation }) => {
 
       {/* Floating Action Button */}
       <TouchableOpacity
-        onPress={() => navigation.navigate("Home")}
+        onPress={() => navigation.navigate("ConversionScreen")}
         style={{
           position: "absolute",
           alignSelf: "center",
@@ -84,7 +87,21 @@ const CustomTabBar: React.FC<Props> = ({ navigation }) => {
 
 const HomeSendScreen: React.FC<Props> = ({ navigation, route }) => {
   const [balanceHidden, setBalanceHidden] = useState(false);
-  const { profile } = useAppSelector((state) => state.user);
+  const { hasPermission, requestPermission } = useCameraPermission();
+  const { active_wallet } = useAppSelector((state) => state.wallet);
+
+  const { data } = useGetWalletByIdQuery(active_wallet?.id ?? "");
+
+  useEffect(() => {
+    const handleRequest = async () => {
+      if (!hasPermission) {
+        await requestPermission();
+      }
+    };
+
+    handleRequest();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hasPermission]);
   return (
     <>
       <View className="bg-white flex-1">
@@ -94,7 +111,9 @@ const HomeSendScreen: React.FC<Props> = ({ navigation, route }) => {
           <View className="flex-row items-center justify-center mt-4">
             <USDC width={30} height={30} />
             <AppText className="text-4xl text-center font-bold ml-2 w-auto">
-              {balanceHidden ? "••••.••" : profile?.Wallet[0].balance}
+              {balanceHidden
+                ? "••••.••"
+                : Number(data?.data.circle.data.tokenBalances[1].amount ?? 0)}
             </AppText>
           </View>
           <TouchableOpacity onPress={() => setBalanceHidden(!balanceHidden)}>
@@ -104,49 +123,11 @@ const HomeSendScreen: React.FC<Props> = ({ navigation, route }) => {
           </TouchableOpacity>
         </View>
 
-        {/* Send Form */}
-        <View className="mt-8 px-6">
-          {/* Send To */}
-          <View className="flex-row items-center justify-between border-b border-gray-100 pb-2">
-            <AppText>Send To</AppText>
-            <TouchableOpacity className="bg-blue-500 px-4 py-2 rounded-full">
-              <AppText className="text-white font-semibold">Scan</AppText>
-            </TouchableOpacity>
-          </View>
-
-          {/* Amount */}
-          <View className="flex-row items-center justify-between border-b border-gray-100 mt-10 pb-2">
-            <AppText>Amount</AppText>
-            <View className="flex-row items-center">
-              <View className="h-6 w-6 p-1 mr-2 border border-brand-700 rounded-full items-center justify-center">
-                <View className="h-4 w-4 bg-brand-700 rounded-full" />
-              </View>
-              <AppText className="text-gray-500">USDC</AppText>
-            </View>
-          </View>
-
-          {/* Checkbox */}
-          <View className="flex-row items-center justify-center mt-10">
-            {
-              /* <Checkbox
-              value={feesSeparate}
-              onValueChange={setFeesSeparate}
-              color={feesSeparate ? "#2563eb" : undefined}
-            /> */
-            }
-            <CheckBox />
-            <AppText className="ml-2 text-brand-700 text-lg">
-              Detect fees separately
-            </AppText>
-          </View>
-
-          {/* Send button */}
-          <TouchableOpacity className="mt-24 bg-blue-600 p-4 w-2/3 self-center rounded-2xl">
-            <AppText className="text-center text-white font-bold text-lg">
-              Send
-            </AppText>
-          </TouchableOpacity>
-        </View>
+        <SendComponent
+          navigation={navigation}
+          route={route}
+          wallet={data?.data.circle.data.tokenBalances ?? []}
+        />
       </View>
       <CustomTabBar navigation={navigation} route={route} />
     </>

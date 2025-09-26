@@ -19,3 +19,9 @@ interface CreateWalletInput {
   blockchains: string[];
   accountType: "EOA" | "SCA";
 }
+
+interface SendTrans {
+  tokenId: string;
+  destinationAddress: string;
+  amount: string;
+}

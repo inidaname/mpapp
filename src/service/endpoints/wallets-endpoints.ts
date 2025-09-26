@@ -9,11 +9,12 @@ const walletsEndpoints = apiSlice.injectEndpoints({
         body,
       }),
     }),
-    getWalletById: build.query<APIData<WalletData>, string>({
+    getWalletById: build.query<APIData<WallectDetail>, string>({
       query: (id) => ({
         url: `/wallets/${id}`,
         method: "GET",
       }),
+      providesTags: ["balance"],
     }),
   }),
 });

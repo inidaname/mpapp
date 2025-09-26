@@ -7,10 +7,13 @@ import HeaderSide from "../components/Main/HeaderSide";
 import AppText from "../components/typo/AppText";
 import { RootStackParamList } from "../types/types";
 import ActiveNetworks from "../components/Main/ActiveNextworks";
+import { useAppSelector } from "../store/redux";
 
 interface Props extends NativeStackScreenProps<RootStackParamList> {}
 
 const WalletScreen: React.FC<Props> = ({}) => {
+  const { active_wallet } = useAppSelector((state) => state.wallet);
+
   return (
     <View className="flex-1 bg-white px-6">
       <HeaderSide heading="My Wallet" isWithBack />
@@ -19,7 +22,7 @@ const WalletScreen: React.FC<Props> = ({}) => {
           Total Balanace In USDC
         </AppText>
         <Text className="text-6xl font-bold text-gray-800 mt-6">
-          $2,803<Text className="font-bold text-gray-500 mt-2">.12</Text>
+          {Number(active_wallet?.balance).toPrecision(3)}
         </Text>
       </View>
       <ActiveNetworks />
