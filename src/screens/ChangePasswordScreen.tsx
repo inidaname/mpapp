@@ -1,7 +1,6 @@
 import type React from "react";
-import { useState } from "react";
 
-import { Image, TouchableOpacity, View } from "react-native";
+import { View } from "react-native";
 
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import MaterialIcons from "@react-native-vector-icons/material-icons";

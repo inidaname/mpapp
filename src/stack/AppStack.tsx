@@ -6,27 +6,33 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import { RootStackParamList } from "../types/types";
 
-import AddBankScreen from "../screens/AddBankScreen";
-import AddFundsScreen from "../screens/AddFundsScreen";
-import AddUserScreen from "../screens/AddUserScreen";
-import ConversionScreen from "../screens/ConversionScreen";
-import CurrencyDetail from "../screens/CurrencyDetails";
-import RecentActivitiesScreen from "../screens/RecentActivityScreen";
-import SendToBankScreen from "../screens/SendToBankScreen";
-import StartScreen from "../screens/StartScreen";
 import HomeStackTabs from "./HomeStacks";
 import AuthStack from "./AuthStach";
-import ProfileScreen from "../screens/ProfileScreen";
-import SettingsScreen from "../screens/SettingsScreen";
-import WalletScreen from "../screens/WalletScreen";
 
 import { useAppSelector } from "../store/redux";
-import ScanWalletScreen from "../screens/ScanWalletScreen";
-import OfflinePaymentScreen from "../screens/OfflinePaymentScreen";
-import EditProfileScreen from "../screens/EditProfileScreen";
-import DeviceProximityScreen from "../screens/DeviceProximityScreen";
-import NearbyUsers from "../screens/NearbyUsers";
-import ChangePasswordScreen from "../screens/ChangePasswordScreen";
+import {
+  AddBankScreen,
+  AddFundsScreen,
+  AddUserScreen,
+  ChangeCountry,
+  ChangePasswordScreen,
+  ChangePhoneScreen,
+  ContactUsScreen,
+  ConversionScreen,
+  CurrencyDetail,
+  DeviceProximityScreen,
+  EditProfileScreen,
+  FAQScreen,
+  NearbyUsers,
+  OfflinePaymentScreen,
+  ProfileScreen,
+  RecentActivitiesScreen,
+  ScanWalletScreen,
+  SendToBankScreen,
+  SettingsScreen,
+  StartScreen,
+  WalletScreen,
+} from "../screens";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -45,6 +51,10 @@ const MainStack: React.FC = () => {
       <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
       <Stack.Screen name="SettingsScreen" component={SettingsScreen} />
       <Stack.Screen name="WalletScreen" component={WalletScreen} />
+      <Stack.Screen name="ChangePhoneScreen" component={ChangePhoneScreen} />
+      <Stack.Screen name="ChangeCountry" component={ChangeCountry} />
+      <Stack.Screen name="FAQScreen" component={FAQScreen} />
+      <Stack.Screen name="ContactUsScreen" component={ContactUsScreen} />
       <Stack.Screen
         name="OfflinePaymentScreen"
         component={OfflinePaymentScreen}

@@ -19,6 +19,10 @@ export type RootStackParamList = {
   NearbyUsers: undefined;
   EditProfileScreen: undefined;
   ChangePasswordScreen: undefined;
+  ChangePhoneScreen: undefined;
+  ChangeCountry: undefined;
+  FAQScreen: undefined;
+  ContactUsScreen: undefined;
 };
 
 export type AuthStackParamList = {
