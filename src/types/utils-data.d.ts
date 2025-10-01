@@ -1,3 +1,14 @@
+interface CountriesAPI {
+  name: string;
+  code: string;
+  currency: {
+    code: string;
+    name: string;
+  };
+  flag: string;
+  dial_code: string;
+}
+
 interface CountryData {
   name: string;
   name_local: string;

@@ -24,6 +24,10 @@
 		<string>$(CURRENT_PROJECT_VERSION)</string>
 		<key>LSRequiresIPhoneOS</key>
 		<true />
+		<key>NSBluetoothAlwaysUsageDescription</key>
+		<string>We use Bluetooth to find nearby users</string>
+		<key>NFCReaderUsageDescription</key>
+		<string>We use NFC to find nearby users</string>
 		<key>NSAppTransportSecurity</key>
 		<dict>
 			<key>NSAllowsArbitraryLoads</key>

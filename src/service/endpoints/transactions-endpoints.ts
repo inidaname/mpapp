@@ -10,7 +10,20 @@ const transactionEndpoints = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["balance"],
     }),
+    getTransaction: build.query<APIData<TransactionsList[]>, { page?: string }>(
+      {
+        query: () => ({
+          url: "/transactions",
+          method: "GET",
+        }),
+        providesTags: ["balance"],
+      },
+    ),
   }),
 });
 
-export const { useSendTransactionMutation } = transactionEndpoints;
+export const {
+  useSendTransactionMutation,
+  useGetTransactionQuery,
+  useLazyGetTransactionQuery,
+} = transactionEndpoints;

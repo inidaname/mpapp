@@ -14,6 +14,11 @@ export type RootStackParamList = {
   RecentActivitiesScreen: undefined;
   CurrencyDetail: { currency: string };
   SettingsScreen: undefined;
+  OfflinePaymentScreen: undefined;
+  DeviceProximityScreen: undefined;
+  NearbyUsers: undefined;
+  EditProfileScreen: undefined;
+  ChangePasswordScreen: undefined;
 };
 
 export type AuthStackParamList = {
@@ -22,6 +27,9 @@ export type AuthStackParamList = {
   VerificationScreen: { email: string };
   VerifyPhoneScreen: undefined;
   ForgotPassword: undefined;
+  OfflinePaymentScreen: undefined; // Temporary
+  DeviceProximityScreen: undefined; // Temporary
+  NearbyUsers: undefined; // Temporary
 };
 
 export type FullNavStack =

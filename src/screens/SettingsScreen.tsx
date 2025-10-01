@@ -1,15 +1,18 @@
 import type React from "react";
 import { useState } from "react";
 
-import { ScrollView, Switch, View } from "react-native";
+import { ScrollView, Switch, TouchableOpacity, View } from "react-native";
 import HeaderSide from "../components/Main/HeaderSide";
 import AppText from "../components/typo/AppText";
 import MaterialIcons from "@react-native-vector-icons/material-icons";
 import Logout from "../components/utils/Logout";
 
-interface Props {}
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { FullNavStack } from "../types/types";
 
-const SettingsScreen: React.FC<Props> = () => {
+interface Props extends NativeStackScreenProps<FullNavStack> {}
+
+const SettingsScreen: React.FC<Props> = ({ navigation }) => {
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
   return (
@@ -23,20 +26,26 @@ const SettingsScreen: React.FC<Props> = () => {
         <AppText className="text-gray-600 text-sm">
           General Setting
         </AppText>
-        <View className="w-full px-3 py-4 bg-gray-200 mt-4 rounded-lg flex-row justify-between items-center">
+        <TouchableOpacity
+          onPress={() => navigation.navigate("EditProfileScreen")}
+          className="w-full px-3 py-4 bg-gray-200 mt-4 rounded-lg flex-row justify-between items-center"
+        >
           <View className="flex-1 flex-row items-center jusitfy-start">
             <MaterialIcons name="border-color" size={20} />
             <AppText className="ml-3">Edit Profile</AppText>
           </View>
           <MaterialIcons name="chevron-right" size={22} color={"#215CE1"} />
-        </View>
-        <View className="w-full px-3 py-4 bg-gray-200 mt-4 rounded-lg flex-row justify-between items-center">
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("ChangePasswordScreen")}
+          className="w-full px-3 py-4 bg-gray-200 mt-4 rounded-lg flex-row justify-between items-center"
+        >
           <View className="flex-1 flex-row items-center jusitfy-start">
             <MaterialIcons name="border-color" size={20} />
             <AppText className="ml-3">Change Password</AppText>
           </View>
           <MaterialIcons name="chevron-right" size={22} color={"#215CE1"} />
-        </View>
+        </TouchableOpacity>
         <View className="w-full px-3 py-4 bg-gray-200 mt-4 rounded-lg flex-row justify-between items-center">
           <View className="flex-1 flex-row items-center jusitfy-start">
             <MaterialIcons name="border-color" size={20} />

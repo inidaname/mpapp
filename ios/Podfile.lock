@@ -1751,6 +1751,8 @@ PODS:
     - React-RCTFBReactNativeSpec
     - ReactCommon/turbomodule/core
     - SocketRocket
+  - react-native-nfc-manager (3.17.1):
+    - React-Core
   - react-native-pager-view (6.9.1):
     - boost
     - DoubleConversion
@@ -1867,6 +1869,34 @@ PODS:
     - SocketRocket
     - Yoga
   - react-native-vector-icons-material-icons (12.3.0)
+  - react-native-worklets-core (1.6.2):
+    - boost
+    - DoubleConversion
+    - fast_float
+    - fmt
+    - glog
+    - hermes-engine
+    - RCT-Folly
+    - RCT-Folly/Fabric
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-jsi
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-renderercss
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - SocketRocket
+    - Yoga
   - React-NativeModulesApple (0.81.1):
     - boost
     - DoubleConversion
@@ -2372,7 +2402,7 @@ PODS:
     - React-perflogger (= 0.81.1)
     - React-utils (= 0.81.1)
     - SocketRocket
-  - RNBootSplash (6.3.10):
+  - RNBootSplash (6.3.11):
     - boost
     - DoubleConversion
     - fast_float
@@ -2459,7 +2489,7 @@ PODS:
     - ReactCommon/turbomodule/core
     - SocketRocket
     - Yoga
-  - RNReanimated (4.0.3):
+  - RNReanimated (4.1.2):
     - boost
     - DoubleConversion
     - fast_float
@@ -2486,11 +2516,11 @@ PODS:
     - ReactCodegen
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
-    - RNReanimated/reanimated (= 4.0.3)
+    - RNReanimated/reanimated (= 4.1.2)
     - RNWorklets
     - SocketRocket
     - Yoga
-  - RNReanimated/reanimated (4.0.3):
+  - RNReanimated/reanimated (4.1.2):
     - boost
     - DoubleConversion
     - fast_float
@@ -2517,11 +2547,11 @@ PODS:
     - ReactCodegen
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
-    - RNReanimated/reanimated/apple (= 4.0.3)
+    - RNReanimated/reanimated/apple (= 4.1.2)
     - RNWorklets
     - SocketRocket
     - Yoga
-  - RNReanimated/reanimated/apple (4.0.3):
+  - RNReanimated/reanimated/apple (4.1.2):
     - boost
     - DoubleConversion
     - fast_float
@@ -2551,7 +2581,7 @@ PODS:
     - RNWorklets
     - SocketRocket
     - Yoga
-  - RNScreens (4.15.4):
+  - RNScreens (4.16.0):
     - boost
     - DoubleConversion
     - fast_float
@@ -2578,10 +2608,10 @@ PODS:
     - ReactCodegen
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
-    - RNScreens/common (= 4.15.4)
+    - RNScreens/common (= 4.16.0)
     - SocketRocket
     - Yoga
-  - RNScreens/common (4.15.4):
+  - RNScreens/common (4.16.0):
     - boost
     - DoubleConversion
     - fast_float
@@ -2610,7 +2640,7 @@ PODS:
     - ReactCommon/turbomodule/core
     - SocketRocket
     - Yoga
-  - RNSVG (15.12.1):
+  - RNSVG (15.13.0):
     - boost
     - DoubleConversion
     - fast_float
@@ -2636,10 +2666,10 @@ PODS:
     - ReactCodegen
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
-    - RNSVG/common (= 15.12.1)
+    - RNSVG/common (= 15.13.0)
     - SocketRocket
     - Yoga
-  - RNSVG/common (15.12.1):
+  - RNSVG/common (15.13.0):
     - boost
     - DoubleConversion
     - fast_float
@@ -2695,7 +2725,7 @@ PODS:
     - ReactCommon/turbomodule/core
     - SocketRocket
     - Yoga
-  - RNWorklets (0.4.2):
+  - RNWorklets (0.5.1):
     - boost
     - DoubleConversion
     - fast_float
@@ -2722,10 +2752,10 @@ PODS:
     - ReactCodegen
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
-    - RNWorklets/worklets (= 0.4.2)
+    - RNWorklets/worklets (= 0.5.1)
     - SocketRocket
     - Yoga
-  - RNWorklets/worklets (0.4.2):
+  - RNWorklets/worklets (0.5.1):
     - boost
     - DoubleConversion
     - fast_float
@@ -2752,10 +2782,10 @@ PODS:
     - ReactCodegen
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
-    - RNWorklets/worklets/apple (= 0.4.2)
+    - RNWorklets/worklets/apple (= 0.5.1)
     - SocketRocket
     - Yoga
-  - RNWorklets/worklets/apple (0.4.2):
+  - RNWorklets/worklets/apple (0.5.1):
     - boost
     - DoubleConversion
     - fast_float
@@ -2787,10 +2817,16 @@ PODS:
   - SocketRocket (0.7.1)
   - VisionCamera (4.7.2):
     - VisionCamera/Core (= 4.7.2)
+    - VisionCamera/FrameProcessors (= 4.7.2)
     - VisionCamera/React (= 4.7.2)
   - VisionCamera/Core (4.7.2)
+  - VisionCamera/FrameProcessors (4.7.2):
+    - React
+    - React-callinvoker
+    - react-native-worklets-core
   - VisionCamera/React (4.7.2):
     - React-Core
+    - VisionCamera/FrameProcessors
   - Yoga (0.0.0)
 
 DEPENDENCIES:
@@ -2836,9 +2872,11 @@ DEPENDENCIES:
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - React-Mapbuffer (from `../node_modules/react-native/ReactCommon`)
   - React-microtasksnativemodule (from `../node_modules/react-native/ReactCommon/react/nativemodule/microtasks`)
+  - react-native-nfc-manager (from `../node_modules/react-native-nfc-manager`)
   - react-native-pager-view (from `../node_modules/react-native-pager-view`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - "react-native-vector-icons-material-icons (from `../node_modules/@react-native-vector-icons/material-icons`)"
+  - react-native-worklets-core (from `../node_modules/react-native-worklets-core`)
   - React-NativeModulesApple (from `../node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios`)
   - React-oscompat (from `../node_modules/react-native/ReactCommon/oscompat`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
@@ -2971,12 +3009,16 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   React-microtasksnativemodule:
     :path: "../node_modules/react-native/ReactCommon/react/nativemodule/microtasks"
+  react-native-nfc-manager:
+    :path: "../node_modules/react-native-nfc-manager"
   react-native-pager-view:
     :path: "../node_modules/react-native-pager-view"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
   react-native-vector-icons-material-icons:
     :path: "../node_modules/@react-native-vector-icons/material-icons"
+  react-native-worklets-core:
+    :path: "../node_modules/react-native-worklets-core"
   React-NativeModulesApple:
     :path: "../node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios"
   React-oscompat:
@@ -3103,9 +3145,11 @@ SPEC CHECKSUMS:
   React-logger: d27dd2000f520bf891d24f6e141cde34df41f0ee
   React-Mapbuffer: 0746ffab5ac0f49b7c9347338e3d0c1d9dd634c8
   React-microtasksnativemodule: b0fb3f97372df39bda3e657536039f1af227cc29
+  react-native-nfc-manager: 0249973f2a6431e615551eff82a4b1135a367926
   react-native-pager-view: 899989dd025d219d3ac0d386b2bc162f81ae8330
   react-native-safe-area-context: 6d8a7b750e496e37bda47c938320bf2c734d441f
   react-native-vector-icons-material-icons: eff7417eb1ac6c740ab802837ad34b8233fded34
+  react-native-worklets-core: 5abf7405ae179fd6b3a45899b1a0e5777aa389d3
   React-NativeModulesApple: 9ec9240159974c94886ebbe4caec18e3395f6aef
   React-oscompat: b12c633e9c00f1f99467b1e0e0b8038895dae436
   React-perflogger: ccf4fd2664b00818645e588623c7531a8b32d114
@@ -3136,17 +3180,17 @@ SPEC CHECKSUMS:
   ReactAppDependencyProvider: 448b422f8af1dedf81374eacc90a15439a0ed7f5
   ReactCodegen: 3baedb0c33f963250c866151b825a3c5194b12f1
   ReactCommon: e897f9a1b4afab370cfefaaf5fb3c80371bc3937
-  RNBootSplash: fb818d0053315b81fccd5437da42ca460eda6017
+  RNBootSplash: 1e2d285376d8901d0b106da4829817e53f3eed94
   RNCAsyncStorage: 302f2fac014fd450046c120567ca364632da682b
   RNCCheckbox: 471ebdc33884c084f362615c1ef3507496cc07f1
   RNKeychain: 182d986f809280edd9444a557adc21845f7d1e6f
-  RNReanimated: 25472f6f123944edccc7d5e70d298343e9660219
-  RNScreens: 5c7f22b19ee2e900e5de2c578471aeb153d1e502
-  RNSVG: 8d87cff016edf1b6ca409ed39804101836d75e90
+  RNReanimated: b8b86b99a4bb938cacac1213724cb4c8edb6c614
+  RNScreens: 74985ca8e102294a60cec7513fa84c936fa0b20b
+  RNSVG: eca4f6bb09bcaf582c4f082f3989a6b8513b3e93
   RNVectorIcons: 6acc19c833be864e9c70894e101a587fe491150a
-  RNWorklets: 09b1655252e9e6320f425a5fba6433401c94a42b
+  RNWorklets: 582ee5c59370d483a7a3c3f8a8014d48b1bff6bd
   SocketRocket: d4aabe649be1e368d1318fdf28a022d714d65748
-  VisionCamera: 2230ecfd78a1f6cddd8be0fe4e6589f21a6385e1
+  VisionCamera: 02578a728d4a479d9c47f869efdf906c5680d50b
   Yoga: 11c9686a21e2cd82a094a723649d9f4507200fb0
 
 PODFILE CHECKSUM: 889e35d44d70f60b7aabba4050befab3b89c822a

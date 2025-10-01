@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import type React from "react";
-import { RootStackParamList } from "../types/types";
+import { FullNavStack } from "../types/types";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import {
   Animated,
@@ -11,21 +11,21 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { OtpInput } from "react-native-otp-entry";
 import AppText from "../components/typo/AppText";
 import PhoneNumberInput from "../components/PhoneNumberInput";
 import { useForm } from "react-hook-form";
-import { SUPPORT_COUNTRIES } from "../data/supporting-countries";
 import Back from "../components/typo/Back";
 import { useSendOTPMutation } from "../service/endpoints/auth-endpoints";
 import ButtonComponent from "../components/Button";
+import { useGetCountriesQuery } from "../service/endpoints/util-endpoitns";
 
 interface Props
-  extends NativeStackScreenProps<RootStackParamList, "VerificationScreen"> {}
+  extends NativeStackScreenProps<FullNavStack, "VerificationScreen"> {}
 interface ChildProps extends Pick<Props, "navigation"> {
   onContinue: () => void;
-  onSelectCountry: (item: CountryData) => void;
+  onSelectCountry: (item: CountriesAPI) => void;
 }
 
 interface EmailScreenProp extends Pick<ChildProps, "onContinue"> {
@@ -146,24 +146,9 @@ const CountrySelect: React.FC<Omit<ChildProps, "onContinue">> = ({
   navigation,
   onSelectCountry,
 }) => {
-  const [countries, setCountries] = useState<CountryData[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [selected, setSelected] = useState<CountryData | null>(null);
+  const [selected, setSelected] = useState<CountriesAPI | null>(null);
 
-  useEffect(() => {
-    fetch("https://cdn.simplelocalize.io/public/v1/countries")
-      .then((res) => res.json())
-      .then((data: CountryData[]) => {
-        setCountries(
-          data.filter((item) => SUPPORT_COUNTRIES.includes(item.name)),
-        );
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error(err);
-        setLoading(false);
-      });
-  }, []);
+  const { data: countries, isLoading } = useGetCountriesQuery();
 
   const handleContinue = () => {
     if (selected) {
@@ -172,7 +157,7 @@ const CountrySelect: React.FC<Omit<ChildProps, "onContinue">> = ({
     }
   };
 
-  if (loading) {
+  if (isLoading) {
     return <AppText>Loading Countries</AppText>;
   }
 
@@ -182,7 +167,7 @@ const CountrySelect: React.FC<Omit<ChildProps, "onContinue">> = ({
         Select Country
       </Text>
       <ScrollView>
-        {countries.map((country) => (
+        {countries?.map((country) => (
           <TouchableOpacity
             key={country.code}
             className="flex-row items-center justify-between py-0 w-full"
@@ -201,7 +186,7 @@ const CountrySelect: React.FC<Omit<ChildProps, "onContinue">> = ({
                   {country.name}
                 </AppText>
                 <AppText className="text-2xl text-gray-500">
-                  {country.currency_code}
+                  {country.code}
                 </AppText>
               </View>
               <View
@@ -238,7 +223,7 @@ const CountrySelect: React.FC<Omit<ChildProps, "onContinue">> = ({
 
 const VerificationScreen: React.FC<Props> = ({ navigation, route }) => {
   const [step, setStep] = useState(0);
-  const [_, onSelectCountry] = useState<CountryData | null>(null);
+  const [_, onSelectCountry] = useState<CountriesAPI | null>(null);
   const translateX = useRef(new Animated.Value(0)).current;
 
   const goNext = () => {

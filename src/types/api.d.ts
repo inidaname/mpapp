@@ -66,7 +66,7 @@ interface UserProfile {
   forgetPinToken: null;
   forgetPinTokenExpiration: null;
   biometric_enabled: false;
-  kyc_status: "PENDING_APPROVAL";
+  kyc_status: "PENDING_APPROVAL" | "APPROVED";
   IsEmailVerified: true;
   IsPhoneNumberVerified: false;
   created_at: "2025-09-18T13:04:25.434Z";
@@ -133,4 +133,37 @@ interface SendSuccess {
     "id": "b821739d-de13-5a55-bbe8-76e9c89d3219";
     "state": "INITIATED";
   };
+}
+
+interface TransactionsList {
+  id: string;
+  user_id: string;
+  wallet_id: string;
+  currency_id: string;
+  offline_transaction_id: string;
+  transaction_hash: string;
+  sender_address: string;
+  recipient_address: string;
+  amount: string;
+  source: string;
+  destination: string;
+  features: string;
+  source_deposit_instructions: string;
+  balance_before: string;
+  balance_after: string;
+  token_symbol: string;
+  token_id: string;
+  circle_transaction_id: string;
+  bridge_transaction_id: string;
+  transaction_type: string;
+  status: string;
+  blockchain: string;
+  gas_fee: string;
+  exchange_rate: string;
+  local_currency: string;
+  local_amount: string;
+  created_offline: string;
+  synced_at: string | Date;
+  created_at: string | Date;
+  updated_at: string | Date;
 }

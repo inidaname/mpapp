@@ -18,7 +18,6 @@ const userEndpoints = apiSlice.injectEndpoints({
         const { data } = await queryFulfilled;
         dispatch(setUserProfile({ profile: data.data }));
         dispatch(setWallets(data.data.Wallet));
-        dispatch(setWallets(data.data.Wallet));
         dispatch(
           setActiveWallet(data.data.Wallet.find((wallet) => wallet.is_active)!),
         );

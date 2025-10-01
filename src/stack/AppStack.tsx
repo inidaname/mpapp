@@ -22,6 +22,11 @@ import WalletScreen from "../screens/WalletScreen";
 
 import { useAppSelector } from "../store/redux";
 import ScanWalletScreen from "../screens/ScanWalletScreen";
+import OfflinePaymentScreen from "../screens/OfflinePaymentScreen";
+import EditProfileScreen from "../screens/EditProfileScreen";
+import DeviceProximityScreen from "../screens/DeviceProximityScreen";
+import NearbyUsers from "../screens/NearbyUsers";
+import ChangePasswordScreen from "../screens/ChangePasswordScreen";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -40,6 +45,26 @@ const MainStack: React.FC = () => {
       <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
       <Stack.Screen name="SettingsScreen" component={SettingsScreen} />
       <Stack.Screen name="WalletScreen" component={WalletScreen} />
+      <Stack.Screen
+        name="OfflinePaymentScreen"
+        component={OfflinePaymentScreen}
+      />
+      <Stack.Screen
+        name="EditProfileScreen"
+        component={EditProfileScreen}
+      />
+      <Stack.Screen
+        name="ChangePasswordScreen"
+        component={ChangePasswordScreen}
+      />
+      <Stack.Screen
+        name="DeviceProximityScreen"
+        component={DeviceProximityScreen}
+      />
+      <Stack.Screen
+        name="NearbyUsers"
+        component={NearbyUsers}
+      />
       <Stack.Screen
         name="RecentActivitiesScreen"
         component={RecentActivitiesScreen}

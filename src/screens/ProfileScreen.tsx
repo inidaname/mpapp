@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
@@ -10,10 +10,23 @@ import MaterialIcons from "@react-native-vector-icons/material-icons";
 import AppText, { FigureText } from "../components/typo/AppText";
 import SecuredCheck from "../../assets/green_check.svg";
 import BankingDetails from "../components/Main/BankingDetails";
+import { useGetUserProfileQuery } from "../service/endpoints/user-endpoints";
+import { useGetCountriesQuery } from "../service/endpoints/util-endpoitns";
 
 interface Props extends NativeStackScreenProps<RootStackParamList> {}
 
 const ProfileScreen: React.FC<Props> = ({ navigation }) => {
+  const [country, setCountry] = useState<CountriesAPI>();
+  const { data } = useGetUserProfileQuery();
+  const { data: countries } = useGetCountriesQuery();
+  useEffect(() => {
+    console.log("countries", countries);
+    if (countries) {
+      setCountry(countries[0]);
+    }
+  }, [countries]);
+
+  console.log("country", country);
   return (
     <ScrollView
       contentContainerStyle={{ flexGrow: 1 }}
@@ -48,7 +61,7 @@ const ProfileScreen: React.FC<Props> = ({ navigation }) => {
           </View>
         </View>
         <AppText weight="light" className="text-center mt-2 text-xl">
-          mariagomez1234567
+          {data?.data.username}
         </AppText>
       </View>
       <View className="w-full px-4">
@@ -65,20 +78,46 @@ const ProfileScreen: React.FC<Props> = ({ navigation }) => {
           </View>
         </View>
         <View className="w-full flex-row justify-between items-center mt-6">
-          <View className="bg-gray-200 flex-1 mr-2 h-44 rounded-2xl" />
-          <View className="bg-gray-200 flex-1 ml-2 h-44 rounded-2xl" />
+          <View className="bg-gray-200 flex-1 mr-2 h-44 rounded-2xl p-5 justify-start">
+            <AppText className="text-xl text-gray-500/60">Country</AppText>
+            <View className="mt-4">
+              <Image
+                className="w-14 h-14 rounded-full"
+                source={{
+                  uri:
+                    `https://flagcdn.com/w40/${country?.code.toLowerCase()}.png`,
+                }}
+              />
+            </View>
+          </View>
+          <View className="bg-gray-200 flex-1 ml-2 h-44 rounded-2xl p-5 justify-start">
+            <AppText className="text-xl text-gray-500/60">
+              Local Currency
+            </AppText>
+            <AppText className="mt-4 text-2xl">
+              {country?.currency.code}
+            </AppText>
+          </View>
         </View>
         <View className="w-full bg-gray-200 py-2 px-4 mt-6 rounded-2xl">
           <AppText className="text-gray-500">Email Address</AppText>
-          <AppText className="mt-2">mariagomez123@gmail.com</AppText>
+          <AppText className="mt-2">
+            {data?.data.email}
+          </AppText>
         </View>
         <View className="w-full flex-row px-4 justify-between items-center mt-6 py-2 bg-gray-200 rounded-lg">
           <AppText className="text-gray-500">Phone Number</AppText>
-          <FigureText>+92345678901</FigureText>
+          <FigureText>{data?.data.phone_number}</FigureText>
         </View>
         <View className="w-full flex-row px-4 justify-between items-center mt-6 py-4 bg-gray-200 rounded-lg">
           <AppText className="text-gray-500">Verification Status</AppText>
-          <AppText className="text-green-600 font-thin">Verified</AppText>
+          {data?.data.kyc_status === "APPROVED"
+            ? <AppText className="text-green-600 font-thin">Verified</AppText>
+            : (
+              <AppText className="text-red-600 font-thin">
+                Pending Verification
+              </AppText>
+            )}
         </View>
       </View>
       <View className="mt-6">

@@ -50,6 +50,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
 
   return (
     <KeyboardAwareScrollView
+      // eslint-disable-next-line react-native/no-inline-styles
       contentContainerStyle={{ flexGrow: 1 }}
       enableOnAndroid={true}
       keyboardShouldPersistTaps="handled"

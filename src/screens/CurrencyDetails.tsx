@@ -7,6 +7,7 @@ import HeaderSide from "../components/Main/HeaderSide";
 import USDC from "../../assets/Web3Icons/usdc_logo.svg";
 import AppText, { FigureText } from "../components/typo/AppText";
 import { MaterialIcons } from "@react-native-vector-icons/material-icons";
+import Transactions from "../components/Main/TransactionList";
 
 interface Props
   extends NativeStackScreenProps<RootStackParamList, "CurrencyDetail"> {}
@@ -81,108 +82,7 @@ const CurrencyDetail: React.FC<Props> = ({ navigation }) => {
         <AppText weight="semibold" className="text-xl mt-4">
           Transactions
         </AppText>
-        <View className="w-full justify-start items-center mt-4">
-          <View className="bg-white w-full py-4 px-4 flex-row rounded-xl items-center justify-start my-3">
-            <View className="w-16 h-16 rounded-full bg-[#215CE11A] items-center justify-center mr-4">
-              <MaterialIcons
-                name="south-west"
-                size={40}
-                color={"#215CE1"}
-              />
-            </View>
-            <View className="flex-1 justify-between flex-row items-center">
-              <View>
-                <AppText weight="light" className="text-2xl text-gray-900">
-                  John Doe
-                </AppText>
-                <AppText className="text-gray-400">
-                  Apr 10, 2024 09:20 AM
-                </AppText>
-              </View>
-              <View className="items-end">
-                <FigureText weight="bold" className="text-2xl text-gray-900">
-                  $ 150
-                </FigureText>
-                <FigureText className="text-gray-400">100 USD</FigureText>
-              </View>
-            </View>
-          </View>
-          <View className="bg-white w-full py-4 px-4 flex-row rounded-xl items-center justify-start my-3">
-            <View className="w-16 h-16 rounded-full bg-[#FF23231A] items-center justify-center mr-4">
-              <MaterialIcons
-                name="north-east"
-                size={40}
-                color={"#FF2323"}
-              />
-            </View>
-            <View className="flex-1 justify-between flex-row items-center">
-              <View>
-                <AppText weight="light" className="text-2xl text-gray-900">
-                  John Doe
-                </AppText>
-                <AppText className="text-gray-400">
-                  Apr 10, 2024 09:20 AM
-                </AppText>
-              </View>
-              <View className="items-end">
-                <FigureText weight="bold" className="text-2xl text-gray-900">
-                  $ 150
-                </FigureText>
-                <FigureText className="text-gray-400">100 USD</FigureText>
-              </View>
-            </View>
-          </View>
-          <View className="bg-white w-full py-4 px-4 flex-row rounded-xl items-center justify-start my-3">
-            <View className="w-16 h-16 rounded-full bg-[#50A99A1A] items-center justify-center mr-4">
-              <MaterialIcons
-                name="swap-horiz"
-                size={40}
-                color={"#50A99A"}
-              />
-            </View>
-            <View className="flex-1 justify-between flex-row items-center">
-              <View>
-                <AppText weight="light" className="text-2xl text-gray-900">
-                  John Doe
-                </AppText>
-                <AppText className="text-gray-400">
-                  Apr 10, 2024 09:20 AM
-                </AppText>
-              </View>
-              <View className="items-end">
-                <FigureText weight="bold" className="text-2xl text-gray-900">
-                  $ 150
-                </FigureText>
-                <FigureText className="text-gray-400">100 USD</FigureText>
-              </View>
-            </View>
-          </View>
-          <View className="bg-white w-full py-4 px-4 flex-row rounded-xl items-center justify-start my-3">
-            <View className="w-16 h-16 rounded-full bg-[#D1F5611A] items-center justify-center mr-4">
-              <MaterialIcons
-                name="mobile-friendly"
-                size={40}
-                color={"#D1F561"}
-              />
-            </View>
-            <View className="flex-1 justify-between flex-row items-center">
-              <View>
-                <AppText weight="light" className="text-2xl text-gray-900">
-                  John Doe
-                </AppText>
-                <AppText className="text-gray-400">
-                  Apr 10, 2024 09:20 AM
-                </AppText>
-              </View>
-              <View className="items-end">
-                <FigureText weight="bold" className="text-2xl text-gray-900">
-                  $ 150
-                </FigureText>
-                <FigureText className="text-gray-400">100 USD</FigureText>
-              </View>
-            </View>
-          </View>
-        </View>
+        <Transactions />
       </View>
     </ScrollView>
   );

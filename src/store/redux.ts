@@ -7,6 +7,7 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import authReducer from "./reducers/auth-slice";
 import userReducer from "./reducers/user-slice";
 import walletsSlice from "./reducers/wallet-slice";
+import countriesSlice from "./reducers/countries-slice";
 
 const persistConfig = {
   key: "root",
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   auth: authReducer,
   user: userReducer,
   wallet: walletsSlice,
+  countries: countriesSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

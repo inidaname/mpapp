@@ -26,5 +26,5 @@ export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery,
   endpoints: () => ({}),
-  tagTypes: ["icons", "balance"],
+  tagTypes: ["icons", "balance", "external-accounts"],
 });

@@ -8,6 +8,7 @@ import AppText, { PoppinText } from "../typo/AppText";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { FullNavStack } from "../../types/types";
+import { useGetAccountsQuery } from "../../service/endpoints/external-accounts";
 
 interface Props {
   text: string;
@@ -15,6 +16,8 @@ interface Props {
 
 const BankingDetails: React.FC<Props> = ({ text }) => {
   const navigate = useNavigation<NativeStackNavigationProp<FullNavStack>>();
+  const { data } = useGetAccountsQuery();
+  console.log("data", data);
 
   return (
     <View className="w-full">
