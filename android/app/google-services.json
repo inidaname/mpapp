@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:739450963339:android:c43666cb69ea1a39ae5b8e",
+        "mobilesdk_app_id": "1:739450963339:android:89950fde15c5135cae5b8e",
         "android_client_info": {
-          "package_name": "com.insfersapp"
+          "package_name": "com.insfers"
         }
       },
       "oauth_client": [],

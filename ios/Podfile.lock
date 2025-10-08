@@ -1841,10 +1841,6 @@ PODS:
     - ReactCommon/turbomodule/core
     - SocketRocket
     - Yoga
-  - react-native-config (1.5.9):
-    - react-native-config/App (= 1.5.9)
-  - react-native-config/App (1.5.9):
-    - React-Core
   - react-native-image-picker (8.2.1):
     - boost
     - DoubleConversion
@@ -3003,7 +2999,6 @@ DEPENDENCIES:
   - React-Mapbuffer (from `../node_modules/react-native/ReactCommon`)
   - React-microtasksnativemodule (from `../node_modules/react-native/ReactCommon/react/nativemodule/microtasks`)
   - react-native-ble-plx (from `../node_modules/react-native-ble-plx`)
-  - react-native-config (from `../node_modules/react-native-config`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - react-native-nfc-manager (from `../node_modules/react-native-nfc-manager`)
   - react-native-pager-view (from `../node_modules/react-native-pager-view`)
@@ -3157,8 +3152,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/react/nativemodule/microtasks"
   react-native-ble-plx:
     :path: "../node_modules/react-native-ble-plx"
-  react-native-config:
-    :path: "../node_modules/react-native-config"
   react-native-image-picker:
     :path: "../node_modules/react-native-image-picker"
   react-native-nfc-manager:
@@ -3313,7 +3306,6 @@ SPEC CHECKSUMS:
   React-Mapbuffer: f84e59c14ff145295fbd029c5be16805aabe98d2
   React-microtasksnativemodule: 584eb07c9b1f1e684fe63b7fae61ed865f8f228f
   react-native-ble-plx: 3a77f3783c967b0e05faf9f3ee90d74c6ed795cc
-  react-native-config: ec6c5f8782a987964b80a6845e7b974d2d9b3020
   react-native-image-picker: b99d9c1f2ddbef491eb49e1103e5c2ce78b9ab37
   react-native-nfc-manager: 0249973f2a6431e615551eff82a4b1135a367926
   react-native-pager-view: e9b3e17cf3222a23fedcf72c969bcbe3640667d2
@@ -3365,6 +3357,6 @@ SPEC CHECKSUMS:
   VisionCamera: 02578a728d4a479d9c47f869efdf906c5680d50b
   Yoga: 9b30b783a17681321b52ac507a37219d7d795ace
 
-PODFILE CHECKSUM: 15640ceed5b5aeda2c1c6a8dbd740b488d0510a6
+PODFILE CHECKSUM: 0512a39c036e29a0659bac93339eab610c74cbd8
 
 COCOAPODS: 1.16.2

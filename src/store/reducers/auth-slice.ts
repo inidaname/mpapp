@@ -3,9 +3,14 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 interface AuthSlice {
   token: string | null;
   user_id: string | null;
+  hasOnboarded: boolean;
 }
 
-const initialState: AuthSlice = { token: null, user_id: null };
+const initialState: AuthSlice = {
+  token: null,
+  user_id: null,
+  hasOnboarded: false,
+};
 
 const authSlice = createSlice({
   name: "auth",
@@ -18,6 +23,9 @@ const authSlice = createSlice({
       state.token = action.payload?.token ?? null;
       state.user_id = action.payload?.user_id ?? null;
     },
+    setHasOnboarded: (state, action: PayloadAction<boolean>) => {
+      state.hasOnboarded = action.payload;
+    },
     clearToken: (state) => {
       state.token = null;
       state.user_id = null;
@@ -25,5 +33,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { setToken, clearToken } = authSlice.actions;
+export const { setToken, setHasOnboarded, clearToken } = authSlice.actions;
 export default authSlice.reducer;

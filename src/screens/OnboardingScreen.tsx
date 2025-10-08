@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, { useRef, useState } from "react";
 
 import { Image, Text, TouchableOpacity, View } from "react-native";
@@ -21,7 +22,10 @@ const OnboardingScreen: React.FC<Props> = ({ navigation }) => {
 
   const finishOnboarding = async () => {
     await AsyncStorage.setItem("hasOnboarded", "true");
-    navigation.replace("Login");
+    navigation.replace("Home", {
+      screen: "Send",
+      params: { wallet_address: "" },
+    });
   };
 
   return (

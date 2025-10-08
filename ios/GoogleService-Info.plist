@@ -9,7 +9,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>org.reactjs.native.example.InsfersApp</string>
+	<string>org.reactjs.native.example.Insfers</string>
 	<key>PROJECT_ID</key>
 	<string>insfers-3b113</string>
 	<key>STORAGE_BUCKET</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:739450963339:ios:ac013906bf75e3f2ae5b8e</string>
+	<string>1:739450963339:ios:b364459c7fb25a7aae5b8e</string>
 </dict>
 </plist>
