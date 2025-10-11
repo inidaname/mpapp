@@ -1,8 +1,6 @@
 import type React from "react";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import messaging from "@react-native-firebase/messaging";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // import { ActivityIndicator, View } from "react-native";
 
@@ -35,19 +33,6 @@ import {
   StartScreen,
   WalletScreen,
 } from "../screens";
-import Onboarding from "./Onboarding";
-
-import { useAddDeviceNotyMutation } from "../service/endpoints/notification-endpoints";
-import { useEffect, useState } from "react";
-
-async function requestUserPermission() {
-  const authStatus = await messaging().requestPermission();
-
-  const enabled = authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-    authStatus === messaging.AuthorizationStatus.PROVISIONAL;
-
-  return enabled;
-}
 
 export type RootNavigatorParams = {
   OnboardingStack: undefined;
@@ -110,54 +95,7 @@ const MainStack: React.FC = () => {
 
 const AppStack: React.FC = () => {
   // const { token } = useAppSelector((state) => state.auth);
-  const [hasOnboarded, setHasOnboarded] = useState(false);
   const { token } = useAppSelector((state) => state.auth);
-
-  const [addDevice] = useAddDeviceNotyMutation();
-
-  useEffect(() => {
-    (async () => {
-      const hasPermission = await requestUserPermission();
-      if (hasPermission) {
-        const deviceToken = await messaging().getToken();
-
-        const deviceReady = await addDevice({
-          deviceToken,
-          device: "Hassan",
-        }).unwrap();
-        console.log("deviceReady", deviceReady);
-      } else {
-        console.log("Permission denied", "Notifications won’t work.");
-      }
-
-      // Listen for token refresh
-      return messaging().onTokenRefresh(async (newToken) => {
-        console.log("FCM Token refreshed:", newToken);
-        const deviceReady = await addDevice({
-          deviceToken: newToken,
-          device: "Hassan",
-        }).unwrap();
-        console.log("deviceReady", deviceReady);
-      });
-    })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  // Foreground message handler
-  useEffect(() => {
-    const unsubscribe = messaging().onMessage(async (remoteMessage) => {
-      console.log("New Notification", remoteMessage.notification?.body ?? "");
-    });
-    return unsubscribe;
-  }, []);
-
-  useEffect(() => {
-    const checkOnboarding = async () => {
-      const onboarded = await AsyncStorage.getItem("hasOnboarded");
-      setHasOnboarded(onboarded === "true");
-    };
-    checkOnboarding();
-  }, []);
 
   // if (loading) {
   //   return (
@@ -169,9 +107,7 @@ const AppStack: React.FC = () => {
   // }
   return (
     <RootStack.Navigator screenOptions={{ headerShown: false }}>
-      {!hasOnboarded
-        ? <RootStack.Screen name="OnboardingStack" component={Onboarding} />
-        : token
+      {token
         ? <RootStack.Screen name="MainStack" component={MainStack} />
         : <RootStack.Screen name="AuthStack" component={AuthStack} />}
     </RootStack.Navigator>

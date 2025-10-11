@@ -31,9 +31,7 @@ export type AuthStackParamList = {
   VerificationScreen: { email: string };
   VerifyPhoneScreen: undefined;
   ForgotPassword: undefined;
-  OfflinePaymentScreen: undefined; // Temporary
-  DeviceProximityScreen: undefined; // Temporary
-  NearbyUsers: undefined; // Temporary
+  Onboarding: undefined;
 };
 
 export type FullNavStack =

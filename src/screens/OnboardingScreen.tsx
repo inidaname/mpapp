@@ -22,10 +22,7 @@ const OnboardingScreen: React.FC<Props> = ({ navigation }) => {
 
   const finishOnboarding = async () => {
     await AsyncStorage.setItem("hasOnboarded", "true");
-    navigation.replace("Home", {
-      screen: "Send",
-      params: { wallet_address: "" },
-    });
+    navigation.navigate("Login");
   };
 
   return (

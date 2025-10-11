@@ -1,4 +1,5 @@
 import type React from "react";
+import { useEffect, useState } from "react";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
@@ -7,29 +8,30 @@ import SignupScreen from "../screens/SignupScreen";
 import VerificationScreen from "../screens/VerificationScreen";
 import ForgotPasswordScreen from "../screens/ForgotPasswordScreen";
 import { AuthStackParamList } from "../types/types";
-import OfflinePaymentScreen from "../screens/OfflinePaymentScreen";
-import DeviceProximityScreen from "../screens/DeviceProximityScreen";
-import NearbyUsers from "../screens/NearbyUsers";
+import OnboardingScreen from "../screens/OnboardingScreen";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const AuthStackNav = createNativeStackNavigator<AuthStackParamList>();
 
 const AuthStack: React.FC = () => {
+  const [hasOnboarded, setHasOnboarded] = useState(false);
+
+  useEffect(() => {
+    const checkOnboarding = async () => {
+      const onboarded = await AsyncStorage.getItem("hasOnboarded");
+      setHasOnboarded(onboarded === "true");
+    };
+    checkOnboarding();
+  }, []);
+
   return (
-    <AuthStackNav.Navigator screenOptions={{ headerShown: false }}>
+    <AuthStackNav.Navigator
+      initialRouteName={!hasOnboarded ? "Onboarding" : "Login"}
+      screenOptions={{ headerShown: false }}
+    >
+      <AuthStackNav.Screen name="Onboarding" component={OnboardingScreen} />
       <AuthStackNav.Screen name="Login" component={LoginScreen} />
       <AuthStackNav.Screen name="Signup" component={SignupScreen} />
-      <AuthStackNav.Screen
-        name="OfflinePaymentScreen"
-        component={OfflinePaymentScreen}
-      />
-      <AuthStackNav.Screen
-        name="DeviceProximityScreen"
-        component={DeviceProximityScreen}
-      />
-      <AuthStackNav.Screen
-        name="NearbyUsers"
-        component={NearbyUsers}
-      />
       <AuthStackNav.Screen
         name="VerificationScreen"
         component={VerificationScreen}

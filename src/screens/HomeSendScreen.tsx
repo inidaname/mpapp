@@ -10,9 +10,20 @@ import { FullNavStack } from "../types/types";
 import { useAppSelector } from "../store/redux";
 import { useCameraPermission } from "react-native-vision-camera";
 import SendComponent from "../components/Main/SendComponent";
+import { useAddDeviceNotyMutation } from "../service/endpoints/notification-endpoints";
+import messaging from "@react-native-firebase/messaging";
 import { useGetWalletByIdQuery } from "../service/endpoints/wallets-endpoints";
 
 interface Props extends NativeStackScreenProps<FullNavStack, "Send"> {}
+
+async function requestUserPermission() {
+  const authStatus = await messaging().requestPermission();
+
+  const enabled = authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+    authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+  return enabled;
+}
 
 const CustomTabBar: React.FC<Props> = ({ navigation }) => {
   const DIP_WIDTH = 140;
@@ -92,6 +103,46 @@ const HomeSendScreen: React.FC<Props> = ({ navigation, route }) => {
 
   const { data } = useGetWalletByIdQuery(active_wallet?.id ?? "");
 
+  const [addDevice] = useAddDeviceNotyMutation();
+
+  useEffect(() => {
+    (async () => {
+      const hasPermission = await requestUserPermission();
+      console.log("hasPermission", hasPermission);
+      if (hasPermission) {
+        const deviceToken = await messaging().getToken();
+        console.log("deviceToken", deviceToken);
+
+        const deviceReady = await addDevice({
+          deviceToken,
+          device: "Hassan",
+        }).unwrap();
+        console.log("deviceReady", deviceReady);
+      } else {
+        console.log("Permission denied", "Notifications won’t work.");
+      }
+
+      // Listen for token refresh
+      return messaging().onTokenRefresh(async (newToken) => {
+        console.log("FCM Token refreshed:", newToken);
+        const deviceReady = await addDevice({
+          deviceToken: newToken,
+          device: "Hassan",
+        }).unwrap();
+        console.log("deviceReady", deviceReady);
+      });
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Foreground message handler
+  useEffect(() => {
+    const unsubscribe = messaging().onMessage(async (remoteMessage) => {
+      console.log("New Notification", remoteMessage.notification?.body ?? "");
+    });
+    return unsubscribe;
+  }, []);
+
   useEffect(() => {
     const handleRequest = async () => {
       if (!hasPermission) {
@@ -109,7 +160,7 @@ const HomeSendScreen: React.FC<Props> = ({ navigation, route }) => {
         <View className="items-center mt-6">
           <AppText className="text-gray-500">Total Balance in USDC</AppText>
           <View className="flex-row items-center justify-center mt-4">
-            <USDC width={30} height={30} />
+            {/* <USDC width={30} height={30} /> */}
             <AppText className="text-4xl text-center font-bold ml-2 w-auto">
               {balanceHidden
                 ? "••••.••"
