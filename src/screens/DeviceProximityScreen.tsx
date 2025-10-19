@@ -1,9 +1,8 @@
 import React from "react";
-import { View } from "react-native";
+import { Image, View } from "react-native";
 import HeaderSide from "../components/Main/HeaderSide";
 import AppText from "../components/typo/AppText";
 import ButtonComponent from "../components/Button";
-import BluetoothHand from "../../assets/user_phone_hand.svg";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { FullNavStack } from "../types/types";
 
@@ -14,7 +13,10 @@ const DeviceProximityScreen: React.FC<Props> = ({ navigation }) => {
     <View className="justify-between items-center flex-1 bg-white">
       <HeaderSide heading="Set Up Device Proximity" isWithBack />
       <View className="w-full px-6 mt-8 items-center justify-center">
-        <BluetoothHand />
+        <Image
+          source={require("../../assets/user_phone_hand.png")}
+          className="w-[200]"
+        />
         <AppText className="text-2xl mt-8 font-medium">
           Enable Bluetooth/NFC
         </AppText>

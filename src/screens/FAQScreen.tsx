@@ -1,9 +1,8 @@
 import type React from "react";
 import { useState } from "react";
 
-import { ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 
-import QuestionMarks from "../../assets/question_marks.svg";
 import HeaderSide from "../components/Main/HeaderSide";
 
 import Animated, {
@@ -92,7 +91,10 @@ const FAQScreen: React.FC = () => {
     <ScrollView contentContainerClassName="min-h-full justify-start items-start bg-white flex-col">
       <HeaderSide heading="FAQs" isWithBack />
       <View className="w-full items-center mt-10">
-        <QuestionMarks />
+        <Image
+          source={require("../../assets/question_marks.png")}
+          className="w-[200]"
+        />
         <View className="flex-1 bg-white p-4 mt-10">
           {faqs.map((item, i) => (
             <FAQItem key={i} question={item.question} answer={item.answer} />

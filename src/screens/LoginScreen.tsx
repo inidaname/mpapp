@@ -57,11 +57,11 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
       extraScrollHeight={40}
     >
       <ScrollView contentContainerClassName="min-h-full justify-start items-start bg-white flex-col">
-        <View className="mt-20 w-full items-center">
+        <View className="mt-20 w-20 w-full items-center">
           <Image
             source={require("../../assets/logo.png")}
-            width={500}
-            resizeMode="center"
+            className="w-[200]"
+            resizeMode="contain"
           />
         </View>
         <View className="items-center w-full mt-8">

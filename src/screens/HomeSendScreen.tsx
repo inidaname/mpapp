@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 
 import { TouchableOpacity, View } from "react-native";
 import AppText from "../components/typo/AppText";
-import USDC from "../../assets/Web3Icons/usdc_logo.svg";
+// import USDC from "../../assets/Web3Icons/usdc_logo.svg";
 import MaterialIcons from "@react-native-vector-icons/material-icons";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { FullNavStack } from "../types/types";
@@ -106,10 +106,21 @@ const HomeSendScreen: React.FC<Props> = ({ navigation, route }) => {
   const [addDevice] = useAddDeviceNotyMutation();
 
   useEffect(() => {
+    const handleRequest = async () => {
+      if (!hasPermission) {
+        await requestPermission();
+      }
+    };
+
+    handleRequest();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hasPermission]);
+
+  useEffect(() => {
     (async () => {
-      const hasPermission = await requestUserPermission();
-      console.log("hasPermission", hasPermission);
-      if (hasPermission) {
+      const getPermission = await requestUserPermission();
+      console.log("hasPermission", getPermission);
+      if (getPermission) {
         const deviceToken = await messaging().getToken();
         console.log("deviceToken", deviceToken);
 
@@ -138,21 +149,14 @@ const HomeSendScreen: React.FC<Props> = ({ navigation, route }) => {
   // Foreground message handler
   useEffect(() => {
     const unsubscribe = messaging().onMessage(async (remoteMessage) => {
-      console.log("New Notification", remoteMessage.notification?.body ?? "");
+      console.log(
+        "New Notification",
+        JSON.parse(remoteMessage.notification?.body ?? ""),
+      );
     });
     return unsubscribe;
   }, []);
 
-  useEffect(() => {
-    const handleRequest = async () => {
-      if (!hasPermission) {
-        await requestPermission();
-      }
-    };
-
-    handleRequest();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hasPermission]);
   return (
     <>
       <View className="bg-white flex-1">

@@ -48,10 +48,12 @@ const OnboardingScreen: React.FC<Props> = ({ navigation }) => {
                     key={image}
                     source={image}
                     className={`mb-8 absolute w-full ${
-                      index === 0 ? "top-24" : "top-20"
+                      index === 0 ? "top-2" : "top-2"
                     }`}
-                    resizeMode={index === 0 ? "contain" : "stretch"}
-                    width={500}
+                    resizeMode={"none"}
+                    width={20}
+                    height={10}
+                    resizeMethod="auto"
                   />
                 ))
               )
@@ -59,10 +61,12 @@ const OnboardingScreen: React.FC<Props> = ({ navigation }) => {
                 <Image
                   source={slide.image}
                   className={`mb-8 absolute w-full ${
-                    slide.id === 2 ? "top-10" : "top-24"
+                    slide.id === 2 ? "top-10" : "top-24 ml-5"
                   }`}
-                  resizeMode={slide.id === 2 ? "cover" : "contain"}
-                  width={500}
+                  resizeMode={"none"}
+                  resizeMethod="auto"
+                  width={20}
+                  height={100}
                 />
               )}
             <LinearGradient
@@ -124,7 +128,7 @@ const OnboardingScreen: React.FC<Props> = ({ navigation }) => {
                 onPress={() => pagerRef.current?.setPage(page + 1)}
               >
                 <MaterialIcons
-                  name="arrow-right"
+                  name="east"
                   color="#fff"
                   size={30}
                 />
@@ -137,7 +141,7 @@ const OnboardingScreen: React.FC<Props> = ({ navigation }) => {
               onPress={finishOnboarding}
             >
               <MaterialIcons
-                name="arrow-right"
+                name="east"
                 color="#fff"
                 size={30}
               />

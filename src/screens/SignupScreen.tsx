@@ -59,7 +59,7 @@ const SignupScreen: React.FC<Props> = ({ navigation }) => {
         <View className="mt-20 w-full items-center">
           <Image
             source={require("../../assets/logo.png")}
-            width={500}
+            className="w-[200]"
             resizeMode="contain"
           />
         </View>
