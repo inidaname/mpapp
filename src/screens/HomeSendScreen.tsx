@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 
 import { TouchableOpacity, View } from "react-native";
 import AppText from "../components/typo/AppText";
-// import USDC from "../../assets/Web3Icons/usdc_logo.svg";
+import USDC from "../../assets/Web3Icons/usdc_logo.svg";
 import MaterialIcons from "@react-native-vector-icons/material-icons";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { FullNavStack } from "../types/types";
@@ -98,64 +98,66 @@ const CustomTabBar: React.FC<Props> = ({ navigation }) => {
 
 const HomeSendScreen: React.FC<Props> = ({ navigation, route }) => {
   const [balanceHidden, setBalanceHidden] = useState(false);
-  const { hasPermission, requestPermission } = useCameraPermission();
+  // const { hasPermission, requestPermission } = useCameraPermission();
   const { active_wallet } = useAppSelector((state) => state.wallet);
 
   const { data } = useGetWalletByIdQuery(active_wallet?.id ?? "");
 
   const [addDevice] = useAddDeviceNotyMutation();
 
-  useEffect(() => {
-    const handleRequest = async () => {
-      if (!hasPermission) {
-        await requestPermission();
-      }
-    };
+  // useEffect(() => {
+  //   const handleRequest = async () => {
+  //     if (!hasPermission) {
+  //       await requestPermission();
+  //     }
+  //   };
 
-    handleRequest();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hasPermission]);
+  //   handleRequest();
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [hasPermission]);
 
-  useEffect(() => {
-    (async () => {
-      const getPermission = await requestUserPermission();
-      console.log("hasPermission", getPermission);
-      if (getPermission) {
-        const deviceToken = await messaging().getToken();
-        console.log("deviceToken", deviceToken);
+  // useEffect(() => {
+  //   (async () => {
+  //     const getPermission = await requestUserPermission();
+  //     console.log("hasPermission", getPermission);
+  //     if (getPermission) {
+  //       const deviceToken = await messaging().getToken();
+  //       console.log("deviceToken", deviceToken);
 
-        const deviceReady = await addDevice({
-          deviceToken,
-          device: "Hassan",
-        }).unwrap();
-        console.log("deviceReady", deviceReady);
-      } else {
-        console.log("Permission denied", "Notifications won’t work.");
-      }
+  //       const deviceReady = await addDevice({
+  //         deviceToken,
+  //         device: "Hassan",
+  //       }).unwrap();
+  //       console.log("deviceReady", deviceReady);
+  //     } else {
+  //       console.log("Permission denied", "Notifications won’t work.");
+  //     }
 
-      // Listen for token refresh
-      return messaging().onTokenRefresh(async (newToken) => {
-        console.log("FCM Token refreshed:", newToken);
-        const deviceReady = await addDevice({
-          deviceToken: newToken,
-          device: "Hassan",
-        }).unwrap();
-        console.log("deviceReady", deviceReady);
-      });
-    })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  //     // Listen for token refresh
+  //     return messaging().onTokenRefresh(async (newToken) => {
+  //       console.log("FCM Token refreshed:", newToken);
+  //       const deviceReady = await addDevice({
+  //         deviceToken: newToken,
+  //         device: "Hassan",
+  //       }).unwrap();
+  //       console.log("deviceReady", deviceReady);
+  //     });
+  //   })();
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
-  // Foreground message handler
-  useEffect(() => {
-    const unsubscribe = messaging().onMessage(async (remoteMessage) => {
-      console.log(
-        "New Notification",
-        JSON.parse(remoteMessage.notification?.body ?? ""),
-      );
-    });
-    return unsubscribe;
-  }, []);
+  // // Foreground message handler
+  // useEffect(() => {
+  //   const unsubscribe = messaging().onMessage(async (remoteMessage) => {
+  //     console.log(
+  //       "New Notification",
+  //       JSON.parse(remoteMessage.notification?.body ?? ""),
+  //     );
+  //   });
+  //   return unsubscribe;
+  // }, []);
+
+  console.log("data balace", data);
 
   return (
     <>
@@ -164,11 +166,13 @@ const HomeSendScreen: React.FC<Props> = ({ navigation, route }) => {
         <View className="items-center mt-6">
           <AppText className="text-gray-500">Total Balance in USDC</AppText>
           <View className="flex-row items-center justify-center mt-4">
-            {/* <USDC width={30} height={30} /> */}
+            <USDC width={30} height={30} />
             <AppText className="text-4xl text-center font-bold ml-2 w-auto">
               {balanceHidden
                 ? "••••.••"
-                : Number(data?.data.circle.data.tokenBalances[1].amount ?? 0)}
+                : Number(
+                  data?.data?.circle?.data?.tokenBalances[1]?.amount ?? 0,
+                )}
             </AppText>
           </View>
           <TouchableOpacity onPress={() => setBalanceHidden(!balanceHidden)}>

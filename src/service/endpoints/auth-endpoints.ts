@@ -1,29 +1,44 @@
 import { apiSlice } from "../apiSlice";
 
 const authEndpoint = apiSlice.injectEndpoints({
-  endpoints: build => ({
+  endpoints: (build) => ({
     login: build.mutation<APIData<SuccessLogin>, LoginInput>({
-      query: body => ({
+      query: (body) => ({
         url: `/auth/login`,
         method: "POST",
-        body
-      })
+        body,
+      }),
     }),
-    register: build.mutation<APIData<UserData>, Omit<CreateUserInput, "confirmpassword">>({
-      query: body => ({
+    register: build.mutation<
+      APIData<UserData>,
+      Omit<CreateUserInput, "confirmpassword">
+    >({
+      query: (body) => ({
         url: `/users`,
         method: "POST",
-        body
-      })
+        body,
+      }),
     }),
-    sendOTP: build.mutation<APIData<UserData>, OTPInput>({
-      query: body => ({
+    verifyOTP: build.mutation<APIData<SuccessLogin>, OTPInput>({
+      query: (body) => ({
         url: `/auth/verify-otp`,
         method: "POST",
-        body
-      })
-    })
-  })
-})
+        body,
+      }),
+    }),
+    resendOTP: build.mutation<APIData<UserData>, Pick<OTPInput, "email">>({
+      query: (body) => ({
+        url: `/auth/resend-otp`,
+        method: "POST",
+        body,
+      }),
+    }),
+  }),
+});
 
-export const { useLoginMutation, useRegisterMutation, useSendOTPMutation } = authEndpoint
+export const {
+  useLoginMutation,
+  useRegisterMutation,
+  useVerifyOTPMutation,
+  useResendOTPMutation,
+} = authEndpoint;

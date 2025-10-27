@@ -50,7 +50,7 @@ const OnboardingScreen: React.FC<Props> = ({ navigation }) => {
                     className={`mb-8 absolute w-full ${
                       index === 0 ? "top-2" : "top-2"
                     }`}
-                    resizeMode={"none"}
+                    resizeMode={"cover"}
                     width={20}
                     height={10}
                     resizeMethod="auto"
@@ -61,9 +61,9 @@ const OnboardingScreen: React.FC<Props> = ({ navigation }) => {
                 <Image
                   source={slide.image}
                   className={`mb-8 absolute w-full ${
-                    slide.id === 2 ? "top-10" : "top-24 ml-5"
+                    slide.id === 2 ? "top-10" : "top-24"
                   }`}
-                  resizeMode={"none"}
+                  resizeMode={slide.id === 2 ? "cover" : "center"}
                   resizeMethod="auto"
                   width={20}
                   height={100}

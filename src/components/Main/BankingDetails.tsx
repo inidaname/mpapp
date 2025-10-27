@@ -20,7 +20,7 @@ const BankingDetails: React.FC<Props> = ({ text }) => {
   console.log("data", data);
 
   return (
-    <View className="w-full">
+    <>
       <View className="w-full flex-row justify-between items-center p-6">
         <AppText weight="medium" className="text-lg">
           {text}
@@ -44,13 +44,13 @@ const BankingDetails: React.FC<Props> = ({ text }) => {
           </AppText>
         </TouchableOpacity>
       </View>
-      <View className="w-full flex-row justify-start items-center px-4 mb-10">
+      <View className="w-full flex-row justify-between items-center px-4 mb-10">
         <LinearGradient
           colors={["#437DFF", "#345398"]}
-          start={{ x: 0.25, y: 0 }} // ~112deg
+          start={{ x: 0.25, y: 0 }}
           end={{ x: 0.75, y: 1 }}
           style={{ borderRadius: 10 }}
-          className="h-auto w-2/3 rounded-full mr-2 items-center justify-center"
+          className="h-auto w-2/3 rounded-full mr-5 items-center justify-center"
         >
           <View className="w-full h-44 rounded-2xl p-6 justify-between">
             <PoppinText
@@ -114,7 +114,7 @@ const BankingDetails: React.FC<Props> = ({ text }) => {
           </View>
         </LinearGradient>
       </View>
-    </View>
+    </>
   );
 };
 

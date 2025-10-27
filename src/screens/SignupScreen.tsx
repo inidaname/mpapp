@@ -11,14 +11,19 @@ import FormInput from "../components/FormInput";
 import ButtonComponent from "../components/Button";
 import { useRegisterMutation } from "../service/endpoints/auth-endpoints";
 import AppText from "../components/typo/AppText";
+import { useAppDispatch } from "../store/redux";
+import { setUserTemp } from "../store/reducers/temporary-slice";
 
 interface Props extends NativeStackScreenProps<FullNavStack, "Signup"> {}
 
 const SignupScreen: React.FC<Props> = ({ navigation }) => {
   const [register, { isLoading }] = useRegisterMutation();
   const [error, setError] = useState<string | null>(null);
+  const dispatch = useAppDispatch();
 
-  const { control, handleSubmit } = useForm<CreateUserInput>({
+  const { control, handleSubmit, watch, formState: { isValid } } = useForm<
+    CreateUserInput
+  >({
     defaultValues: {
       email: "",
       password: "",
@@ -26,6 +31,8 @@ const SignupScreen: React.FC<Props> = ({ navigation }) => {
       confirmpassword: "",
     },
   });
+
+  const password = watch("password");
 
   const onSubmit: SubmitHandler<CreateUserInput> = async (values) => {
     const { confirmpassword, ...rest } = values;
@@ -37,6 +44,7 @@ const SignupScreen: React.FC<Props> = ({ navigation }) => {
     try {
       const user = await register(rest).unwrap();
       console.log("user", user);
+      dispatch(setUserTemp(user.data.id));
       navigation.navigate("VerificationScreen", { email: user.data.email });
     } catch (err: any) {
       setError(err.data.message);
@@ -113,7 +121,11 @@ const SignupScreen: React.FC<Props> = ({ navigation }) => {
             isPassword
             control={control}
             keyboardType="default"
-            rules={{ required: "Confirm password is required" }}
+            rules={{
+              required: "Confirm password is required",
+              validate: (value) =>
+                value === password || "Passwords do not match",
+            }}
           />
           {error && (
             <View className="my-2 items-center justify-center">
@@ -124,6 +136,7 @@ const SignupScreen: React.FC<Props> = ({ navigation }) => {
           <ButtonComponent
             label="Continue"
             isLoading={isLoading}
+            isDisabled={!isValid}
             onPress={handleSubmit(onSubmit)}
           />
         </View>

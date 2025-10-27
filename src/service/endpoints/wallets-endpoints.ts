@@ -8,13 +8,14 @@ const walletsEndpoints = apiSlice.injectEndpoints({
         method: "POST",
         body,
       }),
+      invalidatesTags: ["wallet", "balance"],
     }),
     getWalletById: build.query<APIData<WallectDetail>, string>({
       query: (id) => ({
         url: `/wallets/${id}`,
         method: "GET",
       }),
-      providesTags: ["balance"],
+      providesTags: ["balance", "wallet"],
     }),
   }),
 });

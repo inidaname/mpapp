@@ -10,6 +10,7 @@ import { useNavigation } from "@react-navigation/native";
 import { FullNavStack } from "../../types/types";
 import { useAppSelector } from "../../store/redux";
 import { useLazyGetUserProfileQuery } from "../../service/endpoints/user-endpoints";
+import Avatar from "../Avatar";
 
 const HeaderComponent: React.FC = () => {
   const navigate = useNavigation<NativeStackNavigationProp<FullNavStack>>();
@@ -30,10 +31,7 @@ const HeaderComponent: React.FC = () => {
         onPress={() => navigate.navigate("ProfileScreen")}
         className="flex-row items-center"
       >
-        <Image
-          source={{ uri: "https://i.pravatar.cc/100" }}
-          className="w-12 h-12 rounded-full"
-        />
+        <Avatar name={profile?.username} uri={profile?.profile_image} />
         <AppText className="ml-3 text-brand-600 font-semibold">
           @{profile?.username}
         </AppText>

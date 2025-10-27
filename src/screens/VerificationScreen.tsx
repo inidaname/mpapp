@@ -11,15 +11,26 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { OtpInput } from "react-native-otp-entry";
 import AppText from "../components/typo/AppText";
 import PhoneNumberInput from "../components/PhoneNumberInput";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import Back from "../components/typo/Back";
-import { useSendOTPMutation } from "../service/endpoints/auth-endpoints";
+import {
+  useResendOTPMutation,
+  useVerifyOTPMutation,
+} from "../service/endpoints/auth-endpoints";
 import ButtonComponent from "../components/Button";
 import { useGetCountriesQuery } from "../service/endpoints/util-endpoitns";
+import { useUpdateUserMutation } from "../service/endpoints/user-endpoints";
+import { saveToken } from "../helpers/token-helper";
+import { useAppDispatch, useAppSelector } from "../store/redux";
+import {
+  clearTempToken,
+  setTokenTempe,
+} from "../store/reducers/temporary-slice";
+import { setToken } from "../store/reducers/auth-slice";
 
 interface Props
   extends NativeStackScreenProps<FullNavStack, "VerificationScreen"> {}
@@ -39,11 +50,50 @@ const EmailVerification: React.FC<EmailScreenProp> = ({
   email,
 }) => {
   const [otp, setOTP] = useState("");
-  const [sendOTP, { isLoading }] = useSendOTPMutation();
-  const handleSendOTP = async () => {
+  const [countdown, setCountdown] = useState(60);
+  const [canResend, setCanResend] = useState(false);
+  const [verifyOTP, { isLoading }] = useVerifyOTPMutation();
+  const [resend] = useResendOTPMutation();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    let timer: number;
+
+    if (countdown > 0) {
+      timer = setInterval(() => {
+        setCountdown((prev) => {
+          if (prev <= 1) {
+            setCanResend(true);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    }
+
+    return () => {
+      if (timer) clearInterval(timer);
+    };
+  }, [countdown]);
+
+  const handleResend = async () => {
+    try {
+      const resentOTP = await resend({ email }).unwrap();
+      console.log("resentOTP", resentOTP);
+
+      setCountdown(60);
+      setCanResend(false);
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+
+  const handleVerifyOTP = async () => {
     try {
       if (otp.length === 4) {
-        const otpdetail = await sendOTP({ email, otp }).unwrap();
+        const otpdetail = await verifyOTP({ email, otp }).unwrap();
+        await saveToken(otpdetail.data.accessToken);
+        dispatch(setTokenTempe(otpdetail.data.accessToken));
         console.log("otpdetail", otpdetail);
         onContinue();
       }
@@ -51,6 +101,13 @@ const EmailVerification: React.FC<EmailScreenProp> = ({
       console.log("err", err);
     }
   };
+
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, "0")}`;
+  };
+
   return (
     <View className="flex-1 items-center justify-between px-6">
       <View className="w-full items-center mt-10">
@@ -77,14 +134,30 @@ const EmailVerification: React.FC<EmailScreenProp> = ({
             pinCodeTextStyle: { fontFamily: "Raleway-Regular", fontSize: 20 },
           }}
         />
-        <AppText className="text-brand-700 underline text-xl mt-2">
-          Resend code
-        </AppText>
+        <View className="w-full flex-row items-center justify-center mt-2">
+          <AppText>
+            Resend code in <AppText>{formatTime(countdown)}</AppText>
+          </AppText>
+
+          <TouchableOpacity
+            className="ml-3"
+            disabled={!canResend}
+            onPress={handleResend}
+          >
+            <AppText
+              className={`${
+                canResend ? "text-brand-700" : "text-gray-400"
+              }  underline text-xl`}
+            >
+              Resend OTP
+            </AppText>
+          </TouchableOpacity>
+        </View>
       </View>
       <ButtonComponent
         label="Continue"
         isLoading={isLoading}
-        onPress={handleSendOTP}
+        onPress={handleVerifyOTP}
         isDisabled={otp.length < 4}
       />
     </View>
@@ -94,7 +167,57 @@ const EmailVerification: React.FC<EmailScreenProp> = ({
 const PhoneVerification: React.FC<Pick<ChildProps, "onContinue">> = ({
   onContinue,
 }) => {
-  const { control } = useForm();
+  const [otp, setOTP] = useState("");
+  const { control, handleSubmit, formState: { isValid } } = useForm<
+    Partial<UserUpdate>
+  >();
+  const [update, { isLoading }] = useUpdateUserMutation();
+  const [countdown, setCountdown] = useState(60);
+  const [canResend, setCanResend] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+
+  useEffect(() => {
+    let timer: number;
+
+    if (countdown > 0) {
+      timer = setInterval(() => {
+        setCountdown((prev) => {
+          if (prev <= 1) {
+            setCanResend(true);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    }
+
+    return () => {
+      if (timer) clearInterval(timer);
+    };
+  }, [countdown]);
+
+  const handlAddPhone: SubmitHandler<Partial<UserUpdate>> = async (values) => {
+    try {
+      console.log("values", values);
+      setSubmitted(true);
+      const addPhone = await update({ phone_number: values.phone_number })
+        .unwrap();
+      console.log("addPhone", addPhone);
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, "0")}`;
+  };
+
+  const handleSubmitOTP = async () => {
+    onContinue();
+  };
+
   return (
     <View className="flex-1 items-center justify-between px-4">
       <View className="w-full items-center mt-10">
@@ -112,17 +235,50 @@ const PhoneVerification: React.FC<Pick<ChildProps, "onContinue">> = ({
           name="phone"
           control={control}
           label="Phone Number"
-          rules={{ required: "Phone number required" }}
+          rules={{ required: "Phone number is required" }}
         />
         <View className="w-full justify-center items-end pr-6">
-          <AppText className="underline text-brand-700 my-2">
-            Resend Code
-          </AppText>
+          {submitted
+            ? (
+              <View className="flex-row items-center justify-center mt-2">
+                <AppText>
+                  Resend code in <AppText>{formatTime(countdown)}</AppText>
+                </AppText>
+
+                <TouchableOpacity
+                  className="ml-3"
+                  disabled={!canResend && !isValid}
+                  onPress={handleSubmit(handlAddPhone)}
+                >
+                  <AppText
+                    className={`${
+                      canResend && isValid ? "text-brand-700" : "text-gray-400"
+                    }  underline`}
+                  >
+                    Resend Code
+                  </AppText>
+                </TouchableOpacity>
+              </View>
+            )
+            : (
+              <TouchableOpacity
+                disabled={!isValid}
+                onPress={handleSubmit(handlAddPhone)}
+              >
+                <AppText
+                  className={`${
+                    !isValid ? "text-gray-400" : "text-brand-700"
+                  } underline my-2`}
+                >
+                  Send Code
+                </AppText>
+              </TouchableOpacity>
+            )}
         </View>
         <OtpInput
           focusColor="#215ce1"
           numberOfDigits={4}
-          onTextChange={(text) => console.log(text)}
+          onTextChange={(text) => setOTP(text)}
           theme={{
             pinCodeContainerStyle: { width: 60, height: 60 },
             containerStyle: { width: "90%", marginVertical: 20 },
@@ -130,30 +286,43 @@ const PhoneVerification: React.FC<Pick<ChildProps, "onContinue">> = ({
           }}
         />
       </View>
-      <TouchableOpacity
-        onPress={onContinue}
-        className="bg-brand-700 w-full px-6 py-3 rounded-2xl h-16 justify-center items-center mb-10"
-      >
-        <AppText weight="semibold" className="text-white text-xl">
-          Continue
-        </AppText>
-      </TouchableOpacity>
+      <ButtonComponent
+        label="Continue"
+        isLoading={isLoading}
+        onPress={handleSubmitOTP}
+        isDisabled={otp.length < 4}
+      />
     </View>
   );
 };
 
 const CountrySelect: React.FC<Omit<ChildProps, "onContinue">> = ({
-  navigation,
   onSelectCountry,
 }) => {
   const [selected, setSelected] = useState<CountriesAPI | null>(null);
+  const [update, { isLoading: updating }] = useUpdateUserMutation();
+  const { token, user_id } = useAppSelector((state) => state.tempSlice);
+  const dispatch = useAppDispatch();
 
   const { data: countries, isLoading } = useGetCountriesQuery();
 
   const handleContinue = () => {
     if (selected) {
       onSelectCountry(selected);
-      navigation.navigate("Home");
+    }
+  };
+
+  const handleSubmit = async () => {
+    try {
+      console.log(selected);
+      const country = await update({ country: selected?.name }).unwrap();
+      console.log("country", country);
+      // TODO
+      dispatch(setToken({ token, user_id }));
+      dispatch(clearTempToken());
+      handleContinue();
+    } catch (error) {
+      console.log("error", error);
     }
   };
 
@@ -206,7 +375,14 @@ const CountrySelect: React.FC<Omit<ChildProps, "onContinue">> = ({
           </TouchableOpacity>
         ))}
       </ScrollView>
-      <TouchableOpacity
+      <ButtonComponent
+        isDisabled={!selected}
+        onPress={handleSubmit}
+        isLoading={updating}
+        label="Continue"
+      />
+      {
+        /* <TouchableOpacity
         disabled={!selected}
         onPress={handleContinue}
         className={`w-full px-6 py-3 rounded-2xl h-16 justify-center items-center mb-10 ${
@@ -216,7 +392,8 @@ const CountrySelect: React.FC<Omit<ChildProps, "onContinue">> = ({
         <AppText weight="semibold" className="text-white text-xl">
           Continue
         </AppText>
-      </TouchableOpacity>
+      </TouchableOpacity> */
+      }
     </View>
   );
 };

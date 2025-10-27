@@ -8,6 +8,7 @@ import authReducer from "./reducers/auth-slice";
 import userReducer from "./reducers/user-slice";
 import walletsSlice from "./reducers/wallet-slice";
 import countriesSlice from "./reducers/countries-slice";
+import tempSlice from "./reducers/temporary-slice";
 
 const persistConfig = {
   key: "root",
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
   user: userReducer,
   wallet: walletsSlice,
   countries: countriesSlice,
+  tempSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

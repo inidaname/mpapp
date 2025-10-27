@@ -8,14 +8,22 @@ import { apiSlice } from "../apiSlice";
 
 const userEndpoints = apiSlice.injectEndpoints({
   endpoints: (build) => ({
+    updateUser: build.mutation<APIData<UserProfile>, Partial<UserUpdate>>({
+      query: (body) => ({
+        url: `/users`,
+        method: "PATCH",
+        body,
+      }),
+    }),
     getUserProfile: build.query<APIData<UserProfile>, void>({
       query: () => ({
         url: `/users/profile`,
         method: "GET",
       }),
-      providesTags: [],
+      providesTags: ["wallet"],
       onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
         const { data } = await queryFulfilled;
+        console.log("data", data);
         dispatch(setUserProfile({ profile: data.data }));
         dispatch(setWallets(data.data.Wallet));
         dispatch(
@@ -32,5 +40,8 @@ const userEndpoints = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useGetUserProfileQuery, useLazyGetUserProfileQuery } =
-  userEndpoints;
+export const {
+  useGetUserProfileQuery,
+  useLazyGetUserProfileQuery,
+  useUpdateUserMutation,
+} = userEndpoints;

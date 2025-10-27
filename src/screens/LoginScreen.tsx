@@ -34,12 +34,13 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
     console.log("values", values);
     try {
       const loginUser = await login(values).unwrap();
+      await saveToken(loginUser.data.accessToken);
+
       dispatch(
         setToken({
           token: loginUser.data.accessToken,
           user_id: loginUser.data.id,
         }),
-        await saveToken(loginUser.data.accessToken),
       );
     } catch (err: any) {
       // navigation.replace("Home");

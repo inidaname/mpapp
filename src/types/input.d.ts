@@ -3,6 +3,13 @@ interface LoginInput {
   password: string;
 }
 
+interface UserUpdate {
+  email: string;
+  username: string;
+  phone_number: string;
+  country: string;
+}
+
 interface CreateUserInput {
   email: string;
   username: string;
