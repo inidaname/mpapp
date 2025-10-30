@@ -4,13 +4,16 @@ import { useState } from "react";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 import { RootStackParamList } from "../types/types";
-import { Image, TouchableOpacity, View } from "react-native";
+import { Image, View } from "react-native";
 import Back from "../components/typo/Back";
 import AppText from "../components/typo/AppText";
-import { useForm } from "react-hook-form";
-import { MaterialIcons } from "@react-native-vector-icons/material-icons";
-import FormInput from "../components/FormInput";
+import ButtonComponent from "../components/Button";
+import StartForgotPassword from "../components/screens/StartForgotPassword";
+import MaterialIcons from "@react-native-vector-icons/material-icons";
 import { OtpInput } from "react-native-otp-entry";
+import FormInput from "../components/FormInput";
+import { useResetPasswordMutation } from "../service/endpoints/auth-endpoints";
+import { SubmitHandler, useForm } from "react-hook-form";
 
 interface Props extends NativeStackScreenProps<RootStackParamList> {}
 
@@ -18,15 +21,37 @@ const ForgotPasswordScreen: React.FC<Props> = ({ navigation }) => {
   const [startPassword, setStartPassword] = useState<"start" | "verify">(
     "start",
   );
+  const [allow, setAllow] = useState(true);
+  const [email, setEmail] = useState("");
+
+  const [otp, setOTP] = useState("");
+  const [resetPassword, { isLoading }] = useResetPasswordMutation();
+
+  const { control, handleSubmit } = useForm<PasswordForm>();
+
+  const handlePassword: SubmitHandler<PasswordForm> = async (values) => {
+    try {
+      const pas = await resetPassword({
+        password: values.password,
+        forgetPinToken: otp,
+        email,
+      }).unwrap();
+      handleSwitch();
+      console.log("pas", pas);
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
 
   const handleSwitch = () => {
     if (startPassword === "start") {
       setStartPassword("verify");
+      handleSubmit(handlePassword);
     } else {
       navigation.navigate("StartScreen");
     }
   };
-  const { control } = useForm();
+
   return (
     <View className="flex-1 bg-white">
       <View className="mt-20">
@@ -45,41 +70,7 @@ const ForgotPasswordScreen: React.FC<Props> = ({ navigation }) => {
         </AppText>
       </View>
       {startPassword === "start"
-        ? (
-          <View className="w-full px-6 justify-start items-center flex-1">
-            <FormInput
-              name="email"
-              label="Email Address"
-              placeholder="Enter Email Address"
-              leftIcon={
-                <MaterialIcons
-                  name="mail"
-                  size={20}
-                  color="gray"
-                />
-              }
-              control={control}
-              keyboardType="email-address"
-              rules={{ required: "Password is required" }}
-            />
-            <AppText className="self-end underline text-brand-700 text-lg mb-10 pr-5">
-              Send Code
-            </AppText>
-            <OtpInput
-              focusColor="#215ce1"
-              numberOfDigits={4}
-              onTextChange={(text) => console.log(text)}
-              theme={{
-                pinCodeContainerStyle: { width: 60, height: 60 },
-                containerStyle: { width: "90%", marginVertical: 20 },
-                pinCodeTextStyle: {
-                  fontFamily: "Raleway-Regular",
-                  fontSize: 20,
-                },
-              }}
-            />
-          </View>
-        )
+        ? <StartForgotPassword setEmail={setEmail} setAllow={setAllow} />
         : (
           <View className="w-full px-6 justify-start items-center flex-1">
             <FormInput
@@ -98,33 +89,28 @@ const ForgotPasswordScreen: React.FC<Props> = ({ navigation }) => {
               keyboardType="visible-password"
               rules={{ required: "Password is required" }}
             />
-            <FormInput
-              name="confirmpassword"
-              label="Confirm Password"
-              placeholder="Confirm Password"
-              leftIcon={
-                <MaterialIcons
-                  name="lock"
-                  size={20}
-                  color="gray"
-                />
-              }
-              control={control}
-              isPassword
-              keyboardType="visible-password"
-              rules={{ required: "Password is required" }}
+            <OtpInput
+              focusColor="#215ce1"
+              numberOfDigits={4}
+              onTextChange={(text) => setOTP(text)}
+              theme={{
+                pinCodeContainerStyle: { width: 60, height: 60 },
+                containerStyle: { width: "90%", marginVertical: 20 },
+                pinCodeTextStyle: {
+                  fontFamily: "Raleway-Regular",
+                  fontSize: 20,
+                },
+              }}
             />
           </View>
         )}
       <View className="w-full px-6">
-        <TouchableOpacity
+        <ButtonComponent
           onPress={handleSwitch}
-          className="bg-brand-700 w-full px-6 py-3 rounded-2xl h-16 justify-center items-center mb-10"
-        >
-          <AppText weight="semibold" className="text-white text-xl">
-            Continue
-          </AppText>
-        </TouchableOpacity>
+          isDisabled={allow}
+          isLoading={allow && isLoading}
+          label="Continue"
+        />
       </View>
     </View>
   );

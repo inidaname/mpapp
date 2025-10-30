@@ -35,6 +35,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
     try {
       const loginUser = await login(values).unwrap();
       await saveToken(loginUser.data.accessToken);
+      console.log("loginUser.data.accessToken", loginUser.data.accessToken);
 
       dispatch(
         setToken({

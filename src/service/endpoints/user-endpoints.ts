@@ -8,19 +8,20 @@ import { apiSlice } from "../apiSlice";
 
 const userEndpoints = apiSlice.injectEndpoints({
   endpoints: (build) => ({
-    updateUser: build.mutation<APIData<UserProfile>, Partial<UserUpdate>>({
+    updateUser: build.mutation<APIData<UserProfile>, any>({
       query: (body) => ({
         url: `/users`,
         method: "PATCH",
         body,
       }),
+      invalidatesTags: ["user"],
     }),
     getUserProfile: build.query<APIData<UserProfile>, void>({
       query: () => ({
         url: `/users/profile`,
         method: "GET",
       }),
-      providesTags: ["wallet"],
+      providesTags: ["wallet", "user"],
       onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
         const { data } = await queryFulfilled;
         console.log("data", data);

@@ -10,14 +10,24 @@ import { launchImageLibrary } from "react-native-image-picker";
 import { FullNavStack } from "../types/types";
 import HeaderSide from "../components/Main/HeaderSide";
 import FormInput from "../components/FormInput";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import ButtonComponent from "../components/Button";
+import {
+  useGetUserProfileQuery,
+  useUpdateUserMutation,
+} from "../service/endpoints/user-endpoints";
 
 interface Props extends NativeStackScreenProps<FullNavStack> {}
 
 const EditProfileScreen: React.FC<Props> = () => {
-  const [photo, setPhoto] = useState<string | null>(null);
-  const { control } = useForm();
+  const [photo, setPhoto] = useState<UserUpdate["file"] | null>(null);
+  const [handleUpdate, { isLoading }] = useUpdateUserMutation();
+
+  const { control, handleSubmit, setValue } = useForm<Partial<UserUpdate>>();
+  const { data } = useGetUserProfileQuery();
+
+  setValue("username", data?.data.username);
+
   const pickImage = async () => {
     launchImageLibrary({ mediaType: "photo" }, (response) => {
       if (response.didCancel) {
@@ -25,10 +35,34 @@ const EditProfileScreen: React.FC<Props> = () => {
       } else if (response.errorCode) {
         console.error("ImagePicker Error:", response.errorMessage);
       } else {
+        console.log("response.assets", response.assets);
         const uri = response.assets?.[0]?.uri;
-        if (uri) setPhoto(uri);
+        const fileName = response.assets?.[0]?.fileName!;
+        const fileType = response.assets?.[0]?.type!;
+        if (uri) setPhoto({ uri, fileName, fileType });
       }
     });
+  };
+
+  const handleForm: SubmitHandler<Partial<UserUpdate>> = async (values) => {
+    if (!photo?.uri) return;
+
+    const formData = new FormData();
+    formData.append("file", {
+      uri: photo.uri,
+      name: photo.fileName,
+      type: photo.fileType,
+    } as any);
+    formData.append("username", values.username);
+    formData.append("country", data?.data.country);
+    formData.append("phone_number", "+2348123456789");
+
+    try {
+      const update = await handleUpdate(formData).unwrap();
+      console.log("update", update);
+    } catch (error) {
+      console.log("error", error);
+    }
   };
   return (
     <View className="w-full flex-1 bg-white justify-between">
@@ -38,17 +72,13 @@ const EditProfileScreen: React.FC<Props> = () => {
           <TouchableOpacity
             onPress={pickImage}
           >
-            {photo
+            {photo || data?.data.profile_image
               ? (
                 <Image
-                  source={{ uri: photo }}
+                  source={{
+                    uri: photo?.uri ? photo.uri : data?.data.profile_image,
+                  }}
                   className="w-36 h-36 rounded-full"
-                  // style={{
-                  //   width: 150,
-                  //   height: 150,
-                  //   borderRadius: 75,
-                  //   marginVertical: 10,
-                  // }}
                 />
               )
               : (
@@ -72,7 +102,11 @@ const EditProfileScreen: React.FC<Props> = () => {
         </View>
       </View>
       <View className="bottom-0 px-6">
-        <ButtonComponent label="Update" />
+        <ButtonComponent
+          label="Update"
+          isLoading={isLoading}
+          onPress={handleSubmit(handleForm)}
+        />
       </View>
     </View>
   );

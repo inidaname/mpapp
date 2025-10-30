@@ -8,6 +8,11 @@ interface UserUpdate {
   username: string;
   phone_number: string;
   country: string;
+  file: {
+    uri: string;
+    fileType: string;
+    fileName: string;
+  };
 }
 
 interface CreateUserInput {
@@ -22,6 +27,22 @@ interface OTPInput {
   otp: string;
 }
 
+interface ChangePassword {
+  oldPassword: string;
+  newPassword: string;
+}
+
+interface ResetPassword {
+  email: string;
+  pin: string;
+  forgetPinToken: string;
+}
+
+interface PhoneOTPInput {
+  phoneNumber: string;
+  otp: string;
+}
+
 interface CreateWalletInput {
   blockchains: string[];
   accountType: "EOA" | "SCA";
@@ -31,4 +52,10 @@ interface SendTrans {
   tokenId: string;
   destinationAddress: string;
   amount: string;
+}
+
+interface PasswordForm {
+  email: string;
+  forgetPinToken: string;
+  password: string;
 }

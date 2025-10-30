@@ -18,15 +18,14 @@ interface Props extends NativeStackScreenProps<RootStackParamList> {}
 const ProfileScreen: React.FC<Props> = ({ navigation }) => {
   const [country, setCountry] = useState<CountriesAPI>();
   const { data } = useGetUserProfileQuery();
+  console.log("data", data);
   const { data: countries } = useGetCountriesQuery();
   useEffect(() => {
     console.log("countries", countries);
     if (countries) {
-      setCountry(countries[0]);
+      setCountry(countries.find((place) => place.name === data?.data.country));
     }
-  }, [countries]);
-
-  console.log("country", country);
+  }, [countries, data?.data.country]);
   return (
     <ScrollView
       contentContainerStyle={{ flexGrow: 1 }}
@@ -50,7 +49,7 @@ const ProfileScreen: React.FC<Props> = ({ navigation }) => {
       <View className="w-full justify-center items-center mt-6">
         <View className="relative">
           <Image
-            source={{ uri: "https://i.pravatar.cc/100" }}
+            source={{ uri: data?.data.profile_image }}
             className="w-44 h-44 rounded-full"
           />
           <View className="absolute bottom-2 right-4">
