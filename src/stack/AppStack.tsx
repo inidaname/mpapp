@@ -23,6 +23,7 @@ import {
   DeviceProximityScreen,
   EditProfileScreen,
   FAQScreen,
+  KycScreen,
   NearbyUsers,
   OfflinePaymentScreen,
   ProfileScreen,
@@ -89,6 +90,7 @@ const MainStack: React.FC = () => {
       <Stack.Screen name="AddUserScreen" component={AddUserScreen} />
       <Stack.Screen name="ConversionScreen" component={ConversionScreen} />
       <Stack.Screen name="AddFundsScreen" component={AddFundsScreen} />
+      <Stack.Screen name="KYCScreen" component={KycScreen} />
     </Stack.Navigator>
   );
 };

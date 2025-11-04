@@ -12,6 +12,7 @@ import SecuredCheck from "../../assets/green_check.svg";
 import BankingDetails from "../components/Main/BankingDetails";
 import { useGetUserProfileQuery } from "../service/endpoints/user-endpoints";
 import { useGetCountriesQuery } from "../service/endpoints/util-endpoitns";
+import StartKYC from "../components/screens/StartKYC";
 
 interface Props extends NativeStackScreenProps<RootStackParamList> {}
 
@@ -113,9 +114,12 @@ const ProfileScreen: React.FC<Props> = ({ navigation }) => {
           {data?.data.kyc_status === "APPROVED"
             ? <AppText className="text-green-600 font-thin">Verified</AppText>
             : (
-              <AppText className="text-red-600 font-thin">
-                Pending Verification
-              </AppText>
+              <View className="flex-row">
+                <AppText className="text-red-600 font-thin mr-2">
+                  Pending Verification
+                </AppText>
+                <StartKYC />
+              </View>
             )}
         </View>
       </View>

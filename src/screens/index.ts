@@ -20,3 +20,5 @@ export { default as ChangePhoneScreen } from "./ChangePhoneScreen";
 export { default as ChangeCountry } from "./ChangeCountry";
 export { default as FAQScreen } from "./FAQScreen";
 export { default as ContactUsScreen } from "./ContactUsScreen";
+
+export { default as KycScreen } from "../screens/KYCScreen";

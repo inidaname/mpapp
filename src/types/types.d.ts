@@ -23,6 +23,7 @@ export type RootStackParamList = {
   ChangeCountry: undefined;
   FAQScreen: undefined;
   ContactUsScreen: undefined;
+  KYCScreen: { kycLink: string };
 };
 
 export type AuthStackParamList = {
@@ -54,6 +55,12 @@ export type CurrencyDetailNavigationProp =
   import("@react-navigation/native-stack").NativeStackNavigationProp<
     RootStackParamList,
     "CurrencyDetail"
+  >;
+
+export type KYCScreenNavigationProp =
+  import("@react-navigation/native-stack").NativeStackNavigationProp<
+    RootStackParamList,
+    "KYCScreen"
   >;
 
 type VerificationScreenNavigationProp =
