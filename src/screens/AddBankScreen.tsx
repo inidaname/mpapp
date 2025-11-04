@@ -14,7 +14,7 @@ import { useAddAccountMutation } from "../service/endpoints/external-accounts";
 interface Props extends NativeStackScreenProps<RootStackParamList> {}
 
 const AddBankScreen: React.FC<Props> = () => {
-  const { control, handleSubmit } = useForm();
+  const { control, handleSubmit, formState: { isValid } } = useForm();
   const [addAccount, { isLoading }] = useAddAccountMutation();
 
   const onSubmit = async (data: any) => {
@@ -163,6 +163,7 @@ const AddBankScreen: React.FC<Props> = () => {
           <ButtonComponent
             label="Add"
             isLoading={isLoading}
+            isDisabled={!isValid}
             onPress={handleSubmit(onSubmit)}
           />
         </View>

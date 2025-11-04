@@ -13,6 +13,7 @@ import BankingDetails from "../components/Main/BankingDetails";
 import { useGetUserProfileQuery } from "../service/endpoints/user-endpoints";
 import { useGetCountriesQuery } from "../service/endpoints/util-endpoitns";
 import StartKYC from "../components/screens/StartKYC";
+import ActionRequired from "../components/Main/ActionRequired";
 
 interface Props extends NativeStackScreenProps<RootStackParamList> {}
 
@@ -65,18 +66,7 @@ const ProfileScreen: React.FC<Props> = ({ navigation }) => {
         </AppText>
       </View>
       <View className="w-full px-4">
-        <View className="w-full flex-row items-start justify-start bg-gray-200 h-44 mt-6 rounded-2xl p-4">
-          <View className="bg-red-600 rounded-full items-center justify-center h-10 w-10">
-            <MaterialIcons name="priority-high" size={20} color="white" />
-          </View>
-          <View className="ml-4 flex-1">
-            <AppText weight="bold" className="text-xl">Action Required</AppText>
-            <AppText className="text-gray-500 mt-2">
-              Your account is not verified yet please add your personal details
-              to verify
-            </AppText>
-          </View>
-        </View>
+        <ActionRequired />
         <View className="w-full flex-row justify-between items-center mt-6">
           <View className="bg-gray-200 flex-1 mr-2 h-44 rounded-2xl p-5 justify-start">
             <AppText className="text-xl text-gray-500/60">Country</AppText>
