@@ -10,7 +10,7 @@ const externalAccount = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["external-accounts"],
     }),
-    getAccounts: build.query<APIData<object[]>, void>({
+    getAccounts: build.query<APIData<ExternalAcctList>, void>({
       query: () => ({
         url: `/external-accounts`,
         method: "GET",

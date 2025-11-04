@@ -4,6 +4,11 @@ interface APIData<T = {}> {
   statusCode: number;
 }
 
+interface ExternalAcctList {
+  count: number;
+  data: object[];
+}
+
 interface UserData {
   id: string;
   email: string;
@@ -105,6 +110,43 @@ interface KYCMetaData {
     customer_id: string;
     rejection_reasons: string[];
     persona_inquiry_type: string;
+  };
+  bridgeCustomer: {
+    id: string;
+    type: string;
+    email: string;
+    status: string;
+    last_name: string;
+    created_at: string | Date;
+    first_name: string;
+    updated_at: string | Date;
+    capabilities: {
+      payin_fiat: string;
+      payout_fiat: string;
+      payin_crypto: string;
+      payout_crypto: string;
+    };
+    endorsements: Endorsements[];
+    requirements_due: string[];
+    rejection_reasons: string[];
+    residential_address: {
+      country: string;
+      subdivision: string;
+    };
+    persona_inquiry_type: string;
+    future_requirements_due: string[];
+    has_accepted_terms_of_service: boolean;
+  };
+}
+
+interface Endorsements {
+  name: string;
+  status: string;
+  requirements: {
+    issues: string[];
+    missing: string | null;
+    pending: string[];
+    complete: string[];
   };
 }
 

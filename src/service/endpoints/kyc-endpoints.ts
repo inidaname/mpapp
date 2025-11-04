@@ -9,7 +9,7 @@ const kycEndpoints = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["user"],
     }),
-    getKYC: build.query<APIData<object>, void>({
+    getKYC: build.query<APIData<KYCDetail>, void>({
       query: () => ({
         url: `/kyc`,
         method: "GET",

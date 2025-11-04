@@ -1,12 +1,16 @@
 import React from "react";
-import { TouchableOpacity } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import AppText from "../typo/AppText";
-import { useStartKYCMutation } from "../../service/endpoints/kyc-endpoints";
+import {
+  useGetKYCQuery,
+  useStartKYCMutation,
+} from "../../service/endpoints/kyc-endpoints";
 import { useNavigation } from "@react-navigation/native";
 import { KYCScreenNavigationProp } from "../../types/types";
 
 const StartKYC: React.FC = () => {
   const [startKYC, { isLoading }] = useStartKYCMutation();
+  const { data, isLoading: gettingKYC } = useGetKYCQuery();
   const navigation = useNavigation<KYCScreenNavigationProp>();
 
   const handleKYC = async () => {
@@ -25,15 +29,30 @@ const StartKYC: React.FC = () => {
     }
   };
 
+  if (data?.data.metadata.kyc.kyc_status === "approved") {
+    return <AppText className="text-green-800 font-bold">Verified</AppText>;
+  }
+
   return (
-    <TouchableOpacity className="ml-2" onPress={handleKYC} disabled={isLoading}>
-      <AppText
-        weight="bold"
-        className={`${isLoading ? "text-gray-400" : "text-brand-700"} text-sm`}
-      >
-        Start KYC
+    <View className="flex-row">
+      <AppText className="text-red-600 font-thin mr-2">
+        Pending Verification
       </AppText>
-    </TouchableOpacity>
+      <TouchableOpacity
+        className="ml-2"
+        onPress={handleKYC}
+        disabled={isLoading || gettingKYC}
+      >
+        <AppText
+          weight="bold"
+          className={`${
+            isLoading || gettingKYC ? "text-gray-400" : "text-brand-700"
+          } text-sm`}
+        >
+          Start KYC
+        </AppText>
+      </TouchableOpacity>
+    </View>
   );
 };
 

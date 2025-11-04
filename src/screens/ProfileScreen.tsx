@@ -111,16 +111,7 @@ const ProfileScreen: React.FC<Props> = ({ navigation }) => {
         </View>
         <View className="w-full flex-row px-4 justify-between items-center mt-6 py-4 bg-gray-200 rounded-lg">
           <AppText className="text-gray-500">Verification Status</AppText>
-          {data?.data.kyc_status === "APPROVED"
-            ? <AppText className="text-green-600 font-thin">Verified</AppText>
-            : (
-              <View className="flex-row">
-                <AppText className="text-red-600 font-thin mr-2">
-                  Pending Verification
-                </AppText>
-                <StartKYC />
-              </View>
-            )}
+          <StartKYC />
         </View>
       </View>
       <View className="mt-6">
