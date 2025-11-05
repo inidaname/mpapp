@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import type React from "react";
 
 import { View } from "react-native";
@@ -8,13 +9,33 @@ import MaterialIcons from "@react-native-vector-icons/material-icons";
 import { FullNavStack } from "../types/types";
 import HeaderSide from "../components/Main/HeaderSide";
 import FormInput from "../components/FormInput";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import ButtonComponent from "../components/Button";
+import { useChangePasswordMutation } from "../service/endpoints/auth-endpoints";
 
 interface Props extends NativeStackScreenProps<FullNavStack> {}
 
-const EditProfileScreen: React.FC<Props> = () => {
-  const { control } = useForm();
+interface FormField extends ChangePassword {
+  confirm_password: string;
+}
+
+const EditProfileScreen: React.FC<Props> = ({ navigation }) => {
+  const { control, watch, handleSubmit, formState: { isValid } } = useForm<
+    FormField
+  >();
+  const [changePassword, { isLoading }] = useChangePasswordMutation();
+
+  const password = watch("newPassword");
+
+  const handleForm: SubmitHandler<FormField> = async (values) => {
+    const { confirm_password, ...rest } = values;
+    try {
+      await changePassword(rest).unwrap();
+      navigation.goBack();
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
 
   return (
     <View className="w-full flex-1 bg-white justify-between">
@@ -23,21 +44,23 @@ const EditProfileScreen: React.FC<Props> = () => {
         <View className="w-full px-6 mt-8">
           <FormInput
             control={control}
-            name="old_password"
+            name="oldPassword"
             label="Old Password"
             leftIcon={<MaterialIcons name="lock" size={20} />}
             placeholder="Enter Password"
             isPassword
+            rules={{ required: "Old Password is required" }}
           />
         </View>
         <View className="w-full px-6 mt-8">
           <FormInput
             control={control}
-            name="new_password"
+            name="newPassword"
             label="New Password"
             leftIcon={<MaterialIcons name="lock" size={20} />}
             placeholder="Enter Password"
             isPassword
+            rules={{ required: "Provide a new password" }}
           />
         </View>
         <View className="w-full px-6 mt-8">
@@ -48,11 +71,20 @@ const EditProfileScreen: React.FC<Props> = () => {
             leftIcon={<MaterialIcons name="lock" size={20} />}
             placeholder="Enter Password"
             isPassword
+            rules={{
+              required: "Confirm password is required",
+              validate: (value) =>
+                value === password || "Passwords do not match",
+            }}
           />
         </View>
       </View>
       <View className="bottom-0 px-6">
-        <ButtonComponent label="Update" />
+        <ButtonComponent
+          label="Update"
+          isDisabled={!isValid || isLoading}
+          onPress={handleSubmit(handleForm)}
+        />
       </View>
     </View>
   );
