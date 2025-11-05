@@ -19,6 +19,13 @@ const externalAccount = apiSlice.injectEndpoints({
       }),
       providesTags: ["external-accounts"],
     }),
+    getAccountsById: build.query<APIData<ExternalAccountDetail>, string>({
+      query: (id) => ({
+        url: `/external-accounts/${id}`,
+        method: "GET",
+      }),
+      providesTags: ["external-accounts"],
+    }),
   }),
 });
 
@@ -26,4 +33,6 @@ export const {
   useAddAccountMutation,
   useGetAccountsQuery,
   useLazyGetAccountsQuery,
+  useGetAccountsByIdQuery,
+  useLazyGetAccountsByIdQuery,
 } = externalAccount;
