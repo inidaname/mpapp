@@ -3,7 +3,7 @@ import type React from "react";
 import { ScrollView, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 
 import HeaderSide from "../components/Main/HeaderSide";
 import ButtonComponent from "../components/Button";
@@ -13,17 +13,27 @@ import { useAddAccountMutation } from "../service/endpoints/external-accounts";
 
 interface Props extends NativeStackScreenProps<RootStackParamList> {}
 
-const AddBankScreen: React.FC<Props> = () => {
-  const { control, handleSubmit, formState: { isValid } } = useForm();
+const AddBankScreen: React.FC<Props> = ({ navigation }) => {
+  const { control, handleSubmit, formState: { isValid } } = useForm<
+    ExternalAccountInput
+  >();
   const [addAccount, { isLoading }] = useAddAccountMutation();
 
-  const onSubmit = async (data: any) => {
-    console.log("Form values:", data);
+  const onSubmit: SubmitHandler<ExternalAccountInput> = async (data) => {
+    const formValues = {
+      ...data,
+      account_owner_name: `${data.last_name} ${data.first_name}`,
+      account_owner_type: "individual",
+      account_type: "us",
+      account: { ...data.account, checking_or_savings: "checking" },
+    };
+
     try {
-      const bkacct = await addAccount(data).unwrap();
-      console.log("bkacct", bkacct);
+      await addAccount(formValues).unwrap();
+      navigation.goBack();
     } catch (error) {
       console.log("error", error);
+      navigation.goBack();
     }
   };
 
@@ -50,7 +60,8 @@ const AddBankScreen: React.FC<Props> = () => {
           />
 
           {/* Owner Info */}
-          <FormInput
+          {
+            /* <FormInput
             name="account_owner_name"
             label="Account Owner Name"
             placeholder="Enter Owner Name"
@@ -63,7 +74,8 @@ const AddBankScreen: React.FC<Props> = () => {
             placeholder="Enter Owner Type (individual/business)"
             control={control}
             rules={{ required: "Owner Type is required" }}
-          />
+          /> */
+          }
           <FormInput
             name="first_name"
             label="First Name"
@@ -78,19 +90,23 @@ const AddBankScreen: React.FC<Props> = () => {
             control={control}
             rules={{ required: "Last Name is required" }}
           />
-          <FormInput
+          {
+            /* <FormInput
             name="business_name"
             label="Business Name"
             placeholder="Enter Business Name"
             control={control}
-          />
-          <FormInput
+          /> */
+          }
+          {
+            /* <FormInput
             name="account_type"
             label="Account Type"
             placeholder="Enter Account Type (e.g. US)"
             control={control}
             rules={{ required: "Account Type is required" }}
-          />
+          /> */
+          }
 
           {/* Address */}
           <FormInput
@@ -150,13 +166,15 @@ const AddBankScreen: React.FC<Props> = () => {
             control={control}
             rules={{ required: "Routing Number is required" }}
           />
-          <FormInput
+          {
+            /* <FormInput
             name="account.checking_or_savings"
             label="Checking or Savings"
             placeholder="Enter Account Type (checking/savings)"
             control={control}
             rules={{ required: "Checking or Savings is required" }}
-          />
+          /> */
+          }
         </View>
 
         <View className="px-6 mb-4">

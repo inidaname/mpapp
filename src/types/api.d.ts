@@ -4,9 +4,78 @@ interface APIData<T = {}> {
   statusCode: number;
 }
 
+interface ExternalAccountInput {
+  account_type: string;
+  currency: string;
+  account_owner_type: string;
+  first_name: string;
+  last_name: string;
+  address: {
+    street_line_1: string;
+    city: string;
+    country: string;
+    state: string;
+    postal_code: string;
+  };
+  account: {
+    checking_or_savings: string;
+    routing_number: string;
+    account_number: string;
+  };
+  account_owner_name: string;
+}
 interface ExternalAcctList {
   count: number;
-  data: object[];
+  data: ExternalAccountDetail[];
+}
+
+interface AddedAccount {
+  id: string;
+  external_account_id: string;
+  currency: string;
+  bank_name: string;
+  account_owner_name: string;
+  account_number: null | string;
+  routing_number: null | string;
+  account_owner_type: null | string;
+  account_type: null | string;
+  first_name: null | string;
+  last_name: null | string;
+  business_name: string | null;
+  iban: string;
+  account: {
+    last_4: string;
+    routing_number: string;
+    checking_or_savings: string;
+  };
+  swift: null;
+  clabe: null;
+  address: null;
+  customer_id: string;
+}
+
+interface ExternalAccountDetail {
+  id: string;
+  customer_id: string;
+  created_at: string | Date;
+  updated_at: string | Date;
+  bank_name: string;
+  account_name: string | null;
+  account_owner_name: string;
+  active: boolean;
+  currency: string;
+  account_owner_type: string;
+  account_type: string;
+  first_name: string;
+  last_name: string;
+  business_name: string | null;
+  account: {
+    last_4: string;
+    routing_number: string;
+    checking_or_savings: string;
+  };
+  beneficiary_address_valid: boolean;
+  last_4: string;
 }
 
 interface UserData {

@@ -2,14 +2,16 @@ import { apiSlice } from "../apiSlice";
 
 const externalAccount = apiSlice.injectEndpoints({
   endpoints: (build) => ({
-    addAccount: build.mutation({
-      query: (body) => ({
-        url: `/external-accounts`,
-        method: "POST",
-        body,
-      }),
-      invalidatesTags: ["external-accounts"],
-    }),
+    addAccount: build.mutation<APIData<AddedAccount>, ExternalAccountInput>(
+      {
+        query: (body) => ({
+          url: `/external-accounts`,
+          method: "POST",
+          body,
+        }),
+        invalidatesTags: ["external-accounts"],
+      },
+    ),
     getAccounts: build.query<APIData<ExternalAcctList>, void>({
       query: () => ({
         url: `/external-accounts`,
