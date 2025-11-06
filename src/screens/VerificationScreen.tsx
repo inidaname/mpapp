@@ -6,6 +6,8 @@ import {
   Animated,
   Dimensions,
   Image,
+  KeyboardAvoidingView,
+  Platform,
   ScrollView,
   Text,
   TouchableOpacity,
@@ -23,7 +25,10 @@ import {
 } from "../service/endpoints/auth-endpoints";
 import ButtonComponent from "../components/Button";
 import { useGetCountriesQuery } from "../service/endpoints/util-endpoitns";
-import { useUpdateUserMutation } from "../service/endpoints/user-endpoints";
+import {
+  useGetUserProfileQuery,
+  useUpdateUserMutation,
+} from "../service/endpoints/user-endpoints";
 import { saveToken } from "../helpers/token-helper";
 import { useAppDispatch, useAppSelector } from "../store/redux";
 import {
@@ -109,58 +114,67 @@ const EmailVerification: React.FC<EmailScreenProp> = ({
   };
 
   return (
-    <View className="flex-1 items-center justify-between px-6">
-      <View className="w-full items-center mt-10">
-        <View className="h-36" />
-        <AppText weight="medium" className="text-3xl mb-2">
-          Email Verification
-        </AppText>
-        <View className="mb-6">
-          <AppText
-            weight="light"
-            className="text-center text-lg font-light mb-2"
-          >
-            We have sent you a verification code to your given email
+    <ScrollView
+      contentContainerStyle={{
+        flexGrow: 1,
+        justifyContent: "space-between",
+      }}
+      showsVerticalScrollIndicator={false}
+      keyboardShouldPersistTaps="handled"
+    >
+      <View className="flex-1 items-center justify-between px-6">
+        <View className="w-full items-center mt-10">
+          <View className="h-36" />
+          <AppText weight="medium" className="text-3xl mb-2">
+            Email Verification
           </AppText>
-          <AppText className="text-center text-lg">{email}</AppText>
-        </View>
-        <OtpInput
-          focusColor="#215ce1"
-          numberOfDigits={4}
-          onTextChange={(text) => setOTP(text)}
-          theme={{
-            pinCodeContainerStyle: { width: 60, height: 60 },
-            containerStyle: { width: "90%", marginVertical: 20 },
-            pinCodeTextStyle: { fontFamily: "Raleway-Regular", fontSize: 20 },
-          }}
-        />
-        <View className="w-full flex-row items-center justify-center mt-2">
-          <AppText>
-            Resend code in <AppText>{formatTime(countdown)}</AppText>
-          </AppText>
-
-          <TouchableOpacity
-            className="ml-3"
-            disabled={!canResend}
-            onPress={handleResend}
-          >
+          <View className="mb-6">
             <AppText
-              className={`${
-                canResend ? "text-brand-700" : "text-gray-400"
-              }  underline text-xl`}
+              weight="light"
+              className="text-center text-lg font-light mb-2"
             >
-              Resend OTP
+              We have sent you a verification code to your given email
             </AppText>
-          </TouchableOpacity>
+            <AppText className="text-center text-lg">{email}</AppText>
+          </View>
+          <OtpInput
+            focusColor="#215ce1"
+            numberOfDigits={4}
+            onTextChange={(text) => setOTP(text)}
+            theme={{
+              pinCodeContainerStyle: { width: 60, height: 60 },
+              containerStyle: { width: "90%", marginVertical: 20 },
+              pinCodeTextStyle: { fontFamily: "Raleway-Regular", fontSize: 20 },
+            }}
+          />
+          <View className="w-full flex-row items-center justify-center mt-2">
+            <AppText>
+              Resend code in <AppText>{formatTime(countdown)}</AppText>
+            </AppText>
+
+            <TouchableOpacity
+              className="ml-3"
+              disabled={!canResend}
+              onPress={handleResend}
+            >
+              <AppText
+                className={`${
+                  canResend ? "text-brand-700" : "text-gray-400"
+                }  underline text-xl`}
+              >
+                Resend OTP
+              </AppText>
+            </TouchableOpacity>
+          </View>
         </View>
+        <ButtonComponent
+          label="Continue"
+          isLoading={isLoading}
+          onPress={handleVerifyOTP}
+          isDisabled={otp.length < 4}
+        />
       </View>
-      <ButtonComponent
-        label="Continue"
-        isLoading={isLoading}
-        onPress={handleVerifyOTP}
-        isDisabled={otp.length < 4}
-      />
-    </View>
+    </ScrollView>
   );
 };
 
@@ -219,80 +233,91 @@ const PhoneVerification: React.FC<Pick<ChildProps, "onContinue">> = ({
   };
 
   return (
-    <View className="flex-1 items-center justify-between px-4">
-      <View className="w-full items-center mt-10">
-        <Image
-          source={require("../../assets/phone_question.png")}
-          className="my-6"
-        />
-        <AppText weight="semibold" className="text-2xl mb-2">
-          Phone Verification
-        </AppText>
-        <AppText className="text-center text-lg mb-6">
-          Enter your phone number on which we can send you a verification code
-        </AppText>
-        <PhoneNumberInput
-          name="phone"
-          control={control}
-          label="Phone Number"
-          rules={{ required: "Phone number is required" }}
-        />
-        <View className="w-full justify-center items-end pr-6">
-          {submitted
-            ? (
-              <View className="flex-row items-center justify-center mt-2">
-                <AppText>
-                  Resend code in <AppText>{formatTime(countdown)}</AppText>
-                </AppText>
+    <ScrollView
+      contentContainerStyle={{
+        flexGrow: 1,
+        justifyContent: "space-between",
+      }}
+      showsVerticalScrollIndicator={false}
+      keyboardShouldPersistTaps="handled"
+    >
+      <View className="flex-1 items-center justify-between px-4">
+        <View className="w-full items-center mt-10">
+          <Image
+            source={require("../../assets/phone_question.png")}
+            className="my-6"
+          />
+          <AppText weight="semibold" className="text-2xl mb-2">
+            Phone Verification
+          </AppText>
+          <AppText className="text-center text-lg mb-6">
+            Enter your phone number on which we can send you a verification code
+          </AppText>
+          <PhoneNumberInput
+            name="phone"
+            control={control}
+            label="Phone Number"
+            rules={{ required: "Phone number is required" }}
+          />
+          <View className="w-full justify-center items-end pr-6">
+            {submitted
+              ? (
+                <View className="flex-row items-center justify-center mt-2">
+                  <AppText>
+                    Resend code in <AppText>{formatTime(countdown)}</AppText>
+                  </AppText>
 
+                  <TouchableOpacity
+                    className="ml-3"
+                    disabled={!canResend && !isValid}
+                    onPress={handleSubmit(handlAddPhone)}
+                  >
+                    <AppText
+                      className={`${
+                        canResend && isValid
+                          ? "text-brand-700"
+                          : "text-gray-400"
+                      }  underline`}
+                    >
+                      Resend Code
+                    </AppText>
+                  </TouchableOpacity>
+                </View>
+              )
+              : (
                 <TouchableOpacity
-                  className="ml-3"
-                  disabled={!canResend && !isValid}
+                  disabled={!isValid}
                   onPress={handleSubmit(handlAddPhone)}
                 >
                   <AppText
                     className={`${
-                      canResend && isValid ? "text-brand-700" : "text-gray-400"
-                    }  underline`}
+                      !isValid ? "text-gray-400" : "text-brand-700"
+                    } underline my-2`}
                   >
-                    Resend Code
+                    Send Code
                   </AppText>
                 </TouchableOpacity>
-              </View>
-            )
-            : (
-              <TouchableOpacity
-                disabled={!isValid}
-                onPress={handleSubmit(handlAddPhone)}
-              >
-                <AppText
-                  className={`${
-                    !isValid ? "text-gray-400" : "text-brand-700"
-                  } underline my-2`}
-                >
-                  Send Code
-                </AppText>
-              </TouchableOpacity>
-            )}
+              )}
+          </View>
+          <OtpInput
+            focusColor="#215ce1"
+            numberOfDigits={4}
+            onTextChange={(text) => setOTP(text)}
+            theme={{
+              pinCodeContainerStyle: { width: 60, height: 60 },
+              containerStyle: { width: "90%", marginVertical: 20 },
+              pinCodeTextStyle: { fontFamily: "Raleway-Regular", fontSize: 20 },
+            }}
+          />
         </View>
-        <OtpInput
-          focusColor="#215ce1"
-          numberOfDigits={4}
-          onTextChange={(text) => setOTP(text)}
-          theme={{
-            pinCodeContainerStyle: { width: 60, height: 60 },
-            containerStyle: { width: "90%", marginVertical: 20 },
-            pinCodeTextStyle: { fontFamily: "Raleway-Regular", fontSize: 20 },
-          }}
+        <ButtonComponent
+          label="Continue"
+          isLoading={isLoading}
+          onPress={handleSubmitOTP}
+          isDisabled={otp.length < 4}
         />
       </View>
-      <ButtonComponent
-        label="Continue"
-        isLoading={isLoading}
-        onPress={handleSubmitOTP}
-        isDisabled={otp.length < 4}
-      />
-    </View>
+    </ScrollView>
   );
 };
 
@@ -302,6 +327,7 @@ const CountrySelect: React.FC<Omit<ChildProps, "onContinue">> = ({
   const [selected, setSelected] = useState<CountriesAPI | null>(null);
   const [update, { isLoading: updating }] = useUpdateUserMutation();
   const { token, user_id } = useAppSelector((state) => state.tempSlice);
+  const { data: user } = useGetUserProfileQuery();
   const dispatch = useAppDispatch();
 
   const { data: countries, isLoading } = useGetCountriesQuery();
@@ -315,7 +341,10 @@ const CountrySelect: React.FC<Omit<ChildProps, "onContinue">> = ({
   const handleSubmit = async () => {
     try {
       console.log(selected);
-      const country = await update({ country: selected?.name }).unwrap();
+      const country = await update({
+        country: selected?.name,
+        username: user?.data.username,
+      }).unwrap();
       console.log("country", country);
       // TODO
       dispatch(setToken({ token, user_id }));
@@ -413,42 +442,47 @@ const VerificationScreen: React.FC<Props> = ({ navigation, route }) => {
   };
 
   return (
-    <View className="w-full bg-white flex-1">
-      <View className="w-full flex flex-row justify-between items-center mt-20">
-        <Back />
-        <View className="flex flex-row justify-center items-center mx-auto">
-          {[0, 1, 2].map((i) => (
-            <View
-              key={i}
-              className={`h-2 w-20 mx-1 rounded-full ${
-                step >= i ? "bg-brand-400" : "bg-gray-300"
-              }`}
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
+      <View className="w-full bg-white flex-1">
+        <View className="w-full flex flex-row justify-between items-center mt-20">
+          <Back />
+          <View className="flex flex-row justify-center items-center mx-auto">
+            {[0, 1, 2].map((i) => (
+              <View
+                key={i}
+                className={`h-2 w-20 mx-1 rounded-full ${
+                  step >= i ? "bg-brand-400" : "bg-gray-300"
+                }`}
+              />
+            ))}
+          </View>
+        </View>
+        <Animated.View
+          style={{
+            flexDirection: "row",
+            width: width * 3,
+            flex: 1,
+            transform: [{ translateX }],
+          }}
+        >
+          <View style={{ width }}>
+            <EmailVerification email={route.params.email} onContinue={goNext} />
+          </View>
+          <View style={{ width }}>
+            <PhoneVerification onContinue={goNext} />
+          </View>
+          <View style={{ width }}>
+            <CountrySelect
+              onSelectCountry={onSelectCountry}
+              navigation={navigation}
             />
-          ))}
-        </View>
+          </View>
+        </Animated.View>
       </View>
-      <Animated.View
-        style={{
-          flexDirection: "row",
-          width: width * 3,
-          flex: 1,
-          transform: [{ translateX }],
-        }}
-      >
-        <View style={{ width }}>
-          <EmailVerification email={route.params.email} onContinue={goNext} />
-        </View>
-        <View style={{ width }}>
-          <PhoneVerification onContinue={goNext} />
-        </View>
-        <View style={{ width }}>
-          <CountrySelect
-            onSelectCountry={onSelectCountry}
-            navigation={navigation}
-          />
-        </View>
-      </Animated.View>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 

@@ -5,7 +5,7 @@ import { useState } from "react";
 import {
   Modal,
   ScrollView,
-  Switch,
+  // Switch,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -22,11 +22,11 @@ import ButtonComponent from "../components/Button";
 interface Props extends NativeStackScreenProps<FullNavStack> {}
 
 const SettingsScreen: React.FC<Props> = ({ navigation }) => {
-  const [isEnabled, setIsEnabled] = useState(false);
+  // const [isEnabled, setIsEnabled] = useState(false);
   const [pinVisible, setPinVisible] = useState(false);
   const [deleteAccountVisible, setDeleteAccountVisible] = useState(false);
 
-  const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
+  // const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
   return (
     <ScrollView
       contentContainerStyle={{ flexGrow: 1 }}
@@ -68,7 +68,8 @@ const SettingsScreen: React.FC<Props> = ({ navigation }) => {
           </View>
           <MaterialIcons name="chevron-right" size={22} color={"#215CE1"} />
         </TouchableOpacity>
-        <View className="w-full px-3 py-4 bg-gray-200 mt-4 rounded-lg flex-row justify-between items-center">
+        {
+          /* <View className="w-full px-3 py-4 bg-gray-200 mt-4 rounded-lg flex-row justify-between items-center">
           <View className="flex-1 flex-row items-center jusitfy-start">
             <MaterialIcons name="border-color" size={20} />
             <AppText className="ml-3">Notification</AppText>
@@ -80,9 +81,11 @@ const SettingsScreen: React.FC<Props> = ({ navigation }) => {
             value={isEnabled}
             ios_backgroundColor="#3e3e3e"
           />
-        </View>
+        </View> */
+        }
       </View>
-      <View className="w-full px-6 mt-12">
+      {
+        /* <View className="w-full px-6 mt-12">
         <AppText className="text-gray-600 text-sm">
           Security Setting
         </AppText>
@@ -134,8 +137,7 @@ const SettingsScreen: React.FC<Props> = ({ navigation }) => {
           </View>
           <MaterialIcons name="chevron-right" size={22} color={"#215CE1"} />
         </TouchableOpacity>
-        {
-          /* <View className="w-full px-3 py-4 bg-gray-200 mt-4 rounded-lg flex-row justify-between items-center">
+        <View className="w-full px-3 py-4 bg-gray-200 mt-4 rounded-lg flex-row justify-between items-center">
           <View className="flex-1 flex-row items-center jusitfy-start">
             <MaterialIcons name="fingerprint" size={20} />
             <AppText className="ml-3">Dark Mode</AppText>
@@ -147,14 +149,13 @@ const SettingsScreen: React.FC<Props> = ({ navigation }) => {
             value={isEnabled}
             ios_backgroundColor="#3e3e3e"
           />
-        </View> */
-        }
+        </View>
       </View>
       <View className="w-full px-6 mt-12">
         <AppText className="text-gray-600 text-sm">
           Resources
         </AppText>
-        <TouchableOpacity
+          <TouchableOpacity
           onPress={() => navigation.navigate("FAQScreen")}
           className="w-full px-3 py-4 bg-gray-200 mt-4 rounded-lg flex-row justify-between items-center"
         >
@@ -200,6 +201,8 @@ const SettingsScreen: React.FC<Props> = ({ navigation }) => {
           </View>
         </TouchableOpacity>
       </View>
+         */
+      }
       <Logout />
       <Modal
         visible={pinVisible}

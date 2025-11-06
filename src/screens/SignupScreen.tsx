@@ -178,7 +178,9 @@ const SignupScreen: React.FC<Props> = ({ navigation }) => {
         }
 
         <View className="flex-row justify-center items-center w-full mb-8 mt-6">
-          <Text className="font-raleway text-lg">Already have an account?</Text>
+          <Text className="font-raleway text-lg">
+            Already have an account?{" "}
+          </Text>
           <Pressable onPress={() => navigation.navigate("Login")}>
             <Text className="font-raleway text-lg text-brand-600">Login</Text>
           </Pressable>
