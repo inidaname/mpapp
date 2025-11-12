@@ -23,7 +23,7 @@ export type RootStackParamList = {
   ChangeCountry: undefined;
   FAQScreen: undefined;
   ContactUsScreen: undefined;
-  KYCScreen: { kycLink: string };
+  KYCScreen: { kycLink: string; tosLink: string };
 };
 
 export type AuthStackParamList = {

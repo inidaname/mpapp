@@ -1,28 +1,44 @@
+/* eslint-disable react-native/no-inline-styles */
+import React, { useState } from "react";
+
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import React from "react";
 import { ActivityIndicator, View } from "react-native";
 import { WebView } from "react-native-webview";
 import { FullNavStack } from "../types/types";
+import { useGetKYCQuery } from "../service/endpoints/kyc-endpoints";
 
 interface Props extends NativeStackScreenProps<FullNavStack, "KYCScreen"> {}
 
 const KycScreen: React.FC<Props> = ({ route, navigation }) => {
-  const { kycLink } = route.params;
+  const { kycLink, tosLink } = route.params;
+  const { data, refetch } = useGetKYCQuery();
+  const [currentUrl, setCurrentUrl] = useState(tosLink);
+  const [phase, setPhase] = useState<"tos" | "kyc">("tos");
 
-  console.log("kycLink", kycLink);
-  const handleNavigationStateChange = (navState: { url: any }) => {
+  const handleNavigationStateChange = async (navState: { url: string }) => {
     const { url } = navState;
 
-    if (url.startsWith("https://example.com")) {
-      // Replace this with your actual redirect or deep link
-      navigation.replace("MainStack"); // Or navigate somewhere else
+    // When TOS flow finishes, Bridge redirects to your redirect_uri
+    if (phase === "tos" && url.startsWith("https://example.com")) {
+      await refetch().unwrap();
+      setPhase("kyc");
+      setCurrentUrl(kycLink);
+    }
+
+    // When KYC completes and redirects back
+    if (phase === "kyc" && url.startsWith("https://example.com")) {
+      if (data?.data?.metadata?.kyc?.tos_status !== "approved") {
+        navigation.goBack();
+      } else {
+        navigation.replace("KycStatus");
+      }
     }
   };
 
   return (
     <View style={{ flex: 1 }}>
       <WebView
-        source={{ uri: kycLink }}
+        source={{ uri: currentUrl }}
         onNavigationStateChange={handleNavigationStateChange}
         startInLoadingState
         renderLoading={() => (

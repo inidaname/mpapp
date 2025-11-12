@@ -17,10 +17,13 @@ const StartKYC: React.FC = () => {
     try {
       const kyc = await startKYC().unwrap();
       console.log("kyc", kyc);
-      const kycLink = kyc.data.metadata?.kyc?.kyc_link;
 
-      if (kycLink) {
-        navigation.navigate("KYCScreen", { kycLink });
+      const { data: { metadata: { kyc: { tos_status, kyc_status } } } } = kyc;
+      const kycLink = kyc.data.metadata?.kyc?.kyc_link;
+      const tosLink = kyc.data.metadata?.kyc?.tos_link;
+
+      if (kycLink && (tos_status !== "approved" || kyc_status !== "approved")) {
+        navigation.navigate("KYCScreen", { kycLink, tosLink });
       } else {
         console.log("No KYC link found");
       }
