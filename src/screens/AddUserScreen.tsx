@@ -1,9 +1,55 @@
 import type React from "react";
-import { Image, Pressable, TextInput, View } from "react-native";
+import { useMemo } from "react";
+import { TextInput, View } from "react-native";
 import HeaderSide from "../components/Main/HeaderSide";
 import { MaterialIcons } from "@react-native-vector-icons/material-icons";
-import SecuredCheck from "../../assets/green_check.svg";
+// import SecuredCheck from "../../assets/green_check.svg";
 import AppText from "../components/typo/AppText";
+import { useGetContactsQuery } from "../service/endpoints/contacts-endpoints";
+import Avatar from "../components/Avatar";
+
+const ListContacts: React.FC = () => {
+  const { data, isLoading } = useGetContactsQuery(1);
+
+  if (isLoading) {
+    return (
+      <View className="w-full px-6 mt-6 justify-center items-center">
+        <AppText>Loading Contacts ...</AppText>
+      </View>
+    );
+  }
+
+  if (data?.data && data.data.totalCount <= 0) {
+    return (
+      <View className="w-full px-6 mt-6 justify-center items-center">
+        <AppText>You have no contacts added</AppText>
+      </View>
+    );
+  }
+
+  return (
+    <View className="w-full px-6 mt-6">
+      {data?.data.contacts.map((contact) => (
+        <View
+          key={contact.id}
+          className="p-4 bg-gray-400/20 rounded-2xl flex-row justify-start items-center"
+        >
+          <View className="relative w-16 mr-4">
+            <Avatar name={`${contact.first_name} ${contact.last_name}`} />
+          </View>
+          <View className="flex-1 h-full">
+            <AppText weight="bold" className="w-full text-xl">
+              {contact.first_name} {contact.last_name}
+            </AppText>
+            <AppText className="w-full">
+              {contact.address}
+            </AppText>
+          </View>
+        </View>
+      ))}
+    </View>
+  );
+};
 
 const AddUserScreen: React.FC = () => {
   return (
@@ -23,36 +69,15 @@ const AddUserScreen: React.FC = () => {
         />
       </View>
       {/* TODO: FLat list considered */}
-      <View className="w-full px-6 mt-6">
-        <View className="p-4 bg-gray-400/20 rounded-2xl flex-row justify-start items-center">
-          <View className="relative w-16 mr-4">
-            <Image
-              source={{ uri: "https://i.pravatar.cc/100" }}
-              className="w-14 h-14 rounded-full"
-            />
-            <View className="absolute -bottom-1 right-0">
-              <SecuredCheck
-                width={20}
-                height={20}
-              />
-            </View>
-          </View>
-          <View className="flex-1 h-full">
-            <AppText weight="bold" className="w-full text-xl">
-              Maria Gomez
-            </AppText>
-            <AppText className="w-full">
-              mgomez23TXN1234567890
-            </AppText>
-          </View>
-        </View>
-      </View>
-      <View className="w-full justify-center items-center mt-6">
+      <ListContacts />
+      {
+        /* <View className="w-full justify-center items-center mt-6">
         <Pressable className="flex-row items-center justify-center">
           <MaterialIcons name="add-circle" size={24} color={"#215CE1"} />
           <AppText className="text-brand-700 ml-1 text-xl">Add User</AppText>
         </Pressable>
-      </View>
+      </View> */
+      }
     </View>
   );
 };

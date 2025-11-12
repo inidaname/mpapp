@@ -26,7 +26,7 @@ const StartForgotPassword: React.FC<Props> = ({ setAllow, setEmail }) => {
       setAllow(false);
     } catch (error) {
       console.log("error", error);
-      setAllow(false);
+      // setAllow(false);
     }
   };
 

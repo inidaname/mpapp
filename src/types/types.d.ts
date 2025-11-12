@@ -29,7 +29,7 @@ export type RootStackParamList = {
 export type AuthStackParamList = {
   Login: undefined;
   Signup: undefined;
-  VerificationScreen: { email: string };
+  VerificationScreen: { email: string; login: boolean };
   VerifyPhoneScreen: undefined;
   ForgotPassword: undefined;
   Onboarding: undefined;
@@ -55,6 +55,11 @@ export type CurrencyDetailNavigationProp =
   import("@react-navigation/native-stack").NativeStackNavigationProp<
     RootStackParamList,
     "CurrencyDetail"
+  >;
+
+export type AuthNavigationProp =
+  import("@react-navigation/native-stack").NativeStackNavigationProp<
+    AuthStackParamList
   >;
 
 export type KYCScreenNavigationProp =

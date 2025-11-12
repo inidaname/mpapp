@@ -56,6 +56,14 @@ interface SendTrans {
 
 interface PasswordForm {
   email: string;
-  forgetPinToken: string;
+  forgetPinToken?: string;
+  otp: string;
   password: string;
+}
+
+interface ContactInput {
+  first_name: string;
+  last_name: string;
+  chain: string;
+  address: string;
 }

@@ -1,5 +1,5 @@
 import type React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
@@ -27,16 +27,17 @@ const ForgotPasswordScreen: React.FC<Props> = ({ navigation }) => {
   const [otp, setOTP] = useState("");
   const [resetPassword, { isLoading }] = useResetPasswordMutation();
 
-  const { control, handleSubmit } = useForm<PasswordForm>();
+  const { control, handleSubmit, watch } = useForm<PasswordForm>();
+  const password = watch("password");
 
   const handlePassword: SubmitHandler<PasswordForm> = async (values) => {
     try {
       const pas = await resetPassword({
         password: values.password,
-        forgetPinToken: otp,
+        otp: otp,
         email,
       }).unwrap();
-      handleSwitch();
+      navigation.navigate("Login");
       console.log("pas", pas);
     } catch (error) {
       console.log("error", error);
@@ -46,11 +47,17 @@ const ForgotPasswordScreen: React.FC<Props> = ({ navigation }) => {
   const handleSwitch = () => {
     if (startPassword === "start") {
       setStartPassword("verify");
-      handleSubmit(handlePassword);
+      setAllow(true);
     } else {
-      navigation.navigate("StartScreen");
+      handleSubmit(handlePassword)();
     }
   };
+
+  useEffect(() => {
+    if (password && otp.length === 4) {
+      setAllow(false);
+    }
+  }, [otp.length, password]);
 
   return (
     <View className="flex-1 bg-white">
@@ -108,7 +115,7 @@ const ForgotPasswordScreen: React.FC<Props> = ({ navigation }) => {
         <ButtonComponent
           onPress={handleSwitch}
           isDisabled={allow}
-          isLoading={allow && isLoading}
+          isLoading={isLoading}
           label="Continue"
         />
       </View>

@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { FullNavStack } from "../types/types";
-import { Alert, Image, Pressable, ScrollView, Text, View } from "react-native";
+import { Image, Pressable, ScrollView, View } from "react-native";
 import { MaterialIcons } from "@react-native-vector-icons/material-icons";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -38,7 +38,6 @@ const SignupScreen: React.FC<Props> = ({ navigation }) => {
   const onSubmit: SubmitHandler<CreateUserInput> = async (values) => {
     const { confirmpassword, ...rest } = values;
     if (rest.password !== confirmpassword) {
-      Alert.alert("Error", "Passwords do not match");
       return;
     }
 
@@ -46,7 +45,10 @@ const SignupScreen: React.FC<Props> = ({ navigation }) => {
       const user = await register(rest).unwrap();
       console.log("user", user);
       dispatch(setUserTemp(user.data.id));
-      navigation.navigate("VerificationScreen", { email: user.data.email });
+      navigation.navigate("VerificationScreen", {
+        email: user.data.email,
+        login: false,
+      });
     } catch (err: any) {
       setError(err.data.message);
     }
@@ -75,10 +77,12 @@ const SignupScreen: React.FC<Props> = ({ navigation }) => {
 
         {/* Header */}
         <View className="items-center w-full mt-8">
-          <Text className="text-4xl font-raleway-medium">Create A Wallet</Text>
-          <Text className="font-raleway px-4 text-lg mt-4 text-center">
+          <AppText weight="medium" className="text-4xl">
+            Create A Wallet
+          </AppText>
+          <AppText className="px-4 text-[18px] mt-4 text-center">
             Add your account basic details to create your account at Insfers
-          </Text>
+          </AppText>
         </View>
 
         {/* Form */}
@@ -177,12 +181,12 @@ const SignupScreen: React.FC<Props> = ({ navigation }) => {
       </View> */
         }
 
-        <View className="flex-row justify-center items-center w-full mb-8 mt-6">
-          <Text className="font-raleway text-lg">
+        <View className="flex-row justify-center items-center w-full mb-16 mt-6">
+          <AppText className="text-[18px]">
             Already have an account?{" "}
-          </Text>
+          </AppText>
           <Pressable onPress={() => navigation.navigate("Login")}>
-            <Text className="font-raleway text-lg text-brand-600">Login</Text>
+            <AppText className="text-[18px] text-brand-600">Login</AppText>
           </Pressable>
         </View>
       </ScrollView>

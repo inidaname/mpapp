@@ -4,13 +4,13 @@ import { twMerge } from "tailwind-merge";
 
 const weightMap = {
   regular: "",
-  light: "-light",
-  thin: "-thin",
-  medium: "-medium",
-  semibold: "-semibold",
-  bold: "-bold",
-  black: "-black",
-  extralight: "-extralight",
+  light: "light",
+  thin: "thin",
+  medium: "medium",
+  semibold: "semibold",
+  bold: "bold",
+  black: "black",
+  extralight: "extralight",
 };
 
 export type AppTextProps = TextProps & {
@@ -22,34 +22,36 @@ export type AppTextProps = TextProps & {
 export const FigureText: React.FC<AppTextProps> = (
   { weight = "regular", className, children, ...props },
 ) => {
-  const fontFamily = weightMap[weight] || weightMap.regular;
+  const weightFont = weight && weight !== "regular"
+    ? weightMap[weight]
+    : weightMap.regular;
 
   return (
-    <AppText
-      className={className}
-      weight={fontFamily as keyof typeof weightMap}
-      fontFamily="montserrat"
+    <RNText
+      className={`${
+        twMerge("text-black", className)
+      } font-montserrat-${weightFont}`}
       {...props}
     >
       {children}
-    </AppText>
+    </RNText>
   );
 };
 
 export const PoppinText: React.FC<AppTextProps> = (
   { weight = "regular", className, children, ...props },
 ) => {
-  const fontFamily = weightMap[weight] || weightMap.regular;
+  const weightFont = weightMap[weight] || weightMap.regular;
 
   return (
-    <AppText
-      className={className}
-      weight={fontFamily as keyof typeof weightMap}
-      fontFamily="poppings"
+    <RNText
+      className={`${
+        twMerge("text-black", className)
+      } font-poppings-${weightFont}`}
       {...props}
     >
       {children}
-    </AppText>
+    </RNText>
   );
 };
 
@@ -60,12 +62,14 @@ const AppText: React.FC<AppTextProps> = ({
   children,
   ...props
 }) => {
-  const weightFonte = weightMap[weight] || weightMap.regular;
+  const weightFont = weight && weight !== "regular"
+    ? weightMap[weight]
+    : weightMap.regular;
   return (
     <RNText
       className={`${
         twMerge("text-black", className)
-      } font-${fontFamily}${weightFonte}`}
+      } font-${fontFamily}-${weightFont}`}
       {...props}
     >
       {children}

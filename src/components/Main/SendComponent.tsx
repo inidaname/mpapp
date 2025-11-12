@@ -34,8 +34,8 @@ const SendComponent: React.FC<Props> = ({ route, navigation, wallet }) => {
     <View className="mt-8 px-6">
       {/* Send To */}
       <View className="flex-row items-center justify-between border-b border-gray-100 pb-2">
-        <AppText>Send To</AppText>
-        <View className="w-2/3 mx-2">
+        <AppText className="text-[#14141480] text-[16px]">Send To</AppText>
+        <View className="flex-1 mx-2">
           <AppText
             numberOfLines={1}
             ellipsizeMode="tail"
@@ -45,16 +45,18 @@ const SendComponent: React.FC<Props> = ({ route, navigation, wallet }) => {
           </AppText>
         </View>
         <TouchableOpacity
-          className="bg-blue-500 px-4 py-2 rounded-full"
+          className="bg-brand-700 px-5 py-4 rounded-full"
           onPress={() => navigation.navigate("ScanWalletScreen")}
         >
-          <AppText className="text-white font-semibold">Scan</AppText>
+          <AppText className="text-white font-bold text-[16px]">
+            Scan
+          </AppText>
         </TouchableOpacity>
       </View>
 
       {/* Amount */}
       <View className="flex-row items-center justify-between border-b border-gray-100 mt-10 pb-2">
-        <AppText>Amount</AppText>
+        <AppText className="text-[#14141480] text-[16px]">Amount</AppText>
         <TextInput
           value={`${value}`}
           onChangeText={(e) => {
@@ -66,7 +68,7 @@ const SendComponent: React.FC<Props> = ({ route, navigation, wallet }) => {
           <View className="h-6 w-6 p-1 mr-2 border border-brand-700 rounded-full items-center justify-center">
             <View className="h-4 w-4 bg-brand-700 rounded-full" />
           </View>
-          <AppText className="text-gray-500">USDC</AppText>
+          <AppText className="text-[#172A2B99] text-[16px]">USDC</AppText>
         </View>
       </View>
       {/* Checkbox */}

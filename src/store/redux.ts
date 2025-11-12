@@ -13,7 +13,7 @@ import tempSlice from "./reducers/temporary-slice";
 const persistConfig = {
   key: "root",
   storage: AsyncStorage,
-  whitelist: ["counter"], // don't persist API cache
+  blacklist: ["api"],
 };
 
 const rootReducer = combineReducers({

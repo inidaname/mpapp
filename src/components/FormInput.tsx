@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
   KeyboardTypeOptions,
-  Text,
   TextInput,
   TouchableOpacity,
   View,
@@ -13,6 +12,7 @@ import {
   RegisterOptions,
 } from "react-hook-form";
 import { MaterialIcons } from "@react-native-vector-icons/material-icons";
+import AppText from "./typo/AppText";
 
 interface FormInputProps {
   name: string;
@@ -41,8 +41,10 @@ const FormInput: React.FC<FormInputProps> = ({
   const [hide, setHide] = useState(isPassword);
 
   return (
-    <View className="mb-4 w-full">
-      {label && <Text className="mb-3 text-lg font-raleway">{label}</Text>}
+    <View className="mb-4 w-full mt-4">
+      {label && (
+        <AppText className="mb-3 text-[19px] font-[400]">{label}</AppText>
+      )}
 
       <Controller
         control={control}
@@ -92,9 +94,9 @@ const FormInput: React.FC<FormInputProps> = ({
             </View>
 
             {error && (
-              <Text className="mt-1 text-xs font-raleway text-red-500">
+              <AppText className="mt-1 text-sm text-red-500">
                 {error.message?.toString()}
-              </Text>
+              </AppText>
             )}
           </>
         )}

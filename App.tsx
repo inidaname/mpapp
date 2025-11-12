@@ -15,11 +15,12 @@ import { persistor, store } from "./src/store/redux";
 import "./global.css";
 
 import AppStack from "./src/stack/AppStack";
+import { handleAppLaunch } from "./src/helpers/handle-app-launch";
 
 function App() {
   useEffect(() => {
     const init = async () => {
-      // …do multiple sync or async tasks
+      await handleAppLaunch();
     };
 
     init().finally(async () => {

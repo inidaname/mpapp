@@ -26,13 +26,13 @@ const HeaderComponent: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profile]);
   return (
-    <View className="flex-row items-center justify-between px-4 pt-12">
+    <View className="flex-row items-center justify-between px-4 pb-5 pt-12">
       <TouchableOpacity
         onPress={() => navigate.navigate("ProfileScreen")}
         className="flex-row items-center"
       >
         <Avatar name={profile?.username} uri={profile?.profile_image} />
-        <AppText className="ml-3 text-brand-600 font-semibold">
+        <AppText className="ml-3 text-brand-600 text-[20px]">
           @{profile?.username}
         </AppText>
       </TouchableOpacity>

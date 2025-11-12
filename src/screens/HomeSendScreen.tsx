@@ -1,9 +1,8 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, { useEffect, useState } from "react";
 
-import { TouchableOpacity, View } from "react-native";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 import AppText from "../components/typo/AppText";
-import USDC from "../../assets/Web3Icons/usdc_logo.svg";
 import MaterialIcons from "@react-native-vector-icons/material-icons";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { FullNavStack } from "../types/types";
@@ -157,26 +156,28 @@ const HomeSendScreen: React.FC<Props> = ({ navigation, route }) => {
   //   return unsubscribe;
   // }, []);
 
-  console.log("data balace", data);
-
   return (
     <>
       <View className="bg-white flex-1">
         {/* Balance */}
         <View className="items-center mt-6">
-          <AppText className="text-gray-500">Total Balance in USDC</AppText>
-          <View className="flex-row items-center justify-center mt-4">
-            <USDC width={30} height={30} />
-            <AppText className="text-4xl text-center font-bold ml-2 w-auto">
-              {balanceHidden
-                ? "••••.••"
-                : Number(
-                  data?.data?.circle?.data?.tokenBalances[1]?.amount ?? 0,
-                )}
-            </AppText>
+          <AppText className="text-gray-500 text-[14px]">
+            Total Balance in USDC
+          </AppText>
+          <View className="flex-row items-center justify-center mt-1">
+            <Image
+              source={require("../../assets/USDC.png")}
+              width={200}
+              height={200}
+            />
+            <Text className="text-[47px] font-montserrat-medium text-center ml-2 w-auto">
+              {balanceHidden ? "••••.••" : Number(
+                data?.data?.circle?.data?.tokenBalances[1]?.amount ?? 0,
+              ).toPrecision(3)}
+            </Text>
           </View>
           <TouchableOpacity onPress={() => setBalanceHidden(!balanceHidden)}>
-            <AppText className="text-blue-600 mt-2">
+            <AppText className="text-blue-600 mt-2 text-[18px]">
               {balanceHidden ? "Show Balance" : "Hide Balance"}
             </AppText>
           </TouchableOpacity>

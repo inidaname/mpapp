@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { FullNavStack } from "../types/types";
-import { Image, Pressable, Text, TouchableOpacity, View } from "react-native";
+import { Image, Pressable, TouchableOpacity, View } from "react-native";
 import { MaterialIcons } from "@react-native-vector-icons/material-icons";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
@@ -24,9 +24,11 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
   const [error, setError] = useState<string | null>(null);
   const dispatch = useAppDispatch();
 
-  const { control, handleSubmit } = useForm<LoginInput>({
-    defaultValues: { password: "", email: "" },
-  });
+  const { control, handleSubmit, formState: { isValid } } = useForm<LoginInput>(
+    {
+      defaultValues: { password: "", email: "" },
+    },
+  );
 
   const [login, { isLoading }] = useLoginMutation();
 
@@ -45,7 +47,10 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
       );
     } catch (err: any) {
       // navigation.replace("Home");
-      console.log("err", err);
+      if (err?.data?.message === "Your account has not been verified") {
+        console.log("err", err.data.message);
+        navigation.navigate("VerificationScreen", { email: values.email });
+      }
       setError(err.data.message);
     }
   };
@@ -67,10 +72,10 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
           />
         </View>
         <View className="items-center w-full mt-8">
-          <Text className="text-4xl font-raleway-medium">Welcome Back!</Text>
-          <Text className="font-raleway px-4 text-lg mt-4 text-center">
+          <AppText weight="medium" className="text-4xl">Welcome Back!</AppText>
+          <AppText className="px-4 text-[18px] mt-4 text-center font-light">
             Enter your Email and password to continue to your account
-          </Text>
+          </AppText>
         </View>
         <View className="h-[40px]" />
         <View className="w-full px-5">
@@ -87,7 +92,10 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
             }
             control={control}
             keyboardType="email-address"
-            rules={{ required: "Email is required" }}
+            rules={{
+              required: "Email is required",
+              pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+            }}
           />
           <FormInput
             name="password"
@@ -108,7 +116,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
           <TouchableOpacity
             onPress={() => navigation.navigate("ForgotPassword")}
           >
-            <AppText weight="medium" className="text-xl mb-4 text-brand-700">
+            <AppText weight="medium" className="text-2xl mb-4 text-brand-700">
               Forgot Password?
             </AppText>
           </TouchableOpacity>
@@ -121,6 +129,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
           <ButtonComponent
             isLoading={isLoading}
             label="Continue"
+            isDisabled={!isValid}
             onPress={handleSubmit(handlePress)}
           />
         </View>
@@ -165,14 +174,14 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
       </View> */
         }
         <View className="flex flex-row justify-center items-center w-full mb-2 mt-4 h-24">
-          <Text className="font-raleway text-lg">
+          <AppText className="text-[18px]">
             Don&apos;t have an account?
-          </Text>
+          </AppText>
           <Pressable onPress={() => navigation.navigate("Signup")}>
-            <Text className="font-raleway text-lg text-brand-600">
+            <AppText className="text-[18px] text-brand-600">
               {" "}
               Create Account
-            </Text>
+            </AppText>
           </Pressable>
         </View>
       </ScrollView>

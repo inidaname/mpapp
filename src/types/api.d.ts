@@ -309,3 +309,12 @@ interface TransactionsList {
   created_at: string | Date;
   updated_at: string | Date;
 }
+
+interface ContactData {
+  contacts: Contact[];
+  totalCount: number;
+}
+
+interface Contact extends ContactInput {
+  id: string;
+}

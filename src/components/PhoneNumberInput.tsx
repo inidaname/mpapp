@@ -1,6 +1,6 @@
 // components/PhoneNumberInput.tsx
 import React, { useState } from "react";
-import { Text, TextInput, TouchableOpacity, View } from "react-native";
+import { TextInput, TouchableOpacity, View } from "react-native";
 import CountryPicker, { Country } from "react-native-country-picker-modal";
 import { Control, Controller } from "react-hook-form";
 import { MaterialIcons } from "@react-native-vector-icons/material-icons";
@@ -66,7 +66,7 @@ const PhoneNumberInput: React.FC<PhoneInputProps> = ({
                 className="flex-row items-center mx-2"
                 onPress={() => setVisible(true)}
               >
-                <Text className="text-lg mr-1">+{countryCode}</Text>
+                <AppText className="text-lg mr-1">+{countryCode}</AppText>
                 <MaterialIcons
                   name="keyboard-arrow-down"
                   size={18}
@@ -101,9 +101,9 @@ const PhoneNumberInput: React.FC<PhoneInputProps> = ({
             </View>
 
             {error && (
-              <Text className="text-xs text-red-500 mt-1">
+              <AppText className="text-xs text-red-500 mt-1">
                 {error.message?.toString()}
-              </Text>
+              </AppText>
             )}
           </>
         )}

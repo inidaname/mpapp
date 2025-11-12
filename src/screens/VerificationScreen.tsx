@@ -46,6 +46,7 @@ interface ChildProps extends Pick<Props, "navigation"> {
 
 interface EmailScreenProp extends Pick<ChildProps, "onContinue"> {
   email: string;
+  login: boolean;
 }
 
 const { width } = Dimensions.get("window");
@@ -53,10 +54,11 @@ const { width } = Dimensions.get("window");
 const EmailVerification: React.FC<EmailScreenProp> = ({
   onContinue,
   email,
+  login,
 }) => {
   const [otp, setOTP] = useState("");
   const [countdown, setCountdown] = useState(60);
-  const [canResend, setCanResend] = useState(false);
+  const [canResend, setCanResend] = useState(login);
   const [verifyOTP, { isLoading }] = useVerifyOTPMutation();
   const [resend] = useResendOTPMutation();
   const dispatch = useAppDispatch();
@@ -83,8 +85,7 @@ const EmailVerification: React.FC<EmailScreenProp> = ({
 
   const handleResend = async () => {
     try {
-      const resentOTP = await resend({ email }).unwrap();
-      console.log("resentOTP", resentOTP);
+      await resend({ email }).unwrap();
 
       setCountdown(60);
       setCanResend(false);
@@ -98,9 +99,18 @@ const EmailVerification: React.FC<EmailScreenProp> = ({
       if (otp.length === 4) {
         const otpdetail = await verifyOTP({ email, otp }).unwrap();
         await saveToken(otpdetail.data.accessToken);
-        dispatch(setTokenTempe(otpdetail.data.accessToken));
-        console.log("otpdetail", otpdetail);
-        onContinue();
+        if (!login) {
+          dispatch(setTokenTempe(otpdetail.data.accessToken));
+          onContinue();
+        } else {
+          dispatch(
+            setToken({
+              token: otpdetail.data.accessToken,
+              user_id: otpdetail.data.id,
+            }),
+          );
+          dispatch(clearTempToken());
+        }
       }
     } catch (err) {
       console.log("err", err);
@@ -469,7 +479,11 @@ const VerificationScreen: React.FC<Props> = ({ navigation, route }) => {
           }}
         >
           <View style={{ width }}>
-            <EmailVerification email={route.params.email} onContinue={goNext} />
+            <EmailVerification
+              email={route.params.email}
+              login={route.params.login}
+              onContinue={goNext}
+            />
           </View>
           <View style={{ width }}>
             <PhoneVerification onContinue={goNext} />
