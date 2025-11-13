@@ -22,7 +22,7 @@ const OnboardingScreen: React.FC<Props> = ({ navigation }) => {
 
   const finishOnboarding = async () => {
     await AsyncStorage.setItem("hasOnboarded", "true");
-    navigation.navigate("Login");
+    navigation.navigate("StartScreen");
   };
 
   return (

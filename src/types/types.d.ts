@@ -1,5 +1,4 @@
 export type RootStackParamList = {
-  StartScreen: undefined;
   Home: import("@react-navigation/native-stack").NativeStackNavigatorProps<
     HomeStackParams
   >;
@@ -27,6 +26,7 @@ export type RootStackParamList = {
 };
 
 export type AuthStackParamList = {
+  StartScreen: undefined;
   Login: undefined;
   Signup: undefined;
   VerificationScreen: { email: string; login: boolean };

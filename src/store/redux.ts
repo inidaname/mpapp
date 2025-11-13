@@ -13,7 +13,7 @@ import tempSlice from "./reducers/temporary-slice";
 const persistConfig = {
   key: "root",
   storage: AsyncStorage,
-  blacklist: ["api"],
+  blacklist: [apiSlice.reducerPath],
 };
 
 const rootReducer = combineReducers({
@@ -32,13 +32,13 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
-    }).concat(apiSlice.middleware), // add middleware
+    }).concat(apiSlice.middleware),
 });
 
 export const persistor = persistStore(store);
 
-export const useAppDispatch: AppDispatch = useDispatch;
-export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
-
 export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = () => typeof store.dispatch;
+export type AppDispatch = typeof store.dispatch;
+
+export const useAppDispatch: () => AppDispatch = useDispatch;
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;

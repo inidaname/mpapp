@@ -6,7 +6,7 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import HeaderSide from "../components/Main/HeaderSide";
 import AppText from "../components/typo/AppText";
 import { RootStackParamList } from "../types/types";
-// import ActiveNetworks from "../components/Main/ActiveNextworks";
+import ActiveNetworks from "../components/Main/ActiveNextworks";
 import { useAppSelector } from "../store/redux";
 
 interface Props extends NativeStackScreenProps<RootStackParamList> {}
@@ -25,7 +25,7 @@ const WalletScreen: React.FC<Props> = ({}) => {
           {Number(active_wallet?.balance).toPrecision(3)}
         </Text>
       </View>
-      {/* <ActiveNetworks /> */}
+      <ActiveNetworks />
     </View>
   );
 };

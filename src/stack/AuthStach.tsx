@@ -10,6 +10,7 @@ import ForgotPasswordScreen from "../screens/ForgotPasswordScreen";
 import { AuthStackParamList } from "../types/types";
 import OnboardingScreen from "../screens/OnboardingScreen";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import StartScreen from "../screens/StartScreen";
 
 const AuthStackNav = createNativeStackNavigator<AuthStackParamList>();
 
@@ -26,9 +27,11 @@ const AuthStack: React.FC = () => {
 
   return (
     <AuthStackNav.Navigator
-      initialRouteName={!hasOnboarded ? "Onboarding" : "Login"}
+      initialRouteName={!hasOnboarded ? "Onboarding" : "StartScreen"}
       screenOptions={{ headerShown: false }}
     >
+      <AuthStackNav.Screen name="StartScreen" component={StartScreen} />
+
       <AuthStackNav.Screen name="Onboarding" component={OnboardingScreen} />
       <AuthStackNav.Screen name="Login" component={LoginScreen} />
       <AuthStackNav.Screen name="Signup" component={SignupScreen} />

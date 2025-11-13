@@ -31,7 +31,6 @@ import {
   ScanWalletScreen,
   SendToBankScreen,
   SettingsScreen,
-  StartScreen,
   WalletScreen,
 } from "../screens";
 
@@ -47,7 +46,6 @@ const RootStack = createNativeStackNavigator<RootNavigatorParams>();
 const MainStack: React.FC = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="StartScreen" component={StartScreen} />
       <Stack.Screen name="Home" component={HomeStackTabs} />
       <Stack.Screen
         name="ScanWalletScreen"
