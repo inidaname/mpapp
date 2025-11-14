@@ -67,3 +67,25 @@ interface ContactInput {
   chain: string;
   address: string;
 }
+
+interface ConvertInput {
+  amount: string;
+  source: {
+    currency: string;
+    payment_rail: string;
+  };
+  destination: {
+    currency: string;
+    payment_rail: string;
+    to_address: string;
+  };
+}
+
+interface WalletBankInput {
+  currency: string;
+  chain: string;
+  external_account_id: string;
+  address: string;
+  tokenId: string;
+  amount: string;
+}

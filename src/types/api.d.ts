@@ -121,9 +121,14 @@ interface WalletData {
   updated_at: Date | string;
   circle: {
     data: {
-      tokenBalances: [];
+      tokenBalances: TokenBalance[];
     };
   };
+}
+
+interface TokenBalance {
+  id: string;
+  balance: string;
 }
 interface UserProfile {
   id: string;
@@ -317,4 +322,42 @@ interface ContactData {
 
 interface Contact extends ContactInput {
   id: string;
+}
+
+interface ConvertData {
+  id: string;
+  client_reference_id: string;
+  state: string;
+  on_behalf_of: string;
+  currency: string;
+  amount: string;
+  developer_fee: string;
+  source: {
+    payment_rail: string;
+    currency: string;
+    external_account_id: string;
+  };
+  created_at: string | Date;
+  updated_at: string | Date;
+  destination: {
+    payment_rail: string;
+    currency: string;
+    to_address: string;
+  };
+  source_deposit_instructions: {
+    payment_rail: string;
+    currency: string;
+    amount: string;
+    deposit_message: string;
+    bank_account_number: string;
+    bank_routing_number: string;
+    bank_beneficiary_name: string;
+    bank_beneficiary_address: string;
+    bank_name: string;
+    bank_address: string;
+  };
+  features: {
+    static_template: boolean;
+    allow_any_from_address: boolean;
+  };
 }

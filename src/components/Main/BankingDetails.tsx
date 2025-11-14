@@ -41,7 +41,7 @@ const BankingDetails: React.FC<Props> = ({ text }) => {
           </AppText>
         </TouchableOpacity>
       </View>
-      <ExternalAccountList />
+      <ExternalAccountList selectable />
     </>
   );
 };

@@ -3,6 +3,7 @@ import React from "react";
 import { TouchableOpacity, View } from "react-native";
 
 import AppText, { FigureText } from "../typo/AppText";
+import { useAppSelector } from "../../store/redux";
 
 interface Props {
   setAmount: React.Dispatch<React.SetStateAction<string>>;
@@ -10,6 +11,7 @@ interface Props {
 }
 
 const KeyPad: React.FC<Props> = ({ setAmount, amount }) => {
+  const { active_wallet } = useAppSelector((state) => state.wallet);
   const handlePress = (val: string) => {
     if (val === "x") {
       setAmount((prev) => prev.slice(0, -1));
@@ -26,7 +28,8 @@ const KeyPad: React.FC<Props> = ({ setAmount, amount }) => {
       </View>
       <View className="w-full border-t border-gray-200 my-1" />
       <AppText className="text-center text-gray-500 mb-2">
-        Available Account Balance: $750.00
+        Available Account Balance:{" "}
+        {Number(active_wallet?.balance).toPrecision(3)}USDC
       </AppText>
 
       <View className="flex-row flex-wrap justify-center">
