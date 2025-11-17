@@ -31,7 +31,7 @@ const HomeStackTabs: React.FC<Props> = () => {
           component={HomeSendScreen}
         />
         <HomeStack.Screen
-          name="Revceive"
+          name="Receive"
           options={{
             tabBarActiveTintColor: "#437DFF",
             tabBarInactiveTintColor: "#14141480",

@@ -7,7 +7,7 @@ import { useAppSelector } from "../store/redux";
 import MaterialIcons from "@react-native-vector-icons/material-icons";
 import Clipboard from "@react-native-clipboard/clipboard";
 
-const HomeSendScreen: React.FC = () => {
+const HomeReceiveScreen: React.FC = () => {
   const { active_wallet_address } = useAppSelector((state) => state.wallet);
 
   const anim = useRef(new Animated.Value(1)).current;
@@ -88,4 +88,4 @@ const HomeSendScreen: React.FC = () => {
   );
 };
 
-export default HomeSendScreen;
+export default HomeReceiveScreen;

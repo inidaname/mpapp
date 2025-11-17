@@ -48,7 +48,7 @@ export interface Country {
 
 export type HomeStackParams = {
   Send: { wallet_address?: string } | undefined;
-  Revceive: undefined;
+  Receive: undefined;
 };
 
 export type CurrencyDetailNavigationProp =
