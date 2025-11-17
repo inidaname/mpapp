@@ -35,7 +35,10 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
   const handlePress: SubmitHandler<LoginInput> = async (values) => {
     console.log("values", values);
     try {
-      const loginUser = await login(values).unwrap();
+      const loginUser = await login({
+        email: values.email.toLowerCase(),
+        password: values.password,
+      }).unwrap();
       await saveToken(loginUser.data.accessToken);
       console.log("loginUser.data.accessToken", loginUser.data.accessToken);
 

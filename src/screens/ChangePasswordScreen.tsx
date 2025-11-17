@@ -5,6 +5,7 @@ import { View } from "react-native";
 
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import MaterialIcons from "@react-native-vector-icons/material-icons";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import { FullNavStack } from "../types/types";
 import HeaderSide from "../components/Main/HeaderSide";
@@ -38,55 +39,62 @@ const EditProfileScreen: React.FC<Props> = ({ navigation }) => {
   };
 
   return (
-    <View className="w-full flex-1 bg-white justify-between">
-      <View className="w-full">
-        <HeaderSide heading="Edit Profile" isWithBack />
-        <View className="w-full px-6 mt-8">
-          <FormInput
-            control={control}
-            name="oldPassword"
-            label="Old Password"
-            leftIcon={<MaterialIcons name="lock" size={20} />}
-            placeholder="Enter Password"
-            isPassword
-            rules={{ required: "Old Password is required" }}
-          />
+    <KeyboardAwareScrollView
+      contentContainerStyle={{ flexGrow: 1 }}
+      enableOnAndroid={true}
+      keyboardShouldPersistTaps="handled"
+      extraScrollHeight={40}
+    >
+      <View className="w-full flex-1 bg-white justify-between">
+        <View className="w-full">
+          <HeaderSide heading="Edit Profile" isWithBack />
+          <View className="w-full px-6 mt-8">
+            <FormInput
+              control={control}
+              name="oldPassword"
+              label="Old Password"
+              leftIcon={<MaterialIcons name="lock" size={20} />}
+              placeholder="Enter Password"
+              isPassword
+              rules={{ required: "Old Password is required" }}
+            />
+          </View>
+          <View className="w-full px-6 mt-8">
+            <FormInput
+              control={control}
+              name="newPassword"
+              label="New Password"
+              leftIcon={<MaterialIcons name="lock" size={20} />}
+              placeholder="Enter Password"
+              isPassword
+              rules={{ required: "Provide a new password" }}
+            />
+          </View>
+          <View className="w-full px-6 mt-8">
+            <FormInput
+              control={control}
+              name="confirm_password"
+              label="Confirm New Password"
+              leftIcon={<MaterialIcons name="lock" size={20} />}
+              placeholder="Enter Password"
+              isPassword
+              rules={{
+                required: "Confirm password is required",
+                validate: (value) =>
+                  value === password || "Passwords do not match",
+              }}
+            />
+          </View>
         </View>
-        <View className="w-full px-6 mt-8">
-          <FormInput
-            control={control}
-            name="newPassword"
-            label="New Password"
-            leftIcon={<MaterialIcons name="lock" size={20} />}
-            placeholder="Enter Password"
-            isPassword
-            rules={{ required: "Provide a new password" }}
-          />
-        </View>
-        <View className="w-full px-6 mt-8">
-          <FormInput
-            control={control}
-            name="confirm_password"
-            label="Confirm New Password"
-            leftIcon={<MaterialIcons name="lock" size={20} />}
-            placeholder="Enter Password"
-            isPassword
-            rules={{
-              required: "Confirm password is required",
-              validate: (value) =>
-                value === password || "Passwords do not match",
-            }}
+        <View className="bottom-0 px-6">
+          <ButtonComponent
+            label="Update"
+            isDisabled={!isValid || isLoading}
+            onPress={handleSubmit(handleForm)}
           />
         </View>
       </View>
-      <View className="bottom-0 px-6">
-        <ButtonComponent
-          label="Update"
-          isDisabled={!isValid || isLoading}
-          onPress={handleSubmit(handleForm)}
-        />
-      </View>
-    </View>
+    </KeyboardAwareScrollView>
   );
 };
 

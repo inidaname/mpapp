@@ -1,6 +1,6 @@
 import React from "react";
 
-import { View } from "react-native";
+import { Pressable, View } from "react-native";
 
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -11,12 +11,17 @@ import HomeReceiveScreen from "../screens/HomeReceiveScreen";
 
 import { HomeStackParams, RootStackParamList } from "../types/types";
 import HeaderComponent from "../components/layouts/HeaderComponent";
+import { useAppDispatch, useAppSelector } from "../store/redux";
+import { closeMenu } from "../store/reducers/menu-pop-slice";
 
 interface Props extends NativeStackScreenProps<RootStackParamList, "Home"> {}
 
 const HomeStack = createMaterialTopTabNavigator<HomeStackParams>();
 
 const HomeStackTabs: React.FC<Props> = () => {
+  const { isMenuOpen } = useAppSelector((state) => state.memu);
+  const dispatch = useAppDispatch();
+
   return (
     <View className="flex-1 bg-white gap-10">
       <HeaderComponent />
@@ -40,6 +45,14 @@ const HomeStackTabs: React.FC<Props> = () => {
           component={HomeReceiveScreen}
         />
       </HomeStack.Navigator>
+      {isMenuOpen && (
+        <Pressable
+          className="bg-transparent flex-1 w-screen absolute left-0 bottom-0 z-999 h-screen"
+          onPress={() => {
+            dispatch(closeMenu());
+          }}
+        />
+      )}
     </View>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback } from "react";
 import { Pressable, View } from "react-native";
 
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
@@ -8,18 +8,26 @@ import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 
 import AppText from "../typo/AppText";
 import { FullNavStack } from "../../types/types";
+import { useAppDispatch, useAppSelector } from "../../store/redux";
+import {
+  closeMenu,
+  toggleMenu as menuState,
+} from "../../store/reducers/menu-pop-slice";
 
 export default function PopupMenu() {
-  const [visible, setVisible] = useState(false);
   const navigate = useNavigation<NativeStackNavigationProp<FullNavStack>>();
+  const dispatch = useAppDispatch();
+  const { isMenuOpen } = useAppSelector((state) => state.memu);
 
   useFocusEffect(
     useCallback(() => {
-      return () => setVisible(false);
+      return () => closeMenu();
     }, []),
   );
 
-  const toggleMenu = () => setVisible(!visible);
+  const toggleMenu = () => {
+    dispatch(menuState());
+  };
 
   return (
     <View className="z-10 ">
@@ -32,7 +40,7 @@ export default function PopupMenu() {
       </Pressable>
 
       {/* Popup Menu */}
-      {visible && (
+      {isMenuOpen && (
         <Animated.View
           entering={FadeIn.duration(200)}
           exiting={FadeOut.duration(150)}
@@ -41,7 +49,7 @@ export default function PopupMenu() {
           <Pressable
             className="px-4 py-4 my-2 border-b border-gray-100 flex-row justify-between items-center"
             onPress={() => {
-              setVisible(false);
+              toggleMenu();
               navigate.navigate("SendToBankScreen");
             }}
           >
@@ -58,7 +66,7 @@ export default function PopupMenu() {
           <Pressable
             className="px-4 py-4 my-2 border-y border-gray-100 flex-row justify-between items-center"
             onPress={() => {
-              setVisible(false);
+              toggleMenu();
               navigate.navigate("WalletScreen");
             }}
           >
@@ -74,7 +82,7 @@ export default function PopupMenu() {
           <Pressable
             className="px-4 py-4 my-2 border-t border-gray-100 flex-row justify-between items-center"
             onPress={() => {
-              setVisible(false);
+              toggleMenu();
               navigate.navigate("RecentActivitiesScreen");
             }}
           >

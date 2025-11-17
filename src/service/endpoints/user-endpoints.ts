@@ -23,19 +23,42 @@ const userEndpoints = apiSlice.injectEndpoints({
       }),
       providesTags: ["wallet", "user"],
       onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
-        const { data } = await queryFulfilled;
-        console.log("data", data);
-        dispatch(setUserProfile({ profile: data.data }));
-        dispatch(setWallets(data.data.Wallet));
-        dispatch(
-          setActiveWallet(data.data.Wallet.find((wallet) => wallet.is_active)!),
-        );
-        dispatch(
-          setActiveWalletAddrees(
-            data.data.Wallet.find((wallet) => wallet.is_active)
-              ?.wallet_address ?? "",
-          ),
-        );
+        try {
+          const { data } = await queryFulfilled;
+
+          const profile = data.data;
+          const wallets = profile.Wallet || [];
+          const activeWallet = wallets.find((w) => w.is_active);
+
+          dispatch(setUserProfile({ profile }));
+          dispatch(setWallets(wallets));
+
+          if (activeWallet) {
+            dispatch(setActiveWallet(activeWallet));
+            dispatch(setActiveWalletAddrees(activeWallet.wallet_address));
+          } else {
+            // no wallet or failed to find one, create a new wallet
+            try {
+              await dispatch(
+                (apiSlice.endpoints as any).createWallet.initiate({
+                  accountType: "EOA",
+                  blockchains: ["SOL-DEVNET"],
+                }),
+              ).unwrap();
+
+              // update redux store with the new wallet
+              dispatch(
+                (apiSlice.endpoints as any).getUserProfile.initiate(undefined, {
+                  forceRefetch: true,
+                }),
+              );
+            } catch (createErr) {
+              console.error("wallet creation failed:", createErr);
+            }
+          }
+        } catch (err) {
+          console.error("profile fetch failed:", err);
+        }
       },
     }),
   }),

@@ -112,12 +112,14 @@ const SettingsScreen: React.FC<Props> = ({ navigation }) => {
             ios_backgroundColor="#3e3e3e"
           />
         </View>
-      </View>
+      </View> */
+      }
       <View className="w-full px-6 mt-12">
         <AppText className="text-gray-600 text-sm">
           Preference
         </AppText>
-        <TouchableOpacity
+        {
+          /* <TouchableOpacity
           onPress={() => navigation.navigate("ChangeCountry")}
           className="w-full px-3 py-4 bg-gray-200 mt-4 rounded-lg flex-row justify-between items-center"
         >
@@ -126,7 +128,8 @@ const SettingsScreen: React.FC<Props> = ({ navigation }) => {
             <AppText className="ml-3">Local Currency</AppText>
           </View>
           <MaterialIcons name="chevron-right" size={22} color={"#215CE1"} />
-        </TouchableOpacity>
+        </TouchableOpacity> */
+        }
         <TouchableOpacity
           onPress={() => navigation.navigate("ChangeCountry")}
           className="w-full px-3 py-4 bg-gray-200 mt-4 rounded-lg flex-row justify-between items-center"
@@ -137,7 +140,8 @@ const SettingsScreen: React.FC<Props> = ({ navigation }) => {
           </View>
           <MaterialIcons name="chevron-right" size={22} color={"#215CE1"} />
         </TouchableOpacity>
-        <View className="w-full px-3 py-4 bg-gray-200 mt-4 rounded-lg flex-row justify-between items-center">
+        {
+          /* <View className="w-full px-3 py-4 bg-gray-200 mt-4 rounded-lg flex-row justify-between items-center">
           <View className="flex-1 flex-row items-center jusitfy-start">
             <MaterialIcons name="fingerprint" size={20} />
             <AppText className="ml-3">Dark Mode</AppText>
@@ -149,9 +153,11 @@ const SettingsScreen: React.FC<Props> = ({ navigation }) => {
             value={isEnabled}
             ios_backgroundColor="#3e3e3e"
           />
-        </View>
+        </View> */
+        }
       </View>
-      <View className="w-full px-6 mt-12">
+      {
+        /* <View className="w-full px-6 mt-12">
         <AppText className="text-gray-600 text-sm">
           Resources
         </AppText>

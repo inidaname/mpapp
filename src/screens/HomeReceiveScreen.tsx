@@ -10,6 +10,7 @@ import Clipboard from "@react-native-clipboard/clipboard";
 const HomeReceiveScreen: React.FC = () => {
   const { active_wallet_address } = useAppSelector((state) => state.wallet);
 
+  console.log("active_wallet_address", active_wallet_address);
   const anim = useRef(new Animated.Value(1)).current;
 
   const handleCopy = () => {

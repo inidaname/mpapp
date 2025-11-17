@@ -22,7 +22,7 @@ const WalletScreen: React.FC<Props> = ({}) => {
           Total Balanace In USDC
         </AppText>
         <Text className="text-6xl font-bold text-gray-800 mt-6">
-          {Number(active_wallet?.balance).toPrecision(3)}
+          {Number(active_wallet?.balance ?? 0).toPrecision(3)}
         </Text>
       </View>
       <ActiveNetworks />

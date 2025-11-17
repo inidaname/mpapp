@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import type React from "react";
-import { ScrollView, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -9,15 +9,26 @@ import HeaderSide from "../components/Main/HeaderSide";
 import ButtonComponent from "../components/Button";
 import { RootStackParamList } from "../types/types";
 import FormInput from "../components/FormInput";
+import FormPicker from "../components/FormPicker"; // You'll need to create this component
 import { useAddAccountMutation } from "../service/endpoints/external-accounts";
+import { COUNTRIES, CURRENCIES, US_STATES } from "../data/country";
 
 interface Props extends NativeStackScreenProps<RootStackParamList> {}
 
 const AddBankScreen: React.FC<Props> = ({ navigation }) => {
-  const { control, handleSubmit, formState: { isValid } } = useForm<
+  const { control, handleSubmit, formState: { isValid }, watch } = useForm<
     ExternalAccountInput
-  >();
+  >({
+    defaultValues: {
+      currency: "USD",
+      address: {
+        country: "US",
+      },
+    },
+  });
   const [addAccount, { isLoading }] = useAddAccountMutation();
+
+  const selectedCountry = watch("address.country");
 
   const onSubmit: SubmitHandler<ExternalAccountInput> = async (data) => {
     const formValues = {
@@ -49,137 +60,148 @@ const AddBankScreen: React.FC<Props> = ({ navigation }) => {
         className="bg-white px-0 w-full"
       >
         <HeaderSide heading="Add Bank Account" isWithBack />
+
         <View className="w-full px-6 justify-start items-center flex-1 py-4 mt-8">
-          {/* Currency */}
-          <FormInput
-            name="currency"
-            label="Currency"
-            placeholder="Enter Currency (e.g. USD)"
-            control={control}
-            rules={{ required: "Currency is required" }}
-          />
+          {/* Account Information Section */}
+          <View className="w-full mb-6">
+            <Text className="text-lg font-semibold text-gray-800 mb-3">
+              Account Information
+            </Text>
 
-          {/* Owner Info */}
-          {
-            /* <FormInput
-            name="account_owner_name"
-            label="Account Owner Name"
-            placeholder="Enter Owner Name"
-            control={control}
-            rules={{ required: "Account Owner Name is required" }}
-          />
-          <FormInput
-            name="account_owner_type"
-            label="Owner Type"
-            placeholder="Enter Owner Type (individual/business)"
-            control={control}
-            rules={{ required: "Owner Type is required" }}
-          /> */
-          }
-          <FormInput
-            name="first_name"
-            label="First Name"
-            placeholder="Enter First Name"
-            control={control}
-            rules={{ required: "First Name is required" }}
-          />
-          <FormInput
-            name="last_name"
-            label="Last Name"
-            placeholder="Enter Last Name"
-            control={control}
-            rules={{ required: "Last Name is required" }}
-          />
-          {
-            /* <FormInput
-            name="business_name"
-            label="Business Name"
-            placeholder="Enter Business Name"
-            control={control}
-          /> */
-          }
-          {
-            /* <FormInput
-            name="account_type"
-            label="Account Type"
-            placeholder="Enter Account Type (e.g. US)"
-            control={control}
-            rules={{ required: "Account Type is required" }}
-          /> */
-          }
+            <FormPicker
+              name="currency"
+              label="Currency"
+              placeholder="Select Currency"
+              control={control}
+              options={CURRENCIES}
+              rules={{ required: "Currency is required" }}
+            />
 
-          {/* Address */}
-          <FormInput
-            name="address.street_line_1"
-            label="Street Line 1"
-            placeholder="Enter Street Line 1"
-            control={control}
-            rules={{ required: "Street Line 1 is required" }}
-          />
-          <FormInput
-            name="address.street_line_2"
-            label="Street Line 2"
-            placeholder="Enter Street Line 2"
-            control={control}
-          />
-          <FormInput
-            name="address.city"
-            label="City"
-            placeholder="Enter City"
-            control={control}
-            rules={{ required: "City is required" }}
-          />
-          <FormInput
-            name="address.state"
-            label="State"
-            placeholder="Enter State"
-            control={control}
-            rules={{ required: "State is required" }}
-          />
-          <FormInput
-            name="address.postal_code"
-            label="Postal Code"
-            placeholder="Enter Postal Code"
-            control={control}
-            rules={{ required: "Postal Code is required" }}
-          />
-          <FormInput
-            name="address.country"
-            label="Country"
-            placeholder="Enter Country"
-            control={control}
-            rules={{ required: "Country is required" }}
-          />
+            <FormInput
+              name="account.account_number"
+              label="Account Number"
+              placeholder="Enter Account Number"
+              control={control}
+              keyboardType="number-pad"
+              rules={{ required: "Account Number is required" }}
+            />
 
-          {/* Account Info */}
-          <FormInput
-            name="account.account_number"
-            label="Account Number"
-            placeholder="Enter Account Number"
-            control={control}
-            rules={{ required: "Account Number is required" }}
-          />
-          <FormInput
-            name="account.routing_number"
-            label="Routing Number"
-            placeholder="Enter Routing Number"
-            control={control}
-            rules={{ required: "Routing Number is required" }}
-          />
-          {
-            /* <FormInput
-            name="account.checking_or_savings"
-            label="Checking or Savings"
-            placeholder="Enter Account Type (checking/savings)"
-            control={control}
-            rules={{ required: "Checking or Savings is required" }}
-          /> */
-          }
+            <FormInput
+              name="account.routing_number"
+              label="Routing Number"
+              placeholder="Enter Routing Number"
+              control={control}
+              keyboardType="number-pad"
+              rules={{
+                required: "Routing Number is required",
+                minLength: {
+                  value: 9,
+                  message: "Routing number must be 9 digits",
+                },
+                maxLength: {
+                  value: 9,
+                  message: "Routing number must be 9 digits",
+                },
+              }}
+            />
+          </View>
+
+          {/* Account Owner Section */}
+          <View className="w-full mb-6">
+            <Text className="text-lg font-semibold text-gray-800 mb-3">
+              Account Owner
+            </Text>
+
+            <FormInput
+              name="first_name"
+              label="First Name"
+              placeholder="Enter First Name"
+              control={control}
+              rules={{ required: "First Name is required" }}
+            />
+
+            <FormInput
+              name="last_name"
+              label="Last Name"
+              placeholder="Enter Last Name"
+              control={control}
+              rules={{ required: "Last Name is required" }}
+            />
+          </View>
+
+          {/* Address Section */}
+          <View className="w-full mb-6">
+            <Text className="text-lg font-semibold text-gray-800 mb-3">
+              Address
+            </Text>
+
+            <FormInput
+              name="address.street_line_1"
+              label="Street Address"
+              placeholder="Enter Street Address"
+              control={control}
+              rules={{ required: "Street Address is required" }}
+            />
+
+            <FormInput
+              name="address.street_line_2"
+              label="Apt, Suite, etc. (Optional)"
+              placeholder="Apartment, Suite, Unit, etc."
+              control={control}
+            />
+
+            <FormInput
+              name="address.city"
+              label="City"
+              placeholder="Enter City"
+              control={control}
+              rules={{ required: "City is required" }}
+            />
+
+            <FormPicker
+              name="address.country"
+              label="Country"
+              placeholder="Select Country"
+              control={control}
+              options={COUNTRIES}
+              rules={{ required: "Country is required" }}
+            />
+
+            {selectedCountry === "US"
+              ? (
+                <FormPicker
+                  name="address.state"
+                  label="State"
+                  placeholder="Select State"
+                  control={control}
+                  options={US_STATES}
+                  rules={{ required: "State is required" }}
+                />
+              )
+              : (
+                <FormInput
+                  name="address.state"
+                  label="State/Province"
+                  placeholder="Enter State/Province"
+                  control={control}
+                  rules={{ required: "State/Province is required" }}
+                />
+              )}
+
+            <FormInput
+              name="address.postal_code"
+              label="Postal Code"
+              placeholder="Enter Postal Code"
+              control={control}
+              keyboardType="default"
+              rules={{ required: "Postal Code is required" }}
+            />
+          </View>
         </View>
 
-        <View className="px-6 mb-4">
+        <View className="px-6 mb-4 pb-6">
           <ButtonComponent
-            label="Add"
+            label="Add Bank Account"
             isLoading={isLoading}
             isDisabled={!isValid}
             onPress={handleSubmit(onSubmit)}

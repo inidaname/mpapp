@@ -36,14 +36,14 @@ const SignupScreen: React.FC<Props> = ({ navigation }) => {
   const password = watch("password");
 
   const onSubmit: SubmitHandler<CreateUserInput> = async (values) => {
-    const { confirmpassword, ...rest } = values;
+    const { confirmpassword, email, ...rest } = values;
     if (rest.password !== confirmpassword) {
       return;
     }
 
     try {
-      const user = await register(rest).unwrap();
-      console.log("user", user);
+      const user = await register({ email: email.toLowerCase(), ...rest })
+        .unwrap();
       dispatch(setUserTemp(user.data.id));
       navigation.navigate("VerificationScreen", {
         email: user.data.email,

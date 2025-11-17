@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { Alert, StyleSheet } from "react-native";
+import React, { useEffect, useState } from "react";
+import { StyleSheet } from "react-native";
 import {
   Camera,
   useCameraDevice,
@@ -11,14 +11,15 @@ import { FullNavStack } from "../types/types";
 type Props = NativeStackScreenProps<FullNavStack>;
 
 export default function ScanWalletScreen({ navigation }: Props) {
-  const device = useCameraDevice("back");
+  const [hasPermission, setHasPermission] = useState(false);
 
   useEffect(() => {
     (async () => {
       const status = await Camera.requestCameraPermission();
       if (status !== "granted") {
-        Alert.alert("Camera permission denied");
         navigation.goBack();
+      } else {
+        setHasPermission(true);
       }
     })();
   }, [navigation]);
@@ -36,7 +37,9 @@ export default function ScanWalletScreen({ navigation }: Props) {
     },
   });
 
-  if (!device) return null;
+  const device = useCameraDevice("back");
+
+  if (!hasPermission || !device) return <></>;
 
   return (
     <Camera

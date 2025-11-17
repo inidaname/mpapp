@@ -2,6 +2,7 @@ import type React from "react";
 import { useEffect, useState } from "react";
 
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import { RootStackParamList } from "../types/types";
 import { Image, View } from "react-native";
@@ -60,66 +61,74 @@ const ForgotPasswordScreen: React.FC<Props> = ({ navigation }) => {
   }, [otp.length, password]);
 
   return (
-    <View className="flex-1 bg-white">
-      <View className="mt-20">
-        <Back />
-      </View>
-      <View className="w-full justify-center items-center py-14 px-6">
+    <KeyboardAwareScrollView
+      // eslint-disable-next-line react-native/no-inline-styles
+      contentContainerStyle={{ flexGrow: 1 }}
+      enableOnAndroid={true}
+      keyboardShouldPersistTaps="handled"
+      extraScrollHeight={40}
+    >
+      <View className="flex-1 bg-white">
+        <View className="mt-20">
+          <Back />
+        </View>
+        <View className="w-full justify-center items-center py-14 px-6">
+          {startPassword === "start"
+            ? <Image source={require("../../assets/lock_cancel.png")} />
+            : <Image source={require("../../assets/lock_checked.png")} />}
+          <AppText weight="semibold" className="text-3xl mt-8">
+            Forget Password?
+          </AppText>
+          <AppText weight="light" className="text-lg text-center mt-2 px-1">
+            Don&apos;t worry it happens! just enter your email to reset your
+            password
+          </AppText>
+        </View>
         {startPassword === "start"
-          ? <Image source={require("../../assets/lock_cancel.png")} />
-          : <Image source={require("../../assets/lock_checked.png")} />}
-        <AppText weight="semibold" className="text-3xl mt-8">
-          Forget Password?
-        </AppText>
-        <AppText weight="light" className="text-lg text-center mt-2 px-1">
-          Don&apos;t worry it happens! just enter your email to reset your
-          password
-        </AppText>
+          ? <StartForgotPassword setEmail={setEmail} setAllow={setAllow} />
+          : (
+            <View className="w-full px-6 justify-start items-center flex-1">
+              <FormInput
+                name="password"
+                label="Password"
+                placeholder="Enter a New Password"
+                leftIcon={
+                  <MaterialIcons
+                    name="lock"
+                    size={20}
+                    color="gray"
+                  />
+                }
+                control={control}
+                isPassword
+                keyboardType="visible-password"
+                rules={{ required: "Password is required" }}
+              />
+              <OtpInput
+                focusColor="#215ce1"
+                numberOfDigits={4}
+                onTextChange={(text) => setOTP(text)}
+                theme={{
+                  pinCodeContainerStyle: { width: 60, height: 60 },
+                  containerStyle: { width: "90%", marginVertical: 20 },
+                  pinCodeTextStyle: {
+                    fontFamily: "Raleway-Regular",
+                    fontSize: 20,
+                  },
+                }}
+              />
+            </View>
+          )}
+        <View className="w-full px-6">
+          <ButtonComponent
+            onPress={handleSwitch}
+            isDisabled={allow}
+            isLoading={isLoading}
+            label="Continue"
+          />
+        </View>
       </View>
-      {startPassword === "start"
-        ? <StartForgotPassword setEmail={setEmail} setAllow={setAllow} />
-        : (
-          <View className="w-full px-6 justify-start items-center flex-1">
-            <FormInput
-              name="password"
-              label="Password"
-              placeholder="Enter a New Password"
-              leftIcon={
-                <MaterialIcons
-                  name="lock"
-                  size={20}
-                  color="gray"
-                />
-              }
-              control={control}
-              isPassword
-              keyboardType="visible-password"
-              rules={{ required: "Password is required" }}
-            />
-            <OtpInput
-              focusColor="#215ce1"
-              numberOfDigits={4}
-              onTextChange={(text) => setOTP(text)}
-              theme={{
-                pinCodeContainerStyle: { width: 60, height: 60 },
-                containerStyle: { width: "90%", marginVertical: 20 },
-                pinCodeTextStyle: {
-                  fontFamily: "Raleway-Regular",
-                  fontSize: 20,
-                },
-              }}
-            />
-          </View>
-        )}
-      <View className="w-full px-6">
-        <ButtonComponent
-          onPress={handleSwitch}
-          isDisabled={allow}
-          isLoading={isLoading}
-          label="Continue"
-        />
-      </View>
-    </View>
+    </KeyboardAwareScrollView>
   );
 };
 

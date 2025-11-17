@@ -7,11 +7,11 @@ import MaterialIcons from "@react-native-vector-icons/material-icons";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { FullNavStack } from "../types/types";
 import { useAppSelector } from "../store/redux";
-import { useCameraPermission } from "react-native-vision-camera";
 import SendComponent from "../components/Main/SendComponent";
 import { useAddDeviceNotyMutation } from "../service/endpoints/notification-endpoints";
 import messaging from "@react-native-firebase/messaging";
 import { useGetWalletByIdQuery } from "../service/endpoints/wallets-endpoints";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 interface Props extends NativeStackScreenProps<FullNavStack, "Send"> {}
 
@@ -97,7 +97,7 @@ const CustomTabBar: React.FC<Props> = ({ navigation }) => {
 
 const HomeSendScreen: React.FC<Props> = ({ navigation, route }) => {
   const [balanceHidden, setBalanceHidden] = useState(false);
-  // const { hasPermission, requestPermission } = useCameraPermission();
+  // const [hasPermission, setHasPermission] = useState(false);
   const { active_wallet } = useAppSelector((state) => state.wallet);
 
   const { data } = useGetWalletByIdQuery(active_wallet?.id ?? "");
@@ -107,7 +107,9 @@ const HomeSendScreen: React.FC<Props> = ({ navigation, route }) => {
   // useEffect(() => {
   //   const handleRequest = async () => {
   //     if (!hasPermission) {
-  //       await requestPermission();
+  //       await requestUserPermission();
+  //       setHasPermission(true)
+
   //     }
   //   };
 
@@ -115,49 +117,54 @@ const HomeSendScreen: React.FC<Props> = ({ navigation, route }) => {
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, [hasPermission]);
 
-  // useEffect(() => {
-  //   (async () => {
-  //     const getPermission = await requestUserPermission();
-  //     console.log("hasPermission", getPermission);
-  //     if (getPermission) {
-  //       const deviceToken = await messaging().getToken();
-  //       console.log("deviceToken", deviceToken);
+  useEffect(() => {
+    (async () => {
+      const getPermission = await requestUserPermission();
+      console.log("hasPermission", getPermission);
+      if (getPermission) {
+        const deviceToken = await messaging().getToken();
+        console.log("deviceToken", deviceToken);
 
-  //       const deviceReady = await addDevice({
-  //         deviceToken,
-  //         device: "Hassan",
-  //       }).unwrap();
-  //       console.log("deviceReady", deviceReady);
-  //     } else {
-  //       console.log("Permission denied", "Notifications won’t work.");
-  //     }
+        const deviceReady = await addDevice({
+          deviceToken,
+          device: "Hassan",
+        }).unwrap();
+        console.log("deviceReady", deviceReady);
+      } else {
+        console.log("Permission denied", "Notifications won’t work.");
+      }
 
-  //     // Listen for token refresh
-  //     return messaging().onTokenRefresh(async (newToken) => {
-  //       console.log("FCM Token refreshed:", newToken);
-  //       const deviceReady = await addDevice({
-  //         deviceToken: newToken,
-  //         device: "Hassan",
-  //       }).unwrap();
-  //       console.log("deviceReady", deviceReady);
-  //     });
-  //   })();
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
+      // Listen for token refresh
+      return messaging().onTokenRefresh(async (newToken) => {
+        console.log("FCM Token refreshed:", newToken);
+        const deviceReady = await addDevice({
+          deviceToken: newToken,
+          device: "Hassan",
+        }).unwrap();
+        console.log("deviceReady", deviceReady);
+      });
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  // // Foreground message handler
-  // useEffect(() => {
-  //   const unsubscribe = messaging().onMessage(async (remoteMessage) => {
-  //     console.log(
-  //       "New Notification",
-  //       JSON.parse(remoteMessage.notification?.body ?? ""),
-  //     );
-  //   });
-  //   return unsubscribe;
-  // }, []);
+  // Foreground message handler
+  useEffect(() => {
+    const unsubscribe = messaging().onMessage(async (remoteMessage) => {
+      console.log(
+        "New Notification",
+        JSON.parse(remoteMessage.notification?.body ?? ""),
+      );
+    });
+    return unsubscribe;
+  }, []);
 
   return (
-    <>
+    <KeyboardAwareScrollView
+      contentContainerStyle={{ flexGrow: 1 }}
+      enableOnAndroid={true}
+      keyboardShouldPersistTaps="handled"
+      extraScrollHeight={40}
+    >
       <View className="bg-white flex-1">
         {/* Balance */}
         <View className="items-center mt-6">
@@ -190,7 +197,7 @@ const HomeSendScreen: React.FC<Props> = ({ navigation, route }) => {
         />
       </View>
       <CustomTabBar navigation={navigation} route={route} />
-    </>
+    </KeyboardAwareScrollView>
   );
 };
 

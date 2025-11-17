@@ -7,6 +7,11 @@ import AppText from "../components/typo/AppText";
 import { useState } from "react";
 import { useGetCountriesQuery } from "../service/endpoints/util-endpoitns";
 import HeaderSide from "../components/Main/HeaderSide";
+import {
+  useGetUserProfileQuery,
+  useUpdateUserMutation,
+} from "../service/endpoints/user-endpoints";
+import ButtonComponent from "../components/Button";
 
 interface Props extends NativeStackScreenProps<FullNavStack> {}
 
@@ -14,16 +19,30 @@ const ChangeCountry: React.FC<Props> = ({ navigation }) => {
   const [selected, setSelected] = useState<CountriesAPI | null>(null);
 
   const { data: countries, isLoading } = useGetCountriesQuery();
+  const [update, { isLoading: updating }] = useUpdateUserMutation();
+  const { data: user } = useGetUserProfileQuery();
 
-  const handleContinue = () => {
-    if (selected) {
-      console.log("selected", selected);
+  const handleContinue = async () => {
+    try {
+      console.log(selected);
+      const country = await update({
+        country: selected?.name,
+        username: user?.data.username,
+      }).unwrap();
+      console.log("country", country);
       navigation.goBack();
+    } catch (error) {
+      console.log("error", error);
     }
   };
 
   if (isLoading) {
-    return <AppText>Loading Countries</AppText>;
+    return (
+      <View className="flex-1 px-4 bg-white">
+        <HeaderSide heading="Country" isWithBack />
+        <AppText>Loading Countries</AppText>
+      </View>
+    );
   }
 
   return (
@@ -69,17 +88,12 @@ const ChangeCountry: React.FC<Props> = ({ navigation }) => {
           </TouchableOpacity>
         ))}
       </ScrollView>
-      <TouchableOpacity
-        disabled={!selected}
+      <ButtonComponent
+        label="Continue"
         onPress={handleContinue}
-        className={`w-full px-6 py-3 rounded-2xl h-16 justify-center items-center mb-10 ${
-          selected ? "bg-brand-700" : "bg-brand-300"
-        }`}
-      >
-        <AppText weight="semibold" className="text-white text-xl">
-          Continue
-        </AppText>
-      </TouchableOpacity>
+        isDisabled={!selected}
+        isLoading={updating}
+      />
     </View>
   );
 };

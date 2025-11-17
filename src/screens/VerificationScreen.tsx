@@ -36,6 +36,7 @@ import {
   setTokenTempe,
 } from "../store/reducers/temporary-slice";
 import { setToken } from "../store/reducers/auth-slice";
+import { useCreateWalletMutation } from "../service/endpoints/wallets-endpoints";
 
 interface Props
   extends NativeStackScreenProps<FullNavStack, "VerificationScreen"> {}
@@ -60,6 +61,7 @@ const EmailVerification: React.FC<EmailScreenProp> = ({
   const [countdown, setCountdown] = useState(60);
   const [canResend, setCanResend] = useState(login);
   const [verifyOTP, { isLoading }] = useVerifyOTPMutation();
+  const [createWallet] = useCreateWalletMutation();
   const [resend] = useResendOTPMutation();
   const dispatch = useAppDispatch();
 
@@ -111,6 +113,10 @@ const EmailVerification: React.FC<EmailScreenProp> = ({
           );
           dispatch(clearTempToken());
         }
+        await createWallet({
+          accountType: "EOA",
+          blockchains: ["SOL-DEVNET"],
+        }).unwrap();
       }
     } catch (err) {
       console.log("err", err);
