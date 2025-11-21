@@ -10,10 +10,14 @@ const contactEndpoints = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["contacts"],
     }),
-    getContacts: build.query<APIData<ContactData>, number | undefined>({
-      query: (page = 1) => ({
-        url: `/contacts?page=${page}`,
+    getContacts: build.query<
+      APIData<ContactData>,
+      { search: string; page?: string }
+    >({
+      query: ({ page = 1, search }) => ({
+        url: `/contacts`,
         method: "GET",
+        params: { page, search },
       }),
       providesTags: ["contacts"],
     }),

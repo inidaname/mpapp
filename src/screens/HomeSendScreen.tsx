@@ -24,7 +24,7 @@ async function requestUserPermission() {
   return enabled;
 }
 
-const CustomTabBar: React.FC<Props> = ({ navigation }) => {
+const CustomTabBar: React.FC<Pick<Props, "navigation">> = ({ navigation }) => {
   const DIP_WIDTH = 140;
   const DIP_HEIGHT = 56;
   const FAB_SIZE = 64;
@@ -95,7 +95,7 @@ const CustomTabBar: React.FC<Props> = ({ navigation }) => {
   );
 };
 
-const HomeSendScreen: React.FC<Props> = ({ navigation, route }) => {
+const HomeSendScreen: React.FC<Props> = ({ navigation }) => {
   const [balanceHidden, setBalanceHidden] = useState(false);
   // const [hasPermission, setHasPermission] = useState(false);
   const { active_wallet } = useAppSelector((state) => state.wallet);
@@ -197,11 +197,10 @@ const HomeSendScreen: React.FC<Props> = ({ navigation, route }) => {
 
         <SendComponent
           navigation={navigation}
-          route={route}
           wallet={data?.data.circle.data.tokenBalances ?? []}
         />
       </View>
-      <CustomTabBar navigation={navigation} route={route} />
+      <CustomTabBar navigation={navigation} />
     </KeyboardAwareScrollView>
   );
 };

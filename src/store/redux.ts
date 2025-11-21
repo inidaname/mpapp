@@ -11,6 +11,7 @@ import countriesSlice from "./reducers/countries-slice";
 import tempSlice from "./reducers/temporary-slice";
 import externalAccounts from "./reducers/external-account-slice";
 import menuPopSlice from "./reducers/menu-pop-slice";
+import scanWallet from "./reducers/scan-wallet-slice";
 
 const persistConfig = {
   key: "root",
@@ -27,6 +28,7 @@ const rootReducer = combineReducers({
   tempSlice,
   externalAccounts,
   memu: menuPopSlice,
+  scanWallet,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

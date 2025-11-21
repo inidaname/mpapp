@@ -7,11 +7,23 @@ import {
 } from "react-native-vision-camera";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { FullNavStack } from "../types/types";
+import { useAppDispatch } from "../store/redux";
+import {
+  clearScannedAddress,
+  setScanned,
+  setScannedAddress,
+} from "../store/reducers/scan-wallet-slice";
 
 type Props = NativeStackScreenProps<FullNavStack>;
 
 export default function ScanWalletScreen({ navigation }: Props) {
   const [hasPermission, setHasPermission] = useState(false);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(clearScannedAddress());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -31,10 +43,13 @@ export default function ScanWalletScreen({ navigation }: Props) {
     onCodeScanned: (codes) => {
       if (codes.length > 0) {
         const qr = codes[0].value || "";
-        navigation.navigate("Home", {
-          screen: "Send",
-          params: { wallet_address: qr },
-        });
+        // navigation.navigate("Home", {
+        //   screen: "Send",
+        //   params: { wallet_address: qr },
+        // });
+        dispatch(setScannedAddress(qr));
+        dispatch(setScanned(true));
+        navigation.goBack();
       }
     },
   });

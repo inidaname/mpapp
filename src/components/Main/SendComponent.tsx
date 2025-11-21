@@ -8,15 +8,18 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { FullNavStack } from "../../types/types";
 import { useSendTransactionMutation } from "../../service/endpoints/transactions-endpoints";
 import ButtonComponent from "../Button";
+import { useAppSelector } from "../../store/redux";
 
-interface Props extends NativeStackScreenProps<FullNavStack, "Send"> {
+interface Props
+  extends Pick<NativeStackScreenProps<FullNavStack, "Send">, "navigation"> {
   // wallet_address: string;
   wallet: WallectDetail["circle"]["data"]["tokenBalances"];
 }
 
-const SendComponent: React.FC<Props> = ({ route, navigation, wallet }) => {
+const SendComponent: React.FC<Props> = ({ navigation, wallet }) => {
   const [value, setValue] = useState("");
-  const [inputAdd, setInputAdd] = useState(route.params?.wallet_address);
+  const { address } = useAppSelector((state) => state.scanWallet);
+  const [inputAdd, setInputAdd] = useState(address ?? "");
   const [sendTransaction, { isLoading }] = useSendTransactionMutation();
 
   const handleSend = async () => {
