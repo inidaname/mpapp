@@ -19,7 +19,8 @@ const HeaderComponent: React.FC = () => {
   useEffect(() => {
     const handleGetProfile = async () => {
       if (profile === null) {
-        await getProfile().unwrap();
+        const detail = await getProfile().unwrap();
+        console.log("profile", detail);
       }
     };
     handleGetProfile();

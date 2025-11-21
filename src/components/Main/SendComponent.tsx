@@ -16,14 +16,15 @@ interface Props extends NativeStackScreenProps<FullNavStack, "Send"> {
 
 const SendComponent: React.FC<Props> = ({ route, navigation, wallet }) => {
   const [value, setValue] = useState("");
+  const [inputAdd, setInputAdd] = useState(route.params?.wallet_address);
   const [sendTransaction, { isLoading }] = useSendTransactionMutation();
 
   const handleSend = async () => {
     try {
       const send = await sendTransaction({
         amount: `${value}`,
-        destinationAddress: "A3jzQ471nggNQ2CWanJHvG2Z2wgSNDmqpr26iJrw3DZ1",
-        tokenId: wallet[1].token.id,
+        destinationAddress: `${inputAdd}`,
+        tokenId: wallet[0].token.id,
       }).unwrap();
       console.log("send", send);
     } catch (error) {
@@ -36,13 +37,21 @@ const SendComponent: React.FC<Props> = ({ route, navigation, wallet }) => {
       <View className="flex-row items-center justify-between border-b border-gray-100 pb-2">
         <AppText className="text-[#14141480] text-[16px]">Send To</AppText>
         <View className="flex-1 mx-2">
-          <AppText
+          <TextInput
+            numberOfLines={1}
+            className="truncate w-full"
+            onChangeText={(e) => setInputAdd(e)}
+            value={inputAdd}
+          />
+          {
+            /* <AppText
             numberOfLines={1}
             ellipsizeMode="tail"
             className="truncate"
           >
             {route.params?.wallet_address}
-          </AppText>
+          </AppText> */
+          }
         </View>
         <TouchableOpacity
           className="bg-brand-700 px-5 py-4 rounded-full"
@@ -62,7 +71,7 @@ const SendComponent: React.FC<Props> = ({ route, navigation, wallet }) => {
           onChangeText={(e) => {
             setValue(e);
           }}
-          keyboardType="number-pad"
+          keyboardType="decimal-pad"
         />
         <View className="flex-row items-center">
           <View className="h-6 w-6 p-1 mr-2 border border-brand-700 rounded-full items-center justify-center">

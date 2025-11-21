@@ -179,8 +179,13 @@ const HomeSendScreen: React.FC<Props> = ({ navigation, route }) => {
             />
             <Text className="text-[47px] font-montserrat-medium text-center ml-2 w-auto">
               {balanceHidden ? "••••.••" : Number(
-                data?.data?.circle?.data?.tokenBalances[1]?.amount ?? 0,
-              ).toPrecision(3)}
+                data?.data?.circle?.data?.tokenBalances[0]?.amount ?? 0,
+              ).toPrecision(
+                !data?.data.circle.data.tokenBalances[0]?.token.decimals ||
+                  data?.data.circle.data.tokenBalances[0]?.token.decimals > 3
+                  ? 3
+                  : data?.data.circle.data.tokenBalances[0]?.token.decimals,
+              )}
             </Text>
           </View>
           <TouchableOpacity onPress={() => setBalanceHidden(!balanceHidden)}>

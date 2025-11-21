@@ -38,7 +38,9 @@ const PhoneNumberInput: React.FC<PhoneInputProps> = ({
   return (
     <View className="mb-4 w-full">
       {label && (
-        <AppText weight="semibold" className="mb-2 text-lg">{label}</AppText>
+        <AppText weight="semibold" className="mb-2 text-lg">
+          {label}
+        </AppText>
       )}
 
       <Controller
@@ -47,66 +49,72 @@ const PhoneNumberInput: React.FC<PhoneInputProps> = ({
         rules={rules}
         render={(
           { field: { onChange, onBlur, value }, fieldState: { error } },
-        ) => (
-          <>
-            <View
-              className={`flex-row items-center border rounded-2xl px-3 py-3 ${
-                error ? "border-red-500" : "border-gray-300"
-              }`}
-            >
-              <MaterialIcons
-                name="call"
-                size={20}
-                color="gray"
-                className="mr-2"
-              />
+        ) => {
+          // Extract local number from current value (optional)
+          const localValue = value ? value.replace(`+${countryCode}`, "") : "";
 
-              {/* Country Picker */}
-              <TouchableOpacity
-                className="flex-row items-center mx-2"
-                onPress={() => setVisible(true)}
+          return (
+            <>
+              <View
+                className={`flex-row items-center border rounded-2xl px-3 py-3 ${
+                  error ? "border-red-500" : "border-gray-300"
+                }`}
               >
-                <AppText className="text-lg mr-1">+{countryCode}</AppText>
                 <MaterialIcons
-                  name="keyboard-arrow-down"
-                  size={18}
-                  color="#215CE1"
+                  name="call"
+                  size={20}
+                  color="gray"
+                  className="mr-2"
                 />
-              </TouchableOpacity>
-              <View className="opacity-0 w-0 h-0">
-                <CountryPicker
-                  withFilter
-                  withFlag
-                  withCallingCode
-                  withCountryNameButton={false}
-                  onSelect={onSelect}
-                  visible={visible}
-                  countryCode={countryCca2}
-                  onClose={() => setVisible(false)}
+
+                {/* Country Picker */}
+                <TouchableOpacity
+                  className="flex-row items-center mx-2"
+                  onPress={() => setVisible(true)}
+                >
+                  <AppText className="text-lg mr-1">+{countryCode}</AppText>
+                  <MaterialIcons
+                    name="keyboard-arrow-down"
+                    size={18}
+                    color="#215CE1"
+                  />
+                </TouchableOpacity>
+                <View className="opacity-0 w-0 h-0">
+                  <CountryPicker
+                    withFilter
+                    withFlag
+                    withCallingCode
+                    withCountryNameButton={false}
+                    onSelect={onSelect}
+                    visible={visible}
+                    countryCode={countryCca2}
+                    onClose={() => setVisible(false)}
+                  />
+                </View>
+
+                {/* Divider */}
+                <View className="h-6 w-px bg-gray-300 mx-2" />
+
+                {/* Text Input */}
+                <TextInput
+                  className="flex-1 text-base"
+                  placeholder="Enter Phone Number"
+                  keyboardType="phone-pad"
+                  value={localValue}
+                  onChangeText={(text) =>
+                    onChange(`+${countryCode}${text.replace(/^0+/, "")}`)}
+                  onBlur={onBlur}
                 />
               </View>
 
-              {/* Divider */}
-              <View className="h-6 w-px bg-gray-300 mx-2" />
-
-              {/* Text Input */}
-              <TextInput
-                className="flex-1 text-base"
-                placeholder="Enter Phone Number"
-                keyboardType="phone-pad"
-                onChangeText={onChange}
-                onBlur={onBlur}
-                value={value}
-              />
-            </View>
-
-            {error && (
-              <AppText className="text-xs text-red-500 mt-1">
-                {error.message?.toString()}
-              </AppText>
-            )}
-          </>
-        )}
+              {error && (
+                <AppText className="text-xs text-red-500 mt-1">
+                  {error.message?.toString()}
+                </AppText>
+              )}
+            </>
+          );
+        }}
       />
     </View>
   );

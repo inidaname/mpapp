@@ -12,9 +12,10 @@ const transactionEndpoints = apiSlice.injectEndpoints({
     }),
     getTransaction: build.query<APIData<TransactionsList[]>, { page?: string }>(
       {
-        query: () => ({
+        query: ({ page }) => ({
           url: "/transactions",
           method: "GET",
+          params: { page },
         }),
         providesTags: ["balance"],
       },

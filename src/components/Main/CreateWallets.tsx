@@ -15,7 +15,7 @@ const CreateWallet: React.FC<
     try {
       const wallet = await createWallet({
         accountType: "EOA",
-        blockchains: ["SOL-DEVNET"],
+        blockchains: ["SOL"],
       }).unwrap();
       navigation.navigate("Home", { screen: "Send" });
       console.log("wallet", wallet);

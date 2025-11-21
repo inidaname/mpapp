@@ -3,20 +3,16 @@ import React from "react";
 import { View } from "react-native";
 // import InsfersLogo from "../../assets/Insfers_Logo.svg";
 import HeaderSide from "../components/Main/HeaderSide";
-import AppText from "../components/typo/AppText";
+import RecentActivities from "../components/screens/RecentActivitiies";
 // import { MaterialIcons } from "@react-native-vector-icons/material-icons";
 
-const RecentActivitiesScreen: React.FC = () => {
-  return (
-    <View className="flex-1 bg-white">
-      <HeaderSide heading="Recent Activities" isWithBack />
-      <View className="flex-1 items-center justify-center w-full">
-        <AppText className="text-[20px] text-center w-full">
-          No recent activities recorded
-        </AppText>
-      </View>
-      {
-        /* <View className="px-6">
+const RecentActivitiesScreen: React.FC = () => (
+  <View className="flex-1 bg-white">
+    <HeaderSide heading="Recent Activities" isWithBack />
+
+    <RecentActivities />
+    {
+      /* <View className="px-6">
         <View className="flex-row w-full p-4">
           <View className="h-14 w-14 items-center justify-center rounded-full">
             <InsfersLogo width={40} height={40} />
@@ -72,9 +68,8 @@ const RecentActivitiesScreen: React.FC = () => {
           </View>
         </View>
       </View> */
-      }
-    </View>
-  );
-};
+    }
+  </View>
+);
 
 export default RecentActivitiesScreen;

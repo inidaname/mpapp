@@ -42,7 +42,7 @@ const userEndpoints = apiSlice.injectEndpoints({
               await dispatch(
                 (apiSlice.endpoints as any).createWallet.initiate({
                   accountType: "EOA",
-                  blockchains: ["SOL-DEVNET"],
+                  blockchains: ["SOL"],
                 }),
               ).unwrap();
 

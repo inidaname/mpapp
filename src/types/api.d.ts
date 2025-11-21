@@ -127,8 +127,21 @@ interface WalletData {
 }
 
 interface TokenBalance {
-  id: string;
-  balance: string;
+  token: {
+    id: string;
+    blockchain: string;
+    tokenAddress: string;
+    standard: string;
+    name: string;
+    symbol: string;
+    decimals: number;
+    isNative: boolean;
+    updateDate: string | Date;
+    createDate: string | Date;
+  };
+  amount: string;
+  amountInUSD: string;
+  updateDate: string;
 }
 interface UserProfile {
   id: string;
@@ -305,7 +318,7 @@ interface TransactionsList {
   transaction_type: string;
   status: string;
   blockchain: string;
-  gas_fee: string;
+  gas_fee: GasFee | null;
   exchange_rate: string;
   local_currency: string;
   local_amount: string;
@@ -313,6 +326,13 @@ interface TransactionsList {
   synced_at: string | Date;
   created_at: string | Date;
   updated_at: string | Date;
+}
+
+interface GasFee {
+  baseFee: string;
+  gasLimit: string;
+  networkFee: string;
+  priorityFee: string;
 }
 
 interface ContactData {

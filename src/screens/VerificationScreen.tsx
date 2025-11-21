@@ -20,13 +20,15 @@ import PhoneNumberInput from "../components/PhoneNumberInput";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Back from "../components/typo/Back";
 import {
+  useChangePhoneMutation,
+  useRequestPhoneMutation,
   useResendOTPMutation,
   useVerifyOTPMutation,
 } from "../service/endpoints/auth-endpoints";
 import ButtonComponent from "../components/Button";
 import { useGetCountriesQuery } from "../service/endpoints/util-endpoitns";
 import {
-  useGetUserProfileQuery,
+  useLazyGetUserProfileQuery,
   useUpdateUserMutation,
 } from "../service/endpoints/user-endpoints";
 import { saveToken } from "../helpers/token-helper";
@@ -115,7 +117,7 @@ const EmailVerification: React.FC<EmailScreenProp> = ({
         }
         await createWallet({
           accountType: "EOA",
-          blockchains: ["SOL-DEVNET"],
+          blockchains: ["SOL"],
         }).unwrap();
       }
     } catch (err) {
@@ -198,13 +200,24 @@ const PhoneVerification: React.FC<Pick<ChildProps, "onContinue">> = ({
   onContinue,
 }) => {
   const [otp, setOTP] = useState("");
-  const { control, handleSubmit, formState: { isValid } } = useForm<
+  const { control, handleSubmit, watch, formState: { isValid } } = useForm<
     Partial<UserUpdate>
   >();
-  const [update, { isLoading }] = useUpdateUserMutation();
+  const [update, { isLoading }] = useRequestPhoneMutation();
+  const [changePhone, { isLoading: changingPhone }] = useChangePhoneMutation();
   const [countdown, setCountdown] = useState(60);
   const [canResend, setCanResend] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [phoneNumber, setPhoneNumber] = useState("");
+  // const [stillValid, setStillValid] = useState(false);
+
+  const phoneValue = watch("phone_number");
+
+  useEffect(() => {
+    if (phoneNumber && phoneValue !== phoneNumber) {
+      setSubmitted(false);
+    }
+  }, [phoneNumber, phoneValue]);
 
   useEffect(() => {
     let timer: number;
@@ -227,11 +240,12 @@ const PhoneVerification: React.FC<Pick<ChildProps, "onContinue">> = ({
   }, [countdown]);
 
   const handlAddPhone: SubmitHandler<Partial<UserUpdate>> = async (values) => {
+    if (!values.phone_number) return;
     try {
-      console.log("values", values);
-      setSubmitted(true);
-      const addPhone = await update({ phone_number: values.phone_number })
+      const addPhone = await update(values.phone_number)
         .unwrap();
+      setSubmitted(true);
+      setPhoneNumber(values.phone_number);
       console.log("addPhone", addPhone);
     } catch (error) {
       console.log("error", error);
@@ -245,6 +259,7 @@ const PhoneVerification: React.FC<Pick<ChildProps, "onContinue">> = ({
   };
 
   const handleSubmitOTP = async () => {
+    await changePhone({ otp, phoneNumber: "" });
     onContinue();
   };
 
@@ -270,7 +285,7 @@ const PhoneVerification: React.FC<Pick<ChildProps, "onContinue">> = ({
             Enter your phone number on which we can send you a verification code
           </AppText>
           <PhoneNumberInput
-            name="phone"
+            name="phone_number"
             control={control}
             label="Phone Number"
             rules={{ required: "Phone number is required" }}
@@ -285,12 +300,12 @@ const PhoneVerification: React.FC<Pick<ChildProps, "onContinue">> = ({
 
                   <TouchableOpacity
                     className="ml-3"
-                    disabled={!canResend && !isValid}
+                    disabled={(!canResend && !isValid) || isLoading}
                     onPress={handleSubmit(handlAddPhone)}
                   >
                     <AppText
                       className={`${
-                        canResend && isValid
+                        (canResend && isValid) || !isLoading
                           ? "text-brand-700"
                           : "text-gray-400"
                       }  underline`}
@@ -315,22 +330,27 @@ const PhoneVerification: React.FC<Pick<ChildProps, "onContinue">> = ({
                 </TouchableOpacity>
               )}
           </View>
-          <OtpInput
-            focusColor="#215ce1"
-            numberOfDigits={4}
-            onTextChange={(text) => setOTP(text)}
-            theme={{
-              pinCodeContainerStyle: { width: 60, height: 60 },
-              containerStyle: { width: "90%", marginVertical: 20 },
-              pinCodeTextStyle: { fontFamily: "Raleway-Regular", fontSize: 20 },
-            }}
-          />
+          {submitted && (
+            <OtpInput
+              focusColor="#215ce1"
+              numberOfDigits={4}
+              onTextChange={(text) => setOTP(text)}
+              theme={{
+                pinCodeContainerStyle: { width: 60, height: 60 },
+                containerStyle: { width: "90%", marginVertical: 20 },
+                pinCodeTextStyle: {
+                  fontFamily: "Raleway-Regular",
+                  fontSize: 20,
+                },
+              }}
+            />
+          )}
         </View>
         <ButtonComponent
           label="Continue"
-          isLoading={isLoading}
+          isLoading={changingPhone}
           onPress={handleSubmitOTP}
-          isDisabled={otp.length < 4}
+          isDisabled={otp.length < 4 || !submitted}
         />
       </View>
     </ScrollView>
@@ -343,7 +363,8 @@ const CountrySelect: React.FC<Omit<ChildProps, "onContinue">> = ({
   const [selected, setSelected] = useState<CountriesAPI | null>(null);
   const [update, { isLoading: updating }] = useUpdateUserMutation();
   const { token, user_id } = useAppSelector((state) => state.tempSlice);
-  const { data: user } = useGetUserProfileQuery();
+  const [getProfil] = useLazyGetUserProfileQuery();
+
   const dispatch = useAppDispatch();
 
   const { data: countries, isLoading } = useGetCountriesQuery();
@@ -357,6 +378,7 @@ const CountrySelect: React.FC<Omit<ChildProps, "onContinue">> = ({
   const handleSubmit = async () => {
     try {
       console.log(selected);
+      const user = await getProfil().unwrap();
       const country = await update({
         country: selected?.name,
         username: user?.data.username,
