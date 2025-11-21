@@ -26,6 +26,8 @@ import { useConvertFundsToWalletMutation } from "../service/endpoints/convert-en
 import { useAppSelector } from "../store/redux";
 import Clipboard from "@react-native-clipboard/clipboard";
 import { twMerge } from "tailwind-merge";
+import StartKYC from "../components/screens/StartKYC";
+import { useGetKYCQuery } from "../service/endpoints/kyc-endpoints";
 
 interface Props extends NativeStackScreenProps<RootStackParamList> {}
 
@@ -93,7 +95,7 @@ const ConversionScreen: React.FC<Props> = () => {
   const [amount, setAmount] = useState("");
   const [detail, setDetail] = useState<ConvertData | null>(null);
   const { active_wallet_address } = useAppSelector((state) => state.wallet);
-  console.log("detail", detail);
+  const { data, isLoading: gettingKYC } = useGetKYCQuery();
 
   const [convert, { isLoading }] = useConvertFundsToWalletMutation();
 
@@ -190,6 +192,11 @@ const ConversionScreen: React.FC<Props> = () => {
           }
         </View>
       </View>
+      {data?.data.status !== "approved" && (
+        <View className="flex-row w-full px-6 items-center">
+          {gettingKYC ? <AppText>Checking KYC status</AppText> : <StartKYC />}
+        </View>
+      )}
       {
         /* <View className="w-full px-6">
         <View className="w-full">
@@ -213,7 +220,7 @@ const ConversionScreen: React.FC<Props> = () => {
         <ButtonComponent
           onPress={handleConvert}
           isLoading={isLoading}
-          isDisabled={!amount}
+          isDisabled={!amount || data?.data.status !== "approved"}
           label="Deposit"
         />
       </View>

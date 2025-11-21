@@ -32,14 +32,16 @@ const StartKYC: React.FC = () => {
     }
   };
 
+  console.log("data.data", data?.data);
+
   if (data?.data.metadata.kyc.kyc_status === "approved") {
     return <AppText className="text-green-800 font-bold">Verified</AppText>;
   }
 
   return (
     <View className="flex-row">
-      <AppText className="text-red-600 font-thin mr-2">
-        Pending Verification
+      <AppText className="text-red-600 font-medium mr-2">
+        {data?.data.status === "not_started" && "KYC Not Started"}
       </AppText>
       <TouchableOpacity
         className="ml-2"
