@@ -47,7 +47,7 @@ const HomeStackTabs: React.FC<Props> = () => {
       </HomeStack.Navigator>
       {isMenuOpen && (
         <Pressable
-          className="bg-transparent flex-1 w-screen absolute left-0 bottom-0 z-999 h-screen"
+          className="absolute top-0 left-0 right-0 bottom-0 z-[999] bg-black/20"
           onPress={() => {
             dispatch(closeMenu());
           }}

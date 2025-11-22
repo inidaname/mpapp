@@ -1,7 +1,13 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, { useEffect, useState } from "react";
 
-import { Image, Text, TouchableOpacity, View } from "react-native";
+import {
+  ActivityIndicator,
+  Image,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import AppText from "../components/typo/AppText";
 import MaterialIcons from "@react-native-vector-icons/material-icons";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -12,6 +18,7 @@ import { useAddDeviceNotyMutation } from "../service/endpoints/notification-endp
 import messaging from "@react-native-firebase/messaging";
 import { useGetWalletByIdQuery } from "../service/endpoints/wallets-endpoints";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { selectUSDC } from "../helpers/select_usdc";
 
 interface Props extends NativeStackScreenProps<FullNavStack, "Send"> {}
 
@@ -97,39 +104,24 @@ const CustomTabBar: React.FC<Pick<Props, "navigation">> = ({ navigation }) => {
 
 const HomeSendScreen: React.FC<Props> = ({ navigation }) => {
   const [balanceHidden, setBalanceHidden] = useState(false);
-  // const [hasPermission, setHasPermission] = useState(false);
   const { active_wallet } = useAppSelector((state) => state.wallet);
 
-  const { data } = useGetWalletByIdQuery(active_wallet?.id ?? "");
+  const { data, isLoading } = useGetWalletByIdQuery(active_wallet?.id ?? "");
 
   const [addDevice] = useAddDeviceNotyMutation();
-
-  // useEffect(() => {
-  //   const handleRequest = async () => {
-  //     if (!hasPermission) {
-  //       await requestUserPermission();
-  //       setHasPermission(true)
-
-  //     }
-  //   };
-
-  //   handleRequest();
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [hasPermission]);
 
   useEffect(() => {
     (async () => {
       const getPermission = await requestUserPermission();
-      console.log("hasPermission", getPermission);
+
       if (getPermission) {
         const deviceToken = await messaging().getToken();
         console.log("deviceToken", deviceToken);
 
-        const deviceReady = await addDevice({
+        await addDevice({
           deviceToken,
-          device: "Hassan",
+          device: active_wallet?.user_id ?? "",
         }).unwrap();
-        console.log("deviceReady", deviceReady);
       } else {
         console.log("Permission denied", "Notifications won’t work.");
       }
@@ -137,25 +129,13 @@ const HomeSendScreen: React.FC<Props> = ({ navigation }) => {
       // Listen for token refresh
       return messaging().onTokenRefresh(async (newToken) => {
         console.log("FCM Token refreshed:", newToken);
-        const deviceReady = await addDevice({
+        await addDevice({
           deviceToken: newToken,
-          device: "Hassan",
+          device: active_wallet?.user_id ?? "",
         }).unwrap();
-        console.log("deviceReady", deviceReady);
       });
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  // Foreground message handler
-  useEffect(() => {
-    const unsubscribe = messaging().onMessage(async (remoteMessage) => {
-      console.log(
-        "New Notification",
-        JSON.parse(remoteMessage.notification?.body ?? ""),
-      );
-    });
-    return unsubscribe;
   }, []);
 
   return (
@@ -178,14 +158,18 @@ const HomeSendScreen: React.FC<Props> = ({ navigation }) => {
               height={200}
             />
             <Text className="text-[47px] font-montserrat-medium text-center ml-2 w-auto">
-              {balanceHidden ? "••••.••" : Number(
-                data?.data?.circle?.data?.tokenBalances[0]?.amount ?? 0,
-              ).toPrecision(
-                !data?.data.circle.data.tokenBalances[0]?.token.decimals ||
-                  data?.data.circle.data.tokenBalances[0]?.token.decimals > 3
-                  ? 3
-                  : data?.data.circle.data.tokenBalances[0]?.token.decimals,
-              )}
+              {isLoading
+                ? <ActivityIndicator size="small" color="blue" />
+                : balanceHidden
+                ? "••••.••"
+                : Number(
+                  selectUSDC(data?.data)?.amount ?? 0,
+                ).toPrecision(
+                  !selectUSDC(data?.data)?.token.decimals ||
+                    selectUSDC(data?.data)?.token.decimals > 3
+                    ? 3
+                    : selectUSDC(data?.data)?.token.decimals,
+                )}
             </Text>
           </View>
           <TouchableOpacity onPress={() => setBalanceHidden(!balanceHidden)}>
