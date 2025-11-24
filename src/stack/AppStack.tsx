@@ -1,8 +1,6 @@
 import type React from "react";
-import { useEffect } from "react";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import messaging from "@react-native-firebase/messaging";
 
 // import { ActivityIndicator, View } from "react-native";
 
@@ -11,7 +9,7 @@ import { RootStackParamList } from "../types/types";
 import HomeStackTabs from "./HomeStacks";
 import AuthStack from "./AuthStach";
 
-import { useAppDispatch, useAppSelector } from "../store/redux";
+import { useAppSelector } from "../store/redux";
 import {
   AddBankScreen,
   AddFundsScreen,
@@ -35,14 +33,6 @@ import {
   SettingsScreen,
   WalletScreen,
 } from "../screens";
-import {
-  notificationOpened,
-  notificationReceived,
-} from "../store/reducers/notification-slice";
-import { parseFirebaseNotification } from "../utils/notificationParser";
-import useNotificationBanner from "../hooks/useNotificationBanner";
-import NotificationBanner from "../components/utils/NotificationBanner";
-import { useGetWalletByIdQuery } from "../service/endpoints/wallets-endpoints";
 
 export type RootNavigatorParams = {
   OnboardingStack: undefined;
@@ -105,69 +95,6 @@ const MainStack: React.FC = () => {
 
 const AppStack: React.FC = () => {
   const { token } = useAppSelector((state) => state.auth);
-  const { banner, showBanner, hideBanner } = useNotificationBanner();
-  const dispatch = useAppDispatch();
-  const { active_wallet } = useAppSelector((state) => state.wallet);
-  const { refetch } = useGetWalletByIdQuery(active_wallet?.id ?? "");
-
-  useEffect(() => {
-    const unsubscribe = messaging().onMessage(async (remoteMessage) => {
-      console.log("remoteMessage", remoteMessage);
-      const notification = parseFirebaseNotification(remoteMessage);
-      if (notification) {
-        showBanner(notification.title, notification.message);
-        await refetch().unwrap();
-      }
-    });
-
-    return unsubscribe;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [showBanner]);
-
-  useEffect(() => {
-    // Foreground notification listener
-    const unsubscribeForeground = messaging().onMessage(
-      async (remoteMessage) => {
-        console.log("Notification received in foreground", remoteMessage);
-
-        const notification = parseFirebaseNotification(remoteMessage);
-        if (notification) {
-          dispatch(notificationReceived(notification));
-        }
-      },
-    );
-
-    // Background notification opened
-    const unsubscribeBackground = messaging().onNotificationOpenedApp(
-      (remoteMessage) => {
-        console.log("Notification opened app from background", remoteMessage);
-
-        const notification = parseFirebaseNotification(remoteMessage);
-        if (notification) {
-          dispatch(notificationOpened(notification));
-        }
-      },
-    );
-
-    // App opened from quit state
-    messaging()
-      .getInitialNotification()
-      .then((remoteMessage) => {
-        if (remoteMessage) {
-          console.log("Notification opened app from quit state", remoteMessage);
-
-          const notification = parseFirebaseNotification(remoteMessage);
-          if (notification) {
-            dispatch(notificationOpened(notification));
-          }
-        }
-      });
-
-    return () => {
-      unsubscribeForeground();
-      unsubscribeBackground();
-    };
-  }, [dispatch]);
 
   // if (loading) {
   //   return (
@@ -178,23 +105,11 @@ const AppStack: React.FC = () => {
   //   );
   // }
   return (
-    <>
-      <NotificationBanner
-        title={banner.title}
-        body={banner.body}
-        visible={banner.visible}
-        onHide={hideBanner}
-        onPress={() => {
-          hideBanner();
-          // You can navigate somewhere…
-        }}
-      />
-      <RootStack.Navigator screenOptions={{ headerShown: false }}>
-        {token
-          ? <RootStack.Screen name="MainStack" component={MainStack} />
-          : <RootStack.Screen name="AuthStack" component={AuthStack} />}
-      </RootStack.Navigator>
-    </>
+    <RootStack.Navigator screenOptions={{ headerShown: false }}>
+      {token
+        ? <RootStack.Screen name="MainStack" component={MainStack} />
+        : <RootStack.Screen name="AuthStack" component={AuthStack} />}
+    </RootStack.Navigator>
   );
 };
 

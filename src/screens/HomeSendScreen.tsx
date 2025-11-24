@@ -19,11 +19,13 @@ import messaging from "@react-native-firebase/messaging";
 import { useGetWalletByIdQuery } from "../service/endpoints/wallets-endpoints";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { selectUSDC } from "../helpers/select_usdc";
+// import { FIREBASE_APP } from "../utils/app-notifier";
 
 interface Props extends NativeStackScreenProps<FullNavStack, "Send"> {}
 
 async function requestUserPermission() {
   const authStatus = await messaging().requestPermission();
+  console.log("authStatus", authStatus);
 
   const enabled = authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
     authStatus === messaging.AuthorizationStatus.PROVISIONAL;
@@ -115,6 +117,7 @@ const HomeSendScreen: React.FC<Props> = ({ navigation }) => {
       const getPermission = await requestUserPermission();
 
       if (getPermission) {
+        console.log("getPermission when true", getPermission);
         const deviceToken = await messaging().getToken();
         console.log("deviceToken", deviceToken);
 

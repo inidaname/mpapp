@@ -27,7 +27,7 @@ const SendComponent: React.FC<Props> = ({ navigation, wallet }) => {
       const send = await sendTransaction({
         amount: `${value}`,
         destinationAddress: `${inputAdd}`,
-        tokenId: wallet[0].token.id,
+        tokenId: wallet[1].token.id,
       }).unwrap();
       console.log("send", send);
     } catch (error) {

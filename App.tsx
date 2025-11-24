@@ -1,12 +1,4 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
 import React, { useEffect } from "react";
-
 import { NavigationContainer } from "@react-navigation/native";
 import BootSplash from "react-native-bootsplash";
 import { Provider } from "react-redux";
@@ -16,16 +8,29 @@ import "./global.css";
 
 import AppStack from "./src/stack/AppStack";
 import { handleAppLaunch } from "./src/helpers/handle-app-launch";
+import {
+  getFCMToken,
+  notificationListener,
+  requestUserPermission,
+} from "./src/helpers/notification-helps";
 
 function App() {
+  useEffect(() => {
+    requestUserPermission();
+    getFCMToken();
+    const unsubscribe = notificationListener();
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
   useEffect(() => {
     const init = async () => {
       await handleAppLaunch();
     };
-
     init().finally(async () => {
       await BootSplash.hide({ fade: true });
-      console.log("BootSplash has been hidden successfully");
+      console.log("BootSplash hidden");
     });
   }, []);
 
