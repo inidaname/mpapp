@@ -5,10 +5,12 @@ import AppText from "../typo/AppText";
 import { useGetKYCQuery } from "../../service/endpoints/kyc-endpoints";
 
 const ActionRequired: React.FC = () => {
-  const { data, isLoading, isError } = useGetKYCQuery();
+  const { data, isLoading, isError, error } = useGetKYCQuery();
+
+  console.log("error", error);
 
   if (data?.data.metadata.kyc.kyc_status === "approved" || isLoading) {
-    return <></>;
+    return null;
   }
 
   return (

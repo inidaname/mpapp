@@ -3,7 +3,7 @@ import * as Keychain from "react-native-keychain";
 import { SERVICE_NAME } from "../config/TOKEN";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "https://api.insfers.com/",
+  baseUrl: "https://devapi.insfers.com/",
   mode: "cors",
   prepareHeaders: async (headers) => {
     try {
@@ -26,6 +26,7 @@ export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery,
   endpoints: () => ({}),
+  refetchOnReconnect: true,
   tagTypes: [
     "icons",
     "balance",
@@ -34,5 +35,6 @@ export const apiSlice = createApi({
     "user",
     "contacts",
     "transactions",
+    "notifications",
   ],
 });

@@ -8,7 +8,7 @@ const transactionEndpoints = apiSlice.injectEndpoints({
         method: "POST",
         body,
       }),
-      invalidatesTags: ["balance"],
+      invalidatesTags: ["balance", "transactions"],
     }),
     getTransaction: build.query<APIData<TransactionsList[]>, { page?: string }>(
       {
@@ -17,7 +17,7 @@ const transactionEndpoints = apiSlice.injectEndpoints({
           method: "GET",
           params: { page },
         }),
-        providesTags: ["balance"],
+        providesTags: ["balance", "transactions"],
       },
     ),
   }),

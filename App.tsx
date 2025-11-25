@@ -13,6 +13,7 @@ import {
   notificationListener,
   requestUserPermission,
 } from "./src/helpers/notification-helps";
+import OfflineBanner from "./src/components/utils/OfflineBanner";
 
 function App() {
   useEffect(() => {
@@ -37,6 +38,7 @@ function App() {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
+        <OfflineBanner />
         <NavigationContainer>
           <AppStack />
         </NavigationContainer>

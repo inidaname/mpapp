@@ -41,7 +41,9 @@ const StartKYC: React.FC = () => {
   return (
     <View className="flex-row">
       <AppText className="text-red-600 font-medium mr-2">
-        {data?.data.status === "not_started" && "KYC Not Started"}
+        {(data?.data.status === "not_started" ||
+          data?.data.status !== "approved") && "KYC Not Started"}
+        {data?.data.status === "pending" && "KYC pending"}
       </AppText>
       <TouchableOpacity
         className="ml-2"

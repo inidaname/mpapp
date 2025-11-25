@@ -8,6 +8,7 @@ const notificationEndpoints = apiSlice.injectEndpoints({
         method: "POST",
         body,
       }),
+      invalidatesTags: ["notifications"],
     }),
   }),
 });
