@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import {
   ActivityIndicator,
@@ -8,16 +8,18 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import AppText from "../components/typo/AppText";
+import NetInfo from "@react-native-community/netinfo";
 import MaterialIcons from "@react-native-vector-icons/material-icons";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import messaging from "@react-native-firebase/messaging";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+
+import AppText from "../components/typo/AppText";
 import { FullNavStack } from "../types/types";
 import { useAppSelector } from "../store/redux";
 import SendComponent from "../components/Main/SendComponent";
 import { useAddDeviceNotyMutation } from "../service/endpoints/notification-endpoints";
-import messaging from "@react-native-firebase/messaging";
 import { useGetWalletByIdQuery } from "../service/endpoints/wallets-endpoints";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { selectUSDC } from "../helpers/select_usdc";
 // import { FIREBASE_APP } from "../utils/app-notifier";
 
@@ -106,40 +108,60 @@ const CustomTabBar: React.FC<Pick<Props, "navigation">> = ({ navigation }) => {
 
 const HomeSendScreen: React.FC<Props> = ({ navigation }) => {
   const [balanceHidden, setBalanceHidden] = useState(false);
+  const [isOffline, setIsOffline] = useState(false);
+
   const { active_wallet } = useAppSelector((state) => state.wallet);
 
-  const { data, isLoading } = useGetWalletByIdQuery(active_wallet?.id ?? "");
+  const { data, isLoading } = useGetWalletByIdQuery(
+    active_wallet?.id ?? "",
+  );
 
   const [addDevice] = useAddDeviceNotyMutation();
 
-  useEffect(() => {
-    (async () => {
-      const getPermission = await requestUserPermission();
+  const initializeNotifications = useCallback(async () => {
+    const allowed = await requestUserPermission();
+    if (!allowed) return;
 
-      if (getPermission) {
-        console.log("getPermission when true", getPermission);
-        const deviceToken = await messaging().getToken();
-        console.log("deviceToken", deviceToken);
+    const token = await messaging().getToken();
+    await addDevice({
+      deviceToken: token,
+      device: active_wallet?.user_id ?? "",
+    });
 
-        await addDevice({
-          deviceToken,
-          device: active_wallet?.user_id ?? "",
-        }).unwrap();
-      } else {
-        console.log("Permission denied", "Notifications won’t work.");
-      }
-
-      // Listen for token refresh
-      return messaging().onTokenRefresh(async (newToken) => {
-        console.log("FCM Token refreshed:", newToken);
-        await addDevice({
-          deviceToken: newToken,
-          device: active_wallet?.user_id ?? "",
-        }).unwrap();
+    return messaging().onTokenRefresh(async (newToken) => {
+      await addDevice({
+        deviceToken: newToken,
+        device: active_wallet?.user_id ?? "",
       });
-    })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    });
+  }, [active_wallet?.user_id, addDevice]);
+
+  useEffect(() => {
+    const unsubscribe = NetInfo.addEventListener((state) => {
+      // Logic:
+      // 1. If isConnected is false -> DEFINITELY OFFLINE
+      // 2. If isConnected is true BUT isInternetReachable is explicitly false -> OFFLINE
+      // 3. If isInternetReachable is null (detecting), assume ONLINE for now.
+
+      const offline = state.isConnected === false ||
+        (state.isConnected === true && state.isInternetReachable === false);
+
+      setIsOffline(offline);
+    });
+
+    return () => unsubscribe();
   }, []);
+
+  useEffect(() => {
+    initializeNotifications();
+  }, [initializeNotifications]);
+
+  const usdc = selectUSDC(data?.data);
+  const formattedBalance = usdc
+    ? Number(usdc?.amount).toPrecision(
+      !usdc.token.decimals || usdc.token.decimals > 3 ? 3 : usdc.token.decimals,
+    )
+    : "0.00";
 
   return (
     <KeyboardAwareScrollView
@@ -161,18 +183,11 @@ const HomeSendScreen: React.FC<Props> = ({ navigation }) => {
               height={200}
             />
             <Text className="text-[47px] font-montserrat-medium text-center ml-2 w-auto">
-              {isLoading
+              {isLoading || isOffline
                 ? <ActivityIndicator size="small" color="blue" />
                 : balanceHidden
                 ? "••••.••"
-                : Number(
-                  selectUSDC(data?.data)?.amount ?? 0,
-                ).toPrecision(
-                  !selectUSDC(data?.data)?.token.decimals ||
-                    selectUSDC(data?.data)?.token.decimals > 3
-                    ? 3
-                    : selectUSDC(data?.data)?.token.decimals,
-                )}
+                : formattedBalance}
             </Text>
           </View>
           <TouchableOpacity onPress={() => setBalanceHidden(!balanceHidden)}>
@@ -184,7 +199,7 @@ const HomeSendScreen: React.FC<Props> = ({ navigation }) => {
 
         <SendComponent
           navigation={navigation}
-          wallet={data?.data.circle.data.tokenBalances ?? []}
+          token_id={usdc?.token?.id ?? ""}
         />
       </View>
       <CustomTabBar navigation={navigation} />

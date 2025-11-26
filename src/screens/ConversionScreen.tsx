@@ -193,8 +193,18 @@ const ConversionScreen: React.FC<Props> = () => {
         </View>
       </View>
       {data?.data.status !== "approved" && (
-        <View className="flex-row w-full px-6 items-center">
-          {gettingKYC ? <AppText>Checking KYC status</AppText> : <StartKYC />}
+        <View className="w-full px-6">
+          <AppText weight="bold">You haven&apos;t completed your KYC.</AppText>
+          <AppText>
+            Your verification is required before you can perform any conversions
+            or deposits.
+          </AppText>
+          <AppText>Please complete your KYC to continue.</AppText>
+          <View className="flex-row w-full items-center mt-4">
+            {gettingKYC
+              ? <AppText>Checking KYC status</AppText>
+              : <StartKYC text="Start KYC Verification" />}
+          </View>
         </View>
       )}
       {

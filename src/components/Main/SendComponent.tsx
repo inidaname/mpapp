@@ -1,35 +1,41 @@
 import type React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { TextInput, TouchableOpacity, View } from "react-native";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+
 import AppText from "../typo/AppText";
 // import CheckBox from "@react-native-community/checkbox";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { FullNavStack } from "../../types/types";
 import { useSendTransactionMutation } from "../../service/endpoints/transactions-endpoints";
 import ButtonComponent from "../Button";
 import { useAppSelector } from "../../store/redux";
+import useAutoPaste from "../../hooks/useAutoPaste";
 
 interface Props
   extends Pick<NativeStackScreenProps<FullNavStack, "Send">, "navigation"> {
   // wallet_address: string;
-  wallet: WallectDetail["circle"]["data"]["tokenBalances"];
+  token_id: string;
 }
 
-const SendComponent: React.FC<Props> = ({ navigation, wallet }) => {
+const SendComponent: React.FC<Props> = ({ navigation, token_id }) => {
   const [value, setValue] = useState("");
   const { address } = useAppSelector((state) => state.scanWallet);
   const [inputAdd, setInputAdd] = useState(address ?? "");
   const [sendTransaction, { isLoading }] = useSendTransactionMutation();
+  const { clipboardContent } = useAutoPaste({});
+
+  useEffect(() => {
+    setInputAdd(clipboardContent);
+  }, [clipboardContent]);
 
   const handleSend = async () => {
     try {
-      const send = await sendTransaction({
+      await sendTransaction({
         amount: `${value}`,
         destinationAddress: `${inputAdd}`,
-        tokenId: wallet[1].token.id,
+        tokenId: token_id,
       }).unwrap();
-      console.log("send", send);
     } catch (error) {
       console.log(error);
     }
@@ -42,7 +48,7 @@ const SendComponent: React.FC<Props> = ({ navigation, wallet }) => {
         <View className="flex-1 mx-2">
           <TextInput
             numberOfLines={1}
-            className="truncate w-full"
+            className="truncate w-full text-md"
             onChangeText={(e) => setInputAdd(e)}
             value={inputAdd}
           />
@@ -71,6 +77,7 @@ const SendComponent: React.FC<Props> = ({ navigation, wallet }) => {
         <AppText className="text-[#14141480] text-[16px]">Amount</AppText>
         <TextInput
           value={`${value}`}
+          className="text-4xl text-center font-medium flex-1"
           onChangeText={(e) => {
             setValue(e);
           }}
