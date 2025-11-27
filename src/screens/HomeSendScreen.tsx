@@ -27,7 +27,6 @@ interface Props extends NativeStackScreenProps<FullNavStack, "Send"> {}
 
 async function requestUserPermission() {
   const authStatus = await messaging().requestPermission();
-  console.log("authStatus", authStatus);
 
   const enabled = authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
     authStatus === messaging.AuthorizationStatus.PROVISIONAL;
@@ -138,11 +137,6 @@ const HomeSendScreen: React.FC<Props> = ({ navigation }) => {
 
   useEffect(() => {
     const unsubscribe = NetInfo.addEventListener((state) => {
-      // Logic:
-      // 1. If isConnected is false -> DEFINITELY OFFLINE
-      // 2. If isConnected is true BUT isInternetReachable is explicitly false -> OFFLINE
-      // 3. If isInternetReachable is null (detecting), assume ONLINE for now.
-
       const offline = state.isConnected === false ||
         (state.isConnected === true && state.isInternetReachable === false);
 
@@ -157,11 +151,7 @@ const HomeSendScreen: React.FC<Props> = ({ navigation }) => {
   }, [initializeNotifications]);
 
   const usdc = selectUSDC(data?.data);
-  const formattedBalance = usdc
-    ? Number(usdc?.amount).toPrecision(
-      !usdc.token.decimals || usdc.token.decimals > 3 ? 3 : usdc.token.decimals,
-    )
-    : "0.00";
+  const formattedBalance = Number(usdc?.amount ?? 0).toFixed(2);
 
   return (
     <KeyboardAwareScrollView
@@ -200,6 +190,7 @@ const HomeSendScreen: React.FC<Props> = ({ navigation }) => {
         <SendComponent
           navigation={navigation}
           token_id={usdc?.token?.id ?? ""}
+          wallet_balance={usdc?.amount ?? ""}
         />
       </View>
       <CustomTabBar navigation={navigation} />

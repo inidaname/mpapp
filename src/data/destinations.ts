@@ -1,0 +1,67 @@
+// TypeScript enums
+
+export enum Mainnets {
+  Algorand = "Algorand",
+  Aptos = "Aptos",
+  Arbitrum = "Arbitrum",
+  Avalanche = "Avalanche",
+  Base = "Base",
+  Celo = "Celo",
+  Codex = "Codex",
+  Ethereum = "Ethereum",
+  Hedera = "Hedera",
+  HyperEVM = "HyperEVM",
+  Ink = "Ink",
+  Linea = "Linea",
+  NEAR = "NEAR",
+  Noble = "Noble",
+  Optimism = "Optimism",
+  Polkadot_Asset_Hub = "Polkadot_Asset_Hub",
+  Polkadot_Westmint = "Polkadot_Westmint",
+  Plume = "Plume",
+  Polygon = "Polygon",
+  Sei = "Sei",
+  Solana = "Solana",
+  Sonic = "Sonic",
+  Stellar = "Stellar",
+  Sui = "Sui",
+  Unichain = "Unichain",
+  World_Chain = "World_Chain",
+  XDC = "XDC",
+  ZKSync_Era = "ZKSync_Era",
+}
+
+export enum Testnets {
+  Algorand_Testnet = "Algorand_Testnet",
+  Aptos_Testnet = "Aptos_Testnet",
+  Arc_Testnet = "Arc_Testnet",
+  Arbitrum_Sepolia = "Arbitrum_Sepolia",
+  Avalanche_Fuji = "Avalanche_Fuji",
+  Base_Sepolia = "Base_Sepolia",
+  Celo_Alfajores_Testnet = "Celo_Alfajores_Testnet",
+  Codex_Testnet = "Codex_Testnet",
+  Ethereum_Sepolia = "Ethereum_Sepolia",
+  Hedera_Testnet = "Hedera_Testnet",
+  HyperEVM_Testnet = "HyperEVM_Testnet",
+  Ink_Testnet = "Ink_Testnet",
+  Linea_Sepolia = "Linea_Sepolia",
+  NEAR_Testnet = "NEAR_Testnet",
+  Noble_Testnet = "Noble_Testnet",
+  Optimism_Sepolia = "Optimism_Sepolia",
+  Plume_Testnet = "Plume_Testnet",
+  Polygon_Amoy_Testnet = "Polygon_Amoy_Testnet",
+  Sei_Testnet = "Sei_Testnet",
+  Solana_Devnet = "Solana_Devnet",
+  Sonic_Testnet = "Sonic_Testnet",
+  Stellar_Testnet = "Stellar_Testnet",
+  Sui_Testnet = "Sui_Testnet",
+  Unichain_Sepolia = "Unichain_Sepolia",
+  World_Chain_Sepolia = "World_Chain_Sepolia",
+  XDC_Apothem = "XDC_Apothem",
+  ZKSync_Sepolia = "ZKSync_Sepolia",
+}
+
+// JavaScript arrays
+
+export const mainnetsArray = Object.values(Mainnets);
+export const testnetsArray = Object.values(Testnets);

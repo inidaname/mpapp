@@ -9,9 +9,14 @@ import Matic from "./cryptocurrency_matic.svg";
 import UniLogo from "./cryptocurrency_color_uni.svg";
 import WorldLogo from "./world_token.svg";
 import SEILogo from "./token_branded_sei.svg";
+import Solana from "./solanaLogoMark.svg";
 
-export const TOKEN_ICONS: Record<string, React.FC<{ width?: number; height?: number }>> = {
+export const TOKEN_ICONS: Record<
+  string,
+  React.FC<{ width?: number; height?: number }>
+> = {
   ethereum: Ethereum,
+  solana: Solana,
   polygon: Matic,
   uniswap: UniLogo,
   world: WorldLogo,
@@ -21,5 +26,5 @@ export const TOKEN_ICONS: Record<string, React.FC<{ width?: number; height?: num
   base: BaseLogo,
   linea: LineaLogo,
   sei: SEILogo,
-  optimism: OPLogo
+  optimism: OPLogo,
 };

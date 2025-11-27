@@ -173,6 +173,10 @@ interface WallectDetail extends WalletData {
   circle: CircleData;
 }
 
+interface ActiveNetworks {
+  activeNetworks: Mainnets[];
+}
+
 interface KYCDetail {
   id: string;
   user_id: string;

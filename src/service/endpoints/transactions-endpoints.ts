@@ -10,6 +10,12 @@ const transactionEndpoints = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["balance", "transactions"],
     }),
+    getActiveNetworks: build.query<APIData<ActiveNetworks>, void>({
+      query: () => ({
+        url: "/transactions/active-networks",
+        method: "GET",
+      }),
+    }),
     getTransaction: build.query<APIData<TransactionsList[]>, { page?: string }>(
       {
         query: ({ page }) => ({
@@ -27,4 +33,6 @@ export const {
   useSendTransactionMutation,
   useGetTransactionQuery,
   useLazyGetTransactionQuery,
+  useGetActiveNetworksQuery,
+  useLazyGetActiveNetworksQuery,
 } = transactionEndpoints;

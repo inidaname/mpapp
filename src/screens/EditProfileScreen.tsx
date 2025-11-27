@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import type React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Image, TouchableOpacity, View } from "react-native";
 
@@ -28,7 +28,10 @@ const EditProfileScreen: React.FC<Props> = () => {
   const { control, handleSubmit, setValue } = useForm<Partial<UserUpdate>>();
   const { data } = useGetUserProfileQuery();
 
-  setValue("username", data?.data.username);
+  useEffect(() => {
+    setValue("username", data?.data.username);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data?.data.username]);
 
   const pickImage = async () => {
     launchImageLibrary({ mediaType: "photo" }, (response) => {

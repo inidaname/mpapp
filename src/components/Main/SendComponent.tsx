@@ -14,11 +14,13 @@ import useAutoPaste from "../../hooks/useAutoPaste";
 
 interface Props
   extends Pick<NativeStackScreenProps<FullNavStack, "Send">, "navigation"> {
-  // wallet_address: string;
   token_id: string;
+  wallet_balance: string;
 }
 
-const SendComponent: React.FC<Props> = ({ navigation, token_id }) => {
+const SendComponent: React.FC<Props> = (
+  { navigation, token_id, wallet_balance },
+) => {
   const [value, setValue] = useState("");
   const { address } = useAppSelector((state) => state.scanWallet);
   const [inputAdd, setInputAdd] = useState(address ?? "");
@@ -35,6 +37,7 @@ const SendComponent: React.FC<Props> = ({ navigation, token_id }) => {
         amount: `${value}`,
         destinationAddress: `${inputAdd}`,
         tokenId: token_id,
+        destinationChain: "Solana",
       }).unwrap();
     } catch (error) {
       console.log(error);
@@ -77,7 +80,11 @@ const SendComponent: React.FC<Props> = ({ navigation, token_id }) => {
         <AppText className="text-[#14141480] text-[16px]">Amount</AppText>
         <TextInput
           value={`${value}`}
-          className="text-4xl text-center font-medium flex-1"
+          className={`text-4xl text-center font-medium font-montserrat flex-1 ${
+            Number.parseFloat(value) > Number.parseFloat(wallet_balance)
+              ? "text-red-700"
+              : "text-blackAlpha-400"
+          }`}
           onChangeText={(e) => {
             setValue(e);
           }}
@@ -92,6 +99,12 @@ const SendComponent: React.FC<Props> = ({ navigation, token_id }) => {
       </View>
       {/* Checkbox */}
       <View className="flex-row items-center justify-center mt-10 mb-16">
+        {Number.parseFloat(value) > Number.parseFloat(wallet_balance) && (
+          <AppText className="text-red-700 text-sm">
+            The amount you&apos;re trying to send isn&apos;t enough to complete
+            this transaction.
+          </AppText>
+        )}
         {
           /* <Checkbox
               value={feesSeparate}
@@ -119,6 +132,8 @@ const SendComponent: React.FC<Props> = ({ navigation, token_id }) => {
       <ButtonComponent
         label="Send"
         onPress={handleSend}
+        isDisabled={(Number.parseFloat(value) >
+          Number.parseFloat(wallet_balance)) || !value}
         isLoading={isLoading}
       />
     </View>
