@@ -19,9 +19,6 @@ import { FullNavStack } from "../types/types";
 import { useAppSelector } from "../store/redux";
 import SendComponent from "../components/Main/SendComponent";
 import { useAddDeviceNotyMutation } from "../service/endpoints/notification-endpoints";
-import { useGetWalletByIdQuery } from "../service/endpoints/wallets-endpoints";
-import { selectUSDC } from "../helpers/select_usdc";
-// import { FIREBASE_APP } from "../utils/app-notifier";
 
 interface Props extends NativeStackScreenProps<FullNavStack, "Send"> {}
 
@@ -110,10 +107,11 @@ const HomeSendScreen: React.FC<Props> = ({ navigation }) => {
   const [isOffline, setIsOffline] = useState(false);
 
   const { active_wallet } = useAppSelector((state) => state.wallet);
+  const { usdcWallet } = useAppSelector((state) => state.USDCWallet);
 
-  const { data, isLoading } = useGetWalletByIdQuery(
-    active_wallet?.id ?? "",
-  );
+  // const { data, isLoading } = useGetWalletByIdQuery(
+  //   active_wallet?.id ?? "",
+  // );
 
   const [addDevice] = useAddDeviceNotyMutation();
 
@@ -150,8 +148,7 @@ const HomeSendScreen: React.FC<Props> = ({ navigation }) => {
     initializeNotifications();
   }, [initializeNotifications]);
 
-  const usdc = selectUSDC(data?.data);
-  const formattedBalance = Number(usdc?.amount ?? 0).toFixed(2);
+  const formattedBalance = Number(usdcWallet?.amount ?? 0).toFixed(2);
 
   return (
     <KeyboardAwareScrollView
@@ -173,7 +170,7 @@ const HomeSendScreen: React.FC<Props> = ({ navigation }) => {
               height={200}
             />
             <Text className="text-[47px] font-montserrat-medium text-center ml-2 w-auto">
-              {isLoading || isOffline
+              {isOffline
                 ? <ActivityIndicator size="small" color="blue" />
                 : balanceHidden
                 ? "••••.••"
@@ -189,8 +186,8 @@ const HomeSendScreen: React.FC<Props> = ({ navigation }) => {
 
         <SendComponent
           navigation={navigation}
-          token_id={usdc?.token?.id ?? ""}
-          wallet_balance={usdc?.amount ?? ""}
+          token_id={usdcWallet?.token?.id ?? ""}
+          wallet_balance={usdcWallet?.amount ?? ""}
         />
       </View>
       <CustomTabBar navigation={navigation} />

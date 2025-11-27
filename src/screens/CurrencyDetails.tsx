@@ -8,26 +8,26 @@ import USDC from "../../assets/Web3Icons/usdc_logo.svg";
 import AppText, { FigureText } from "../components/typo/AppText";
 import { MaterialIcons } from "@react-native-vector-icons/material-icons";
 import Transactions from "../components/Main/TransactionList";
+import { useAppSelector } from "../store/redux";
 
 interface Props
   extends NativeStackScreenProps<RootStackParamList, "CurrencyDetail"> {}
 
 const CurrencyDetail: React.FC<Props> = ({ navigation }) => {
+  const { usdcWallet } = useAppSelector((state) => state.USDCWallet);
   return (
     <ScrollView className="flex-1 bg-white px-0">
       <HeaderSide heading="Currency Detail" isWithBack />
       <View className="items-center py-5 mt-5 justify-center px-6">
         <USDC />
         <FigureText className="text-6xl font-montserrat font-bold text-gray-800 mt-6">
-          $2,803<FigureText className="font-bold text-gray-500 mt-2">
-            .12
-          </FigureText>
+          ${Number(usdcWallet?.amount).toFixed(2)}
         </FigureText>
         <FigureText
           weight="bold"
           className="inline-block align-base text-xl/6 mt-4"
         >
-          = 2803.12
+          = {Number(usdcWallet?.amount).toFixed(2)}
           <FigureText className="translate-y-{4} inline-block align-bottom text-sm/6">
             USD
           </FigureText>

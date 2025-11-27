@@ -36,6 +36,11 @@ const userEndpoints = apiSlice.injectEndpoints({
           if (activeWallet) {
             dispatch(setActiveWallet(activeWallet));
             dispatch(setActiveWalletAddrees(activeWallet.wallet_address));
+            await dispatch(
+              (apiSlice.endpoints as any).getWalletById.initiate(
+                activeWallet.id,
+              ),
+            );
           } else {
             // no wallet or failed to find one, create a new wallet
             try {

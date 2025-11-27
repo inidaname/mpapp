@@ -1,3 +1,4 @@
+import { setUSDCWallet } from "../../store/reducers/usdc-slice";
 import { apiSlice } from "../apiSlice";
 
 const walletsEndpoints = apiSlice.injectEndpoints({
@@ -16,6 +17,10 @@ const walletsEndpoints = apiSlice.injectEndpoints({
         method: "GET",
       }),
       providesTags: ["balance", "wallet"],
+      onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
+        const { data } = await queryFulfilled;
+        dispatch(setUSDCWallet(data.data.circle.data.tokenBalances));
+      },
     }),
   }),
 });

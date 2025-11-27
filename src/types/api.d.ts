@@ -119,26 +119,11 @@ interface WalletData {
   is_active: boolean;
   created_at: Date | string;
   updated_at: Date | string;
-  circle: {
-    data: {
-      tokenBalances: TokenBalance[];
-    };
-  };
+  circle: CircleData;
 }
 
 interface TokenBalance {
-  token: {
-    id: string;
-    blockchain: string;
-    tokenAddress: string;
-    standard: string;
-    name: string;
-    symbol: string;
-    decimals: number;
-    isNative: boolean;
-    updateDate: string | Date;
-    createDate: string | Date;
-  };
+  token: Token;
   amount: string;
   amountInUSD: string;
   updateDate: string;
@@ -244,6 +229,8 @@ interface Endorsements {
 interface Token {
   id: string;
   blockchain: string;
+  tokenAddress: string;
+  standard: string;
   name: string;
   symbol: string;
   decimals: number;
@@ -254,11 +241,7 @@ interface Token {
 
 interface CircleData {
   data: {
-    tokenBalances: {
-      token: Token;
-      amount: string;
-      updateDate: string | Date;
-    }[];
+    tokenBalances: TokenBalance[];
   };
 }
 

@@ -8,14 +8,11 @@ import AppText, { FigureText } from "../components/typo/AppText";
 import { RootStackParamList } from "../types/types";
 import ActiveNetworks from "../components/Main/ActiveNextworks";
 import { useAppSelector } from "../store/redux";
-import { selectUSDC } from "../helpers/select_usdc";
-import { useGetWalletByIdQuery } from "../service/endpoints/wallets-endpoints";
 
 interface Props extends NativeStackScreenProps<RootStackParamList> {}
 
 const WalletScreen: React.FC<Props> = ({}) => {
-  const { active_wallet } = useAppSelector((state) => state.wallet);
-  const { data } = useGetWalletByIdQuery(active_wallet?.id ?? "");
+  const { usdcWallet } = useAppSelector((state) => state.USDCWallet);
 
   return (
     <View className="flex-1 bg-white px-6">
@@ -34,7 +31,7 @@ const WalletScreen: React.FC<Props> = ({}) => {
             className="w-14 h-14"
           />
           <FigureText className="text-6xl font-bold font-montserrat  ml-2 text-gray-800">
-            {data && Number(selectUSDC(data.data)?.amount ?? 0).toFixed(2)}
+            {usdcWallet && Number(usdcWallet.amount ?? 0).toFixed(2)}
           </FigureText>
         </View>
       </View>

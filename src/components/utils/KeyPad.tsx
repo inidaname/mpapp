@@ -11,7 +11,7 @@ interface Props {
 }
 
 const KeyPad: React.FC<Props> = ({ setAmount, amount }) => {
-  const { active_wallet } = useAppSelector((state) => state.wallet);
+  const { usdcWallet } = useAppSelector((state) => state.USDCWallet);
   const handlePress = (val: string) => {
     if (val === "x") {
       setAmount((prev) => prev.slice(0, -1));
@@ -22,14 +22,20 @@ const KeyPad: React.FC<Props> = ({ setAmount, amount }) => {
   return (
     <>
       <View className="items-center mb-4">
-        <FigureText className="text-6xl font-semibold">
+        <FigureText
+          className={`text-6xl font-semibold ${
+            Number.parseFloat(usdcWallet?.amount ?? "") <
+                Number.parseFloat(amount)
+              ? "text-red-600"
+              : ""
+          }`}
+        >
           ${amount || ""}
         </FigureText>
       </View>
       <View className="w-full border-t border-gray-200 my-1" />
       <AppText className="text-center text-gray-500 mb-2">
-        Available Account Balance:{" "}
-        {Number(active_wallet?.balance).toPrecision(3)}USDC
+        Available Account Balance: {Number(usdcWallet?.amount).toFixed(2)}USDC
       </AppText>
 
       <View className="flex-row flex-wrap justify-center">

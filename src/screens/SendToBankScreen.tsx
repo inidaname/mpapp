@@ -23,22 +23,23 @@ const SendToBankScreen: React.FC<Props> = () => {
   const [successVisible, setSuccessVisible] = useState(false);
   const { account_id } = useAppSelector((state) => state.externalAccounts);
   const { active_wallet } = useAppSelector((state) => state.wallet);
+  const { usdcWallet } = useAppSelector((state) => state.USDCWallet);
 
   const [convert, { isLoading }] = useConvertFundsToBankMutation();
 
   const handleConvert = async () => {
     if (
-      !account_id || !active_wallet || Number(active_wallet.balance) === 0 ||
-      Number(amount) <= 0
+      !account_id || !active_wallet || Number(usdcWallet?.amount) === 0 ||
+      Number(amount) <= 0 || !usdcWallet || !usdcWallet.token
     ) return;
     try {
       await convert({
         external_account_id: account_id,
         amount,
-        address: active_wallet.wallet_address,
-        chain: "solana",
-        currency: "usdc",
-        tokenId: active_wallet.balance,
+        address: usdcWallet?.token.tokenAddress,
+        chain: usdcWallet.token.blockchain,
+        currency: usdcWallet.token.name,
+        tokenId: usdcWallet?.token.id,
       }).unwrap();
       setSuccessVisible(true);
     } catch (error) {
