@@ -5,7 +5,7 @@ import { TextInput, TouchableOpacity, View } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 import AppText from "../typo/AppText";
-// import CheckBox from "@react-native-community/checkbox";
+import CheckBox from "@react-native-community/checkbox";
 import { FullNavStack } from "../../types/types";
 import { useSendTransactionMutation } from "../../service/endpoints/transactions-endpoints";
 import ButtonComponent from "../Button";
@@ -22,6 +22,7 @@ const SendComponent: React.FC<Props> = (
   { navigation, token_id, wallet_balance },
 ) => {
   const [value, setValue] = useState("");
+  const [feesSeparate, setFeesSeparate] = useState<boolean>();
   const { address } = useAppSelector((state) => state.scanWallet);
   const [inputAdd, setInputAdd] = useState(address ?? "");
   const [sendTransaction, { isLoading }] = useSendTransactionMutation();
@@ -105,36 +106,26 @@ const SendComponent: React.FC<Props> = (
             this transaction.
           </AppText>
         )}
-        {
-          /* <Checkbox
-              value={feesSeparate}
-              onValueChange={setFeesSeparate}
-              color={feesSeparate ? "#2563eb" : undefined}
-            /> */
-        }
-        {
-          /* <CheckBox />
-        <AppText className="ml-2 text-brand-700 text-lg">
+        <CheckBox
+          value={feesSeparate}
+          onValueChange={setFeesSeparate}
+          className="rounded-none"
+          boxType="square"
+          tintColors={{ true: "#215ce1" }}
+          onCheckColor="white"
+          onFillColor="#215ce1"
+        />
+        <AppText className="ml-1 text-brand-700 text-xl font-medium">
           Detect fees separately
-        </AppText> */
-        }
-      </View>
-
-      {/* Send button */}
-      {
-        /* <TouchableOpacity className="mt-24 bg-blue-600 p-4 w-2/3 self-center rounded-2xl">
-        <AppText className="text-center text-white font-bold text-lg">
-          Send
         </AppText>
-      </TouchableOpacity> */
-      }
+      </View>
 
       <ButtonComponent
         label="Send"
         onPress={handleSend}
-        isDisabled={(Number.parseFloat(value) >
-          Number.parseFloat(wallet_balance)) || !value}
         isLoading={isLoading}
+        className="self-center"
+        width="w-1/2"
       />
     </View>
   );

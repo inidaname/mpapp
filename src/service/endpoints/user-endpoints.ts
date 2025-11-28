@@ -28,6 +28,7 @@ const userEndpoints = apiSlice.injectEndpoints({
 
           const profile = data.data;
           const wallets = profile.Wallet || [];
+          console.log("wallets", wallets);
           const activeWallet = wallets.find((w) => w.is_active);
 
           dispatch(setUserProfile({ profile }));
@@ -58,11 +59,11 @@ const userEndpoints = apiSlice.injectEndpoints({
                 }),
               );
             } catch (createErr) {
-              console.error("wallet creation failed:", createErr);
+              console.log("wallet creation failed:", createErr);
             }
           }
         } catch (err) {
-          console.error("profile fetch failed:", err);
+          console.log("profile fetch failed:");
         }
       },
     }),

@@ -15,7 +15,7 @@ export function useAuthToken() {
         });
         if (creds) setTokenState(creds.password);
       } catch (err) {
-        console.error("Failed to load token", err);
+        console.log("Failed to load token", err);
       } finally {
         setLoading(false);
       }
@@ -31,7 +31,7 @@ export function useAuthToken() {
       });
       setTokenState(newToken);
     } catch (err) {
-      console.error("Failed to save token", err);
+      console.log("Failed to save token", err);
     }
   }, []);
 
@@ -41,7 +41,7 @@ export function useAuthToken() {
       await Keychain.resetGenericPassword({ service: SERVICE_NAME });
       setTokenState(null);
     } catch (err) {
-      console.error("Failed to delete token", err);
+      console.log("Failed to delete token", err);
     }
   }, []);
 

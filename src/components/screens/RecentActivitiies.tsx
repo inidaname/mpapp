@@ -5,9 +5,12 @@ import { MaterialIcons } from "@react-native-vector-icons/material-icons";
 import AppText from "../typo/AppText";
 import { useGetTransactionQuery } from "../../service/endpoints/transactions-endpoints";
 import { useAppSelector } from "../../store/redux";
+import { formatRelativeTime } from "../../helpers/formatRelativeTime";
 
 const RecentActivities: React.FC = () => {
-  const { data, isLoading } = useGetTransactionQuery({});
+  const { data, isLoading, error } = useGetTransactionQuery({ page: 1 });
+  console.log("data", data);
+  console.log("error", error);
   const { active_wallet_address } = useAppSelector((state) => state.wallet);
 
   const renderItem = ({ item }: { item: TransactionsList }) => (
@@ -25,11 +28,16 @@ const RecentActivities: React.FC = () => {
       </View>
 
       <View className="w-full ml-5 pr-5 flex-1">
-        <AppText weight="bold" className="text-xl">
-          {item.sender_address !== active_wallet_address
-            ? `USDC Received`
-            : `USDC Sent`}
-        </AppText>
+        <View className="w-full flex-row justify-between items-center">
+          <AppText weight="bold" className="text-xl">
+            {item.sender_address !== active_wallet_address
+              ? `USDC Received`
+              : `USDC Sent`}
+          </AppText>
+          <AppText className="text-gray-500 text-sm">
+            {formatRelativeTime(item.created_at)}
+          </AppText>
+        </View>
 
         <AppText>
           {item.sender_address !== active_wallet_address
@@ -57,7 +65,7 @@ const RecentActivities: React.FC = () => {
           </AppText>
         </View>
 
-        <AppText className="text-gray-500 text-sm">
+        <AppText className="text-gray-800 text-sm mt-1">
           Network: {item.blockchain}
         </AppText>
       </View>

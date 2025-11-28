@@ -38,7 +38,7 @@ const SendToBankScreen: React.FC<Props> = () => {
         amount,
         address: usdcWallet?.token.tokenAddress,
         chain: usdcWallet.token.blockchain,
-        currency: usdcWallet.token.name,
+        currency: usdcWallet.token.symbol,
         tokenId: usdcWallet?.token.id,
       }).unwrap();
       setSuccessVisible(true);

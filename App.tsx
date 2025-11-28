@@ -8,23 +8,9 @@ import "./global.css";
 
 import AppStack from "./src/stack/AppStack";
 import { handleAppLaunch } from "./src/helpers/handle-app-launch";
-import {
-  getFCMToken,
-  notificationListener,
-  requestUserPermission,
-} from "./src/helpers/notification-helps";
 import OfflineBanner from "./src/components/utils/OfflineBanner";
 
 function App() {
-  useEffect(() => {
-    requestUserPermission();
-    getFCMToken();
-    const unsubscribe = notificationListener();
-    return () => {
-      unsubscribe();
-    };
-  }, []);
-
   useEffect(() => {
     const init = async () => {
       await handleAppLaunch();

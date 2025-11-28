@@ -54,7 +54,7 @@ const AutoPasteScreen = () => {
         );
       }
     } catch (error) {
-      console.error("Error reading clipboard:", error);
+      console.log("Error reading clipboard:", error);
     }
   };
 

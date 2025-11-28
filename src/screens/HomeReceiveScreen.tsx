@@ -63,7 +63,10 @@ const HomeReceiveScreen: React.FC = () => {
       </View>
 
       <View className="w-full px-6 bg-white mb-5">
-        <View className="w-full p-2 border border-brand-700 flex-row rounded-2xl items-center">
+        <Pressable
+          className="w-full p-2 border border-brand-700 flex-row rounded-2xl items-center"
+          onPress={handleCopy}
+        >
           <AppText
             numberOfLines={1}
             ellipsizeMode="tail"
@@ -72,16 +75,14 @@ const HomeReceiveScreen: React.FC = () => {
             {active_wallet_address}
           </AppText>
 
-          <Pressable onPress={handleCopy}>
-            <Animated.View style={{ transform: [{ scale: anim }] }}>
-              <MaterialIcons
-                name="copy-all"
-                color={"#215CE1"}
-                size={20}
-              />
-            </Animated.View>
-          </Pressable>
-        </View>
+          <Animated.View style={{ transform: [{ scale: anim }] }}>
+            <MaterialIcons
+              name="copy-all"
+              color={"#215CE1"}
+              size={20}
+            />
+          </Animated.View>
+        </Pressable>
 
         <ButtonComponent label="Share" onPress={handleShare} />
       </View>

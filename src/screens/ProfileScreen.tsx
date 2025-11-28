@@ -20,7 +20,7 @@ interface Props extends NativeStackScreenProps<RootStackParamList> {}
 const ProfileScreen: React.FC<Props> = ({ navigation }) => {
   const [country, setCountry] = useState<CountriesAPI>();
   const { data } = useGetUserProfileQuery();
-  console.log("data", data);
+  console.log("profile", data);
   const { data: countries } = useGetCountriesQuery();
   useEffect(() => {
     console.log("countries", countries);

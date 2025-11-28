@@ -30,7 +30,7 @@ export const parseFirebaseNotification = (
 
     return null;
   } catch (error) {
-    console.error("Error parsing notification:", error);
+    console.log("Error parsing notification:", error);
     return null;
   }
 };

@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   ActivityIndicator,
@@ -11,25 +11,15 @@ import {
 import NetInfo from "@react-native-community/netinfo";
 import MaterialIcons from "@react-native-vector-icons/material-icons";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import messaging from "@react-native-firebase/messaging";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import AppText from "../components/typo/AppText";
 import { FullNavStack } from "../types/types";
 import { useAppSelector } from "../store/redux";
 import SendComponent from "../components/Main/SendComponent";
-import { useAddDeviceNotyMutation } from "../service/endpoints/notification-endpoints";
+import { useGetWalletByIdQuery } from "../service/endpoints/wallets-endpoints";
 
 interface Props extends NativeStackScreenProps<FullNavStack, "Send"> {}
-
-async function requestUserPermission() {
-  const authStatus = await messaging().requestPermission();
-
-  const enabled = authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-    authStatus === messaging.AuthorizationStatus.PROVISIONAL;
-
-  return enabled;
-}
 
 const CustomTabBar: React.FC<Pick<Props, "navigation">> = ({ navigation }) => {
   const DIP_WIDTH = 140;
@@ -109,29 +99,10 @@ const HomeSendScreen: React.FC<Props> = ({ navigation }) => {
   const { active_wallet } = useAppSelector((state) => state.wallet);
   const { usdcWallet } = useAppSelector((state) => state.USDCWallet);
 
-  // const { data, isLoading } = useGetWalletByIdQuery(
-  //   active_wallet?.id ?? "",
-  // );
-
-  const [addDevice] = useAddDeviceNotyMutation();
-
-  const initializeNotifications = useCallback(async () => {
-    const allowed = await requestUserPermission();
-    if (!allowed) return;
-
-    const token = await messaging().getToken();
-    await addDevice({
-      deviceToken: token,
-      device: active_wallet?.user_id ?? "",
-    });
-
-    return messaging().onTokenRefresh(async (newToken) => {
-      await addDevice({
-        deviceToken: newToken,
-        device: active_wallet?.user_id ?? "",
-      });
-    });
-  }, [active_wallet?.user_id, addDevice]);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { data: _ } = useGetWalletByIdQuery(
+    active_wallet?.id ?? "",
+  );
 
   useEffect(() => {
     const unsubscribe = NetInfo.addEventListener((state) => {
@@ -143,10 +114,6 @@ const HomeSendScreen: React.FC<Props> = ({ navigation }) => {
 
     return () => unsubscribe();
   }, []);
-
-  useEffect(() => {
-    initializeNotifications();
-  }, [initializeNotifications]);
 
   const formattedBalance = Number(usdcWallet?.amount ?? 0).toFixed(2);
 

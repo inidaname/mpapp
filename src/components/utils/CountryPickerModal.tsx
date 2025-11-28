@@ -1,8 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, TouchableOpacity, ActivityIndicator, Modal } from 'react-native';
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import {
+  ActivityIndicator,
+  FlatList,
+  Modal,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import axios from "axios";
 // import { twMerge } from 'tailwind-merge';
-import { Country } from '../../types/types';
+import { Country } from "../../types/types";
 
 interface Props {
   visible: boolean;
@@ -11,16 +18,18 @@ interface Props {
   apiUrl: string;
 }
 
-const CountryPickerModal: React.FC<Props> = ({ visible, onClose, onSelect, apiUrl }) => {
-  const [ countries, setCountries ] = useState<Country[]>([]);
-  const [ loading, setLoading ] = useState<boolean>(true);
+const CountryPickerModal: React.FC<Props> = (
+  { visible, onClose, onSelect, apiUrl },
+) => {
+  const [countries, setCountries] = useState<Country[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
   const fetchCountries = async () => {
     setLoading(true);
     try {
       const response = await axios.get(apiUrl);
       setCountries(response.data);
     } catch (e) {
-      console.error(e);
+      console.log(e);
     } finally {
       setLoading(false);
     }
@@ -30,8 +39,7 @@ const CountryPickerModal: React.FC<Props> = ({ visible, onClose, onSelect, apiUr
       fetchCountries();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ visible ]);
-
+  }, [visible]);
 
   const renderItem = ({ item }: { item: Country }) => (
     <TouchableOpacity
@@ -53,15 +61,15 @@ const CountryPickerModal: React.FC<Props> = ({ visible, onClose, onSelect, apiUr
           <Text className="text-blue-500">Close</Text>
         </TouchableOpacity>
 
-        {loading ? (
-          <ActivityIndicator size="large" className="mt-20" />
-        ) : (
-          <FlatList
-            data={countries}
-            renderItem={renderItem}
-            keyExtractor={(item) => item.code}
-          />
-        )}
+        {loading
+          ? <ActivityIndicator size="large" className="mt-20" />
+          : (
+            <FlatList
+              data={countries}
+              renderItem={renderItem}
+              keyExtractor={(item) => item.code}
+            />
+          )}
       </View>
     </Modal>
   );

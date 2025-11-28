@@ -28,7 +28,7 @@ export async function getFCMToken() {
     console.log("FCM Token:", token);
     return token;
   } catch (error) {
-    console.error("Error getting token:", error);
+    console.log("Error getting token:", error);
   }
 }
 
@@ -40,26 +40,24 @@ export async function displayLocalNotification(
   const channelId = await notifee.createChannel({
     id: "default",
     name: "Default Channel",
-    importance: AndroidImportance.HIGH,
+    importance: AndroidImportance.DEFAULT,
   });
 
   await notifee.displayNotification({
     title: remoteMessage.notification?.title || "New Message",
-    body: remoteMessage.data?.message as string ||
+    body: remoteMessage.notification?.body as string ||
       "You have a new notification",
     android: {
       channelId,
-      smallIcon: "ic_launcher", // Ensure you have this icon in android/app/src/main/res/drawable
+      smallIcon: "ic_launcher",
     },
   });
 }
 
 // 4. Initialize Listeners
 export function notificationListener() {
-  // Foreground Message Handler
   const unsubscribe = messaging().onMessage(async (remoteMessage) => {
     console.log("A new FCM message arrived!", remoteMessage);
-    await displayLocalNotification(remoteMessage);
   });
 
   // Background/Quit Event (When user taps notification)

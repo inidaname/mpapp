@@ -58,7 +58,7 @@ const useAutoPaste: UseAutoPaste = (options = {}) => {
         }
       }
     } catch (error) {
-      console.error("Error reading clipboard:", error);
+      console.log("Error reading clipboard:", error);
     }
   }, [enabled, onPaste, validator]);
 

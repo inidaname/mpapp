@@ -8,7 +8,7 @@ import { RootStackParamList } from "../types/types";
 
 import HomeStackTabs from "./HomeStacks";
 import AuthStack from "./AuthStach";
-
+import messaging from "@react-native-firebase/messaging";
 import { useAppSelector } from "../store/redux";
 import {
   AddBankScreen,
@@ -33,6 +33,14 @@ import {
   SettingsScreen,
   WalletScreen,
 } from "../screens";
+import { useCallback, useEffect } from "react";
+
+import { useAddDeviceNotyMutation } from "../service/endpoints/notification-endpoints";
+import { useNotification } from "../hooks/useNotificationHook";
+import { useLazyGetTransactionQuery } from "../service/endpoints/transactions-endpoints";
+import { useLazyGetWalletByIdQuery } from "../service/endpoints/wallets-endpoints";
+import { useGetUserProfileQuery } from "../service/endpoints/user-endpoints";
+// import { notificationListener } from "../helpers/notification-helps";
 
 export type RootNavigatorParams = {
   OnboardingStack: undefined;
@@ -95,6 +103,55 @@ const MainStack: React.FC = () => {
 
 const AppStack: React.FC = () => {
   const { token } = useAppSelector((state) => state.auth);
+  const [addDevice] = useAddDeviceNotyMutation();
+  const [getTransactions] = useLazyGetTransactionQuery();
+  const [getWallet] = useLazyGetWalletByIdQuery();
+  const { data } = useGetUserProfileQuery();
+  const { active_wallet } = useAppSelector((state) => state.wallet);
+  const { getToken, requestPermission } = useNotification(() => {
+    getTransactions({ page: 1 });
+    if (active_wallet && active_wallet.id) {
+      getWallet(active_wallet.id);
+    }
+  });
+
+  useEffect(() => {
+    requestPermission();
+
+    // const unsubscribe = notificationListener();
+    // return () => {
+    //   unsubscribe();
+    // };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const initializeNotifications = useCallback(async () => {
+    const fcmToken = await getToken();
+    const exists = data?.data?.SNS?.some(
+      (item) => item.deviceToken === fcmToken,
+    );
+
+    if (!exists) {
+      await addDevice({
+        deviceToken: fcmToken ?? "",
+        device: active_wallet?.user_id ?? "",
+      });
+    }
+
+    return messaging().onTokenRefresh(async (newToken) => {
+      await addDevice({
+        deviceToken: newToken,
+        device: active_wallet?.user_id ?? "",
+      });
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [active_wallet?.user_id, data?.data.SNS]);
+
+  useEffect(() => {
+    if (data?.data.SNS.length === 0) {
+      initializeNotifications();
+    }
+  }, [data?.data.SNS.length, initializeNotifications]);
 
   // if (loading) {
   //   return (
@@ -104,6 +161,7 @@ const AppStack: React.FC = () => {
   //     </View>
   //   );
   // }
+
   return (
     <RootStack.Navigator screenOptions={{ headerShown: false }}>
       {token

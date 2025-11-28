@@ -151,7 +151,16 @@ interface UserProfile {
   is_active: boolean;
   profile_image: string;
   Wallet: WalletData[];
-  SNS: [];
+  SNS: SNS[];
+}
+
+interface SNS {
+  id: string;
+  user_id: string;
+  deviceToken: string;
+  device: string;
+  deviceHash: string;
+  arnUrl: string;
 }
 
 interface WallectDetail extends WalletData {
@@ -367,4 +376,20 @@ interface ConvertData {
     static_template: boolean;
     allow_any_from_address: boolean;
   };
+}
+
+interface NotificationType {
+  notification: {
+    android: {};
+    body: string;
+    title: string;
+  };
+  originalPriority: number;
+  priority: number;
+  sentTime: number;
+  data: {};
+  from: string;
+  messageId: string;
+  ttl: number;
+  collapseKey: string;
 }

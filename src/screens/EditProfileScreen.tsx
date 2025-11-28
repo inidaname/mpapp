@@ -38,7 +38,7 @@ const EditProfileScreen: React.FC<Props> = () => {
       if (response.didCancel) {
         console.log("User cancelled image picker");
       } else if (response.errorCode) {
-        console.error("ImagePicker Error:", response.errorMessage);
+        console.log("ImagePicker Error:", response.errorMessage);
       } else {
         console.log("response.assets", response.assets);
         const uri = response.assets?.[0]?.uri;
