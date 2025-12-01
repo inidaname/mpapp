@@ -47,7 +47,10 @@ export interface Country {
 }
 
 export type HomeStackParams = {
-  Send: { wallet_address?: string } | undefined;
+  Send: {
+    wallet_address?: string;
+    blockchain?: Mainnet | Testnet;
+  } | undefined;
   Receive: undefined;
 };
 

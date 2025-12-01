@@ -13,13 +13,14 @@ import { useAppSelector } from "../../store/redux";
 import useAutoPaste from "../../hooks/useAutoPaste";
 
 interface Props
-  extends Pick<NativeStackScreenProps<FullNavStack, "Send">, "navigation"> {
+  extends
+    Pick<NativeStackScreenProps<FullNavStack, "Send">, "navigation" | "route"> {
   token_id: string;
   wallet_balance: string;
 }
 
 const SendComponent: React.FC<Props> = (
-  { navigation, token_id, wallet_balance },
+  { navigation, token_id, wallet_balance, route },
 ) => {
   const [value, setValue] = useState("");
   const [feesSeparate, setFeesSeparate] = useState<boolean>();
@@ -38,7 +39,7 @@ const SendComponent: React.FC<Props> = (
         amount: `${value}`,
         destinationAddress: `${inputAdd}`,
         tokenId: token_id,
-        destinationChain: "Solana",
+        destinationChain: route.params?.blockchain ?? "Solana",
       }).unwrap();
     } catch (error) {
       console.log(error);
@@ -115,7 +116,7 @@ const SendComponent: React.FC<Props> = (
           onCheckColor="white"
           onFillColor="#215ce1"
         />
-        <AppText className="ml-1 text-brand-700 text-xl font-medium">
+        <AppText className="ml-3 text-brand-700 text-xl font-medium">
           Detect fees separately
         </AppText>
       </View>

@@ -3,7 +3,7 @@ import * as Keychain from "react-native-keychain";
 import { SERVICE_NAME } from "../config/TOKEN";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "https://devapi.insfers.com/",
+  baseUrl: "https://api.insfers.com/",
   mode: "cors",
   prepareHeaders: async (headers) => {
     try {

@@ -52,7 +52,7 @@ interface SendTrans {
   tokenId: string;
   destinationAddress: string;
   amount: string;
-  destinationChain: import("./types").Mainnet;
+  destinationChain: import("./types").Mainnet | import("./types").Testnet;
 }
 
 interface PasswordForm {

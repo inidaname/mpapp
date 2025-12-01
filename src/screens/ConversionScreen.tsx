@@ -42,11 +42,17 @@ const ShowDetail: React.FC<DeatilProp> = (
   { title, value, className = "flex-row", prefix },
 ) => {
   const anim = useRef(new Animated.Value(1)).current;
+  const [copied, setCopied] = useState<boolean>();
 
   const handleCopy = () => {
     if (!value) return;
 
     Clipboard.setString(value);
+
+    setCopied(true);
+
+    // Briefly show "Copied"
+    setTimeout(() => setCopied(false), 1000);
 
     Animated.sequence([
       Animated.timing(anim, {
@@ -76,11 +82,19 @@ const ShowDetail: React.FC<DeatilProp> = (
           onPress={handleCopy}
         >
           <Animated.View style={{ transform: [{ scale: anim }] }}>
-            <MaterialIcons
-              name="copy-all"
-              color={"#215CE1"}
-              size={20}
-            />
+            {copied
+              ? (
+                <MaterialIcons
+                  name="copy-all"
+                  color={"#215CE1"}
+                  size={20}
+                />
+              )
+              : (
+                <AppText className="text-green-600 text-sm ml-1">
+                  Copied
+                </AppText>
+              )}
           </Animated.View>
         </Pressable>
       </View>

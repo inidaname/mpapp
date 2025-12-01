@@ -1,16 +1,17 @@
 import React from "react";
-import { FlatList, View } from "react-native";
+import { FlatList, RefreshControl, View } from "react-native";
 import { MaterialIcons } from "@react-native-vector-icons/material-icons";
 
 import AppText from "../typo/AppText";
 import { useGetTransactionQuery } from "../../service/endpoints/transactions-endpoints";
 import { useAppSelector } from "../../store/redux";
 import { formatRelativeTime } from "../../helpers/formatRelativeTime";
+import { useRefreshUserAndWallet } from "../../hooks/useRefreshProfileAndWallet";
 
 const RecentActivities: React.FC = () => {
-  const { data, isLoading, error } = useGetTransactionQuery({ page: 1 });
-  console.log("data", data);
-  console.log("error", error);
+  const { data, isLoading, refetch } = useGetTransactionQuery({ page: 1 });
+  const { refreshing, onRefresh } = useRefreshUserAndWallet(refetch);
+
   const { active_wallet_address } = useAppSelector((state) => state.wallet);
 
   const renderItem = ({ item }: { item: TransactionsList }) => (
@@ -99,6 +100,10 @@ const RecentActivities: React.FC = () => {
         keyExtractor={(item) => item.id}
         renderItem={renderItem}
         showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
       />
     </View>
   );

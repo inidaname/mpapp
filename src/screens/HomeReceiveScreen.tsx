@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { Animated, Pressable, Share, View } from "react-native";
 import QRCode from "react-native-qrcode-svg";
 import ButtonComponent from "../components/Button";
@@ -12,11 +12,17 @@ const HomeReceiveScreen: React.FC = () => {
 
   console.log("active_wallet_address", active_wallet_address);
   const anim = useRef(new Animated.Value(1)).current;
+  const [copied, setCopied] = useState<boolean>();
 
   const handleCopy = () => {
     if (!active_wallet_address) return;
 
     Clipboard.setString(active_wallet_address);
+
+    setCopied(true);
+
+    // Briefly show "Copied"
+    setTimeout(() => setCopied(false), 1000);
 
     Animated.sequence([
       Animated.timing(anim, {
@@ -76,11 +82,19 @@ const HomeReceiveScreen: React.FC = () => {
           </AppText>
 
           <Animated.View style={{ transform: [{ scale: anim }] }}>
-            <MaterialIcons
-              name="copy-all"
-              color={"#215CE1"}
-              size={20}
-            />
+            {!copied
+              ? (
+                <MaterialIcons
+                  name="copy-all"
+                  color={"#215CE1"}
+                  size={20}
+                />
+              )
+              : (
+                <AppText className="text-gray-600 text-sm mb-1 ml-1">
+                  Copied
+                </AppText>
+              )}
           </Animated.View>
         </Pressable>
 

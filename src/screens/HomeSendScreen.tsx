@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Image,
+  RefreshControl,
+  ScrollView,
   Text,
   TouchableOpacity,
   View,
@@ -17,7 +19,7 @@ import AppText from "../components/typo/AppText";
 import { FullNavStack } from "../types/types";
 import { useAppSelector } from "../store/redux";
 import SendComponent from "../components/Main/SendComponent";
-import { useGetWalletByIdQuery } from "../service/endpoints/wallets-endpoints";
+import { useRefreshUserAndWallet } from "../hooks/useRefreshProfileAndWallet";
 
 interface Props extends NativeStackScreenProps<FullNavStack, "Send"> {}
 
@@ -92,17 +94,11 @@ const CustomTabBar: React.FC<Pick<Props, "navigation">> = ({ navigation }) => {
   );
 };
 
-const HomeSendScreen: React.FC<Props> = ({ navigation }) => {
+const HomeSendScreen: React.FC<Props> = ({ navigation, route }) => {
   const [balanceHidden, setBalanceHidden] = useState(false);
   const [isOffline, setIsOffline] = useState(false);
-
-  const { active_wallet } = useAppSelector((state) => state.wallet);
+  const { refreshing, onRefresh } = useRefreshUserAndWallet();
   const { usdcWallet } = useAppSelector((state) => state.USDCWallet);
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { data: _ } = useGetWalletByIdQuery(
-    active_wallet?.id ?? "",
-  );
 
   useEffect(() => {
     const unsubscribe = NetInfo.addEventListener((state) => {
@@ -124,40 +120,49 @@ const HomeSendScreen: React.FC<Props> = ({ navigation }) => {
       keyboardShouldPersistTaps="handled"
       extraScrollHeight={40}
     >
-      <View className="bg-white flex-1">
-        {/* Balance */}
-        <View className="items-center mt-6">
-          <AppText className="text-gray-500 text-[14px]">
-            Total Balance in USDC
-          </AppText>
-          <View className="flex-row items-center justify-center mt-1">
-            <Image
-              source={require("../../assets/USDC.png")}
-              width={200}
-              height={200}
-            />
-            <Text className="text-[47px] font-montserrat-medium text-center ml-2 w-auto">
-              {isOffline
-                ? <ActivityIndicator size="small" color="blue" />
-                : balanceHidden
-                ? "••••.••"
-                : formattedBalance}
-            </Text>
-          </View>
-          <TouchableOpacity onPress={() => setBalanceHidden(!balanceHidden)}>
-            <AppText className="text-blue-600 mt-2 text-[18px]">
-              {balanceHidden ? "Show Balance" : "Hide Balance"}
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1 }}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+        keyboardShouldPersistTaps="handled"
+      >
+        <View className="bg-white flex-1">
+          {/* Balance */}
+          <View className="items-center mt-6">
+            <AppText className="text-gray-500 text-[14px]">
+              Total Balance in USDC
             </AppText>
-          </TouchableOpacity>
-        </View>
+            <View className="flex-row items-center justify-center mt-1">
+              <Image
+                source={require("../../assets/USDC.png")}
+                width={200}
+                height={200}
+              />
+              <Text className="text-[47px] font-montserrat-medium text-center ml-2 w-auto">
+                {isOffline
+                  ? <ActivityIndicator size="small" color="blue" />
+                  : balanceHidden
+                  ? "••••.••"
+                  : formattedBalance}
+              </Text>
+            </View>
+            <TouchableOpacity onPress={() => setBalanceHidden(!balanceHidden)}>
+              <AppText className="text-blue-600 mt-2 text-[18px]">
+                {balanceHidden ? "Show Balance" : "Hide Balance"}
+              </AppText>
+            </TouchableOpacity>
+          </View>
 
-        <SendComponent
-          navigation={navigation}
-          token_id={usdcWallet?.token?.id ?? ""}
-          wallet_balance={usdcWallet?.amount ?? ""}
-        />
-      </View>
-      <CustomTabBar navigation={navigation} />
+          <SendComponent
+            navigation={navigation}
+            token_id={usdcWallet?.token?.id ?? ""}
+            wallet_balance={usdcWallet?.amount ?? ""}
+            route={route}
+          />
+        </View>
+        <CustomTabBar navigation={navigation} />
+      </ScrollView>
     </KeyboardAwareScrollView>
   );
 };
