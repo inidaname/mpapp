@@ -108,7 +108,7 @@ const AppStack: React.FC = () => {
   const [getWallet] = useLazyGetWalletByIdQuery();
   const { data } = useGetUserProfileQuery();
   const { active_wallet } = useAppSelector((state) => state.wallet);
-  const { getToken, requestPermission } = useNotification(() => {
+  const { getDeviceToken, requestPermission } = useNotification(() => {
     getTransactions({ page: 1 });
     if (active_wallet && active_wallet.id) {
       getWallet(active_wallet.id);
@@ -117,16 +117,12 @@ const AppStack: React.FC = () => {
 
   useEffect(() => {
     requestPermission();
-
-    // const unsubscribe = notificationListener();
-    // return () => {
-    //   unsubscribe();
-    // };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const initializeNotifications = useCallback(async () => {
-    const fcmToken = await getToken();
+    const fcmToken = await getDeviceToken();
+    console.log(fcmToken);
     const exists = data?.data?.SNS?.some(
       (item) => item.deviceToken === fcmToken,
     );
@@ -148,10 +144,10 @@ const AppStack: React.FC = () => {
   }, [active_wallet?.user_id, data?.data.SNS]);
 
   useEffect(() => {
-    if (data?.data.SNS.length === 0) {
-      initializeNotifications();
-    }
-  }, [data?.data.SNS.length, initializeNotifications]);
+    // if (data?.data.SNS.length === 0) {
+    initializeNotifications();
+    // }
+  }, [initializeNotifications]);
 
   // if (loading) {
   //   return (

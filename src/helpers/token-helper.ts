@@ -11,12 +11,12 @@ export async function saveToken(token: string) {
 }
 
 // Get token
-export async function getToken() {
+export async function getAppToken() {
   const creds = await Keychain.getGenericPassword({ service: SERVICE_NAME });
   return creds ? creds.password : null;
 }
 
 // Delete token
-export async function deleteToken() {
+export async function deleteAppToken() {
   return Keychain.resetGenericPassword({ service: SERVICE_NAME });
 }

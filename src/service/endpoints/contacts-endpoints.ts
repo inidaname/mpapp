@@ -12,7 +12,7 @@ const contactEndpoints = apiSlice.injectEndpoints({
     }),
     getContacts: build.query<
       APIData<ContactData>,
-      { search: string; page?: string }
+      { search: string; page?: number }
     >({
       query: ({ page = 1, search }) => ({
         url: `/contacts`,

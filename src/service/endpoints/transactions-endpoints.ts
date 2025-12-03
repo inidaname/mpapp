@@ -16,7 +16,10 @@ const transactionEndpoints = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
-    getTransaction: build.query<APIData<TransactionsList[]>, { page?: number }>(
+    getTransaction: build.query<
+      APIData<{ transactions: TransactionsList[]; totalPage: number }>,
+      { page?: number }
+    >(
       {
         query: ({ page }) => ({
           url: "/transactions",

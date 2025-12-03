@@ -8,7 +8,6 @@ import { PermissionsAndroid, Platform } from "react-native";
 export function useNotification(
   onNotificationEvent?: (msg: FirebaseMessagingTypes.RemoteMessage) => void,
 ) {
-  // 1. Request permissions
   const requestPermission = useCallback(async () => {
     const authStatus = await messaging().requestPermission();
 
@@ -26,10 +25,11 @@ export function useNotification(
     }
   }, []);
 
-  // 2. Get FCM Token
-  const getToken = useCallback(async () => {
+  const getDeviceToken = useCallback(async () => {
     try {
-      const token = await messaging().getToken();
+      const token = Platform.OS === "android"
+        ? await messaging().getToken()
+        : await messaging().getAPNSToken();
       console.log("FCM Token:", token);
       return token;
     } catch (error) {
@@ -37,7 +37,6 @@ export function useNotification(
     }
   }, []);
 
-  // Display local notification
   const displayLocalNotification = useCallback(
     async (remoteMessage: FirebaseMessagingTypes.RemoteMessage) => {
       await notifee.displayNotification({
@@ -118,6 +117,6 @@ export function useNotification(
 
   return {
     requestPermission,
-    getToken,
+    getDeviceToken,
   };
 }

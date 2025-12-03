@@ -2,6 +2,7 @@
 import type React from "react";
 
 import {
+  FlatList,
   Modal,
   Pressable,
   TextInput,
@@ -14,6 +15,7 @@ import { MaterialIcons } from "@react-native-vector-icons/material-icons";
 import AppText from "../components/typo/AppText";
 import {
   useAddContactMutation,
+  useGetContactsQuery,
   useLazyGetContactsQuery,
 } from "../service/endpoints/contacts-endpoints";
 import Avatar from "../components/Avatar";
@@ -30,6 +32,7 @@ import {
   setScannedAddress,
 } from "../store/reducers/scan-wallet-slice";
 import { useNavigation } from "@react-navigation/native";
+import { useRefreshUserAndWallet } from "../hooks/useRefreshProfileAndWallet";
 
 interface FormUserData {
   first_name: string;
@@ -42,15 +45,13 @@ type Props = NativeStackScreenProps<FullNavStack>;
 
 const ListContacts: React.FC<{ search: string }> = ({ search }) => {
   const [getContact, { data, isLoading }] = useLazyGetContactsQuery();
+  const { refetch } = useGetContactsQuery({ search });
   const navigation = useNavigation<NativeStackNavigationProp<FullNavStack>>();
   const dispatch = useAppDispatch();
+  const { onRefresh, refreshing } = useRefreshUserAndWallet(refetch);
 
   useEffect(() => {
-    const startSearch = async () => {
-      await getContact({ search }).unwrap();
-    };
-
-    startSearch();
+    getContact({ search });
   }, [search]);
 
   const sendToWallet = (address: string) => {
@@ -61,6 +62,54 @@ const ListContacts: React.FC<{ search: string }> = ({ search }) => {
     });
   };
 
+  const contacts = data?.data?.contacts ?? [];
+  const empty = !isLoading && contacts.length === 0;
+
+  const renderItem = ({ item }: { item: any }) => (
+    <View
+      key={item.id}
+      className="p-4 bg-gray-400/20 rounded-2xl my-2 flex-row justify-start items-center"
+    >
+      <View className="flex-1 flex-row justify-between items-center">
+        <View className="relative w-16 mr-4">
+          <Avatar name={`${item.first_name} ${item.last_name}`} />
+        </View>
+
+        <View className="flex-1 h-full">
+          <View className="w-full flex-row justify-between items-end">
+            <AppText
+              weight="bold"
+              ellipsizeMode="tail"
+              numberOfLines={1}
+              className="w-full truncate text-xl flex-1"
+            >
+              {item.first_name} {item.last_name}
+            </AppText>
+
+            <AppText className="w-full text-brand-700 text-sm w-20">
+              {item.chain}
+            </AppText>
+          </View>
+
+          <AppText
+            ellipsizeMode="tail"
+            numberOfLines={1}
+            className="w-full truncate"
+          >
+            {item.address}
+          </AppText>
+        </View>
+
+        <Pressable
+          onPress={() => sendToWallet(item.address)}
+          className="h-10 w-20 rounded-full justify-center items-center bg-brand-700"
+        >
+          <AppText className="text-white text-sm">Send</AppText>
+        </Pressable>
+      </View>
+    </View>
+  );
+
   if (isLoading) {
     return (
       <View className="w-full px-6 mt-6 justify-center items-center">
@@ -69,7 +118,7 @@ const ListContacts: React.FC<{ search: string }> = ({ search }) => {
     );
   }
 
-  if (data?.data && data.data.totalCount <= 0) {
+  if (empty) {
     return (
       <View className="w-full px-6 mt-6 justify-center items-center">
         <AppText>You have no contacts added</AppText>
@@ -78,48 +127,14 @@ const ListContacts: React.FC<{ search: string }> = ({ search }) => {
   }
 
   return (
-    <View className="w-full px-6 mt-6">
-      {data?.data.contacts.map((contact) => (
-        <View
-          key={contact.id}
-          className="p-4 bg-gray-400/20 rounded-2xl my-2 flex-row justify-start items-center"
-        >
-          <View className="flex-1 flex-row justify-between items-center">
-            <View className="relative w-16 mr-4">
-              <Avatar name={`${contact.first_name} ${contact.last_name}`} />
-            </View>
-            <View className="flex-1 h-full">
-              <View className="w-full flex-row justify-between items-end">
-                <AppText
-                  weight="bold"
-                  ellipsizeMode="tail"
-                  numberOfLines={1}
-                  className="w-full truncate text-xl flex-1"
-                >
-                  {contact.first_name} {contact.last_name}
-                </AppText>
-                <AppText className="w-full text-brand-700 text-sm w-20">
-                  {contact.chain}
-                </AppText>
-              </View>
-              <AppText
-                ellipsizeMode="tail"
-                numberOfLines={1}
-                className="w-full truncate"
-              >
-                {contact.address}
-              </AppText>
-            </View>
-            <Pressable
-              onPress={() => sendToWallet(contact.address)}
-              className="h-10 w-20 rounded-full justify-center items-center bg-brand-700"
-            >
-              <AppText className="text-white text-sm">Send</AppText>
-            </Pressable>
-          </View>
-        </View>
-      ))}
-    </View>
+    <FlatList
+      data={contacts}
+      renderItem={renderItem}
+      keyExtractor={(item) => item.id.toString()}
+      className="w-full px-6 mt-6"
+      refreshing={refreshing}
+      onRefresh={onRefresh}
+    />
   );
 };
 

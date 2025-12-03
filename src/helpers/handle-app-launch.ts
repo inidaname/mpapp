@@ -1,21 +1,41 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { apiSlice } from "../service/apiSlice";
 import { store } from "../store/redux";
+import { deleteAppToken, getAppToken } from "./token-helper";
+import { clearProfile } from "../store/reducers/user-slice";
+import { clearToken } from "../store/reducers/auth-slice";
+import { clearUSDCWallet } from "../store/reducers/usdc-slice";
+import { clearTempToken } from "../store/reducers/temporary-slice";
+import { clearScannedAddress } from "../store/reducers/scan-wallet-slice";
 
 let launched = false;
+const LAST_OPEN_KEY = "last_open_timestamp";
+const ONE_HOUR = 60 * 60 * 1000;
 
 export async function handleAppLaunch() {
   if (launched) return;
   launched = true;
-  const flag = await AsyncStorage.getItem("app_launch_flag");
-  console.log("flag set", flag);
 
-  if (flag === null) {
-    store.dispatch(apiSlice.util.resetApiState());
+  const lastOpen = await AsyncStorage.getItem(LAST_OPEN_KEY);
+  const token = await getAppToken();
 
-    console.log("flag null", flag);
+  if (lastOpen) {
+    const lastOpenTime = parseInt(lastOpen, 10);
+    const now = Date.now();
+    const diff = now - lastOpenTime;
 
-    await AsyncStorage.setItem("app_launch_flag", "1");
-    console.log("flag done", flag);
+    if (diff > ONE_HOUR && token) {
+      // logout
+      await deleteAppToken();
+      store.dispatch(apiSlice.util.resetApiState());
+      store.dispatch(clearProfile());
+      store.dispatch(clearToken());
+      store.dispatch(clearUSDCWallet());
+      store.dispatch(clearTempToken());
+      store.dispatch(clearScannedAddress());
+    }
   }
+
+  // update timestamp regardless
+  await AsyncStorage.setItem(LAST_OPEN_KEY, Date.now().toString());
 }

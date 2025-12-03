@@ -15,19 +15,25 @@ import StartScreen from "../screens/StartScreen";
 const AuthStackNav = createNativeStackNavigator<AuthStackParamList>();
 
 const AuthStack: React.FC = () => {
-  const [hasOnboarded, setHasOnboarded] = useState(false);
+  const [initialRoute, setInitialRoute] = useState<
+    keyof AuthStackParamList | null
+  >(null);
 
   useEffect(() => {
-    const checkOnboarding = async () => {
+    const load = async () => {
       const onboarded = await AsyncStorage.getItem("hasOnboarded");
-      setHasOnboarded(onboarded === "true");
+      setInitialRoute(onboarded === "true" ? "StartScreen" : "Onboarding");
     };
-    checkOnboarding();
+
+    load();
   }, []);
 
+  if (!initialRoute) {
+    return null;
+  }
   return (
     <AuthStackNav.Navigator
-      initialRouteName={!hasOnboarded ? "Onboarding" : "StartScreen"}
+      initialRouteName={initialRoute}
       screenOptions={{ headerShown: false }}
     >
       <AuthStackNav.Screen name="StartScreen" component={StartScreen} />

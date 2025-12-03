@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FlatList, RefreshControl, View } from "react-native";
 import { MaterialIcons } from "@react-native-vector-icons/material-icons";
 
@@ -9,8 +9,28 @@ import { formatRelativeTime } from "../../helpers/formatRelativeTime";
 import { useRefreshUserAndWallet } from "../../hooks/useRefreshProfileAndWallet";
 
 const RecentActivities: React.FC = () => {
-  const { data, isLoading, refetch } = useGetTransactionQuery({ page: 1 });
+  const [page, setPage] = useState(1);
+  const { data, isLoading, refetch, isFetching, error } =
+    useGetTransactionQuery({
+      page,
+    });
+
+  console.log("error", error);
   const { refreshing, onRefresh } = useRefreshUserAndWallet(refetch);
+  const [allTransactions, setAllTransactions] = useState<TransactionsList[]>(
+    [],
+  );
+
+  useEffect(() => {
+    if (data?.data?.transactions) {
+      if (page === 1) {
+        setAllTransactions(data.data.transactions);
+        console.log("data", data);
+      } else {
+        setAllTransactions((prev) => [...prev, ...data.data.transactions]);
+      }
+    }
+  }, [data, page]);
 
   const { active_wallet_address } = useAppSelector((state) => state.wallet);
 
@@ -83,7 +103,7 @@ const RecentActivities: React.FC = () => {
     );
   }
 
-  if (!data || data.data.length === 0) {
+  if (!data || !data.data.transactions || data.data.transactions.length === 0) {
     return (
       <View className="flex-1 items-center justify-center w-full">
         <AppText className="text-[20px] text-center w-full">
@@ -96,13 +116,35 @@ const RecentActivities: React.FC = () => {
   return (
     <View className="px-6">
       <FlatList
-        data={data.data || []}
-        keyExtractor={(item) => item.id}
+        data={allTransactions}
+        keyExtractor={(item, index) => `${item.id}-${index}`}
         renderItem={renderItem}
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled"
+        onEndReachedThreshold={0.4}
+        onEndReached={() => {
+          if (!isFetching && page < data?.data.totalPage) {
+            setPage((prev) => prev + 1);
+          }
+        }}
         refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={() => {
+              setPage(1);
+              onRefresh();
+            }}
+          />
+        }
+        ListFooterComponent={isFetching
+          ? <AppText className="text-center p-3">Loading more...</AppText>
+          : null}
+        ListEmptyComponent={
+          <View className="flex-1 items-center justify-center w-full">
+            <AppText className="text-[20px] text-center w-full">
+              No recent activities recorded
+            </AppText>
+          </View>
         }
       />
     </View>
