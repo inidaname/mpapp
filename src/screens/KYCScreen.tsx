@@ -18,15 +18,13 @@ const KycScreen: React.FC<Props> = ({ route, navigation }) => {
   const handleNavigationStateChange = async (navState: { url: string }) => {
     const { url } = navState;
 
-    // When TOS flow finishes, Bridge redirects to your redirect_uri
-    if (phase === "tos" && url.startsWith("https://example.com")) {
+    if (phase === "tos" && url.startsWith("https://kyc.insfers.com/agreed")) {
       await refetch().unwrap();
       setPhase("kyc");
       setCurrentUrl(kycLink);
     }
 
-    // When KYC completes and redirects back
-    if (phase === "kyc" && url.startsWith("https://example.com")) {
+    if (phase === "kyc" && url.startsWith("https://kyc.insfers.com")) {
       if (data?.data?.metadata?.kyc?.tos_status !== "approved") {
         navigation.goBack();
       } else {

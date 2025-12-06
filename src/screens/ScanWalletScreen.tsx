@@ -30,8 +30,11 @@ export default function ScanWalletScreen({ navigation }: Props) {
     (async () => {
       const status = await Camera.requestCameraPermission();
       if (status !== "granted") {
-        navigation.goBack();
+        await Camera.requestCameraPermission();
+        console.log("status", status);
       } else {
+        console.log("status", status);
+
         setHasPermission(true);
       }
     })();

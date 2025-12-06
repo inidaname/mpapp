@@ -2637,6 +2637,8 @@ PODS:
     - ReactCommon/turbomodule/core
     - SocketRocket
     - Yoga
+  - RNDeviceInfo (15.0.1):
+    - React-Core
   - RNFBApp (23.4.1):
     - Firebase/CoreOnly (= 12.4.0)
     - React-Core
@@ -3104,6 +3106,7 @@ DEPENDENCIES:
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNCCheckbox (from `../node_modules/@react-native-community/checkbox`)"
   - "RNCClipboard (from `../node_modules/@react-native-clipboard/clipboard`)"
+  - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBMessaging (from `../node_modules/@react-native-firebase/messaging`)"
   - RNKeychain (from `../node_modules/react-native-keychain`)
@@ -3303,6 +3306,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/checkbox"
   RNCClipboard:
     :path: "../node_modules/@react-native-clipboard/clipboard"
+  RNDeviceInfo:
+    :path: "../node_modules/react-native-device-info"
   RNFBApp:
     :path: "../node_modules/@react-native-firebase/app"
   RNFBMessaging:
@@ -3423,6 +3428,7 @@ SPEC CHECKSUMS:
   RNCAsyncStorage: 8857fb173af29664cb90897903902dc8533e36cc
   RNCCheckbox: 471ebdc33884c084f362615c1ef3507496cc07f1
   RNCClipboard: 4eea71d801c880175c12f6ab14332ca86fed935f
+  RNDeviceInfo: 53f9c84e28e854a308d3e548e25ef120b4615531
   RNFBApp: d465e2c0b1556d3e57248ea0ad880c9b1dd07d1e
   RNFBMessaging: 8fb5d5711add86109150229404a6ff6b2a3ba0eb
   RNKeychain: d0bdaca4688ae123909b137de08491f49a6cf6b1

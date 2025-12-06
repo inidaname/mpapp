@@ -40,6 +40,7 @@ import { useNotification } from "../hooks/useNotificationHook";
 import { useLazyGetTransactionQuery } from "../service/endpoints/transactions-endpoints";
 import { useLazyGetWalletByIdQuery } from "../service/endpoints/wallets-endpoints";
 import { useGetUserProfileQuery } from "../service/endpoints/user-endpoints";
+import { Platform } from "react-native";
 // import { notificationListener } from "../helpers/notification-helps";
 
 export type RootNavigatorParams = {
@@ -122,31 +123,31 @@ const AppStack: React.FC = () => {
 
   const initializeNotifications = useCallback(async () => {
     const fcmToken = await getDeviceToken();
-    console.log(fcmToken);
+
     const exists = data?.data?.SNS?.some(
-      (item) => item.deviceToken === fcmToken,
+      (item) => item.deviceToken === fcmToken.token,
     );
+
+    console.log("data?.data?.SNS", data?.data?.SNS);
 
     if (!exists) {
       await addDevice({
-        deviceToken: fcmToken ?? "",
-        device: active_wallet?.user_id ?? "",
+        deviceToken: fcmToken.token ?? "",
+        device: "android",
       });
     }
 
-    return messaging().onTokenRefresh(async (newToken) => {
+    return messaging().onTokenRefresh(async () => {
       await addDevice({
-        deviceToken: newToken,
-        device: active_wallet?.user_id ?? "",
+        deviceToken: fcmToken.token ?? "",
+        device: "android",
       });
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [active_wallet?.user_id, data?.data.SNS]);
 
   useEffect(() => {
-    // if (data?.data.SNS.length === 0) {
     initializeNotifications();
-    // }
   }, [initializeNotifications]);
 
   // if (loading) {
