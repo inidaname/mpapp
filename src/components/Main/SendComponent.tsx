@@ -1,16 +1,21 @@
-import type React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Alert, Modal, TextInput, TouchableOpacity, View } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-
-import AppText from "../typo/AppText";
 import CheckBox from "@react-native-community/checkbox";
+
+// Types & Store
 import { FullNavStack } from "../../types/types";
 import { useSendTransactionMutation } from "../../service/endpoints/transactions-endpoints";
-import ButtonComponent from "../Button";
 import { useAppDispatch, useAppSelector } from "../../store/redux";
+import {
+  clearScannedAddress,
+  setScanned,
+} from "../../store/reducers/scan-wallet-slice";
+
+// Components & Hooks
+import AppText from "../typo/AppText";
+import ButtonComponent from "../Button";
 import useAutoPaste from "../../hooks/useAutoPaste";
-import { setScanned } from "../../store/reducers/scan-wallet-slice";
 
 interface Props
   extends
@@ -19,65 +24,77 @@ interface Props
   wallet_balance: string;
 }
 
-const SendComponent: React.FC<Props> = (
-  { navigation, token_id, wallet_balance },
-) => {
-  const [value, setValue] = useState<number | string>("");
-  const [feesSeparate, setFeesSeparate] = useState<boolean>();
-  const { address, scanned } = useAppSelector((state) => state.scanWallet);
+const SendComponent: React.FC<Props> = ({
+  navigation,
+  token_id,
+  wallet_balance,
+}) => {
+  const [amountStr, setAmountStr] = useState<string>("");
+  const [feesSeparate, setFeesSeparate] = useState<boolean>(false);
   const [inputAdd, setInputAdd] = useState("");
-  const [sendTransaction, { isLoading }] = useSendTransactionMutation();
-  const { clipboardContent } = useAutoPaste({});
-  const dispatch = useAppDispatch();
-
   const [resultModal, setResultModal] = useState<{
     status: "success" | "error" | null;
     message: string;
   }>({ status: null, message: "" });
 
+  const { address, scanned } = useAppSelector((state) => state.scanWallet);
+  const [sendTransaction, { isLoading }] = useSendTransactionMutation();
+  const dispatch = useAppDispatch();
+
+  const { clipboardContent, clearContent } = useAutoPaste({
+    checkOnMount: false,
+  });
+
+  const numericAmount = useMemo(() => parseFloat(amountStr || "0"), [
+    amountStr,
+  ]);
+  const numericBalance = useMemo(() => parseFloat(wallet_balance || "0"), [
+    wallet_balance,
+  ]);
+  const hasInsufficientFunds = numericAmount > numericBalance;
+
+  const isDisabled = !inputAdd.trim() ||
+    numericAmount <= 0 ||
+    isNaN(numericAmount) ||
+    hasInsufficientFunds;
+
   useEffect(() => {
     setInputAdd("");
-    setValue("");
+    setAmountStr("");
   }, []);
 
   useEffect(() => {
-    if (!inputAdd && clipboardContent) {
-      setInputAdd(clipboardContent);
+    if (clipboardContent) {
+      console.log("clipboardContent", clipboardContent);
+      if (!inputAdd) {
+        setInputAdd(clipboardContent);
+      }
     }
-  }, [clipboardContent, inputAdd]);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [clipboardContent, clearContent]);
 
   useEffect(() => {
-    if (!scanned || !address) return;
-
-    setInputAdd(address);
-    dispatch(setScanned(false));
+    if (scanned && address) {
+      setInputAdd(address);
+      dispatch(setScanned(false));
+      dispatch(clearScannedAddress());
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address, scanned]);
 
-  const isDisabled = !inputAdd.trim() ||
-    isNaN(value as number) ||
-    value as number <= 0 ||
-    value as number > Number.parseFloat(wallet_balance);
+  const handleAmountChange = (text: string) => {
+    if (/^\d*\.?\d*$/.test(text)) {
+      setAmountStr(text);
+    }
+  };
 
   const handleSend = () => {
-    const amount = Number.parseFloat(`${value}`);
-    const balance = Number.parseFloat(wallet_balance);
-
-    if (!inputAdd.trim()) {
-      return;
-    }
-
-    if (isNaN(amount) || amount <= 0) {
-      return;
-    }
-
-    if (amount > balance) {
-      return;
-    }
+    if (isDisabled) return;
 
     Alert.alert(
       "Confirm Transaction",
-      `You are sending ${amount} USDC to:\n${inputAdd}`,
+      `You are sending ${amountStr} USDC to:\n${inputAdd}`,
       [
         { text: "Cancel", style: "cancel" },
         {
@@ -92,70 +109,76 @@ const SendComponent: React.FC<Props> = (
   const confirmSend = async () => {
     try {
       await sendTransaction({
-        amount: `${value}`,
-        destinationAddress: `${inputAdd}`,
+        amount: amountStr,
+        destinationAddress: inputAdd.trim(),
         tokenId: token_id,
         destinationChain: "Solana",
-        // separateFees: !!feesSeparate,
+        // separateFees: feesSeparate,
       }).unwrap();
 
+      // Reset form
       setInputAdd("");
-      setValue("");
+      setAmountStr("");
+
+      clearContent();
 
       setResultModal({
         status: "success",
         message: "Transaction sent successfully.",
       });
     } catch (error: any) {
+      const errorMessage = error?.data?.message ||
+        error?.error ||
+        "Transaction failed. Please try again.";
+
       setResultModal({
         status: "error",
-        message: error?.data?.message ||
-          error?.error ||
-          "Transaction failed.",
+        message: errorMessage,
       });
     }
   };
 
   return (
     <View className="mt-8 px-6">
-      {/* Send To */}
       <View className="flex-row items-center justify-between border-b border-gray-100 pb-2">
         <AppText className="text-[#14141480] text-[16px]">Send To</AppText>
         <View className="flex-1 mx-2">
           <TextInput
             numberOfLines={1}
-            className="truncate w-full text-md"
+            className="truncate w-full text-md text-black h-10" // Added height/color
             onChangeText={setInputAdd}
             value={inputAdd}
             placeholder="Wallet address"
+            placeholderTextColor="#A0AEC0"
             autoCapitalize="none"
             autoCorrect={false}
           />
         </View>
-        <TouchableOpacity
-          className="bg-brand-700 px-5 py-4 rounded-full"
-          onPress={() => navigation.navigate("ScanWalletScreen")}
-        >
-          <AppText className="text-white font-bold text-[16px]">
-            Scan
-          </AppText>
-        </TouchableOpacity>
+
+        <View className="flex-row gap-2">
+          <TouchableOpacity
+            className="bg-brand-700 px-5 py-3 rounded-full"
+            onPress={() => navigation.navigate("ScanWalletScreen")}
+          >
+            <AppText className="text-white font-bold text-[14px]">Scan</AppText>
+          </TouchableOpacity>
+        </View>
       </View>
 
-      {/* Amount */}
       <View className="flex-row items-center justify-between border-b border-gray-100 mt-10 pb-2">
         <AppText className="text-[#14141480] text-[16px]">Amount</AppText>
+
         <TextInput
-          value={`${value}`}
-          className={`text-4xl text-center font-medium font-montserrat flex-1 ${
-            value as number > Number.parseFloat(wallet_balance)
-              ? "text-red-700"
-              : "text-blackAlpha-400"
-          }`}
-          onChangeText={(text) => setValue(Number.parseFloat(text))}
+          value={amountStr}
+          onChangeText={handleAmountChange}
           keyboardType="decimal-pad"
           placeholder="0.00"
+          placeholderTextColor="#A0AEC0"
+          className={`text-4xl text-center font-medium font-montserrat flex-1 mx-2 ${
+            hasInsufficientFunds ? "text-red-700" : "text-blackAlpha-400"
+          }`}
         />
+
         <View className="flex-row items-center">
           <View className="h-6 w-6 p-1 mr-2 border border-brand-700 rounded-full items-center justify-center">
             <View className="h-4 w-4 bg-brand-700 rounded-full" />
@@ -164,25 +187,26 @@ const SendComponent: React.FC<Props> = (
         </View>
       </View>
 
-      <View className="flex-row items-center justify-center mt-4 mb-1">
-        {value as number > Number.parseFloat(wallet_balance) && (
-          <AppText className="text-red-700 text-lg">
-            You don’t have enough balance for this transaction.
+      <View className="h-8 mt-4 flex items-center justify-center">
+        {hasInsufficientFunds && (
+          <AppText className="text-red-700 text-sm text-center">
+            Insufficient balance (Available: {wallet_balance})
           </AppText>
         )}
       </View>
 
-      <View className="flex-row items-center justify-center mt-10 mb-16">
+      <View className="flex-row items-center justify-center mt-6 mb-16">
         <CheckBox
           value={feesSeparate}
           onValueChange={setFeesSeparate}
           className="rounded-none"
           boxType="square"
-          tintColors={{ true: "#215ce1" }}
+          tintColors={{ true: "#215ce1", false: "#C0C0C0" }}
           onCheckColor="white"
           onFillColor="#215ce1"
+          onTintColor="#215ce1"
         />
-        <AppText className="ml-3 text-brand-700 text-xl font-medium">
+        <AppText className="ml-3 text-brand-700 text-lg font-medium">
           Detect fees separately
         </AppText>
       </View>
@@ -196,24 +220,38 @@ const SendComponent: React.FC<Props> = (
         width="w-1/2"
       />
 
-      {/* Result Modal */}
       <Modal
         visible={!!resultModal.status}
         transparent
         animationType="fade"
+        onRequestClose={() => setResultModal({ status: null, message: "" })}
       >
-        <View className="flex-1 bg-black/40 justify-center items-center px-8">
-          <View className="bg-white w-full p-6 rounded-2xl">
-            <AppText className="text-xl font-semibold mb-3">
-              {resultModal.status === "success" ? "Success" : "Error"}
+        <View className="flex-1 bg-black/50 justify-center items-center px-8">
+          <View className="bg-white w-full p-6 rounded-2xl items-center shadow-lg">
+            <View
+              className={`h-12 w-12 rounded-full items-center justify-center mb-4 ${
+                resultModal.status === "success" ? "bg-green-100" : "bg-red-100"
+              }`}
+            >
+              {/* You can add an Icon here based on status */}
+              <AppText className="text-xl">
+                {resultModal.status === "success" ? "✓" : "!"}
+              </AppText>
+            </View>
+
+            <AppText className="text-xl font-bold mb-2 text-center text-black">
+              {resultModal.status === "success"
+                ? "Success"
+                : "Transaction Failed"}
             </AppText>
 
-            <AppText className="text-md mb-6">
+            <AppText className="text-md text-gray-500 text-center mb-6">
               {resultModal.message}
             </AppText>
 
             <ButtonComponent
               label="Close"
+              width="w-full"
               onPress={() => setResultModal({ status: null, message: "" })}
             />
           </View>

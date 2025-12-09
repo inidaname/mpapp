@@ -95,7 +95,6 @@ const CustomTabBar: React.FC<Pick<Props, "navigation">> = ({ navigation }) => {
 };
 
 const HomeSendScreen: React.FC<Props> = ({ navigation, route }) => {
-  console.log("route", route);
   const [balanceHidden, setBalanceHidden] = useState(false);
   const [isOffline, setIsOffline] = useState(false);
   const { refreshing, onRefresh } = useRefreshUserAndWallet();

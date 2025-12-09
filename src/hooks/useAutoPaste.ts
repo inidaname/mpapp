@@ -1,58 +1,61 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import { AppState, AppStateStatus } from "react-native";
-import Clipboard from "@react-native-clipboard/clipboard";
-import { UseAutoPaste } from "../types/types";
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { AppState, AppStateStatus } from 'react-native';
+import Clipboard from '@react-native-clipboard/clipboard';
+import { useAppDispatch } from '../store/redux';
+import {
+  clearCopyContent,
+  setCopyContent,
+} from '../store/reducers/copycontent-slice';
 
 const isCryptoWalletAddress = (content: string): boolean => {
   const trimmed = content.trim();
-
   const evmRegex = /^0x[a-fA-F0-9]{40}$/;
-
   const solanaRegex = /^[1-9A-HJ-NP-Za-km-z]{32,44}$/;
-
   return evmRegex.test(trimmed) || solanaRegex.test(trimmed);
 };
 
-const useAutoPaste: UseAutoPaste = (options = {}) => {
+export const useAutoPaste = (options: any = {}) => {
   const {
     enabled = true,
-    onPaste,
     validator = isCryptoWalletAddress,
-    checkOnMount = true,
+    checkOnMount = false,
   } = options;
 
-  const [clipboardContent, setClipboardContent] = useState("");
-  const lastClipboardRef = useRef("");
+  const [clipboardContent, setClipboardContent] = useState<string>('');
   const appState = useRef(AppState.currentState);
+  const dispatch = useAppDispatch();
+  // const { globalContent } = useAppSelector(state => state.copyContent);
 
   const checkClipboard = useCallback(async () => {
     if (!enabled) return;
 
     try {
       const content = await Clipboard.getString();
+      const trimmedContent = content.trim();
 
-      if (content && content !== lastClipboardRef.current) {
-        const isValid = validator(content);
+      if (!trimmedContent) return;
 
-        if (isValid) {
-          lastClipboardRef.current = content;
-          setClipboardContent(content);
+      // if (trimmedContent === globalContent) {
+      //   return;
+      // }
 
-          if (onPaste) {
-            onPaste(content);
-          }
-        }
+      const isValid = validator(trimmedContent);
+
+      if (isValid) {
+        dispatch(setCopyContent(trimmedContent));
+        setClipboardContent(trimmedContent);
       }
     } catch (error) {
-      console.log("Error reading clipboard:", error);
+      console.log('Error reading clipboard:', error);
     }
-  }, [enabled, onPaste, validator]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [enabled, validator]);
 
   const handleAppStateChange = useCallback(
     (nextAppState: AppStateStatus) => {
       if (
         appState.current.match(/inactive|background/) &&
-        nextAppState === "active"
+        nextAppState === 'active'
       ) {
         checkClipboard();
       }
@@ -67,7 +70,7 @@ const useAutoPaste: UseAutoPaste = (options = {}) => {
     }
 
     const subscription = AppState.addEventListener(
-      "change",
+      'change',
       handleAppStateChange,
     );
 
@@ -77,18 +80,16 @@ const useAutoPaste: UseAutoPaste = (options = {}) => {
   }, [checkClipboard, checkOnMount, handleAppStateChange]);
 
   const clearContent = useCallback(() => {
-    setClipboardContent("");
-    lastClipboardRef.current = "";
-  }, []);
+    setClipboardContent('');
+    dispatch(clearCopyContent());
 
-  const manualCheck = useCallback(() => {
-    checkClipboard();
-  }, [checkClipboard]);
+    // Clipboard.setString('');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return {
     clipboardContent,
     clearContent,
-    manualCheck,
   };
 };
 

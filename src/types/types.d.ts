@@ -1,7 +1,5 @@
 export type RootStackParamList = {
-  Home: import("@react-navigation/native-stack").NativeStackNavigatorProps<
-    HomeStackParams
-  >;
+  Home: import('@react-navigation/native-stack').NativeStackNavigatorProps<HomeStackParams>;
   AddUserScreen: undefined;
   ConversionScreen: undefined;
   AddFundsScreen: undefined;
@@ -35,10 +33,9 @@ export type AuthStackParamList = {
   Onboarding: undefined;
 };
 
-export type FullNavStack =
-  & AuthStackParamList
-  & RootStackParamList
-  & HomeStackParams;
+export type FullNavStack = AuthStackParamList &
+  RootStackParamList &
+  HomeStackParams;
 
 export interface Country {
   name: string;
@@ -47,95 +44,95 @@ export interface Country {
 }
 
 export type HomeStackParams = {
-  Send: {
-    wallet_address?: string;
-    blockchain?: Mainnet | Testnet;
-  } | undefined;
+  Send:
+    | {
+        wallet_address?: string;
+        blockchain?: Mainnet | Testnet;
+      }
+    | undefined;
   Receive: undefined;
 };
 
 export type CurrencyDetailNavigationProp =
-  import("@react-navigation/native-stack").NativeStackNavigationProp<
+  import('@react-navigation/native-stack').NativeStackNavigationProp<
     RootStackParamList,
-    "CurrencyDetail"
+    'CurrencyDetail'
   >;
 
 export type AuthNavigationProp =
-  import("@react-navigation/native-stack").NativeStackNavigationProp<
-    AuthStackParamList
-  >;
+  import('@react-navigation/native-stack').NativeStackNavigationProp<AuthStackParamList>;
 
 export type KYCScreenNavigationProp =
-  import("@react-navigation/native-stack").NativeStackNavigationProp<
+  import('@react-navigation/native-stack').NativeStackNavigationProp<
     RootStackParamList,
-    "KYCScreen"
+    'KYCScreen'
   >;
 
 type VerificationScreenNavigationProp =
-  import("@react-navigation/native-stack").NativeStackNavigationProp<
+  import('@react-navigation/native-stack').NativeStackNavigationProp<
     RootStackParamList,
-    "VerificationScreen"
+    'VerificationScreen'
   >;
 
 type Mainnet =
-  | "Algorand"
-  | "Aptos"
-  | "Arbitrum"
-  | "Avalanche"
-  | "Base"
-  | "Celo"
-  | "Codex"
-  | "Ethereum"
-  | "Hedera"
-  | "HyperEVM"
-  | "Ink"
-  | "Linea"
-  | "NEAR"
-  | "Noble"
-  | "Optimism"
-  | "Polkadot_Asset_Hub"
-  | "Polkadot_Westmint"
-  | "Plume"
-  | "Polygon"
-  | "Sei"
-  | "Solana"
-  | "Sonic"
-  | "Stellar"
-  | "Sui"
-  | "Unichain"
-  | "World_Chain"
-  | "XDC"
-  | "ZKSync_Era";
+  | 'Algorand'
+  | 'Aptos'
+  | 'Arbitrum'
+  | 'Avalanche'
+  | 'Base'
+  | 'Celo'
+  | 'Codex'
+  | 'Ethereum'
+  | 'Hedera'
+  | 'HyperEVM'
+  | 'Ink'
+  | 'Linea'
+  | 'NEAR'
+  | 'Noble'
+  | 'Optimism'
+  | 'Polkadot_Asset_Hub'
+  | 'Polkadot_Westmint'
+  | 'Plume'
+  | 'Polygon'
+  | 'Sei'
+  | 'Solana'
+  | 'Sonic'
+  | 'Stellar'
+  | 'Sui'
+  | 'Unichain'
+  | 'World_Chain'
+  | 'XDC'
+  | 'ZKSync_Era';
 
 // Testnet type
 export type Testnet =
-  | "Algorand_Testnet"
-  | "Aptos_Testnet"
-  | "Arc_Testnet"
-  | "Arbitrum_Sepolia"
-  | "Avalanche_Fuji"
-  | "Base_Sepolia"
-  | "Celo_Alfajores_Testnet"
-  | "Codex_Testnet"
-  | "Ethereum_Sepolia"
-  | "Hedera_Testnet"
-  | "HyperEVM_Testnet"
-  | "Ink_Testnet"
-  | "Linea_Sepolia"
-  | "NEAR_Testnet"
-  | "Noble_Testnet"
-  | "Optimism_Sepolia"
-  | "Plume_Testnet"
-  | "Polygon_Amoy_Testnet"
-  | "Sei_Testnet"
-  | "Solana_Devnet"
-  | "Sonic_Testnet"
-  | "Stellar_Testnet"
-  | "Sui_Testnet"
-  | "Unichain_Sepolia"
-  | "World_Chain_Sepolia"
-  | "XDC_Apothem"
-  | "ZKSync_Sepolia";
+  | 'Algorand_Testnet'
+  | 'Aptos_Testnet'
+  | 'Arc_Testnet'
+  | 'Arbitrum_Sepolia'
+  | 'Avalanche_Fuji'
+  | 'Base_Sepolia'
+  | 'Celo_Alfajores_Testnet'
+  | 'Codex_Testnet'
+  | 'Ethereum_Sepolia'
+  | 'Hedera_Testnet'
+  | 'HyperEVM_Testnet'
+  | 'Ink_Testnet'
+  | 'Linea_Sepolia'
+  | 'NEAR_Testnet'
+  | 'Noble_Testnet'
+  | 'Optimism_Sepolia'
+  | 'Plume_Testnet'
+  | 'Polygon_Amoy_Testnet'
+  | 'Sei_Testnet'
+  | 'Solana_Devnet'
+  | 'Sonic_Testnet'
+  | 'Stellar_Testnet'
+  | 'Sui_Testnet'
+  | 'Unichain_Sepolia'
+  | 'World_Chain_Sepolia'
+  | 'XDC_Apothem'
+  | 'ZKSync_Sepolia';
 
 interface Options {
   enabled?: boolean;
@@ -147,5 +144,4 @@ interface Options {
 type UseAutoPaste = (options?: Options) => {
   clipboardContent: string;
   clearContent: () => void;
-  manualCheck: () => void;
 };

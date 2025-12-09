@@ -22,6 +22,7 @@ import scanWallet from './reducers/scan-wallet-slice';
 import notification from './reducers/notification-slice';
 import USDCWallet from './reducers/usdc-slice';
 import { logoutAction } from './reducers/logout-slice';
+import copyContent from './reducers/copycontent-slice';
 
 const persistConfig = {
   key: 'root',
@@ -41,20 +42,22 @@ const appReducer = combineReducers({
   scanWallet,
   notification,
   USDCWallet,
+  copyContent,
 });
 
 // export const logoutAction = () => ({ type: 'LOGOUT' });
+export type RootState = ReturnType<typeof appReducer>;
 
-const rootReducer: Reducer = (
+const rootReducer: Reducer<RootState> = (
   state: RootState | undefined,
   action: UnknownAction,
 ) => {
   if (action.type === logoutAction.type) {
-    const keepApi = { [apiSlice.reducerPath]: state[apiSlice.reducerPath] };
+    const keepApi = state
+      ? { [apiSlice.reducerPath]: state[apiSlice.reducerPath] }
+      : undefined;
 
-    state = undefined;
-
-    if (keepApi) state = { ...keepApi };
+    state = keepApi as RootState;
   }
 
   return appReducer(state, action);
@@ -91,7 +94,7 @@ setupListeners(store.dispatch, (dispatch, { onOnline }) => {
 
 export const persistor = persistStore(store);
 
-export type RootState = ReturnType<typeof store.getState>;
+// export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
 export const useAppDispatch: () => AppDispatch = useDispatch;
