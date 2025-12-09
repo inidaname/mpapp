@@ -136,3 +136,16 @@ export type Testnet =
   | "World_Chain_Sepolia"
   | "XDC_Apothem"
   | "ZKSync_Sepolia";
+
+interface Options {
+  enabled?: boolean;
+  onPaste?: (content: string) => void;
+  validator?: (content: string) => boolean;
+  checkOnMount?: boolean;
+}
+
+type UseAutoPaste = (options?: Options) => {
+  clipboardContent: string;
+  clearContent: () => void;
+  manualCheck: () => void;
+};

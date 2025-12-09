@@ -20,9 +20,9 @@ const AddBankScreen: React.FC<Props> = ({ navigation }) => {
     ExternalAccountInput
   >({
     defaultValues: {
-      currency: "USD",
+      currency: "usd",
       address: {
-        country: "US",
+        country: "USA",
       },
     },
   });
@@ -39,12 +39,14 @@ const AddBankScreen: React.FC<Props> = ({ navigation }) => {
       account: { ...data.account, checking_or_savings: "checking" },
     };
 
+    console.log("formValues", formValues);
+
     try {
-      await addAccount(formValues).unwrap();
+      const acct = await addAccount(formValues).unwrap();
+      console.log("acct", acct);
       navigation.goBack();
     } catch (error) {
       console.log("error", error);
-      navigation.goBack();
     }
   };
 

@@ -8,8 +8,9 @@ import CheckBox from "@react-native-community/checkbox";
 import { FullNavStack } from "../../types/types";
 import { useSendTransactionMutation } from "../../service/endpoints/transactions-endpoints";
 import ButtonComponent from "../Button";
-import { useAppSelector } from "../../store/redux";
+import { useAppDispatch, useAppSelector } from "../../store/redux";
 import useAutoPaste from "../../hooks/useAutoPaste";
+import { setScanned } from "../../store/reducers/scan-wallet-slice";
 
 interface Props
   extends
@@ -19,14 +20,15 @@ interface Props
 }
 
 const SendComponent: React.FC<Props> = (
-  { navigation, token_id, wallet_balance, route },
+  { navigation, token_id, wallet_balance },
 ) => {
   const [value, setValue] = useState("");
   const [feesSeparate, setFeesSeparate] = useState<boolean>();
-  const { address } = useAppSelector((state) => state.scanWallet);
-  const [inputAdd, setInputAdd] = useState(address ?? "");
+  const { address, scanned } = useAppSelector((state) => state.scanWallet);
+  const [inputAdd, setInputAdd] = useState("");
   const [sendTransaction, { isLoading }] = useSendTransactionMutation();
   const { clipboardContent } = useAutoPaste({});
+  const dispatch = useAppDispatch();
 
   const [resultModal, setResultModal] = useState<{
     status: "success" | "error" | null;
@@ -36,6 +38,14 @@ const SendComponent: React.FC<Props> = (
   useEffect(() => {
     setInputAdd(clipboardContent);
   }, [clipboardContent]);
+
+  useEffect(() => {
+    if (scanned && address) {
+      setInputAdd(address);
+      dispatch(setScanned(false));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [address, scanned]);
 
   const handleSend = () => {
     if (!value || !inputAdd) {
@@ -63,8 +73,10 @@ const SendComponent: React.FC<Props> = (
         amount: `${value}`,
         destinationAddress: `${inputAdd}`,
         tokenId: token_id,
-        destinationChain: route.params?.blockchain ?? "Solana",
+        destinationChain: "Solana",
       }).unwrap();
+      setInputAdd("");
+      setValue("");
 
       setResultModal({
         status: "success",
@@ -123,12 +135,14 @@ const SendComponent: React.FC<Props> = (
       </View>
 
       {/* Checkbox */}
-      <View className="flex-row items-center justify-center mt-10 mb-16">
+      <View className="flex-row items-center justify-center mt-4 mb-1">
         {Number.parseFloat(value) > Number.parseFloat(wallet_balance) && (
-          <AppText className="text-red-700 text-sm">
+          <AppText className="text-red-700 text-lg">
             The amount you're trying to send isn't enough.
           </AppText>
         )}
+      </View>
+      <View className="flex-row items-center justify-center mt-10 mb-16">
         <CheckBox
           value={feesSeparate}
           onValueChange={setFeesSeparate}

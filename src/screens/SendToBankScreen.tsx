@@ -96,7 +96,7 @@ const SendToBankScreen: React.FC<Props> = () => {
 
               {/* Amount */}
               <AppText className="text-center text-4xl font-bold text-black mt-2">
-                $133.631
+                ${amount}
               </AppText>
 
               <View className="h-px bg-gray-200 my-6" />

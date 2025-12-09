@@ -33,7 +33,6 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
   const [login, { isLoading }] = useLoginMutation();
 
   const handlePress: SubmitHandler<LoginInput> = async (values) => {
-    console.log("values", values);
     try {
       const loginUser = await login({
         email: values.email.toLowerCase(),

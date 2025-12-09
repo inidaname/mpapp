@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import {
   Camera,
   useCameraDevice,
@@ -14,6 +14,7 @@ import {
   setScanned,
   setScannedAddress,
 } from "../store/reducers/scan-wallet-slice";
+import AppText from "../components/typo/AppText";
 
 type Props = NativeStackScreenProps<FullNavStack>;
 
@@ -29,14 +30,45 @@ export default function ScanWalletScreen({ navigation }: Props) {
   useEffect(() => {
     (async () => {
       const status = await Camera.requestCameraPermission();
-      if (status !== "granted") {
-        await Camera.requestCameraPermission();
-        console.log("status", status);
-      } else {
-        console.log("status", status);
 
+      if (status === "granted") {
         setHasPermission(true);
+        return;
       }
+
+      // If denied but requestable
+      if (status === "denied" || status === "not-determined") {
+        Alert.alert(
+          "Camera Permission Needed",
+          "You must allow camera permission to scan QR codes.",
+          [
+            {
+              text: "Try Again",
+              onPress: async () => {
+                const retry = await Camera.requestCameraPermission();
+                if (retry === "granted") {
+                  setHasPermission(true);
+                } else {
+                  navigation.goBack();
+                }
+              },
+            },
+            {
+              text: "Cancel",
+              style: "cancel",
+              onPress: () => navigation.goBack(),
+            },
+          ],
+        );
+        return;
+      }
+
+      // Restricted or weird edge states
+      Alert.alert(
+        "Camera Unavailable",
+        "Your device does not allow camera access.",
+        [{ text: "OK", onPress: () => navigation.goBack() }],
+      );
     })();
   }, [navigation]);
 
@@ -58,7 +90,21 @@ export default function ScanWalletScreen({ navigation }: Props) {
     },
   });
 
-  if (!hasPermission || !device) return null;
+  if (!device) {
+    return (
+      <View className="flex-1 justify-center items-center">
+        <AppText>Camera not available</AppText>
+      </View>
+    );
+  }
+
+  if (!hasPermission) {
+    return (
+      <View className="flex-1 justify-center items-center">
+        <AppText>Waiting for permission...</AppText>
+      </View>
+    );
+  }
 
   return (
     <View style={{ flex: 1 }}>
