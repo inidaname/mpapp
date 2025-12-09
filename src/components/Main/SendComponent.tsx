@@ -22,7 +22,7 @@ interface Props
 const SendComponent: React.FC<Props> = (
   { navigation, token_id, wallet_balance },
 ) => {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState<number | string>("");
   const [feesSeparate, setFeesSeparate] = useState<boolean>();
   const { address, scanned } = useAppSelector((state) => state.scanWallet);
   const [inputAdd, setInputAdd] = useState("");
@@ -36,26 +36,48 @@ const SendComponent: React.FC<Props> = (
   }>({ status: null, message: "" });
 
   useEffect(() => {
-    setInputAdd(clipboardContent);
-  }, [clipboardContent]);
+    setInputAdd("");
+    setValue("");
+  }, []);
 
   useEffect(() => {
-    if (scanned && address) {
-      setInputAdd(address);
-      dispatch(setScanned(false));
+    if (!inputAdd && clipboardContent) {
+      setInputAdd(clipboardContent);
     }
+  }, [clipboardContent, inputAdd]);
+
+  useEffect(() => {
+    if (!scanned || !address) return;
+
+    setInputAdd(address);
+    dispatch(setScanned(false));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address, scanned]);
 
+  const isDisabled = !inputAdd.trim() ||
+    isNaN(value as number) ||
+    value as number <= 0 ||
+    value as number > Number.parseFloat(wallet_balance);
+
   const handleSend = () => {
-    if (!value || !inputAdd) {
-      Alert.alert("Missing Info", "Amount and address are required.");
+    const amount = Number.parseFloat(`${value}`);
+    const balance = Number.parseFloat(wallet_balance);
+
+    if (!inputAdd.trim()) {
+      return;
+    }
+
+    if (isNaN(amount) || amount <= 0) {
+      return;
+    }
+
+    if (amount > balance) {
       return;
     }
 
     Alert.alert(
       "Confirm Transaction",
-      `You are sending ${value} USDC to:\n${inputAdd}`,
+      `You are sending ${amount} USDC to:\n${inputAdd}`,
       [
         { text: "Cancel", style: "cancel" },
         {
@@ -74,7 +96,9 @@ const SendComponent: React.FC<Props> = (
         destinationAddress: `${inputAdd}`,
         tokenId: token_id,
         destinationChain: "Solana",
+        // separateFees: !!feesSeparate,
       }).unwrap();
+
       setInputAdd("");
       setValue("");
 
@@ -85,7 +109,9 @@ const SendComponent: React.FC<Props> = (
     } catch (error: any) {
       setResultModal({
         status: "error",
-        message: error?.data?.message || "Transaction failed.",
+        message: error?.data?.message ||
+          error?.error ||
+          "Transaction failed.",
       });
     }
   };
@@ -101,6 +127,9 @@ const SendComponent: React.FC<Props> = (
             className="truncate w-full text-md"
             onChangeText={setInputAdd}
             value={inputAdd}
+            placeholder="Wallet address"
+            autoCapitalize="none"
+            autoCorrect={false}
           />
         </View>
         <TouchableOpacity
@@ -117,14 +146,15 @@ const SendComponent: React.FC<Props> = (
       <View className="flex-row items-center justify-between border-b border-gray-100 mt-10 pb-2">
         <AppText className="text-[#14141480] text-[16px]">Amount</AppText>
         <TextInput
-          value={value}
+          value={`${value}`}
           className={`text-4xl text-center font-medium font-montserrat flex-1 ${
-            Number.parseFloat(value) > Number.parseFloat(wallet_balance)
+            value as number > Number.parseFloat(wallet_balance)
               ? "text-red-700"
               : "text-blackAlpha-400"
           }`}
-          onChangeText={setValue}
+          onChangeText={(text) => setValue(Number.parseFloat(text))}
           keyboardType="decimal-pad"
+          placeholder="0.00"
         />
         <View className="flex-row items-center">
           <View className="h-6 w-6 p-1 mr-2 border border-brand-700 rounded-full items-center justify-center">
@@ -134,14 +164,14 @@ const SendComponent: React.FC<Props> = (
         </View>
       </View>
 
-      {/* Checkbox */}
       <View className="flex-row items-center justify-center mt-4 mb-1">
-        {Number.parseFloat(value) > Number.parseFloat(wallet_balance) && (
+        {value as number > Number.parseFloat(wallet_balance) && (
           <AppText className="text-red-700 text-lg">
-            The amount you're trying to send isn't enough.
+            You don’t have enough balance for this transaction.
           </AppText>
         )}
       </View>
+
       <View className="flex-row items-center justify-center mt-10 mb-16">
         <CheckBox
           value={feesSeparate}
@@ -162,6 +192,7 @@ const SendComponent: React.FC<Props> = (
         onPress={handleSend}
         isLoading={isLoading}
         className="self-center"
+        isDisabled={isDisabled}
         width="w-1/2"
       />
 

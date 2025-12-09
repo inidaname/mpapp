@@ -10,7 +10,6 @@ export function formatRelativeTime(timestamp: string | number | Date) {
   const now = new Date();
   const diffMs = now.getTime() - date.getTime();
 
-  // recent intervals (use elapsed time)
   const seconds = Math.floor(diffMs / MS.SECOND);
   if (seconds < 60) return `${seconds}s`;
 
@@ -20,7 +19,6 @@ export function formatRelativeTime(timestamp: string | number | Date) {
   const hours = Math.floor(diffMs / MS.HOUR);
   if (hours < 24) return `${hours}h`;
 
-  // calendar-day difference (avoids DST / partial-day weirdness)
   const utcNowDay = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
   const utcDateDay = Date.UTC(
     date.getFullYear(),
@@ -29,9 +27,9 @@ export function formatRelativeTime(timestamp: string | number | Date) {
   );
   const dayDiff = Math.floor((utcNowDay - utcDateDay) / MS.DAY);
 
-  if (dayDiff === 1) return "yesterday";
+  if (dayDiff === 1) return 'yesterday';
 
-  return dayDiff + "D";
+  return dayDiff + 'D';
 
   // return date.toLocaleString("en-US", {
   //   dateStyle: "medium",

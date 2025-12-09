@@ -12,10 +12,14 @@ import FormInput from "../components/FormInput";
 import FormPicker from "../components/FormPicker"; // You'll need to create this component
 import { useAddAccountMutation } from "../service/endpoints/external-accounts";
 import { COUNTRIES, CURRENCIES, US_STATES } from "../data/country";
+import { useState } from "react";
+import AppText from "../components/typo/AppText";
+import { getErrorMessage } from "../helpers/handlle-api-error";
 
 interface Props extends NativeStackScreenProps<RootStackParamList> {}
 
 const AddBankScreen: React.FC<Props> = ({ navigation }) => {
+  const [errorMsg, setErrorMsg] = useState("");
   const { control, handleSubmit, formState: { isValid }, watch } = useForm<
     ExternalAccountInput
   >({
@@ -46,7 +50,10 @@ const AddBankScreen: React.FC<Props> = ({ navigation }) => {
       console.log("acct", acct);
       navigation.goBack();
     } catch (error) {
-      console.log("error", error);
+      const message = getErrorMessage(error);
+      if (message) {
+        setErrorMsg(message);
+      }
     }
   };
 
@@ -201,7 +208,12 @@ const AddBankScreen: React.FC<Props> = ({ navigation }) => {
           </View>
         </View>
 
-        <View className="px-6 mb-4 pb-6">
+        <View className="px-6 mb-4 pb-6 w-full items-center justify-center">
+          {errorMsg && (
+            <AppText className="text-red-700 mb-2 text-center px-6 text-lg">
+              {errorMsg}
+            </AppText>
+          )}
           <ButtonComponent
             label="Add Bank Account"
             isLoading={isLoading}

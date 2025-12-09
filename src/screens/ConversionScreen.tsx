@@ -36,10 +36,11 @@ interface DeatilProp {
   value?: string;
   className?: string;
   prefix?: boolean;
+  important?: string;
 }
 
 const ShowDetail: React.FC<DeatilProp> = (
-  { title, value, className = "flex-row", prefix },
+  { title, value, className = "flex-row", prefix, important },
 ) => {
   const anim = useRef(new Animated.Value(1)).current;
   const [copied, setCopied] = useState<boolean>();
@@ -73,6 +74,12 @@ const ShowDetail: React.FC<DeatilProp> = (
       <AppText className="text-xl text-gray-500">
         {title}
       </AppText>
+      {important && (
+        <AppText className="text-md text-red-500 my-1">
+          {important}
+        </AppText>
+      )}
+
       <View className="flex-row items-center gap-2">
         <FigureText className="text-2xl">
           {prefix && "$"}
@@ -82,7 +89,7 @@ const ShowDetail: React.FC<DeatilProp> = (
           onPress={handleCopy}
         >
           <Animated.View style={{ transform: [{ scale: anim }] }}>
-            {copied
+            {!copied
               ? (
                 <MaterialIcons
                   name="copy-all"
@@ -293,6 +300,7 @@ const ConversionScreen: React.FC<Props> = () => {
               <ShowDetail
                 title="Deposit Message"
                 className=""
+                important="It importnant to add the string below to your deposit message"
                 value={detail?.source_deposit_instructions.deposit_message}
               />
               <ShowDetail
@@ -305,11 +313,18 @@ const ConversionScreen: React.FC<Props> = () => {
                 prefix
                 value={detail?.source_deposit_instructions.amount}
               />
-              <ShowDetail
-                title="On-Ramp Fee"
-                prefix
-                value={detail?.developer_fee}
-              />
+
+              <View className="mb-4 flex-row justify-between">
+                <AppText
+                  weight="semibold"
+                  className="font-semibold text-xl text-gray-500"
+                >
+                  On-Ramp Fee
+                </AppText>
+                <FigureText className="text-2xl text-brand-700">
+                  ${Number(detail?.developer_fee)}
+                </FigureText>
+              </View>
 
               {
                 /* <View className="mb-2 flex-row justify-between">

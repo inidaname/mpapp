@@ -108,7 +108,6 @@ const AppStack: React.FC = () => {
   const [getWallet] = useLazyGetWalletByIdQuery();
   const { data } = useGetUserProfileQuery();
   const { active_wallet } = useAppSelector((state) => state.wallet);
-  const { usdcWallet } = useAppSelector((state) => state.USDCWallet);
   const { getDeviceToken, requestPermission } = useNotification(() => {
     getTransactions({ page: 1 });
     if (active_wallet && active_wallet.id) {
@@ -120,9 +119,6 @@ const AppStack: React.FC = () => {
     requestPermission();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  console.log("active_wallet", active_wallet);
-  console.log("usdcWallet", usdcWallet);
 
   const initializeNotifications = useCallback(async () => {
     const fcmToken = await getDeviceToken();
