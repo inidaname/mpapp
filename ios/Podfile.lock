@@ -71,7 +71,66 @@ PODS:
     - nanopb/encode (= 3.30910.0)
   - nanopb/decode (3.30910.0)
   - nanopb/encode (3.30910.0)
+  - NitroModules (0.31.10):
+    - boost
+    - DoubleConversion
+    - fast_float
+    - fmt
+    - glog
+    - hermes-engine
+    - RCT-Folly
+    - RCT-Folly/Fabric
+    - RCTRequired
+    - RCTTypeSafety
+    - React-callinvoker
+    - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-jsi
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-renderercss
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - SocketRocket
+    - Yoga
   - PromisesObjC (2.4.0)
+  - QuickCrypto (1.0.5):
+    - boost
+    - DoubleConversion
+    - fast_float
+    - fmt
+    - glog
+    - hermes-engine
+    - NitroModules
+    - RCT-Folly
+    - RCT-Folly/Fabric
+    - RCTRequired
+    - RCTTypeSafety
+    - React-callinvoker
+    - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-jsi
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-renderercss
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - SocketRocket
+    - Yoga
   - RCT-Folly (2024.11.18.00):
     - boost
     - DoubleConversion
@@ -1871,7 +1930,7 @@ PODS:
     - Yoga
   - react-native-netinfo (11.4.1):
     - React-Core
-  - react-native-nfc-manager (3.17.1):
+  - react-native-nfc-manager (3.17.2):
     - React-Core
   - react-native-pager-view (6.9.1):
     - boost
@@ -1988,6 +2047,8 @@ PODS:
     - ReactCommon/turbomodule/core
     - SocketRocket
     - Yoga
+  - react-native-sqlite-storage (6.0.1):
+    - React-Core
   - react-native-vector-icons-material-icons (12.3.0)
   - react-native-webview (13.16.0):
     - boost
@@ -2550,6 +2611,38 @@ PODS:
     - React-perflogger (= 0.81.4)
     - React-utils (= 0.81.4)
     - SocketRocket
+  - RealmJS (20.2.0):
+    - React
+  - RNBackgroundFetch (4.2.8):
+    - React-Core
+  - RNBleManager (12.4.1):
+    - boost
+    - DoubleConversion
+    - fast_float
+    - fmt
+    - glog
+    - hermes-engine
+    - RCT-Folly
+    - RCT-Folly/Fabric
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-jsi
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-renderercss
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - SocketRocket
+    - Yoga
   - RNBootSplash (6.3.11):
     - boost
     - DoubleConversion
@@ -2654,6 +2747,35 @@ PODS:
     - fmt
     - glog
     - hermes-engine
+    - RCT-Folly
+    - RCT-Folly/Fabric
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-jsi
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-renderercss
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - SocketRocket
+    - Yoga
+  - RNNitroSQLite (9.2.2):
+    - boost
+    - DoubleConversion
+    - fast_float
+    - fmt
+    - glog
+    - hermes-engine
+    - NitroModules
     - RCT-Folly
     - RCT-Folly/Fabric
     - RCTRequired
@@ -2916,6 +3038,8 @@ PODS:
     - ReactCommon/turbomodule/core
     - SocketRocket
     - Yoga
+  - RNWifi (4.13.6):
+    - React-Core
   - RNWorklets (0.5.2):
     - boost
     - DoubleConversion
@@ -3029,6 +3153,8 @@ DEPENDENCIES:
   - fmt (from `../node_modules/react-native/third-party-podspecs/fmt.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - hermes-engine (from `../node_modules/react-native/sdks/hermes-engine/hermes-engine.podspec`)
+  - NitroModules (from `../node_modules/react-native-nitro-modules`)
+  - QuickCrypto (from `../node_modules/react-native-quick-crypto`)
   - RCT-Folly (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
   - RCTDeprecation (from `../node_modules/react-native/ReactApple/Libraries/RCTFoundation/RCTDeprecation`)
   - RCTRequired (from `../node_modules/react-native/Libraries/Required`)
@@ -3069,6 +3195,7 @@ DEPENDENCIES:
   - react-native-nfc-manager (from `../node_modules/react-native-nfc-manager`)
   - react-native-pager-view (from `../node_modules/react-native-pager-view`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
+  - react-native-sqlite-storage (from `../node_modules/react-native-sqlite-storage`)
   - "react-native-vector-icons-material-icons (from `../node_modules/@react-native-vector-icons/material-icons`)"
   - react-native-webview (from `../node_modules/react-native-webview`)
   - react-native-worklets-core (from `../node_modules/react-native-worklets-core`)
@@ -3102,6 +3229,9 @@ DEPENDENCIES:
   - ReactAppDependencyProvider (from `build/generated/ios`)
   - ReactCodegen (from `build/generated/ios`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
+  - RealmJS (from `../node_modules/realm`)
+  - RNBackgroundFetch (from `../node_modules/react-native-background-fetch`)
+  - RNBleManager (from `../node_modules/react-native-ble-manager`)
   - RNBootSplash (from `../node_modules/react-native-bootsplash`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNCCheckbox (from `../node_modules/@react-native-community/checkbox`)"
@@ -3110,11 +3240,13 @@ DEPENDENCIES:
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBMessaging (from `../node_modules/@react-native-firebase/messaging`)"
   - RNKeychain (from `../node_modules/react-native-keychain`)
+  - RNNitroSQLite (from `../node_modules/react-native-nitro-sqlite`)
   - "RNNotifee (from `../node_modules/@notifee/react-native`)"
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSVG (from `../node_modules/react-native-svg`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
+  - RNWifi (from `../node_modules/react-native-wifi-reborn`)
   - RNWorklets (from `../node_modules/react-native-worklets`)
   - SocketRocket (~> 0.7.1)
   - VisionCamera (from `../node_modules/react-native-vision-camera`)
@@ -3154,6 +3286,10 @@ EXTERNAL SOURCES:
   hermes-engine:
     :podspec: "../node_modules/react-native/sdks/hermes-engine/hermes-engine.podspec"
     :tag: hermes-2025-07-07-RNv0.81.0-e0fc67142ec0763c6b6153ca2bf96df815539782
+  NitroModules:
+    :path: "../node_modules/react-native-nitro-modules"
+  QuickCrypto:
+    :path: "../node_modules/react-native-quick-crypto"
   RCT-Folly:
     :podspec: "../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec"
   RCTDeprecation:
@@ -3232,6 +3368,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-pager-view"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
+  react-native-sqlite-storage:
+    :path: "../node_modules/react-native-sqlite-storage"
   react-native-vector-icons-material-icons:
     :path: "../node_modules/@react-native-vector-icons/material-icons"
   react-native-webview:
@@ -3298,6 +3436,12 @@ EXTERNAL SOURCES:
     :path: build/generated/ios
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
+  RealmJS:
+    :path: "../node_modules/realm"
+  RNBackgroundFetch:
+    :path: "../node_modules/react-native-background-fetch"
+  RNBleManager:
+    :path: "../node_modules/react-native-ble-manager"
   RNBootSplash:
     :path: "../node_modules/react-native-bootsplash"
   RNCAsyncStorage:
@@ -3314,6 +3458,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-firebase/messaging"
   RNKeychain:
     :path: "../node_modules/react-native-keychain"
+  RNNitroSQLite:
+    :path: "../node_modules/react-native-nitro-sqlite"
   RNNotifee:
     :path: "../node_modules/@notifee/react-native"
   RNReanimated:
@@ -3324,6 +3470,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-svg"
   RNVectorIcons:
     :path: "../node_modules/react-native-vector-icons"
+  RNWifi:
+    :path: "../node_modules/react-native-wifi-reborn"
   RNWorklets:
     :path: "../node_modules/react-native-worklets"
   VisionCamera:
@@ -3351,7 +3499,9 @@ SPEC CHECKSUMS:
   hermes-engine: 35c763d57c9832d0eef764316ca1c4d043581394
   MultiplatformBleAdapter: b1fddd0d499b96b607e00f0faa8e60648343dc1d
   nanopb: fad817b59e0457d11a5dfbde799381cd727c1275
+  NitroModules: dc0498a88cf704dd691cb49b1f3659726aff2ba5
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
+  QuickCrypto: 980db3aec98ad561cd82cf82a1417b4788f6ff85
   RCT-Folly: 59ec0ac1f2f39672a0c6e6cecdd39383b764646f
   RCTDeprecation: c0ed3249a97243002615517dff789bf4666cf585
   RCTRequired: 58719f5124f9267b5f9649c08bf23d9aea845b23
@@ -3388,9 +3538,10 @@ SPEC CHECKSUMS:
   react-native-ble-plx: 3a77f3783c967b0e05faf9f3ee90d74c6ed795cc
   react-native-image-picker: b99d9c1f2ddbef491eb49e1103e5c2ce78b9ab37
   react-native-netinfo: f0a9899081c185db1de5bb2fdc1c88c202a059ac
-  react-native-nfc-manager: 0249973f2a6431e615551eff82a4b1135a367926
+  react-native-nfc-manager: ef3b44c4f1975ab16d6109bb1671ab68068aba58
   react-native-pager-view: e9b3e17cf3222a23fedcf72c969bcbe3640667d2
   react-native-safe-area-context: 3e0a25a843c40ad5efdf2bef93fdd95ad7229650
+  react-native-sqlite-storage: f6d515e1c446d1e6d026aa5352908a25d4de3261
   react-native-vector-icons-material-icons: eff7417eb1ac6c740ab802837ad34b8233fded34
   react-native-webview: 5887b6094417c75a9bee446261f89c32adf6b602
   react-native-worklets-core: ed248ee74ecfbf7b33ce96ab348d76813159cf2a
@@ -3424,6 +3575,9 @@ SPEC CHECKSUMS:
   ReactAppDependencyProvider: b20fba6c3d091a393925890009999472c8f94d95
   ReactCodegen: 07322ec16b66c5f5d7ce7a7cadaba401ecb81908
   ReactCommon: a42100667ef42807c485a579847a5ec2c99e0a82
+  RealmJS: 4066e1880bf38995e96c78a1be19a97f6530488a
+  RNBackgroundFetch: 534f5bba01d1e45559aa7d53f42e00124378db93
+  RNBleManager: 2ba7895ac00ce3748b23ed91a17cf1416f95fab5
   RNBootSplash: d8407c268d5159ea026dc741ec867ebbe4708f25
   RNCAsyncStorage: 8857fb173af29664cb90897903902dc8533e36cc
   RNCCheckbox: 471ebdc33884c084f362615c1ef3507496cc07f1
@@ -3432,11 +3586,13 @@ SPEC CHECKSUMS:
   RNFBApp: d465e2c0b1556d3e57248ea0ad880c9b1dd07d1e
   RNFBMessaging: 8fb5d5711add86109150229404a6ff6b2a3ba0eb
   RNKeychain: d0bdaca4688ae123909b137de08491f49a6cf6b1
+  RNNitroSQLite: 26d9088816f952b095e525f7c17099138424d0c7
   RNNotifee: 4a6ee5c7deaf00e005050052d73ee6315dff7ec9
   RNReanimated: 2635ec9d061c5eba3987bcc604443d78f363d3f7
   RNScreens: de996b48c82245c0b68c677da3334c2061e2a951
   RNSVG: 596e9946ddc0e023c6e6931038c9e49b553f742d
   RNVectorIcons: 96c832d9134dfee90ce0be7a1e0bf4c1e41a8d11
+  RNWifi: dfa2db4c4e46496f53016fb8be32b5a51f13aee4
   RNWorklets: 7009206bd2f62421bf6da0e9c823c1d64e4da634
   SocketRocket: d4aabe649be1e368d1318fdf28a022d714d65748
   VisionCamera: 02578a728d4a479d9c47f869efdf906c5680d50b
