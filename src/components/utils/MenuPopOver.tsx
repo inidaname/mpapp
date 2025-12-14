@@ -95,6 +95,22 @@ export default function PopupMenu() {
               />
             </View>
           </Pressable>
+          <Pressable
+            className="px-4 py-4 my-2 border-t border-gray-100 flex-row justify-between items-center"
+            onPress={() => {
+              toggleMenu();
+              navigate.navigate("OfflinePaymentScreen");
+            }}
+          >
+            <AppText className="text-gray-800">Make Offline Payment</AppText>
+            <View className="rounded-full justify-center items-center">
+              <MaterialIcons
+                name="notifications"
+                color="#14141480"
+                size={25}
+              />
+            </View>
+          </Pressable>
         </Animated.View>
       )}
     </View>
