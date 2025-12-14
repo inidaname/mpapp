@@ -9,6 +9,7 @@
 
 import Foundation
 import CoreBluetooth
+import React
 
 @objc(BLEAdvertiser)
 class BLEAdvertiser: RCTEventEmitter, CBPeripheralManagerDelegate { // <--- Must inherit RCTEventEmitter
