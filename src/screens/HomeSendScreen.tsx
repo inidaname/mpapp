@@ -32,32 +32,31 @@ const CustomTabBar: React.FC<Pick<Props, "navigation">> = ({ navigation }) => {
   return (
     <View className="relative">
       {/* Bottom bar row */}
-
-<Pressable
-  onPress={() => {
-    navigation.navigate("OfflinePaymentScreen")
-  }}
-  className="
-    absolute
-    bottom-24
-    left-6
-    w-16
-    h-16
-    bg-brand-700
-    rounded-2xl
-    items-center
-    justify-center
-    shadow-lg
-  "
-  style={{
-    shadowColor: "#beb7b796",
-    shadowOpacity: 0.25,
-    shadowRadius: 6,
-    elevation: 8,
-  }}
->
-<MaterialIcons name="wifi-off" color="white" size={24} />
-</Pressable>
+      <Pressable
+        onPress={() => {
+          navigation.navigate("OfflinePaymentScreen")
+        }}
+        className="
+          absolute
+          bottom-24
+          left-6
+          w-16
+          h-16
+          bg-brand-700
+          rounded-2xl
+          items-center
+          justify-center
+          shadow-lg
+        "
+        style={{
+          shadowColor: "#beb7b796",
+          shadowOpacity: 0.25,
+          shadowRadius: 6,
+          elevation: 8,
+        }}
+      >
+      <MaterialIcons name="wifi-off" color="white" size={24} />
+      </Pressable>
       <View className="flex-row h-20 w-full items-center justify-between px-10 bg-gray-100">
         <TouchableOpacity
           className="items-center w-1/3"
