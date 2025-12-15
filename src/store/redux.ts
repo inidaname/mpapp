@@ -23,6 +23,8 @@ import notification from './reducers/notification-slice';
 import USDCWallet from './reducers/usdc-slice';
 import { logoutAction } from './reducers/logout-slice';
 import copyContent from './reducers/copycontent-slice';
+import offlineSlice from "./reducers/offline-slice"
+import fakeSlice from "./reducers/fake-slice"
 
 const persistConfig = {
   key: 'root',
@@ -43,6 +45,8 @@ const appReducer = combineReducers({
   notification,
   USDCWallet,
   copyContent,
+  offlineSlice,
+  fakeSlice // This is temporary
 });
 
 // export const logoutAction = () => ({ type: 'LOGOUT' });

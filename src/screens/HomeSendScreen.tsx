@@ -22,7 +22,7 @@ import { useAppSelector } from "../store/redux";
 import SendComponent from "../components/Main/SendComponent";
 import { useRefreshUserAndWallet } from "../hooks/useRefreshProfileAndWallet";
 
-interface Props extends NativeStackScreenProps<FullNavStack, "Send"> {}
+interface Props extends NativeStackScreenProps<FullNavStack, "Send"> { }
 
 const CustomTabBar: React.FC<Pick<Props, "navigation">> = ({ navigation }) => {
   const DIP_WIDTH = 140;
@@ -55,7 +55,7 @@ const CustomTabBar: React.FC<Pick<Props, "navigation">> = ({ navigation }) => {
           elevation: 8,
         }}
       >
-      <MaterialIcons name="wifi-off" color="white" size={24} />
+        <MaterialIcons name="wifi-off" color="white" size={24} />
       </Pressable>
       <View className="flex-row h-20 w-full items-center justify-between px-10 bg-gray-100">
         <TouchableOpacity
@@ -121,10 +121,12 @@ const CustomTabBar: React.FC<Pick<Props, "navigation">> = ({ navigation }) => {
 };
 
 const HomeSendScreen: React.FC<Props> = ({ navigation, route }) => {
-  const [balanceHidden, setBalanceHidden] = useState(false);
-  const [isOffline, setIsOffline] = useState(false);
+  const [ balanceHidden, setBalanceHidden ] = useState(false);
+  const [ isOffline, setIsOffline ] = useState(false);
   const { refreshing, onRefresh } = useRefreshUserAndWallet();
   const { usdcWallet } = useAppSelector((state) => state.USDCWallet);
+  const { fakeBalance } = useAppSelector(state => state.fakeSlice)
+
 
   useEffect(() => {
     const unsubscribe = NetInfo.addEventListener((state) => {
@@ -137,7 +139,7 @@ const HomeSendScreen: React.FC<Props> = ({ navigation, route }) => {
     return () => unsubscribe();
   }, []);
 
-  const formattedBalance = Number(usdcWallet?.amount ?? 0).toFixed(2);
+  const formattedBalance = Number(fakeBalance ?? 0).toFixed(2);
 
   return (
     <KeyboardAwareScrollView
@@ -169,8 +171,8 @@ const HomeSendScreen: React.FC<Props> = ({ navigation, route }) => {
                 {isOffline
                   ? <ActivityIndicator size="small" color="blue" />
                   : balanceHidden
-                  ? "••••.••"
-                  : formattedBalance}
+                    ? "••••.••"
+                    : formattedBalance}
               </Text>
             </View>
             <TouchableOpacity onPress={() => setBalanceHidden(!balanceHidden)}>
