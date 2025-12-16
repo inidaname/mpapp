@@ -9,7 +9,7 @@
 
 @interface RCT_EXTERN_MODULE(BlePayeeModule, RCTEventEmitter)
 
-RCT_EXTERN_METHOD(startServer)
+RCT_EXTERN_METHOD(startServer:(NSString *)name)
 RCT_EXTERN_METHOD(setConfirmationResponse:(NSString *)responseJson)
 
 @end

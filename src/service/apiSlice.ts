@@ -1,8 +1,14 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import {
+  BaseQueryFn,
+  createApi,
+  FetchArgs,
+  fetchBaseQuery,
+  FetchBaseQueryError,
+} from '@reduxjs/toolkit/query/react';
 import * as Keychain from 'react-native-keychain';
 import { SERVICE_NAME } from '../config/TOKEN';
 
-const baseQuery = fetchBaseQuery({
+const rawBaseQuery = fetchBaseQuery({
   baseUrl: 'https://devapi.insfers.com/',
   mode: 'cors',
   prepareHeaders: async headers => {
@@ -21,6 +27,32 @@ const baseQuery = fetchBaseQuery({
     return headers;
   },
 });
+
+export const baseQuery: BaseQueryFn<
+  string | FetchArgs,
+  unknown,
+  FetchBaseQueryError
+> = async (args, api, extraOptions) => {
+  try {
+    return await rawBaseQuery(args, api, extraOptions);
+  } catch (error: any) {
+    if (error?.name === 'AbortError') {
+      return {
+        error: {
+          status: 'CUSTOM_ERROR',
+          error: 'Request aborted',
+        },
+      };
+    }
+
+    return {
+      error: {
+        status: 'CUSTOM_ERROR',
+        error: error?.message ?? 'Unknown error',
+      },
+    };
+  }
+};
 
 export const apiSlice = createApi({
   reducerPath: 'api',

@@ -25,18 +25,25 @@ class BlePayeeModule: RCTEventEmitter, CBPeripheralManagerDelegate {
         return ["onPaymentIntent"]
     }
 
-    @objc func startServer() {
+    @objc func startServer(_ name: String) {
         peripheralManager = CBPeripheralManager(delegate: self, queue: nil)
+        self.advertisedName = name
     }
+
+    var advertisedName: String = "Merchant"
 
     @objc func setConfirmationResponse(_ responseJson: String) {
         currentResponseData = responseJson.data(using: .utf8)
 
-        // Notify subscribers
         if let char = confirmChar {
             peripheralManager.updateValue(
                 currentResponseData ?? Data(), for: char, onSubscribedCentrals: nil)
         }
+    }
+
+    @objc func stopServer() {
+        peripheralManager.stopAdvertising()
+        peripheralManager.removeAllServices()
     }
 
     func peripheralManagerDidUpdateState(_ peripheral: CBPeripheralManager) {
@@ -51,11 +58,13 @@ class BlePayeeModule: RCTEventEmitter, CBPeripheralManagerDelegate {
             service.characteristics = [intentChar, confirmChar]
 
             peripheralManager.add(service)
-            peripheralManager.startAdvertising([CBAdvertisementDataServiceUUIDsKey: [SERVICE_UUID]])
+            peripheralManager.startAdvertising([
+                CBAdvertisementDataServiceUUIDsKey: [SERVICE_UUID],
+                CBAdvertisementDataLocalNameKey: self.advertisedName,
+            ])
         }
     }
 
-    // Handle Incoming Write (Intent)
     func peripheralManager(
         _ peripheral: CBPeripheralManager, didReceiveWrite requests: [CBATTRequest]
     ) {
@@ -69,7 +78,6 @@ class BlePayeeModule: RCTEventEmitter, CBPeripheralManagerDelegate {
         }
     }
 
-    // Handle Incoming Read (Confirmation)
     func peripheralManager(_ peripheral: CBPeripheralManager, didReceiveRead request: CBATTRequest)
     {
         guard request.characteristic.uuid == CONFIRM_UUID else {

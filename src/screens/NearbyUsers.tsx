@@ -6,7 +6,10 @@ import MaterialIcons from "@react-native-vector-icons/material-icons";
 import AppText from "../components/typo/AppText";
 import HeaderSide from "../components/Main/HeaderSide";
 import { PAYMENT_CONFIRM_CHAR_UUID, PAYMENT_INTENT_CHAR_UUID, SERVICE_UUID } from "../data/constant";
-import { bleManager, requestPermissions } from "../utils/ble-service";
+import { bleManager } from "../utils/ble-service";
+import { addOfflineTransaction } from '../store/reducers/offline-transactions';
+import { useAppDispatch, useAppSelector } from '../store/redux';
+import { debit } from '../store/reducers/fake-slice';
 
 type NearbyUser = {
   deviceId: string;
@@ -15,11 +18,15 @@ type NearbyUser = {
   receiverName?: string;
   isConnected: boolean;
   loading: boolean;
+  address?: string
 };
 
 const NearbyUsersScreen: React.FC = () => {
   const [ nearby, setNearby ] = useState<NearbyUser[]>([]);
   const pulseAnim1 = useRef(new Animated.Value(0)).current;
+  const lastSeenMap = useRef<Map<string, number>>(new Map()).current;
+  const { fakeBalance } = useAppSelector(state => state.fakeSlice)
+  const dispatch = useAppDispatch()
 
   // Animation Loop
   useEffect(() => {
@@ -33,54 +40,102 @@ const NearbyUsersScreen: React.FC = () => {
 
   // Scan Logic
   useEffect(() => {
-    const startScan = async () => {
-      const hasPermission = await requestPermissions();
-      if (!hasPermission) {
-        Alert.alert("Permission Error", "Bluetooth permissions are required.");
-        return;
-      }
 
-      console.log("Starting Scan...");
-      setNearby([]);
+    // const hasPermission = await requestPermissions();
+    // if (!hasPermission) {
+    //   Alert.alert("Permission Error", "Bluetooth permissions are required.");
+    //   return;
+    // }
 
-      bleManager.startDeviceScan(
-        [ SERVICE_UUID ],
-        { allowDuplicates: false },
-        (error, device) => {
-          if (error) {
-            console.error("Scan error:", error);
-            return;
-          }
+    console.log("Starting Scan...");
+    setNearby([]);
 
-          if (device) {
-            setNearby((prev) => {
-              if (prev.find((u) => u.deviceId === device.id)) return prev;
+    bleManager.startDeviceScan(
+      [ SERVICE_UUID ],
+      { allowDuplicates: false },
+      (error, device) => {
+        if (error) {
+          console.error("Scan error:", error);
+          return;
+        }
 
-              return [
-                ...prev,
-                {
-                  deviceId: device.id,
-                  name: device.name || "Unknown Device",
-                  isConnected: false,
-                  loading: false,
-                  amount: undefined
-                },
-              ];
-            });
-          }
-        },
-      );
-    };
+        if (device) {
 
-    startScan();
+          const now = Date.now();
+          lastSeenMap.set(device.id, now);
+
+          setNearby((prev) => {
+            const exists = prev.find((u) => u.deviceId === device.id);
+            if (exists) return prev;
+
+            return [
+              ...prev,
+              {
+                deviceId: device.id,
+                name: device.name || "Insfers Device",
+                isConnected: false,
+                loading: false,
+                amount: undefined
+              },
+            ];
+          });
+        }
+      },
+    );
+
+    // const intervalId = setInterval(() => {
+    //   const now = Date.now();
+    //   setNearby((prev) => {
+    //     // Filter out devices not seen in the last 5000ms (5 seconds)
+    //     return prev.filter((user) => {
+    //       const lastSeen = lastSeenMap.get(user.deviceId) || 0;
+    //       const isStale = now - lastSeen > 5000;
+
+    //       // Keep them if they are currently CONNECTED (even if not advertising)
+    //       if (user.isConnected) return true;
+
+    //       if (isStale) {
+    //         console.log(`Removing stale device: ${user.name}`);
+    //         lastSeenMap.delete(user.deviceId);
+    //       }
+    //       return !isStale;
+    //     });
+    //   });
+    // }, 2000);
+
 
     return () => {
       console.log("Stopping Scan");
       bleManager.stopDeviceScan();
+      // clearInterval(intervalId);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Step 1: Connect and Read the Bill
+
+  const handlePaymentSuccess = (merchantName: string, amountPaid: number) => {
+    const amount = Number(amountPaid)
+    if (isNaN(amount)) return;
+
+    const newTx: OfflineTransactions = {
+      reference: `REF-${Date.now()}`,
+      amount,
+      createdAt: new Date().toISOString(),
+      type: "debit", // Payer is sending money (Debit)
+      status: "completed",
+      synced: false,
+      name: merchantName || "Unknown Merchant",
+      address: null, // Fill if you have merchant wallet address
+      signature: "tx_signature_placeholder",
+      syncedAt: null
+    };
+
+    dispatch(addOfflineTransaction(newTx));
+    dispatch(debit(amount))
+    Alert.alert("Success", `Paid $${amountPaid} to ${merchantName}`);
+    // setIsScanning(false);
+  };
+
   const handleConnectAndRead = async (index: number) => {
     const user = nearby[ index ];
 
@@ -97,17 +152,13 @@ const NearbyUsersScreen: React.FC = () => {
     try {
       console.log(`Connecting to ${user.deviceId}...`);
 
-      // 1. Connect
       const device = await bleManager.connectToDevice(user.deviceId, {
         autoConnect: false,
         requestMTU: 512
       });
 
-      // 2. Discover
       await device.discoverAllServicesAndCharacteristics();
 
-      // 3. READ the Characteristic (The Bill)
-      // Note: calling readCharacteristicForService on the DEVICE instance is correct
       const characteristic = await device.readCharacteristicForService(
         SERVICE_UUID.toLowerCase(),
         PAYMENT_CONFIRM_CHAR_UUID.toLowerCase()
@@ -119,23 +170,27 @@ const NearbyUsersScreen: React.FC = () => {
 
         let billData;
         try {
-          billData = JSON.parse(jsonString); // { amount: 50, receiverName: "UserB" }
+          billData = JSON.parse(jsonString);
         } catch (e) {
           // Fallback for non-JSON strings
           billData = { amount: "0", receiverName: "Unknown" };
         }
 
+        console.log('billData', billData)
+
         updateState({
           isConnected: true,
           loading: false,
           amount: billData.amount?.toString(),
-          receiverName: billData.receiverName
+          receiverName: billData.receiverName,
+          address: billData.address
         });
+
       }
     } catch (error) {
       console.error("Connection failed", error);
       Alert.alert("Connection Failed", "Could not read payment details.");
-      setNearby([]);
+      setNearby(prev => prev.filter(u => u.deviceId !== user.deviceId));
     }
   };
 
@@ -143,6 +198,11 @@ const NearbyUsersScreen: React.FC = () => {
   // Step 2: Write Confirmation
   const handlePay = async (index: number) => {
     const user = nearby[ index ];
+
+    if (fakeBalance > 0 && fakeBalance < Number(user.amount)) {
+      Alert.alert("Error", "You have insufficient balance")
+      return
+    }
 
     try {
       console.log("Sending Payment...");
@@ -171,7 +231,7 @@ const NearbyUsersScreen: React.FC = () => {
       // We need to know if the merchant approved it.
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const device = await bleManager.devices([ user.deviceId ]); // Get device instance
-      // Note: In ble-plx you usually keep the device object reference. 
+      // Note: In ble-plx you usually keep the device object reference.
       // Assuming you can get the device object or use bleManager.monitorCharacteristicForDevice
 
       // console.log("Waiting for confirmation...");
@@ -196,6 +256,8 @@ const NearbyUsersScreen: React.FC = () => {
       //   }
       // );
 
+      handlePaymentSuccess(user.receiverName || user.name, Number(user.amount))
+
       Alert.alert("Success", `Paid $${user.amount} to ${user.receiverName || user.name}`);
 
       // Disconnect
@@ -212,6 +274,7 @@ const NearbyUsersScreen: React.FC = () => {
       Alert.alert("Error", "Payment transmission failed.");
     }
   };
+
 
   return (
     <View className="flex-1 bg-white items-center justify-between">
@@ -234,14 +297,14 @@ const NearbyUsersScreen: React.FC = () => {
             key={u.deviceId}
             className="flex-row items-center justify-between bg-white p-4 rounded-lg shadow mb-2"
           >
-            <View>
+            <View className='flex-1 mr-2'>
               {u.isConnected && u.amount ? (
                 <>
                   <AppText className="font-bold text-lg text-green-600">
                     ${u.amount}
                   </AppText>
-                  <AppText className="text-xs text-gray-500">
-                    Pay to: {u.receiverName || u.name}
+                  <AppText numberOfLines={1} className="w-full text-xs text-gray-500">
+                    Pay to: <AppText ellipsizeMode='middle' className='truncate font-bold text-xs text-gray-500'>{u.address || u.name}</AppText>
                   </AppText>
                 </>
               ) : (
@@ -251,25 +314,39 @@ const NearbyUsersScreen: React.FC = () => {
               )}
             </View>
 
-            <TouchableOpacity
-              className={`px-4 py-2 rounded-lg ${u.isConnected ? "bg-green-500" : "bg-blue-500"}`}
-              onPress={() => {
-                if (u.isConnected) {
-                  handlePay(index);
-                } else {
-                  handleConnectAndRead(index);
-                }
-              }}
-              disabled={u.loading}
-            >
-              {u.loading ? (
-                <ActivityIndicator color="white" size="small" />
-              ) : (
-                <AppText className="text-white font-bold">
-                  {u.isConnected ? "PAY NOW" : "Connect"}
-                </AppText>
-              )}
-            </TouchableOpacity>
+            <View className='flex-row items-center justify-center gap-x-5'>
+              <TouchableOpacity
+                className={`px-4 py-2 rounded-lg ${u.isConnected ? "bg-green-500" : "bg-blue-500"}`}
+                onPress={() => {
+                  if (u.isConnected) {
+                    handlePay(index);
+                  } else {
+                    handleConnectAndRead(index);
+                  }
+                }}
+                disabled={u.loading}
+              >
+                {u.loading ? (
+                  <ActivityIndicator color="white" size="small" />
+                ) : (
+                  <MaterialIcons color={"white"} size={20} name={u.isConnected ? `check` : `connect-without-contact`} />
+                )}
+              </TouchableOpacity>
+              <TouchableOpacity
+                className={`px-4 py-2 rounded-lg bg-red-500`}
+                onPress={() => {
+                  console.log("Cancel")
+                }}
+                disabled={u.loading}
+              >
+                {u.loading ? (
+                  <ActivityIndicator color="white" size="small" />
+                ) : (
+                  <MaterialIcons name='close' color={"white"} size={20} />
+                )}
+              </TouchableOpacity>
+
+            </View>
           </View>
         ))}
       </View>
