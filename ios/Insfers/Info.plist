@@ -34,9 +34,11 @@
 		<true/>
 	</dict>
 	<key>NSBluetoothAlwaysUsageDescription</key>
-	<string>To enable offline payments</string>
+	<string>This app needs Bluetooth to communicate with nearby devices for payments</string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>This app needs Bluetooth to receive payment requests</string>
 	<key>NSBluetoothWhileInUseUsageDescription</key>
-	<string></string>
+	<string>This app needs Bluetooth to communicate with nearby devices for payments</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Allow camera for scanning wallet address</string>
 	<key>NSLocationWhenInUseUsageDescription</key>

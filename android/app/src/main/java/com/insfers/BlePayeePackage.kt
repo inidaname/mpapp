@@ -6,10 +6,10 @@ import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.uimanager.ViewManager
 import java.util.Collections
 
-class BLEAdvertiserPackage : ReactPackage {
+class BlePayeePackage : ReactPackage {
   override fun createNativeModules(reactContext: ReactApplicationContext): List<NativeModule> {
     val modules = ArrayList<NativeModule>()
-    modules.add(BLEAdvertiserModule(reactContext))
+    modules.add(BlePayeeModule(reactContext))
     return modules
   }
 

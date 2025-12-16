@@ -81,7 +81,7 @@ const OfflinePaymentScreen: React.FC<Props> = ({ navigation }) => {
 
     setTransferAmount("");
     setModalVisible(false);
-    Alert.alert("Success", `$${amount} moved to Offline Wallet!`);
+    Alert.alert("Success", `$${amount} moved to ${modalMode === "load" ? "Offline" : "Main"} Wallet!`);
   };
 
   return (
@@ -95,16 +95,16 @@ const OfflinePaymentScreen: React.FC<Props> = ({ navigation }) => {
           {/* --- OFFLINE BALANCE SECTION --- */}
           <View className="items-center justify-between mb-6 w-full">
             <AppText className="text-brand-900 text-4xl font-extrabold">
-              ${offlineBalance.toFixed(2)}
+              ${(fakeBalance + offlineBalance).toFixed(2)}
             </AppText>
             <AppText className="text-gray-500 text-xs uppercase tracking-widest mb-3">
-              Available Offline Balance
+              Available Overall Balance
             </AppText>
 
             {/* Load Funds Button */}
             <View className="flex-row gap-x-3">
               {/* Load Button (Main -> Offline) */}
-              <TouchableOpacity
+              {/* <TouchableOpacity
                 onPress={() => openModal("load")}
                 className="bg-brand-50 border border-brand-200 py-2 px-5 rounded-full flex-row items-center active:bg-brand-100"
               >
@@ -112,12 +112,12 @@ const OfflinePaymentScreen: React.FC<Props> = ({ navigation }) => {
                 <AppText className="text-brand-700 font-semibold text-sm">
                   Load Funds
                 </AppText>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
 
               {/* Return Button (Offline -> Main) */}
               <TouchableOpacity
                 onPress={() => openModal("return")}
-                className="bg-white border border-gray-300 py-2 px-5 rounded-full flex-row items-center active:bg-gray-50 shadow-sm"
+                className="bg-brand-50 border border-brand-200 py-2 px-5 rounded-full flex-row items-center active:bg-brand-100 w-1/2 justify-center"
               >
                 <AppText className="text-gray-600 font-bold text-sm mr-1">↑</AppText>
                 <AppText className="text-gray-600 font-semibold text-sm">
@@ -127,19 +127,36 @@ const OfflinePaymentScreen: React.FC<Props> = ({ navigation }) => {
             </View>
 
             {/* Main Balance Context (Cached View) */}
-            <View className="mt-8 bg-gray-50 p-4 rounded-2xl w-full border border-gray-100 flex-row justify-between items-center">
-              <View>
-                <View className="flex-row items-center mb-1">
-                  <View className="w-2 h-2 rounded-full bg-green-500 mr-2" />
-                  <AppText className="text-gray-500 text-[10px] uppercase font-bold tracking-tighter">
-                    Online Main Balance
-                  </AppText>
+            <View className="mt-8 bg-gray-50 p-4 rounded-2xl w-full border border-gray-100 gap-y-3">
+              <View className='flex-row justify-between items-center'>
+                <View>
+                  <View className="flex-row items-center mb-1">
+                    <View className="w-2 h-2 rounded-full bg-green-500 mr-2" />
+                    <AppText className="text-gray-500 text-[10px] uppercase font-bold tracking-tighter">
+                      Online Main Balance
+                    </AppText>
+                  </View>
+                  <AppText className="text-gray-800 font-bold text-xl">${fakeBalance.toFixed(2)}</AppText>
                 </View>
-                <AppText className="text-gray-800 font-bold text-xl">${fakeBalance.toFixed(2)}</AppText>
+                <View className="items-end">
+                  <AppText className="text-gray-400 text-[10px]">Last Synced</AppText>
+                  <AppText className="text-gray-500 text-[11px] font-medium">{lastSynced}</AppText>
+                </View>
               </View>
-              <View className="items-end">
-                <AppText className="text-gray-400 text-[10px]">Last Synced</AppText>
-                <AppText className="text-gray-500 text-[11px] font-medium">{lastSynced}</AppText>
+              <View className='flex-row justify-between items-center'>
+                <View>
+                  <View className="flex-row items-center mb-1">
+                    <View className="w-2 h-2 rounded-full bg-red-500 mr-2" />
+                    <AppText className="text-gray-500 text-[10px] uppercase font-bold tracking-tighter">
+                      Offline Transaction Balance
+                    </AppText>
+                  </View>
+                  <AppText className="text-gray-800 font-bold text-xl">${offlineBalance.toFixed(2)}</AppText>
+                </View>
+                <View className="items-end">
+                  <AppText className="text-gray-400 text-[10px]">Last Synced</AppText>
+                  <AppText className="text-gray-500 text-[11px] font-medium">{lastSynced}</AppText>
+                </View>
               </View>
             </View>
 

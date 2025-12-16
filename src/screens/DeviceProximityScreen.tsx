@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   ActivityIndicator,
   Alert,
   Image,
+  Keyboard,
   Modal,
-  NativeModules,
   NativeEventEmitter,
+  NativeModules,
   PermissionsAndroid,
   Platform,
   Pressable,
@@ -17,157 +18,320 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import HeaderSide from "../components/Main/HeaderSide";
 import AppText from "../components/typo/AppText";
 import { FullNavStack } from "../types/types";
-import { SERVICE_UUID, WRITE_CHAR_UUID_STR } from '../data/constant';
 
-const { BLEAdvertiser } = NativeModules;
-const bleEventEmitter = new NativeEventEmitter(BLEAdvertiser);
+
+// Access the Custom Native Module
+const { BlePayeeModule } = NativeModules;
+const bleEventEmitter = new NativeEventEmitter(BlePayeeModule);
 
 interface Props extends NativeStackScreenProps<FullNavStack> { }
 
 const DeviceProximityScreen: React.FC<Props> = ({ navigation }) => {
   const [ showModal, setShowModal ] = useState(false);
-  const [ amount, setAmount ] = useState("");
+  const [ amountInput, setAmountInput ] = useState("");
+
+  // State for the active session
   const [ isBroadcasting, setIsBroadcasting ] = useState(false);
-  const [ , setLastMessage ] = useState(""); // Unused variable warning fix
+  const expectedAmountRef = useRef<number | null>(null);
+  // const [ expectedAmount, setExpectedAmount ] = useState<number | null>(null);
+  const [ transactionStatus, setTransactionStatus ] = useState("Initializing...");
 
-  // --- Combined Lifecycle Effect ---
+  // Keep track of the subscription to remove it on unmount
+  const eventListenerRef = useRef<any>(null);
+
+
   useEffect(() => {
-    // 1. Setup Listener
-    const subscription = bleEventEmitter.addListener("onPaymentResponse", (event) => {
-      console.log("Received:", event);
-      if (event.message === "ACCEPTED") {
-        Alert.alert("Payment Received!", "The user has accepted the transaction.");
-        setLastMessage("Payment Successful");
-        stopBroadcasting(); // Stop broadcasting after success?
-      }
-    });
-
-    // 2. Cleanup on Unmount
+    // Cleanup on unmount
     return () => {
-      subscription.remove();
-      // Ensure we stop broadcast when user leaves screen
-      BLEAdvertiser.stopBroadcast();
+      if (eventListenerRef.current) {
+        eventListenerRef.current.remove();
+      }
+      // Note: You might want to expose a stopServer() method in native if you want to stop advertising cleanly
+      // BlePayeeModule.stopServer();
     };
   }, []);
 
-  const stopBroadcasting = () => {
+  /**
+   * This function handles the "Business Logic" of the payment.
+   * It is triggered when the Native Module receives a Write request from a Payer.
+   */
+  const handlePaymentIntent = async (intentJson: string) => {
+    console.log("RAW INTENT RECEIVED:", intentJson);
+
     try {
-      BLEAdvertiser.stopBroadcast();
+      const intent = JSON.parse(intentJson);
+
+      // 1. Verify the Intent matches what we requested
+      // (Using a fuzzy comparison for float/string differences)
+      if (parseFloat(intent.amount) !== expectedAmountRef.current) {
+        setTransactionStatus("Error: Amount mismatch!");
+        Alert.alert(
+          "Error",
+          `Payer tried to pay ${intent.amount}, but you asked for ${expectedAmountRef.current}`,
+        );
+        return;
+      }
+
+      setTransactionStatus("Verifying Payment...");
+
+      // 2. Generate the Claim (The Receipt)
+      // In a real app, you would sign this with a Private Key here.
+      const claimPayload = {
+        originalIntent: intent,
+        merchantId: "MERCHANT_ID_888",
+        status: "APPROVED",
+        signature: "crypto_signature_placeholder_xyz",
+        timestamp: Date.now(),
+      };
+
+      const claimJson = JSON.stringify(claimPayload);
+
+      // 3. Send the Claim back to the Native Layer
+      // The Native Layer updates the 'Read' Characteristic and notifies the Payer.
+      BlePayeeModule.setConfirmationResponse(claimJson);
+
+      // 4. Update UI
+      setTransactionStatus("Payment Received!");
+      Alert.alert("Success", "Payment confirmed and receipt sent to payer.");
+
+      // Reset / Stop
       setIsBroadcasting(false);
-    } catch (error) {
-      console.warn("Error stopping broadcast:", error);
+      expectedAmountRef.current = null
+    } catch (e) {
+      console.error("Failed to process payment intent", e);
+      setTransactionStatus("Error processing request");
     }
   };
 
-  const startBroadcasting = async (amountValue: string) => {
+  const startServer = async (amountValue: string) => {
+    Keyboard.dismiss();
+
     try {
+      // 1. Permission Check (Android 12+)
       if (Platform.OS === "android" && Platform.Version >= 31) {
-        const granted = await PermissionsAndroid.request(
+        const granted = await PermissionsAndroid.requestMultiple([
           PermissionsAndroid.PERMISSIONS.BLUETOOTH_ADVERTISE,
-        );
-        if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
-          Alert.alert("Permission Denied", "Bluetooth Advertising permission is required.");
+          PermissionsAndroid.PERMISSIONS.BLUETOOTH_CONNECT,
+        ]);
+
+        const adPermission = granted[ "android.permission.BLUETOOTH_ADVERTISE" ];
+        const conPermission = granted[ "android.permission.BLUETOOTH_CONNECT" ];
+
+        if (
+          adPermission !== PermissionsAndroid.RESULTS.GRANTED ||
+          conPermission !== PermissionsAndroid.RESULTS.GRANTED
+        ) {
+          Alert.alert(
+            "Permission Denied",
+            "Bluetooth Advertising permission is required.",
+          );
           return;
         }
       }
 
-      const username = "User_" + Math.floor(Math.random() * 1000);
       const floatAmount = parseFloat(amountValue);
-
-      if (isNaN(floatAmount)) {
-        Alert.alert("Error", "Please enter a valid amount");
+      console.log('floatAmount', floatAmount)
+      if (isNaN(floatAmount) || floatAmount <= 0) {
+        Alert.alert("Invalid Amount", "Please enter a valid amount.");
         return;
       }
 
-      BLEAdvertiser.startBroadcast(
-        username,
-        floatAmount,
-        SERVICE_UUID,
-        WRITE_CHAR_UUID_STR
+      // 2. Setup State
+      expectedAmountRef.current = floatAmount
+      setIsBroadcasting(true);
+      setTransactionStatus(`Requesting $${floatAmount}...`);
+
+      // 3. Start Listener
+      if (eventListenerRef.current) eventListenerRef.current.remove();
+      eventListenerRef.current = bleEventEmitter.addListener(
+        "onPaymentIntent",
+        handlePaymentIntent,
       );
 
-      setIsBroadcasting(true);
+      // 4. Start Native GATT Server
+      // The Native module will now Advertise the Service UUID
+      BlePayeeModule.startServer();
+
+      // --- NEW CODE: SET THE BILL IMMEDIATELY ---
+      // This ensures when the Payer connects, they see the amount immediately
+      const initialBill = JSON.stringify({
+        amount: floatAmount,
+        merchantName: "Merchant_User", // You can make this dynamic
+        status: "WAITING_FOR_PAYMENT"
+      });
+
+      console.log('initialBill', initialBill)
+
+      // Give the server a split second to initialize, then set value
+      setTimeout(() => {
+        BlePayeeModule.setConfirmationResponse(initialBill);
+      }, 500);
     } catch (error) {
-      console.error("Broadcast failed:", error);
-      Alert.alert("Error", "Failed to start Bluetooth broadcasting.");
+      console.error("Server start failed:", error);
+      Alert.alert("Error", "Failed to start Bluetooth server.");
       setIsBroadcasting(false);
     }
   };
 
-  const closeModal = () => {
-    setAmount("");
-    setShowModal(false);
+  const stopServer = () => {
+    // If you implemented stopServer in native, call it here.
+    // Otherwise, we just reset the UI state.
+    if (eventListenerRef.current) eventListenerRef.current.remove();
+    setIsBroadcasting(false);
+    setTransactionStatus("Stopped");
   };
 
-  const handleConfirm = () => {
-    if (!amount.trim()) return;
+  // --- UI HANDLERS ---
+
+  const handleOpenModal = () => {
+    setAmountInput("");
+    setShowModal(true);
+  };
+
+  const handleConfirmRequest = () => {
+    if (!amountInput.trim()) return;
     setShowModal(false);
-    startBroadcasting(amount);
+    // Slight delay for modal animation
+    setTimeout(() => {
+      startServer(amountInput);
+    }, 300);
   };
 
   return (
     <View className="justify-between items-center flex-1 bg-white">
-      <HeaderSide heading="Set Up Device Proximity" isWithBack />
+      <HeaderSide heading="Receive Payment" isWithBack />
 
-      <View className="w-full px-6 mt-8 items-center justify-center">
-        {isBroadcasting ? (
-          <View className="items-center justify-center bg-blue-50 p-6 rounded-full w-64 h-64 border-4 border-blue-100">
-            <ActivityIndicator size="large" color="#3B82F6" />
-            <AppText className="text-xl mt-4 font-bold text-blue-600">Broadcasting...</AppText>
-            <AppText className="text-lg font-medium text-gray-600 mt-2">${amount}</AppText>
-            <AppText className="text-xs text-center text-gray-400 mt-2">Hold near the receiver device</AppText>
-          </View>
-        ) : (
-          <>
-            <Image source={require("../../assets/user_phone_hand.png")} className="w-[200] h-[200] resize-contain" />
-            <AppText className="text-2xl mt-8 font-medium">Enable Bluetooth/NFC</AppText>
-            <AppText className="text-md font-thin text-center mt-2 px-4">
-              Enable your phone's Bluetooth to connect with the recipient device.
-            </AppText>
-          </>
-        )}
+      <View className="w-full px-6 mt-8 items-center justify-center flex-1">
+        {isBroadcasting
+          ? (
+            <View className="items-center justify-center bg-blue-50 p-6 rounded-full w-72 h-72 border-4 border-blue-100 shadow-sm">
+              <ActivityIndicator
+                size="large"
+                color="#3B82F6"
+                className="mb-4"
+              />
+              <AppText className="text-xl font-bold text-blue-600">
+                {transactionStatus}
+              </AppText>
+              {expectedAmountRef.current && (
+                <AppText className="text-3xl font-bold text-gray-800 mt-2">
+                  ${expectedAmountRef.current}
+                </AppText>
+              )}
+              <AppText className="text-xs text-center text-gray-500 mt-4 px-4">
+                Payer should scan for Service UUID
+              </AppText>
+            </View>
+          )
+          : (
+            <>
+              <Image
+                source={require("../../assets/user_phone_hand.png")}
+                className="w-[200] h-[200] resize-contain mb-6"
+              />
+              <AppText className="text-2xl font-medium text-gray-800">
+                Offline Payment
+              </AppText>
+              <AppText className="text-md font-thin text-center mt-2 px-8 text-gray-500">
+                Become a Merchant Terminal. Request a payment and wait for a
+                payer to connect via Bluetooth.
+              </AppText>
+            </>
+          )}
       </View>
 
+      {/* --- Action Buttons --- */}
       <View className="px-4 w-full flex-row justify-between mb-10 gap-4 mt-10">
-        {isBroadcasting ? (
-          <Pressable className="bg-red-500 flex-1 items-center justify-center px-6 py-3 rounded-lg" onPress={stopBroadcasting}>
-            <AppText className="text-white font-medium">Cancel Payment</AppText>
+        {isBroadcasting && (
+          <Pressable
+            className="bg-red-500 flex-1 items-center justify-center px-6 py-4 rounded-xl shadow-sm"
+            onPress={stopServer}
+          >
+            <AppText className="text-white font-bold text-lg">
+              Cancel Request
+            </AppText>
           </Pressable>
-        ) : (
+        )}
+        {!isBroadcasting && (
           <>
-            <Pressable className="bg-brand-700 flex-1 items-center justify-center px-6 py-3 rounded-lg" onPress={() => navigation.navigate("NearbyUsers")}>
-              <AppText className="text-white font-medium">Search</AppText>
+            <Pressable
+              className="bg-gray-100 border border-gray-300 flex-1 items-center justify-center px-6 py-4 rounded-xl"
+              onPress={() => {
+                navigation.navigate("NearbyUsers");
+              }}
+            >
+              <AppText className="text-gray-700 font-bold">
+                I want to Pay
+              </AppText>
             </Pressable>
-
-            <Pressable onPress={() => setShowModal(true)} style={{ borderWidth: 1 }} className="border-brand-700 border-1 px-6 py-3 flex-1 rounded-lg items-center justify-center">
-              <AppText className="text-brand-700 font-medium">Request Payment</AppText>
+            <Pressable
+              onPress={handleOpenModal}
+              className="bg-brand-700 flex-1 items-center justify-center px-6 py-4 rounded-xl shadow-md"
+            >
+              <AppText className="text-white font-bold">
+                Request Payment
+              </AppText>
             </Pressable>
           </>
         )}
       </View>
 
-      <Modal transparent visible={showModal} animationType="fade" onRequestClose={closeModal}>
-        <View className="flex-1 bg-black/50 items-center justify-center p-6">
-          <View className="bg-white p-6 rounded-xl w-full max-w-sm shadow-xl">
-            <AppText className="text-lg font-medium mb-4">Enter Amount to Pay</AppText>
-            <TextInput
-              placeholder="0.00"
-              keyboardType="numeric"
-              autoFocus
-              value={amount}
-              onChangeText={setAmount}
-              className="border border-gray-300 p-4 rounded-lg mb-6 text-xl text-center font-bold"
-            />
-            <View className="flex-row justify-end space-x-4 gap-4">
-              <Pressable onPress={closeModal} className="px-4 py-3 rounded-lg bg-gray-200 flex-1 items-center">
-                <AppText>Cancel</AppText>
+      {/* --- Input Modal --- */}
+      <Modal
+        transparent
+        visible={showModal}
+        animationType="slide"
+        onRequestClose={() => setShowModal(false)}
+      >
+        <Pressable
+          className="flex-1 bg-black/60 items-center justify-center p-6"
+          onPress={() => setShowModal(false)}
+        >
+          <Pressable
+            className="bg-white p-6 rounded-2xl w-full max-w-sm shadow-2xl"
+            onPress={() => { }}
+          >
+            <AppText className="text-xl font-bold text-center mb-2">
+              Request Amount
+            </AppText>
+            <AppText className="text-sm text-gray-500 text-center mb-6">
+              Enter the amount you wish to receive
+            </AppText>
+
+            <View className="flex-row items-center border border-gray-300 rounded-lg px-4 mb-6 bg-gray-50">
+              <AppText className="text-2xl font-bold text-gray-400 mr-2">
+                $
+              </AppText>
+              <TextInput
+                placeholder="0.00"
+                keyboardType="numeric"
+                autoFocus
+                value={amountInput}
+                onChangeText={setAmountInput}
+                className="flex-1 py-4 text-3xl font-bold text-gray-800"
+                placeholderTextColor="#A0A0A0"
+              />
+            </View>
+
+            <View className="flex-row gap-4">
+              <Pressable
+                onPress={() => setShowModal(false)}
+                className="flex-1 py-3 rounded-lg bg-gray-200 items-center"
+              >
+                <AppText className="font-semibold text-gray-700">
+                  Cancel
+                </AppText>
               </Pressable>
-              <Pressable onPress={handleConfirm} className="px-4 py-3 rounded-lg bg-blue-500 flex-1 items-center">
-                <AppText className="text-white font-bold">OK</AppText>
+
+              <Pressable
+                onPress={handleConfirmRequest}
+                className="flex-1 py-3 rounded-lg bg-brand-700 items-center"
+              >
+                <AppText className="font-bold text-white">Start</AppText>
               </Pressable>
             </View>
-          </View>
-        </View>
+          </Pressable>
+        </Pressable>
       </Modal>
     </View>
   );
