@@ -12,6 +12,7 @@ import {
   Pressable,
   TextInput,
   View,
+  FlatList,
 } from "react-native";
 
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -19,50 +20,54 @@ import HeaderSide from "../components/Main/HeaderSide";
 import AppText from "../components/typo/AppText";
 import { FullNavStack } from "../types/types";
 
+// Redux Imports
+import { useAppSelector, useAppDispatch } from '../store/redux';
+import { addOfflineTransaction } from '../store/reducers/offline-transactions';
+import { creditOffline } from '../store/reducers/offline-slice';
 
 // Access the Custom Native Module
 const { BlePayeeModule } = NativeModules;
 const bleEventEmitter = new NativeEventEmitter(BlePayeeModule);
 
-interface Props extends NativeStackScreenProps<FullNavStack> { }
+type Props = NativeStackScreenProps<
+  FullNavStack,
+  "DeviceProximityScreen"
+>;
+
 
 const DeviceProximityScreen: React.FC<Props> = ({ navigation }) => {
+  const canNavigate = typeof navigation?.navigate === "function";
+
+  const dispatch = useAppDispatch();
+  const { transactions } = useAppSelector(state => state.offlineTransactions);
+  const reversedTransactions = [ ...transactions ].reverse();
+
+  const { active_wallet_address } = useAppSelector(state => state.wallet);
+  const { profile } = useAppSelector(state => state.user);
+
   const [ showModal, setShowModal ] = useState(false);
   const [ amountInput, setAmountInput ] = useState("");
 
   // State for the active session
   const [ isBroadcasting, setIsBroadcasting ] = useState(false);
   const expectedAmountRef = useRef<number | null>(null);
-  // const [ expectedAmount, setExpectedAmount ] = useState<number | null>(null);
   const [ transactionStatus, setTransactionStatus ] = useState("Initializing...");
-
-  // Keep track of the subscription to remove it on unmount
   const eventListenerRef = useRef<any>(null);
 
-
   useEffect(() => {
-    // Cleanup on unmount
     return () => {
       if (eventListenerRef.current) {
         eventListenerRef.current.remove();
       }
-      // Note: You might want to expose a stopServer() method in native if you want to stop advertising cleanly
-      // BlePayeeModule.stopServer();
     };
   }, []);
 
-  /**
-   * This function handles the "Business Logic" of the payment.
-   * It is triggered when the Native Module receives a Write request from a Payer.
-   */
   const handlePaymentIntent = async (intentJson: string) => {
     console.log("RAW INTENT RECEIVED:", intentJson);
 
     try {
       const intent = JSON.parse(intentJson);
 
-      // 1. Verify the Intent matches what we requested
-      // (Using a fuzzy comparison for float/string differences)
       if (parseFloat(intent.amount) !== expectedAmountRef.current) {
         setTransactionStatus("Error: Amount mismatch!");
         Alert.alert(
@@ -74,8 +79,6 @@ const DeviceProximityScreen: React.FC<Props> = ({ navigation }) => {
 
       setTransactionStatus("Verifying Payment...");
 
-      // 2. Generate the Claim (The Receipt)
-      // In a real app, you would sign this with a Private Key here.
       const claimPayload = {
         originalIntent: intent,
         merchantId: "MERCHANT_ID_888",
@@ -86,17 +89,31 @@ const DeviceProximityScreen: React.FC<Props> = ({ navigation }) => {
 
       const claimJson = JSON.stringify(claimPayload);
 
-      // 3. Send the Claim back to the Native Layer
-      // The Native Layer updates the 'Read' Characteristic and notifies the Payer.
+      // Send response to payer via BLE
       BlePayeeModule.setConfirmationResponse(claimJson);
 
-      // 4. Update UI
       setTransactionStatus("Payment Received!");
       Alert.alert("Success", "Payment confirmed and receipt sent to payer.");
 
-      // Reset / Stop
+      // 2. Dispatch to Redux
+      const newTx: OfflineTransactions = {
+        reference: `REF-${Date.now()}`,
+        amount: expectedAmountRef.current || 0,
+        createdAt: new Date().toISOString(),
+        type: "credit", // Merchant receives Credit
+        status: "completed",
+        synced: false,
+        name: intent.name || "Unknown Payer",
+        address: intent.address || null,
+        signature: "crypto_signature_placeholder_xyz",
+        syncedAt: null
+      };
+
+      dispatch(addOfflineTransaction(newTx));
+      dispatch(creditOffline(expectedAmountRef.current || 0))
       setIsBroadcasting(false);
-      expectedAmountRef.current = null
+      expectedAmountRef.current = null;
+
     } catch (e) {
       console.error("Failed to process payment intent", e);
       setTransactionStatus("Error processing request");
@@ -105,9 +122,7 @@ const DeviceProximityScreen: React.FC<Props> = ({ navigation }) => {
 
   const startServer = async (amountValue: string) => {
     Keyboard.dismiss();
-
     try {
-      // 1. Permission Check (Android 12+)
       if (Platform.OS === "android" && Platform.Version >= 31) {
         const granted = await PermissionsAndroid.requestMultiple([
           PermissionsAndroid.PERMISSIONS.BLUETOOTH_ADVERTISE,
@@ -121,51 +136,42 @@ const DeviceProximityScreen: React.FC<Props> = ({ navigation }) => {
           adPermission !== PermissionsAndroid.RESULTS.GRANTED ||
           conPermission !== PermissionsAndroid.RESULTS.GRANTED
         ) {
-          Alert.alert(
-            "Permission Denied",
-            "Bluetooth Advertising permission is required.",
-          );
+          Alert.alert("Permission Denied", "Bluetooth Advertising permission is required.");
           return;
         }
       }
 
       const floatAmount = parseFloat(amountValue);
-      console.log('floatAmount', floatAmount)
       if (isNaN(floatAmount) || floatAmount <= 0) {
         Alert.alert("Invalid Amount", "Please enter a valid amount.");
         return;
       }
 
-      // 2. Setup State
-      expectedAmountRef.current = floatAmount
+      expectedAmountRef.current = floatAmount;
       setIsBroadcasting(true);
       setTransactionStatus(`Requesting $${floatAmount}...`);
 
-      // 3. Start Listener
       if (eventListenerRef.current) eventListenerRef.current.remove();
       eventListenerRef.current = bleEventEmitter.addListener(
         "onPaymentIntent",
         handlePaymentIntent,
       );
 
-      // 4. Start Native GATT Server
-      // The Native module will now Advertise the Service UUID
-      BlePayeeModule.startServer();
 
-      // --- NEW CODE: SET THE BILL IMMEDIATELY ---
-      // This ensures when the Payer connects, they see the amount immediately
+      const username = profile?.username || "Insfer User"
+
+      BlePayeeModule.startServer(username);
+
       const initialBill = JSON.stringify({
         amount: floatAmount,
-        merchantName: "Merchant_User", // You can make this dynamic
+        address: active_wallet_address,
         status: "WAITING_FOR_PAYMENT"
       });
 
-      console.log('initialBill', initialBill)
-
-      // Give the server a split second to initialize, then set value
       setTimeout(() => {
         BlePayeeModule.setConfirmationResponse(initialBill);
       }, 500);
+
     } catch (error) {
       console.error("Server start failed:", error);
       Alert.alert("Error", "Failed to start Bluetooth server.");
@@ -174,14 +180,10 @@ const DeviceProximityScreen: React.FC<Props> = ({ navigation }) => {
   };
 
   const stopServer = () => {
-    // If you implemented stopServer in native, call it here.
-    // Otherwise, we just reset the UI state.
     if (eventListenerRef.current) eventListenerRef.current.remove();
     setIsBroadcasting(false);
     setTransactionStatus("Stopped");
   };
-
-  // --- UI HANDLERS ---
 
   const handleOpenModal = () => {
     setAmountInput("");
@@ -191,57 +193,131 @@ const DeviceProximityScreen: React.FC<Props> = ({ navigation }) => {
   const handleConfirmRequest = () => {
     if (!amountInput.trim()) return;
     setShowModal(false);
-    // Slight delay for modal animation
     setTimeout(() => {
       startServer(amountInput);
     }, 300);
+  };
+
+  const goToNearBy = () => {
+    navigation.navigate("NearbyUsers");
+  }
+
+  const renderHistoryItem = ({ item }: { item: OfflineTransactions }) => {
+    const isCredit = item.type === 'credit';
+    const dateObj = item.createdAt ? new Date(item.createdAt) : new Date();
+
+    return (
+      <View className="flex-row justify-between items-center bg-gray-50 p-4 rounded-xl mb-3 border border-gray-100 w-full">
+        <View className="flex-row items-center gap-3">
+          {/* Icon based on Type */}
+          <View className={`w-10 h-10 rounded-full items-center justify-center ${isCredit ? 'bg-green-100' : 'bg-red-100'}`}>
+            <AppText className={`text-xs font-bold ${isCredit ? 'text-green-600' : 'text-red-600'}`}>
+              {isCredit ? 'IN' : 'OUT'}
+            </AppText>
+          </View>
+
+          <View>
+            <AppText className="font-bold text-gray-800">
+              {item.name || "Unknown"}
+            </AppText>
+            <View className="flex-row items-center gap-1">
+              <AppText className="text-xs text-gray-500">
+                {dateObj.toLocaleDateString()} • {dateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+              </AppText>
+              {!item.synced && (
+                <AppText className="text-[10px] text-orange-500 bg-orange-100 px-1 rounded">
+                  Not Synced
+                </AppText>
+              )}
+            </View>
+          </View>
+        </View>
+
+        <View className="items-end">
+          <AppText className={`font-bold text-lg ${isCredit ? 'text-green-600' : 'text-gray-800'}`}>
+            {isCredit ? '+' : '-'}${item.amount?.toFixed(2)}
+          </AppText>
+          <AppText className="text-[10px] text-gray-400">
+            {item.status?.toUpperCase()}
+          </AppText>
+        </View>
+      </View>
+    );
   };
 
   return (
     <View className="justify-between items-center flex-1 bg-white">
       <HeaderSide heading="Receive Payment" isWithBack />
 
-      <View className="w-full px-6 mt-8 items-center justify-center flex-1">
-        {isBroadcasting
-          ? (
-            <View className="items-center justify-center bg-blue-50 p-6 rounded-full w-72 h-72 border-4 border-blue-100 shadow-sm">
-              <ActivityIndicator
-                size="large"
-                color="#3B82F6"
-                className="mb-4"
-              />
-              <AppText className="text-xl font-bold text-blue-600">
-                {transactionStatus}
+      {/* 
+        CONDITIONAL LAYOUT:
+        1. Broadcasting -> Center Spinner
+        2. History Exists -> Top Aligned List
+        3. Default -> Center Placeholder
+      */}
+      <View className={`w-full px-6 mt-8 flex-1 ${(!isBroadcasting && reversedTransactions?.length > 0) ? 'justify-start' : 'justify-center items-center'}`}>
+
+        {isBroadcasting && (
+          // --- STATE 1: BROADCASTING ---
+          <View className="items-center justify-center bg-blue-50 p-6 rounded-full w-72 h-72 border-4 border-blue-100 shadow-sm">
+            <ActivityIndicator size="large" color="#3B82F6" className="mb-4" />
+            <AppText className="text-xl font-bold text-blue-600">
+              {transactionStatus}
+            </AppText>
+            {expectedAmountRef.current && (
+              <AppText className="text-3xl font-bold text-gray-800 mt-2">
+                ${expectedAmountRef.current}
               </AppText>
-              {expectedAmountRef.current && (
-                <AppText className="text-3xl font-bold text-gray-800 mt-2">
-                  ${expectedAmountRef.current}
-                </AppText>
-              )}
-              <AppText className="text-xs text-center text-gray-500 mt-4 px-4">
-                Payer should scan for Service UUID
-              </AppText>
+            )}
+            <AppText className="text-xs text-center text-gray-500 mt-4 px-4">
+              Payer should scan for Service UUID
+            </AppText>
+          </View>
+
+        )}
+        {!isBroadcasting && reversedTransactions.length > 0 && (
+
+          // --- STATE 2: REDUX LIST ---
+          <View className="w-full flex-1">
+            <View className="flex-row justify-between items-end mb-4">
+              <AppText className="text-xl font-bold text-gray-800">Recent Transactions</AppText>
+              <View />
+              {/* <Pressable onPress={() => dispatch(resetOfflineTransactions())}>
+                <AppText className="text-sm text-red-500 font-medium">Clear All</AppText>
+              </Pressable> */}
             </View>
-          )
-          : (
-            <>
-              <Image
-                source={require("../../assets/user_phone_hand.png")}
-                className="w-[200] h-[200] resize-contain mb-6"
-              />
-              <AppText className="text-2xl font-medium text-gray-800">
-                Offline Payment
-              </AppText>
-              <AppText className="text-md font-thin text-center mt-2 px-8 text-gray-500">
-                Become a Merchant Terminal. Request a payment and wait for a
-                payer to connect via Bluetooth.
-              </AppText>
-            </>
-          )}
+
+            <FlatList
+              data={reversedTransactions}
+              keyExtractor={(item) => item.reference || Math.random().toString()}
+              renderItem={renderHistoryItem}
+              showsVerticalScrollIndicator={false}
+              contentContainerStyle={{ paddingBottom: 20 }}
+            />
+          </View>
+
+        )}
+        {!isBroadcasting && reversedTransactions.length === 0 && (
+
+          // --- STATE 3: PLACEHOLDER ---
+          <>
+            <Image
+              source={require("../../assets/user_phone_hand.png")}
+              className="w-[200] h-[200] resize-contain mb-6"
+            />
+            <AppText className="text-2xl font-medium text-gray-800">
+              Offline Payment
+            </AppText>
+            <AppText className="text-md font-thin text-center mt-2 px-8 text-gray-500">
+              Become a Merchant Terminal. Request a payment and wait for a
+              payer to connect via Bluetooth.
+            </AppText>
+          </>
+        )}
       </View>
 
       {/* --- Action Buttons --- */}
-      <View className="px-4 w-full flex-row justify-between mb-10 gap-4 mt-10">
+      <View className="px-4 w-full flex-row justify-between mb-10 gap-4 mt-4">
         {isBroadcasting && (
           <Pressable
             className="bg-red-500 flex-1 items-center justify-center px-6 py-4 rounded-xl shadow-sm"
@@ -252,13 +328,11 @@ const DeviceProximityScreen: React.FC<Props> = ({ navigation }) => {
             </AppText>
           </Pressable>
         )}
-        {!isBroadcasting && (
+        {!isBroadcasting && canNavigate && (
           <>
             <Pressable
               className="bg-gray-100 border border-gray-300 flex-1 items-center justify-center px-6 py-4 rounded-xl"
-              onPress={() => {
-                navigation.navigate("NearbyUsers");
-              }}
+              onPress={goToNearBy}
             >
               <AppText className="text-gray-700 font-bold">
                 I want to Pay
@@ -276,7 +350,7 @@ const DeviceProximityScreen: React.FC<Props> = ({ navigation }) => {
         )}
       </View>
 
-      {/* --- Input Modal --- */}
+      {/* --- Input Modal (Same as before) --- */}
       <Modal
         transparent
         visible={showModal}
