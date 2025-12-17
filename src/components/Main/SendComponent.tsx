@@ -19,7 +19,7 @@ import useAutoPaste from "../../hooks/useAutoPaste";
 
 interface Props
   extends
-    Pick<NativeStackScreenProps<FullNavStack, "Send">, "navigation" | "route"> {
+  Pick<NativeStackScreenProps<FullNavStack, "Send">, "navigation" | "route"> {
   token_id: string;
   wallet_balance: string;
 }
@@ -29,20 +29,20 @@ const SendComponent: React.FC<Props> = ({
   token_id,
   wallet_balance,
 }) => {
-  const [amountStr, setAmountStr] = useState<string>("");
-  const [feesSeparate, setFeesSeparate] = useState<boolean>(false);
-  const [inputAdd, setInputAdd] = useState("");
-  const [resultModal, setResultModal] = useState<{
+  const [ amountStr, setAmountStr ] = useState<string>("");
+  const [ feesSeparate, setFeesSeparate ] = useState<boolean>(false);
+  const [ inputAdd, setInputAdd ] = useState("");
+  const [ resultModal, setResultModal ] = useState<{
     status: "success" | "error" | null;
     message: string;
   }>({ status: null, message: "" });
 
   const { address, scanned } = useAppSelector((state) => state.scanWallet);
-  const [sendTransaction, { isLoading }] = useSendTransactionMutation();
+  const [ sendTransaction, { isLoading } ] = useSendTransactionMutation();
   const dispatch = useAppDispatch();
 
   const { clipboardContent, clearContent } = useAutoPaste({
-    checkOnMount: false,
+    checkOnMount: true,
   });
 
   const numericAmount = useMemo(() => parseFloat(amountStr || "0"), [
@@ -68,11 +68,11 @@ const SendComponent: React.FC<Props> = ({
       console.log("clipboardContent", clipboardContent);
       if (!inputAdd) {
         setInputAdd(clipboardContent);
+        clearContent();
       }
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [clipboardContent, clearContent]);
+  }, [ clipboardContent, clearContent, inputAdd ]);
 
   useEffect(() => {
     if (scanned && address) {
@@ -81,7 +81,7 @@ const SendComponent: React.FC<Props> = ({
       dispatch(clearScannedAddress());
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [address, scanned]);
+  }, [ address, scanned ]);
 
   const handleAmountChange = (text: string) => {
     if (/^\d*\.?\d*$/.test(text)) {
@@ -174,9 +174,8 @@ const SendComponent: React.FC<Props> = ({
           keyboardType="decimal-pad"
           placeholder="0.00"
           placeholderTextColor="#A0AEC0"
-          className={`text-4xl text-center font-medium font-montserrat flex-1 mx-2 ${
-            hasInsufficientFunds ? "text-red-700" : "text-blackAlpha-400"
-          }`}
+          className={`text-4xl text-center font-medium font-montserrat flex-1 mx-2 ${hasInsufficientFunds ? "text-red-700" : "text-blackAlpha-400"
+            }`}
         />
 
         <View className="flex-row items-center">
@@ -229,9 +228,8 @@ const SendComponent: React.FC<Props> = ({
         <View className="flex-1 bg-black/50 justify-center items-center px-8">
           <View className="bg-white w-full p-6 rounded-2xl items-center shadow-lg">
             <View
-              className={`h-12 w-12 rounded-full items-center justify-center mb-4 ${
-                resultModal.status === "success" ? "bg-green-100" : "bg-red-100"
-              }`}
+              className={`h-12 w-12 rounded-full items-center justify-center mb-4 ${resultModal.status === "success" ? "bg-green-100" : "bg-red-100"
+                }`}
             >
               {/* You can add an Icon here based on status */}
               <AppText className="text-xl">

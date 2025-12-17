@@ -1,11 +1,14 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { AppState, AppStateStatus } from 'react-native';
 import Clipboard from '@react-native-clipboard/clipboard';
+import AsyncStorage from '@react-native-async-storage/async-storage'; // Import this
 import { useAppDispatch } from '../store/redux';
 import {
   clearCopyContent,
   setCopyContent,
 } from '../store/reducers/copycontent-slice';
+
+const STORAGE_KEY = '@last_pasted_address';
 
 const isCryptoWalletAddress = (content: string): boolean => {
   const trimmed = content.trim();
@@ -18,13 +21,12 @@ export const useAutoPaste = (options: any = {}) => {
   const {
     enabled = true,
     validator = isCryptoWalletAddress,
-    checkOnMount = false,
+    checkOnMount = true,
   } = options;
 
   const [clipboardContent, setClipboardContent] = useState<string>('');
   const appState = useRef(AppState.currentState);
   const dispatch = useAppDispatch();
-  // const { globalContent } = useAppSelector(state => state.copyContent);
 
   const checkClipboard = useCallback(async () => {
     if (!enabled) return;
@@ -35,21 +37,21 @@ export const useAutoPaste = (options: any = {}) => {
 
       if (!trimmedContent) return;
 
-      // if (trimmedContent === globalContent) {
-      //   return;
-      // }
-
       const isValid = validator(trimmedContent);
+      if (!isValid) return;
 
-      if (isValid) {
-        dispatch(setCopyContent(trimmedContent));
-        setClipboardContent(trimmedContent);
+      const lastConsumed = await AsyncStorage.getItem(STORAGE_KEY);
+
+      if (lastConsumed === trimmedContent) {
+        return;
       }
+
+      dispatch(setCopyContent(trimmedContent));
+      setClipboardContent(trimmedContent);
     } catch (error) {
       console.log('Error reading clipboard:', error);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [enabled, validator]);
+  }, [enabled, validator, dispatch]);
 
   const handleAppStateChange = useCallback(
     (nextAppState: AppStateStatus) => {
@@ -79,13 +81,21 @@ export const useAutoPaste = (options: any = {}) => {
     };
   }, [checkClipboard, checkOnMount, handleAppStateChange]);
 
-  const clearContent = useCallback(() => {
-    setClipboardContent('');
-    dispatch(clearCopyContent());
+  const clearContent = useCallback(async () => {
+    try {
+      const content = await Clipboard.getString();
+      const trimmed = content.trim();
 
-    // Clipboard.setString('');
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+      if (trimmed) {
+        await AsyncStorage.setItem(STORAGE_KEY, trimmed);
+      }
+
+      setClipboardContent('');
+      dispatch(clearCopyContent());
+    } catch (error) {
+      console.log('Error clearing content:', error);
+    }
+  }, [dispatch]);
 
   return {
     clipboardContent,
