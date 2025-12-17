@@ -1,20 +1,29 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { AppState, AppStateStatus } from 'react-native';
 import Clipboard from '@react-native-clipboard/clipboard';
-import AsyncStorage from '@react-native-async-storage/async-storage'; // Import this
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useAppDispatch } from '../store/redux';
 import {
   clearCopyContent,
   setCopyContent,
 } from '../store/reducers/copycontent-slice';
 
-const STORAGE_KEY = '@last_pasted_address';
+const STORAGE_KEY = '@last_auto_pasted_content';
 
 const isCryptoWalletAddress = (content: string): boolean => {
+  console.log('checking content', content);
+  if (!content) return false;
   const trimmed = content.trim();
   const evmRegex = /^0x[a-fA-F0-9]{40}$/;
   const solanaRegex = /^[1-9A-HJ-NP-Za-km-z]{32,44}$/;
-  return evmRegex.test(trimmed) || solanaRegex.test(trimmed);
+
+  const checking = evmRegex.test(trimmed) || solanaRegex.test(trimmed);
+
+  if (checking) {
+    console.log('it is valid', content);
+  }
+
+  return checking;
 };
 
 export const useAutoPaste = (options: any = {}) => {
@@ -33,15 +42,16 @@ export const useAutoPaste = (options: any = {}) => {
 
     try {
       const content = await Clipboard.getString();
-      const trimmedContent = content.trim();
+      const trimmedContent = content ? content.trim() : '';
 
       if (!trimmedContent) return;
 
       const isValid = validator(trimmedContent);
-      if (!isValid) return;
+      if (!isValid) {
+        return;
+      }
 
       const lastConsumed = await AsyncStorage.getItem(STORAGE_KEY);
-
       if (lastConsumed === trimmedContent) {
         return;
       }
@@ -84,7 +94,7 @@ export const useAutoPaste = (options: any = {}) => {
   const clearContent = useCallback(async () => {
     try {
       const content = await Clipboard.getString();
-      const trimmed = content.trim();
+      const trimmed = content ? content.trim() : '';
 
       if (trimmed) {
         await AsyncStorage.setItem(STORAGE_KEY, trimmed);
@@ -92,8 +102,8 @@ export const useAutoPaste = (options: any = {}) => {
 
       setClipboardContent('');
       dispatch(clearCopyContent());
-    } catch (error) {
-      console.log('Error clearing content:', error);
+    } catch (e) {
+      console.log('Error clearing content', e);
     }
   }, [dispatch]);
 
