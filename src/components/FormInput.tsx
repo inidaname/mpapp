@@ -38,7 +38,7 @@ const FormInput: React.FC<FormInputProps> = ({
   keyboardType,
   rules = {},
 }) => {
-  const [hide, setHide] = useState(isPassword);
+  const [ hide, setHide ] = useState(isPassword);
 
   return (
     <View className="mb-4 w-full mt-4">
@@ -56,9 +56,8 @@ const FormInput: React.FC<FormInputProps> = ({
         }) => (
           <>
             <View
-              className={`flex-row items-center border rounded-3xl px-4 ${
-                error ? "border-red-500" : "border-gray-300"
-              }`}
+              className={`flex-row items-center border rounded-3xl px-4 ${error ? "border-red-500" : "border-gray-300"
+                }`}
             >
               {leftIcon && <View className="mr-2">{leftIcon}</View>}
 

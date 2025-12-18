@@ -7,6 +7,7 @@ import AppText from "../typo/AppText";
 import { TOKEN_ICONS } from "../../../assets/Web3Icons";
 import { CurrencyDetailNavigationProp } from "../../types/types";
 import { useGetActiveNetworksQuery } from "../../service/endpoints/transactions-endpoints";
+import { Mainnets } from '../../data/destinations';
 
 // const CoinList = [
 //   { id: "arb", title: "arbitrum" },
@@ -30,19 +31,20 @@ function stripAfterUnderscore(str: string) {
 const ActiveNetworkList: React.FC = () => {
   const navigation = useNavigation<CurrencyDetailNavigationProp>();
   const { data } = useGetActiveNetworksQuery();
-
+  const goToCurrency = (item: Mainnets) => {
+    navigation.navigate("CurrencyDetail", { currency: item })
+  }
   return (
     <FlatList
       data={data?.data.activeNetworks ?? []}
       className="w-full mb-1"
       renderItem={({ item }) => {
         const displayName = stripAfterUnderscore(item);
-        const Icon = TOKEN_ICONS[displayName.toLowerCase()];
+        const Icon = TOKEN_ICONS[ displayName.toLowerCase() ];
         console.log("Icons", Icon);
         return (
           <TouchableOpacity
-            onPress={() =>
-              navigation.navigate("CurrencyDetail", { currency: item })}
+            onPress={() => goToCurrency(item)}
             className="bg-gray-200 w-full rounded-xl items-center pl-3 flex-row py-5 my-3 h-20"
           >
             {Icon && <Icon width={40} height={40} />}

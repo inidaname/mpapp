@@ -15,11 +15,11 @@ import AppText from "../components/typo/AppText";
 import { useAppDispatch } from "../store/redux";
 import { setUserTemp } from "../store/reducers/temporary-slice";
 
-interface Props extends NativeStackScreenProps<FullNavStack, "Signup"> {}
+interface Props extends NativeStackScreenProps<FullNavStack, "Signup"> { }
 
 const SignupScreen: React.FC<Props> = ({ navigation }) => {
-  const [register, { isLoading }] = useRegisterMutation();
-  const [error, setError] = useState<string | null>(null);
+  const [ register, { isLoading } ] = useRegisterMutation();
+  const [ error, setError ] = useState<string | null>(null);
   const dispatch = useAppDispatch();
 
   const { control, handleSubmit, watch, formState: { isValid } } = useForm<

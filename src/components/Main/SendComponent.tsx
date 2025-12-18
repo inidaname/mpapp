@@ -84,6 +84,7 @@ const SendComponent: React.FC<Props> = ({
   }, [ address, scanned ]);
 
   const handleAmountChange = (text: string) => {
+    if (text.split(".").length > 2) return;
     if (/^\d*\.?\d*$/.test(text)) {
       setAmountStr(text);
     }
@@ -145,7 +146,7 @@ const SendComponent: React.FC<Props> = ({
         <View className="flex-1 mx-2">
           <TextInput
             numberOfLines={1}
-            className="truncate w-full text-md text-black h-10" // Added height/color
+            className="truncate w-full text-md text-black h-10"
             onChangeText={setInputAdd}
             value={inputAdd}
             placeholder="Wallet address"

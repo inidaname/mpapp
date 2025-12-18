@@ -1,9 +1,11 @@
 // components/PhoneNumberInput.tsx
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TextInput, TouchableOpacity, View } from "react-native";
-import CountryPicker, { Country } from "react-native-country-picker-modal";
+import CountryPicker, { Country, getCallingCode } from "react-native-country-picker-modal";
 import { Control, Controller } from "react-hook-form";
 import { MaterialIcons } from "@react-native-vector-icons/material-icons";
+import { getCountry, } from 'react-native-localize';
+
 
 import AppText from "./typo/AppText";
 
@@ -11,7 +13,7 @@ interface PhoneInputProps {
   name: string;
   control: Control<any>;
   label?: string;
-  defaultCountry?: Country["cca2"]; // Example 'NG'
+  defaultCountry?: Country[ "cca2" ]; // Example 'NG'
   rules?: object;
 }
 
@@ -19,19 +21,28 @@ const PhoneNumberInput: React.FC<PhoneInputProps> = ({
   name,
   control,
   label,
-  defaultCountry = "NG",
   rules = {},
 }) => {
-  const [countryCode, setCountryCode] = useState<Country["callingCode"]>([
-    "234",
-  ]);
-  const [countryCca2, setCountryCca2] = useState<Country["cca2"]>(
-    defaultCountry,
+  const country = getCountry()
+
+  const [ countryCode, setCountryCode ] = useState<Country[ "callingCode" ]>();
+  const [ countryCca2, setCountryCca2 ] = useState<Country[ "cca2" ]>(
+    country as Country[ "cca2" ],
   );
-  const [visible, setVisible] = useState(false);
+  const [ visible, setVisible ] = useState(false);
+
+  useEffect(() => {
+    const codes = async () => {
+
+      const callingCode = await getCallingCode(country as Country[ "cca2" ])
+      setCountryCode([ callingCode ])
+      console.log('callingCode', callingCode)
+    }
+    codes()
+  }, [ country ])
 
   const onSelect = (country: Country) => {
-    setCountryCode(country.callingCode || [""]);
+    setCountryCode(country.callingCode || [ "" ]);
     setCountryCca2(country.cca2);
   };
 
@@ -56,9 +67,8 @@ const PhoneNumberInput: React.FC<PhoneInputProps> = ({
           return (
             <>
               <View
-                className={`flex-row items-center border rounded-2xl px-3 py-3 ${
-                  error ? "border-red-500" : "border-gray-300"
-                }`}
+                className={`flex-row items-center border rounded-2xl px-3 py-3 ${error ? "border-red-500" : "border-gray-300"
+                  }`}
               >
                 <MaterialIcons
                   name="call"

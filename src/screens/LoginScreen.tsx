@@ -18,10 +18,10 @@ import { setToken } from "../store/reducers/auth-slice";
 import { saveToken } from "../helpers/token-helper";
 // import { Button } from '@react-navigation/elements';
 
-interface Props extends NativeStackScreenProps<FullNavStack> {}
+interface Props extends NativeStackScreenProps<FullNavStack> { }
 
 const LoginScreen: React.FC<Props> = ({ navigation }) => {
-  const [error, setError] = useState<string | null>(null);
+  const [ error, setError ] = useState<string | null>(null);
   const dispatch = useAppDispatch();
 
   const { control, handleSubmit, formState: { isValid } } = useForm<LoginInput>(
@@ -30,7 +30,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
     },
   );
 
-  const [login, { isLoading }] = useLoginMutation();
+  const [ login, { isLoading } ] = useLoginMutation();
 
   const handlePress: SubmitHandler<LoginInput> = async (values) => {
     try {

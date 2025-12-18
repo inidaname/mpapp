@@ -9,13 +9,13 @@ import { FullNavStack } from "../../types/types";
 const CreateWallet: React.FC<
   Pick<NativeStackScreenProps<FullNavStack>, "navigation">
 > = ({ navigation }) => {
-  const [createWallet, { isLoading }] = useCreateWalletMutation();
+  const [ createWallet, { isLoading } ] = useCreateWalletMutation();
 
   const handleCreadtWallet = async () => {
     try {
       const wallet = await createWallet({
         accountType: "EOA",
-        blockchains: ["SOL"],
+        blockchains: [ "SOL-DEVNET" ],
       }).unwrap();
       navigation.navigate("Home", { screen: "Send" });
       console.log("wallet", wallet);

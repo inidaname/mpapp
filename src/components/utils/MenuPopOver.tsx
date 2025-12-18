@@ -29,6 +29,11 @@ export default function PopupMenu() {
     dispatch(menuState());
   };
 
+  const handleToggle = (page: string) => {
+    toggleMenu();
+    navigate.navigate(page);
+  }
+
   return (
     <View className="z-10 ">
       {/* Trigger Button */}
@@ -48,10 +53,7 @@ export default function PopupMenu() {
         >
           <Pressable
             className="px-4 py-4 my-2 border-b border-gray-100 flex-row justify-between items-center"
-            onPress={() => {
-              toggleMenu();
-              navigate.navigate("SendToBankScreen");
-            }}
+            onPress={() => handleToggle("SendToBankScreen")}
           >
             <AppText className="text-gray-800">Transfer To Bank</AppText>
             <View
@@ -65,10 +67,7 @@ export default function PopupMenu() {
 
           <Pressable
             className="px-4 py-4 my-2 border-y border-gray-100 flex-row justify-between items-center"
-            onPress={() => {
-              toggleMenu();
-              navigate.navigate("WalletScreen");
-            }}
+            onPress={() => handleToggle("WalletScreen")}
           >
             <AppText className="text-gray-800">Wallet Details</AppText>
             <View className="rounded-full justify-center items-center">
@@ -82,8 +81,7 @@ export default function PopupMenu() {
           <Pressable
             className="px-4 py-4 my-2 border-t border-gray-100 flex-row justify-between items-center"
             onPress={() => {
-              toggleMenu();
-              navigate.navigate("RecentActivitiesScreen");
+              handleToggle("RecentActivitiesScreen");
             }}
           >
             <AppText className="text-gray-800">Notifications</AppText>
@@ -98,8 +96,7 @@ export default function PopupMenu() {
           <Pressable
             className="px-4 py-4 my-2 border-t border-gray-100 flex-row justify-between items-center"
             onPress={() => {
-              toggleMenu();
-              navigate.navigate("OfflinePaymentScreen");
+              handleToggle("OfflinePaymentScreen");
             }}
           >
             <AppText className="text-gray-800">Make Offline Payment</AppText>

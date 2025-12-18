@@ -40,6 +40,7 @@ import { useNotification } from "../hooks/useNotificationHook";
 import { useLazyGetTransactionQuery } from "../service/endpoints/transactions-endpoints";
 import { useLazyGetWalletByIdQuery } from "../service/endpoints/wallets-endpoints";
 import { useGetUserProfileQuery } from "../service/endpoints/user-endpoints";
+import OfflineBanner from '../components/utils/OfflineBanner';
 // import { notificationListener } from "../helpers/notification-helps";
 
 export type RootNavigatorParams = {
@@ -103,13 +104,14 @@ const MainStack: React.FC = () => {
 
 const AppStack: React.FC = () => {
   const { token } = useAppSelector((state) => state.auth);
-  const [addDevice] = useAddDeviceNotyMutation();
-  const [getTransactions] = useLazyGetTransactionQuery();
-  const [getWallet] = useLazyGetWalletByIdQuery();
+  const [ addDevice ] = useAddDeviceNotyMutation();
+  const [ getTransactions ] = useLazyGetTransactionQuery();
+  const [ getWallet ] = useLazyGetWalletByIdQuery();
   const { data } = useGetUserProfileQuery();
   const { active_wallet } = useAppSelector((state) => state.wallet);
   const { getDeviceToken, requestPermission } = useNotification(() => {
     getTransactions({ page: 1 });
+    console.log('triggered', active_wallet)
     if (active_wallet && active_wallet.id) {
       getWallet(active_wallet.id);
     }
@@ -143,11 +145,11 @@ const AppStack: React.FC = () => {
       });
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [active_wallet?.user_id, data?.data.SNS]);
+  }, [ active_wallet?.user_id, data?.data.SNS ]);
 
   useEffect(() => {
     initializeNotifications();
-  }, [initializeNotifications]);
+  }, [ initializeNotifications ]);
 
   // if (loading) {
   //   return (
@@ -159,11 +161,15 @@ const AppStack: React.FC = () => {
   // }
 
   return (
-    <RootStack.Navigator screenOptions={{ headerShown: false }}>
-      {token
-        ? <RootStack.Screen name="MainStack" component={MainStack} />
-        : <RootStack.Screen name="AuthStack" component={AuthStack} />}
-    </RootStack.Navigator>
+    <>
+      <OfflineBanner />
+
+      <RootStack.Navigator screenOptions={{ headerShown: false }}>
+        {token
+          ? <RootStack.Screen name="MainStack" component={MainStack} />
+          : <RootStack.Screen name="AuthStack" component={AuthStack} />}
+      </RootStack.Navigator>
+    </>
   );
 };
 

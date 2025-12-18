@@ -13,7 +13,7 @@ interface Props {
 }
 
 const StartKYC: React.FC<Props> = ({ text }) => {
-  const [startKYC, { isLoading }] = useStartKYCMutation();
+  const [ startKYC, { isLoading } ] = useStartKYCMutation();
   const { data, isLoading: gettingKYC } = useGetKYCQuery();
   const navigation = useNavigation<KYCScreenNavigationProp>();
 
@@ -35,8 +35,6 @@ const StartKYC: React.FC<Props> = ({ text }) => {
       console.log("error", error);
     }
   };
-
-  console.log("data.data", data?.data);
 
   if (data?.data.metadata.kyc.kyc_status === "approved") {
     return <AppText className="text-green-800 font-bold">KYC Verified</AppText>;
@@ -60,9 +58,8 @@ const StartKYC: React.FC<Props> = ({ text }) => {
       >
         <AppText
           weight="bold"
-          className={`${
-            isLoading || gettingKYC ? "text-gray-400" : "text-red-700"
-          } text-sm`}
+          className={`${isLoading || gettingKYC ? "text-gray-400" : "text-red-700"
+            } text-sm`}
         >
           {text ? text : "Complete KYC Verification"}
         </AppText>

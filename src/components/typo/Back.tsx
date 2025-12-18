@@ -6,11 +6,20 @@ import { MaterialIcons } from "@react-native-vector-icons/material-icons";
 import { useNavigation } from "@react-navigation/native";
 
 const Back: React.FC = () => {
-  const { goBack } = useNavigation();
+  const navigation = useNavigation();
+
+
+  const handleBack = () => {
+    if (navigation && navigation.canGoBack()) {
+      navigation.goBack();
+    }
+  };
+
+
   return (
     <TouchableOpacity
       className="absolute left-0 ml-2 py-2 px-3"
-      onPress={() => goBack()}
+      onPress={handleBack}
     >
       <MaterialIcons
         name="chevron-left"

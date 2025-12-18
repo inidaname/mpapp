@@ -16,6 +16,8 @@ interface Props {
 const BankingDetails: React.FC<Props> = ({ text }) => {
   const navigate = useNavigation<NativeStackNavigationProp<FullNavStack>>();
 
+  const goToAccounts = () => { navigate.navigate("AddBankScreen") }
+
   return (
     <>
       <View className="w-full flex-row justify-between items-center p-6">
@@ -23,7 +25,7 @@ const BankingDetails: React.FC<Props> = ({ text }) => {
           {text}
         </AppText>
         <TouchableOpacity
-          onPress={() => navigate.navigate("AddBankScreen")}
+          onPress={goToAccounts}
           className="flex-row items-center p-2 justify-start"
         >
           <View className="bg-brand-700 rounded-full p-1">

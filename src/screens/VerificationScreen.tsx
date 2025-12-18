@@ -26,7 +26,7 @@ import {
   useVerifyOTPMutation,
 } from "../service/endpoints/auth-endpoints";
 import ButtonComponent from "../components/Button";
-import { useGetCountriesQuery } from "../service/endpoints/util-endpoitns";
+import { useLazyGetCountriesQuery } from "../service/endpoints/util-endpoitns";
 import {
   useLazyGetUserProfileQuery,
   useUpdateUserMutation,
@@ -39,12 +39,13 @@ import {
 } from "../store/reducers/temporary-slice";
 import { setToken } from "../store/reducers/auth-slice";
 import { useCreateWalletMutation } from "../service/endpoints/wallets-endpoints";
+import { getCountry } from 'react-native-localize';
 
 interface Props
-  extends NativeStackScreenProps<FullNavStack, "VerificationScreen"> {}
+  extends NativeStackScreenProps<FullNavStack, "VerificationScreen"> { }
 interface ChildProps extends Pick<Props, "navigation"> {
   onContinue: () => void;
-  onSelectCountry: (item: CountriesAPI) => void;
+  onSelectCountry?: (item: CountriesAPI) => void;
 }
 
 interface EmailScreenProp extends Pick<ChildProps, "onContinue"> {
@@ -59,12 +60,12 @@ const EmailVerification: React.FC<EmailScreenProp> = ({
   email,
   login,
 }) => {
-  const [otp, setOTP] = useState("");
-  const [countdown, setCountdown] = useState(60);
-  const [canResend, setCanResend] = useState(login);
-  const [verifyOTP, { isLoading }] = useVerifyOTPMutation();
-  const [createWallet] = useCreateWalletMutation();
-  const [resend] = useResendOTPMutation();
+  const [ otp, setOTP ] = useState("");
+  const [ countdown, setCountdown ] = useState(60);
+  const [ canResend, setCanResend ] = useState(login);
+  const [ verifyOTP, { isLoading } ] = useVerifyOTPMutation();
+  const [ createWallet ] = useCreateWalletMutation();
+  const [ resend ] = useResendOTPMutation();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -85,7 +86,7 @@ const EmailVerification: React.FC<EmailScreenProp> = ({
     return () => {
       if (timer) clearInterval(timer);
     };
-  }, [countdown]);
+  }, [ countdown ]);
 
   const handleResend = async () => {
     try {
@@ -117,7 +118,7 @@ const EmailVerification: React.FC<EmailScreenProp> = ({
         }
         await createWallet({
           accountType: "EOA",
-          blockchains: ["SOL"],
+          blockchains: [ "SOL-DEVNET" ],
         }).unwrap();
       }
     } catch (err) {
@@ -176,9 +177,8 @@ const EmailVerification: React.FC<EmailScreenProp> = ({
               onPress={handleResend}
             >
               <AppText
-                className={`${
-                  canResend ? "text-brand-700" : "text-gray-400"
-                }  underline text-xl`}
+                className={`${canResend ? "text-brand-700" : "text-gray-400"
+                  }  underline text-xl`}
               >
                 Resend OTP
               </AppText>
@@ -199,16 +199,16 @@ const EmailVerification: React.FC<EmailScreenProp> = ({
 const PhoneVerification: React.FC<Pick<ChildProps, "onContinue">> = ({
   onContinue,
 }) => {
-  const [otp, setOTP] = useState("");
+  const [ otp, setOTP ] = useState("");
   const { control, handleSubmit, watch, formState: { isValid } } = useForm<
     Partial<UserUpdate>
   >();
-  const [update, { isLoading }] = useRequestPhoneMutation();
-  const [changePhone, { isLoading: changingPhone }] = useChangePhoneMutation();
-  const [countdown, setCountdown] = useState(60);
-  const [canResend, setCanResend] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [ update, { isLoading } ] = useRequestPhoneMutation();
+  const [ changePhone, { isLoading: changingPhone } ] = useChangePhoneMutation();
+  const [ countdown, setCountdown ] = useState(60);
+  const [ canResend, setCanResend ] = useState(false);
+  const [ submitted, setSubmitted ] = useState(false);
+  const [ phoneNumber, setPhoneNumber ] = useState("");
   // const [stillValid, setStillValid] = useState(false);
 
   const phoneValue = watch("phone_number");
@@ -217,7 +217,7 @@ const PhoneVerification: React.FC<Pick<ChildProps, "onContinue">> = ({
     if (phoneNumber && phoneValue !== phoneNumber) {
       setSubmitted(false);
     }
-  }, [phoneNumber, phoneValue]);
+  }, [ phoneNumber, phoneValue ]);
 
   useEffect(() => {
     let timer: number;
@@ -237,7 +237,7 @@ const PhoneVerification: React.FC<Pick<ChildProps, "onContinue">> = ({
     return () => {
       if (timer) clearInterval(timer);
     };
-  }, [countdown]);
+  }, [ countdown ]);
 
   const handlAddPhone: SubmitHandler<Partial<UserUpdate>> = async (values) => {
     if (!values.phone_number) return;
@@ -259,7 +259,7 @@ const PhoneVerification: React.FC<Pick<ChildProps, "onContinue">> = ({
   };
 
   const handleSubmitOTP = async () => {
-    await changePhone({ otp, phoneNumber: "" });
+    await changePhone({ otp, phoneNumber });
     onContinue();
   };
 
@@ -304,11 +304,10 @@ const PhoneVerification: React.FC<Pick<ChildProps, "onContinue">> = ({
                     onPress={handleSubmit(handlAddPhone)}
                   >
                     <AppText
-                      className={`${
-                        (canResend && isValid) || !isLoading
-                          ? "text-brand-700"
-                          : "text-gray-400"
-                      }  underline`}
+                      className={`${(canResend && isValid) || !isLoading
+                        ? "text-brand-700"
+                        : "text-gray-400"
+                        }  underline`}
                     >
                       Resend Code
                     </AppText>
@@ -321,9 +320,8 @@ const PhoneVerification: React.FC<Pick<ChildProps, "onContinue">> = ({
                   onPress={handleSubmit(handlAddPhone)}
                 >
                   <AppText
-                    className={`${
-                      !isValid ? "text-gray-400" : "text-brand-700"
-                    } underline my-2`}
+                    className={`${!isValid ? "text-gray-400" : "text-brand-700"
+                      } underline my-2`}
                   >
                     Send Code
                   </AppText>
@@ -357,37 +355,41 @@ const PhoneVerification: React.FC<Pick<ChildProps, "onContinue">> = ({
   );
 };
 
-const CountrySelect: React.FC<Omit<ChildProps, "onContinue">> = ({
-  onSelectCountry,
-}) => {
-  const [selected, setSelected] = useState<CountriesAPI | null>(null);
-  const [update, { isLoading: updating }] = useUpdateUserMutation();
+const CountrySelect: React.FC<Omit<ChildProps, "onContinue">> = () => {
+  const countryName = getCountry()
+  const [ selected, setSelected ] = useState<Pick<CountriesAPI, "code" | "name"> | null>(null);
+  const [ update, { isLoading: updating } ] = useUpdateUserMutation();
   const { token, user_id } = useAppSelector((state) => state.tempSlice);
-  const [getProfil] = useLazyGetUserProfileQuery();
+  const [ getProfil ] = useLazyGetUserProfileQuery();
 
   const dispatch = useAppDispatch();
 
-  const { data: countries, isLoading } = useGetCountriesQuery();
+  const [ getCountries, { data: countries, isLoading } ] = useLazyGetCountriesQuery();
 
-  const handleContinue = () => {
-    if (selected) {
-      onSelectCountry(selected);
+
+  useEffect(() => {
+    const fetchCountries = async () => {
+      await getCountries().unwrap()
     }
-  };
+    fetchCountries()
+
+    setSelected({ code: countryName, name: countryName })
+    return () => getCountries().unsubscribe()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ countryName ])
+
 
   const handleSubmit = async () => {
     try {
       console.log(selected);
       const user = await getProfil().unwrap();
-      const country = await update({
+      await update({
         country: selected?.name,
         username: user?.data.username,
       }).unwrap();
-      console.log("country", country);
-      // TODO
+
       dispatch(setToken({ token, user_id }));
       dispatch(clearTempToken());
-      handleContinue();
     } catch (error) {
       console.log("error", error);
     }
@@ -426,11 +428,10 @@ const CountrySelect: React.FC<Omit<ChildProps, "onContinue">> = ({
                 </AppText>
               </View>
               <View
-                className={`w-8 h-8 items-center justify-center rounded-full ${
-                  selected?.code === country.code
-                    ? "border border-brand-500"
-                    : "border border-gray-400"
-                }`}
+                className={`w-8 h-8 items-center justify-center rounded-full ${selected?.code === country.code
+                  ? "border border-brand-500"
+                  : "border border-gray-400"
+                  }`}
               >
                 {selected?.code === country.code && (
                   <View
@@ -466,8 +467,7 @@ const CountrySelect: React.FC<Omit<ChildProps, "onContinue">> = ({
 };
 
 const VerificationScreen: React.FC<Props> = ({ navigation, route }) => {
-  const [step, setStep] = useState(0);
-  const [_, onSelectCountry] = useState<CountriesAPI | null>(null);
+  const [ step, setStep ] = useState(0);
   const translateX = useRef(new Animated.Value(0)).current;
 
   const goNext = () => {
@@ -488,12 +488,11 @@ const VerificationScreen: React.FC<Props> = ({ navigation, route }) => {
         <View className="w-full flex flex-row justify-between items-center mt-20">
           <Back />
           <View className="flex flex-row justify-center items-center mx-auto">
-            {[0, 1, 2].map((i) => (
+            {[ 0, 1, 2 ].map((i) => (
               <View
                 key={i}
-                className={`h-2 w-20 mx-1 rounded-full ${
-                  step >= i ? "bg-brand-400" : "bg-gray-300"
-                }`}
+                className={`h-2 w-20 mx-1 rounded-full ${step >= i ? "bg-brand-400" : "bg-gray-300"
+                  }`}
               />
             ))}
           </View>
@@ -503,7 +502,7 @@ const VerificationScreen: React.FC<Props> = ({ navigation, route }) => {
             flexDirection: "row",
             width: width * 3,
             flex: 1,
-            transform: [{ translateX }],
+            transform: [ { translateX } ],
           }}
         >
           <View style={{ width }}>
@@ -518,7 +517,6 @@ const VerificationScreen: React.FC<Props> = ({ navigation, route }) => {
           </View>
           <View style={{ width }}>
             <CountrySelect
-              onSelectCountry={onSelectCountry}
               navigation={navigation}
             />
           </View>
