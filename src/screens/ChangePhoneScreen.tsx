@@ -16,18 +16,19 @@ import {
   useRequestPhoneMutation,
 } from "../service/endpoints/auth-endpoints";
 import { useEffect, useState } from "react";
+import Checkbox from "@react-native-community/checkbox"
 
-interface Props extends NativeStackScreenProps<FullNavStack> {}
+interface Props extends NativeStackScreenProps<FullNavStack> { }
 
 const ChangePhoneScreen: React.FC<Props> = ({ navigation }) => {
   const { control, handleSubmit, watch, formState: { isValid } } = useForm<
     PhoneOTPInput
   >();
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [otp, setOTP] = useState("");
-  const [stillValid, setStillValid] = useState(false);
-  const [requestPhone, { isLoading }] = useRequestPhoneMutation();
-  const [changePhone, { isLoading: changingPhone }] = useChangePhoneMutation();
+  const [ phoneNumber, setPhoneNumber ] = useState("");
+  const [ otp, setOTP ] = useState("");
+  const [ stillValid, setStillValid ] = useState(false);
+  const [ requestPhone, { isLoading } ] = useRequestPhoneMutation();
+  const [ changePhone, { isLoading: changingPhone } ] = useChangePhoneMutation();
 
   const handleChange: SubmitHandler<PhoneOTPInput> = async (values) => {
     try {
@@ -55,7 +56,7 @@ const ChangePhoneScreen: React.FC<Props> = ({ navigation }) => {
     if (phoneNumber && phoneValue !== phoneNumber) {
       setStillValid(false);
     }
-  }, [phoneNumber, phoneValue]);
+  }, [ phoneNumber, phoneValue ]);
 
   return (
     <KeyboardAwareScrollView
@@ -81,15 +82,18 @@ const ChangePhoneScreen: React.FC<Props> = ({ navigation }) => {
               label="Phone Number"
               rules={{ required: "Phone number required" }}
             />
+            <View className='flex-row px-6 gap-x-4 mb-8 mt-4'>
+              <Checkbox />
+              <AppText>I consent to receive SMS notifications from Insfers Inc.</AppText>
+            </View>
             <TouchableOpacity
               className="self-end mb-8"
               onPress={handleSubmit(handleChange)}
               disabled={isLoading || !isValid}
             >
               <AppText
-                className={`underline text-lg ${
-                  isLoading || !isValid ? "text-gray-400" : "text-brand-700"
-                }`}
+                className={`underline text-lg ${isLoading || !isValid ? "text-gray-400" : "text-brand-700"
+                  }`}
               >
                 Send Code
               </AppText>

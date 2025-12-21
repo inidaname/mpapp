@@ -13,21 +13,23 @@ import BankingDetails from "../components/Main/BankingDetails";
 import { useGetUserProfileQuery } from "../service/endpoints/user-endpoints";
 import { useGetCountriesQuery } from "../service/endpoints/util-endpoitns";
 import StartKYC from "../components/screens/StartKYC";
+import FastImage from 'react-native-fast-image';
+
 import ActionRequired from "../components/Main/ActionRequired";
 
-interface Props extends NativeStackScreenProps<RootStackParamList> {}
+interface Props extends NativeStackScreenProps<RootStackParamList> { }
 
 const ProfileScreen: React.FC<Props> = ({ navigation }) => {
-  const [country, setCountry] = useState<CountriesAPI>();
+  const [ country, setCountry ] = useState<CountriesAPI>();
   const { data } = useGetUserProfileQuery();
-  console.log("profile", data);
+
   const { data: countries } = useGetCountriesQuery();
   useEffect(() => {
     console.log("countries", countries);
     if (countries) {
       setCountry(countries.find((place) => place.name === data?.data.country));
     }
-  }, [countries, data?.data.country]);
+  }, [ countries, data?.data.country ]);
   return (
     <ScrollView
       contentContainerStyle={{ flexGrow: 1 }}
@@ -50,9 +52,14 @@ const ProfileScreen: React.FC<Props> = ({ navigation }) => {
       </View>
       <View className="w-full justify-center items-center mt-6">
         <View className="relative">
-          <Image
-            source={{ uri: data?.data.profile_image }}
-            className="w-44 h-44 rounded-full"
+          <FastImage
+            style={{ width: 144, height: 144, borderRadius: 72 }}
+            source={{
+              uri: data?.data.profile_image,
+              priority: FastImage.priority.normal,
+              cache: FastImage.cacheControl.immutable,
+            }}
+            resizeMode={FastImage.resizeMode.cover}
           />
           <View className="absolute bottom-2 right-4">
             <SecuredCheck

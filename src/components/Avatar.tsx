@@ -1,5 +1,6 @@
-import { Image, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import React from "react";
+import FastImage from 'react-native-fast-image';
 
 interface AvatarProps {
   uri?: string;
@@ -8,10 +9,14 @@ interface AvatarProps {
 }
 
 const Avatar: React.FC<AvatarProps> = ({ uri, name = "", size = 48 }) => {
+  FastImage.preload([
+    { uri },
+  ]);
+
   const initials = name
     ? name
       .split(" ")
-      .map((n) => n[0])
+      .map((n) => n[ 0 ])
       .join("")
       .toUpperCase()
     : "?";
@@ -23,10 +28,15 @@ const Avatar: React.FC<AvatarProps> = ({ uri, name = "", size = 48 }) => {
     >
       {uri
         ? (
-          <Image
-            source={{ uri }}
-            className="rounded-full"
-            style={{ width: size, height: size }}
+          <FastImage
+            // eslint-disable-next-line react-native/no-inline-styles
+            style={{ width: size, height: size, borderRadius: 72 }}
+            source={{
+              uri: uri,
+              priority: FastImage.priority.normal,
+              cache: FastImage.cacheControl.immutable,
+            }}
+            resizeMode={FastImage.resizeMode.cover}
           />
         )
         : (

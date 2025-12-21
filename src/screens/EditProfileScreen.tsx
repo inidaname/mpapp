@@ -2,7 +2,7 @@
 import type React from "react";
 import { useEffect, useState } from "react";
 
-import { Image, TouchableOpacity, View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import MaterialIcons from "@react-native-vector-icons/material-icons";
@@ -18,36 +18,84 @@ import {
   useGetUserProfileQuery,
   useUpdateUserMutation,
 } from "../service/endpoints/user-endpoints";
+import FastImage from 'react-native-fast-image';
+import ImageResizer from '@bam.tech/react-native-image-resizer';
 
-interface Props extends NativeStackScreenProps<FullNavStack> {}
+
+interface Props extends NativeStackScreenProps<FullNavStack> { }
 
 const EditProfileScreen: React.FC<Props> = () => {
-  const [photo, setPhoto] = useState<UserUpdate["file"] | null>(null);
-  const [handleUpdate, { isLoading }] = useUpdateUserMutation();
+  const [ photo, setPhoto ] = useState<UserUpdate[ "file" ] | null>(null);
+  const [ assign, setAssign ] = useState("")
+  const [ handleUpdate, { isLoading } ] = useUpdateUserMutation();
 
   const { control, handleSubmit, setValue } = useForm<Partial<UserUpdate>>();
   const { data } = useGetUserProfileQuery();
 
   useEffect(() => {
+    // 1. Log to see if the effect even runs
+    console.log('Effect triggered. Photo URI:', photo?.uri);
+
+    const resizeImage = async () => {
+      if (photo?.uri) {
+        let uri = photo.uri;
+        if (!uri.startsWith('file://') && !uri.startsWith('http')) {
+          uri = `file://${uri}`;
+        }
+
+        uri = uri.replace(/ /g, '%20');
+
+        try {
+
+          const assignedURI = await ImageResizer.createResizedImage(
+            uri,
+            400,
+            400,
+            'JPEG',
+            70,
+            0,
+            undefined,
+            false,
+            {
+              mode: 'contain',
+              onlyScaleDown: false,
+            }
+          );
+
+          setAssign(assignedURI.uri);
+        } catch (err) {
+          // 2. Catch hidden errors (invalid path, library crash, etc)
+          console.error('ImageResizer Error:', err);
+        }
+      } else {
+        console.log('Photo URI was falsy');
+      }
+    };
+
+    resizeImage();
+  }, [ photo?.uri ]);
+
+  useEffect(() => {
     setValue("username", data?.data.username);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data?.data.username]);
+  }, [ data?.data.username ]);
 
   const pickImage = async () => {
-    launchImageLibrary({ mediaType: "photo" }, (response) => {
+    await launchImageLibrary({ mediaType: "photo" }, (response) => {
       if (response.didCancel) {
         console.log("User cancelled image picker");
       } else if (response.errorCode) {
         console.log("ImagePicker Error:", response.errorMessage);
       } else {
-        console.log("response.assets", response.assets);
-        const uri = response.assets?.[0]?.uri;
-        const fileName = response.assets?.[0]?.fileName!;
-        const fileType = response.assets?.[0]?.type!;
+        const uri = response.assets?.[ 0 ]?.uri;
+        const fileName = response.assets?.[ 0 ]?.fileName!;
+        const fileType = response.assets?.[ 0 ]?.type!;
         if (uri) setPhoto({ uri, fileName, fileType });
       }
     });
   };
+
+  console.log('assign', assign)
 
   const handleForm: SubmitHandler<Partial<UserUpdate>> = async (values) => {
     if (!photo?.uri) return;
@@ -85,11 +133,14 @@ const EditProfileScreen: React.FC<Props> = () => {
             >
               {photo || data?.data.profile_image
                 ? (
-                  <Image
+                  <FastImage
+                    style={{ width: 144, height: 144, borderRadius: 72 }}
                     source={{
-                      uri: photo?.uri ? photo.uri : data?.data.profile_image,
+                      uri: assign ? assign : data?.data.profile_image,
+                      priority: FastImage.priority.normal,
+                      cache: FastImage.cacheControl.immutable,
                     }}
-                    className="w-36 h-36 rounded-full"
+                    resizeMode={FastImage.resizeMode.cover}
                   />
                 )
                 : (
