@@ -10,7 +10,6 @@ import messaging from "@react-native-firebase/messaging";
 
 import AppStack from "./src/stack/AppStack";
 import { handleAppLaunch } from "./src/helpers/handle-app-launch";
-import OfflineBanner from "./src/components/utils/OfflineBanner";
 import { requestPermissions } from "./src/utils/ble-service";
 
 function App() {
@@ -34,14 +33,13 @@ function App() {
   }, []);
 
   return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <OfflineBanner />
-        <NavigationContainer>
+    <NavigationContainer>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
           <AppStack />
-        </NavigationContainer>
-      </PersistGate>
-    </Provider>
+        </PersistGate>
+      </Provider>
+    </NavigationContainer>
   );
 }
 
