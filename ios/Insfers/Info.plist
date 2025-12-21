@@ -40,7 +40,9 @@
 	<key>NSBluetoothWhileInUseUsageDescription</key>
 	<string>This app needs Bluetooth to communicate with nearby devices for payments</string>
 	<key>NSCameraUsageDescription</key>
-	<string>Allow camera for scanning wallet address</string>
+	<string>Allow camera for scanning wallet address, identity verification and liveness checks.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>This app requires microphone access for identity verification.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>We use your location to provide you with local currency</string>
 	<key>RCTNewArchEnabled</key>
