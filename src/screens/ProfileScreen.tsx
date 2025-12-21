@@ -8,14 +8,14 @@ import { Image, ScrollView, TouchableOpacity, View } from "react-native";
 import HeaderSide from "../components/Main/HeaderSide";
 import MaterialIcons from "@react-native-vector-icons/material-icons";
 import AppText, { FigureText } from "../components/typo/AppText";
-import SecuredCheck from "../../assets/green_check.svg";
+// import SecuredCheck from "../../assets/green_check.svg";
 import BankingDetails from "../components/Main/BankingDetails";
 import { useGetUserProfileQuery } from "../service/endpoints/user-endpoints";
 import { useGetCountriesQuery } from "../service/endpoints/util-endpoitns";
 import StartKYC from "../components/screens/StartKYC";
-import FastImage from 'react-native-fast-image';
 
 import ActionRequired from "../components/Main/ActionRequired";
+import EditProfilePicture from '../components/Main/EditProfilePicture';
 
 interface Props extends NativeStackScreenProps<RootStackParamList> { }
 
@@ -25,7 +25,6 @@ const ProfileScreen: React.FC<Props> = ({ navigation }) => {
 
   const { data: countries } = useGetCountriesQuery();
   useEffect(() => {
-    console.log("countries", countries);
     if (countries) {
       setCountry(countries.find((place) => place.name === data?.data.country));
     }
@@ -51,7 +50,7 @@ const ProfileScreen: React.FC<Props> = ({ navigation }) => {
         />
       </View>
       <View className="w-full justify-center items-center mt-6">
-        <View className="relative">
+        {/* <View className="relative">
           <FastImage
             style={{ width: 144, height: 144, borderRadius: 72 }}
             source={{
@@ -67,7 +66,9 @@ const ProfileScreen: React.FC<Props> = ({ navigation }) => {
               height={30}
             />
           </View>
-        </View>
+        </View> */}
+
+        <EditProfilePicture />
         <AppText weight="light" className="text-center mt-2 text-xl">
           {data?.data.username}
         </AppText>

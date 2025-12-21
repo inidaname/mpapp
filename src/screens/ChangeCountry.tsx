@@ -1,99 +1,57 @@
-import type React from "react";
+import React, { useState } from "react";
+import { View } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-
 import { FullNavStack } from "../types/types";
-import { Image, ScrollView, TouchableOpacity, View } from "react-native";
-import AppText from "../components/typo/AppText";
-import { useState } from "react";
-import { useGetCountriesQuery } from "../service/endpoints/util-endpoitns";
-import HeaderSide from "../components/Main/HeaderSide";
 import {
   useGetUserProfileQuery,
   useUpdateUserMutation,
 } from "../service/endpoints/user-endpoints";
+import HeaderSide from "../components/Main/HeaderSide";
 import ButtonComponent from "../components/Button";
+import CountryList, { Country } from "../components/Main/CountryList"; // Import your new component
 
-interface Props extends NativeStackScreenProps<FullNavStack> {}
+interface Props extends NativeStackScreenProps<FullNavStack> { }
 
 const ChangeCountry: React.FC<Props> = ({ navigation }) => {
-  const [selected, setSelected] = useState<CountriesAPI | null>(null);
+  const [ selected, setSelected ] = useState<Country | null>(null);
 
-  const { data: countries, isLoading } = useGetCountriesQuery();
-  const [update, { isLoading: updating }] = useUpdateUserMutation();
   const { data: user } = useGetUserProfileQuery();
+  const [ update, { isLoading: updating } ] = useUpdateUserMutation();
 
   const handleContinue = async () => {
+    if (!selected) return;
     try {
-      console.log(selected);
-      const country = await update({
-        country: selected?.name,
+      await update({
+        country: selected.name,
         username: user?.data.username,
       }).unwrap();
-      console.log("country", country);
       navigation.goBack();
     } catch (error) {
-      console.log("error", error);
+      console.log("Update error:", error);
     }
   };
-
-  if (isLoading) {
-    return (
-      <View className="flex-1 px-4 bg-white">
-        <HeaderSide heading="Country" isWithBack />
-        <AppText>Loading Countries</AppText>
-      </View>
-    );
-  }
 
   return (
     <View className="flex-1 px-4 bg-white">
       <HeaderSide heading="Country" isWithBack />
-      <ScrollView className="mt-10">
-        {countries?.map((country) => (
-          <TouchableOpacity
-            key={country.code}
-            className="flex-row items-center justify-between py-0 w-full"
-            onPress={() => setSelected(country)}
-          >
-            <View className="px-4 rounded-2xl my-4 py-4 justify-between items-center bg-gray-300/20 flex flex-row w-full">
-              <View className="flex flex-row items-center">
-                <Image
-                  className="w-10 h-10 rounded-full"
-                  source={{
-                    uri:
-                      `https://flagcdn.com/w40/${country.code.toLowerCase()}.png`,
-                  }}
-                />
-                <AppText weight="medium" className="text-xl uppercase mx-2">
-                  {country.name}
-                </AppText>
-                <AppText className="text-2xl text-gray-500">
-                  {country.code}
-                </AppText>
-              </View>
-              <View
-                className={`w-8 h-8 items-center justify-center rounded-full ${
-                  selected?.code === country.code
-                    ? "border border-brand-500"
-                    : "border border-gray-400"
-                }`}
-              >
-                {selected?.code === country.code && (
-                  <View
-                    className={`w-4 h-4 items-center justify-center border-brand-500 bg-brand-500 rounded-full`}
-                  />
-                )}
-              </View>
-            </View>
-          </TouchableOpacity>
-        ))}
-      </ScrollView>
-      <ButtonComponent
-        label="Continue"
-        onPress={handleContinue}
-        isDisabled={!selected}
-        isLoading={updating}
-      />
+
+
+      <View className="flex-1 mt-6">
+        <CountryList
+          selectedCode={selected?.code}
+          onSelect={(country) => setSelected(country)}
+        />
+      </View>
+
+
+      <View className="pb-6">
+        <ButtonComponent
+          label="Continue"
+          onPress={handleContinue}
+          isDisabled={!selected}
+          isLoading={updating}
+        />
+      </View>
     </View>
   );
 };

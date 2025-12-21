@@ -38,7 +38,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
         email: values.email.toLowerCase(),
         password: values.password,
       }).unwrap();
-      await saveToken(loginUser.data.accessToken);
+      saveToken(loginUser.data.accessToken).catch(err => console.log('err', err));
       console.log("loginUser.data.accessToken", loginUser.data.accessToken);
 
       dispatch(

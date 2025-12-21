@@ -14,7 +14,7 @@ const ActionRequired: React.FC = () => {
   }
 
   return (
-    <View className="w-full flex-row items-start justify-start bg-gray-200 h-44 mt-6 rounded-2xl p-4">
+    <View className="w-full flex-row items-start justify-start bg-gray-200 min-h-26 mt-6 pb-5 rounded-2xl p-4">
       <View className="bg-red-600 rounded-full items-center justify-center h-10 w-10">
         <MaterialIcons name="priority-high" size={20} color="white" />
       </View>

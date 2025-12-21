@@ -9,10 +9,6 @@ interface AvatarProps {
 }
 
 const Avatar: React.FC<AvatarProps> = ({ uri, name = "", size = 48 }) => {
-  FastImage.preload([
-    { uri },
-  ]);
-
   const initials = name
     ? name
       .split(" ")
