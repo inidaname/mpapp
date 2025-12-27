@@ -39,7 +39,7 @@ const CustomTabBar: React.FC<Pick<Props, "navigation">> = ({ navigation }) => {
         className="
           absolute
           bottom-24
-          left-6
+          right-6
           w-16
           h-16
           bg-brand-700
@@ -68,7 +68,7 @@ const CustomTabBar: React.FC<Pick<Props, "navigation">> = ({ navigation }) => {
           </AppText>
         </TouchableOpacity>
 
-        {/* spacer keeps left/right buttons spaced evenly (center is taken by the concave shape) */}
+        {/* spacer keeps left/right buttons spaced evenly */}
         <View style={{ width: DIP_WIDTH }} />
 
         <TouchableOpacity
@@ -92,7 +92,7 @@ const CustomTabBar: React.FC<Pick<Props, "navigation">> = ({ navigation }) => {
           borderBottomRightRadius: DIP_WIDTH / 2,
           backgroundColor: "#ffffff",
           zIndex: 1,
-          elevation: 1, // android stacking
+          elevation: 1,
         }}
       />
 
@@ -102,7 +102,6 @@ const CustomTabBar: React.FC<Pick<Props, "navigation">> = ({ navigation }) => {
         style={{
           position: "absolute",
           alignSelf: "center",
-          // put the FAB so it sits inside the concave dip — tweak as needed:
           bottom: DIP_HEIGHT - FAB_SIZE / 2 + 20,
           width: FAB_SIZE,
           height: FAB_SIZE,
@@ -125,7 +124,7 @@ const HomeSendScreen: React.FC<Props> = ({ navigation, route }) => {
   const [ isOffline, setIsOffline ] = useState(false);
   const { refreshing, onRefresh } = useRefreshUserAndWallet();
   const { usdcWallet } = useAppSelector((state) => state.USDCWallet);
-  const { fakeBalance } = useAppSelector(state => state.fakeSlice)
+  // const { fakeBalance } = useAppSelector(state => state.fakeSlice)
 
 
   useEffect(() => {
@@ -139,7 +138,7 @@ const HomeSendScreen: React.FC<Props> = ({ navigation, route }) => {
     return () => unsubscribe();
   }, []);
 
-  const formattedBalance = Number(fakeBalance ?? 0).toFixed(2);
+  const formattedBalance = Number(usdcWallet?.amount ?? 0).toFixed(2);
 
   return (
     <KeyboardAwareScrollView
@@ -147,12 +146,12 @@ const HomeSendScreen: React.FC<Props> = ({ navigation, route }) => {
       enableOnAndroid={true}
       keyboardShouldPersistTaps="handled"
       extraScrollHeight={40}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
     >
       <ScrollView
         contentContainerStyle={{ flexGrow: 1 }}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
         keyboardShouldPersistTaps="handled"
       >
         <View className="bg-white flex-1">
