@@ -16,31 +16,33 @@ import AppText from "../components/typo/AppText";
 import MaterialIcons from "@react-native-vector-icons/material-icons";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
-interface Props extends NativeStackScreenProps<RootStackParamList> {}
+interface Props extends NativeStackScreenProps<RootStackParamList> { }
 
 const SendToBankScreen: React.FC<Props> = () => {
-  const [amount, setAmount] = useState("");
-  const [successVisible, setSuccessVisible] = useState(false);
-  const { account_id } = useAppSelector((state) => state.externalAccounts);
-  const { active_wallet } = useAppSelector((state) => state.wallet);
+  const [ amount, setAmount ] = useState("");
+  const [ transferred, setTransferred ] = useState<Transferred | null>(null)
+  const [ successVisible, setSuccessVisible ] = useState(false);
+  const { account_id, account } = useAppSelector((state) => state.externalAccounts);
+  const { active_wallet, active_wallet_address } = useAppSelector((state) => state.wallet);
   const { usdcWallet } = useAppSelector((state) => state.USDCWallet);
 
-  const [convert, { isLoading }] = useConvertFundsToBankMutation();
+  const [ convert, { isLoading } ] = useConvertFundsToBankMutation();
 
   const handleConvert = async () => {
     if (
-      !account_id || !active_wallet || Number(usdcWallet?.amount) === 0 ||
+      !account_id || !active_wallet || !active_wallet_address || Number(usdcWallet?.amount) === 0 ||
       Number(amount) <= 0 || !usdcWallet || !usdcWallet.token
     ) return;
     try {
-      await convert({
+      const details = await convert({
         external_account_id: account_id,
         amount,
-        address: usdcWallet?.token.tokenAddress,
-        chain: usdcWallet.token.blockchain,
-        currency: usdcWallet.token.symbol,
+        address: active_wallet_address,
+        chain: "solana",
+        currency: usdcWallet.token.symbol.toLowerCase(),
         tokenId: usdcWallet?.token.id,
       }).unwrap();
+      setTransferred(details.data.transferred)
       setSuccessVisible(true);
     } catch (error) {
       console.log("error", error);
@@ -64,7 +66,7 @@ const SendToBankScreen: React.FC<Props> = () => {
           <ButtonComponent
             label="Add"
             isLoading={isLoading}
-            isDisabled={Number(amount) <= 0 || !account_id}
+            isDisabled={Number(amount) <= 0 || !account_id || Number(amount) > Number(usdcWallet?.amount ?? 0)}
             onPress={handleConvert}
           />
         </View>
@@ -102,20 +104,20 @@ const SendToBankScreen: React.FC<Props> = () => {
               <View className="h-px bg-gray-200 my-6" />
 
               {/* Details */}
-              <InfoRow label="Transaction ID" value="2345678" />
-              <InfoRow label="Account Holder Name" value="Sarah Johnson" />
-              <InfoRow label="Bank Name" value="HBL" />
-              <InfoRow label="Account No" value="*********012" />
-              <InfoRow label="Date & Time" value="Apr, 10, 2023 | 09:00AM" />
-              <InfoRow label="You spend" value="$ 132.50" />
-              <InfoRow label="Processing Fee" value="$ 1.50" />
+              {/* <InfoRow label="Transaction ID" value="2345678" /> */}
+              <InfoRow label="Account Holder Name" value={account?.account_owner_name ?? ""} />
+              <InfoRow label="Bank Name" value={account?.bank_name ?? ""} />
+              <InfoRow label="Account No" value={`*********${account?.account.last_4}`} />
+              <InfoRow label="Date & Time" value={new Date(transferred?.created_at ?? "").toLocaleDateString()} />
+              <InfoRow label="You sent" value={transferred?.amount ?? ""} />
+              <InfoRow label="Processing Fee" value={"$0.00"} />
 
               {/* Receipt */}
-              <TouchableOpacity className="mt-10">
+              {/* <TouchableOpacity className="mt-10">
                 <AppText className="text-center text-blue-600 text-lg font-semibold">
                   Download Receipt
                 </AppText>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
 
               {/* Close Button */}
               <TouchableOpacity
