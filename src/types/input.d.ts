@@ -45,14 +45,14 @@ interface PhoneOTPInput {
 
 interface CreateWalletInput {
   blockchains: string[];
-  accountType: "EOA" | "SCA";
+  accountType: 'EOA' | 'SCA';
 }
 
 interface SendTrans {
   tokenId: string;
   destinationAddress: string;
   amount: string;
-  destinationChain: import("./types").Mainnet | import("./types").Testnet;
+  destinationChain: import('./types').Mainnet | import('./types').Testnet;
 }
 
 interface PasswordForm {
@@ -63,10 +63,11 @@ interface PasswordForm {
 }
 
 interface ContactInput {
-  first_name: string;
-  last_name: string;
-  chain: string;
-  address: string;
+  // first_name: string;
+  // last_name: string;
+  // chain: string;
+  // address: string;
+  username: string;
 }
 
 interface ConvertInput {

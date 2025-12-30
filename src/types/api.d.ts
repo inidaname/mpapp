@@ -143,7 +143,7 @@ interface UserProfile {
   forgetPinToken: string;
   forgetPinTokenExpiration: string;
   biometric_enabled: boolean;
-  kyc_status: "PENDING_APPROVAL" | "APPROVED";
+  kyc_status: 'PENDING_APPROVAL' | 'APPROVED';
   IsEmailVerified: boolean;
   IsPhoneNumberVerified: boolean;
   created_at: Date | string;
@@ -392,4 +392,67 @@ interface NotificationType {
   messageId: string;
   ttl: number;
   collapseKey: string;
+}
+
+interface Transferred {
+  id: string;
+  user_id: string;
+  wallet_id: string;
+  currency_id: string;
+  offline_transaction_id: string;
+  transaction_hash: string;
+  sender_address: string;
+  recipient_address: string;
+  amount: string;
+  source: string;
+  destination: string;
+  features: string;
+  source_deposit_instructions: string;
+  cctpSteps: string;
+  alchemySteps: string;
+  balance_before: string;
+  balance_after: string;
+  token_symbol: string;
+  token_id: string;
+  circle_transaction_id: string;
+  bridge_transaction_id: string;
+  transaction_type: string;
+  status: string;
+  blockchain: string;
+  srcDomainId: string;
+  destinationNetwork: string;
+  approveTx: string;
+  burnTx: string;
+  receiveTx: string;
+  cctp_status: string;
+  gas_fee: string;
+  exchange_rate: string;
+  local_currency: string;
+  local_amount: string;
+  created_offline: string;
+  synced_at: string;
+  created_at: string;
+  updated_at: string;
+  circleTransaction: {
+    id: '0f52705f-0d9f-54c5-a8a8-09b515e12f5b';
+    state: 'INITIATED';
+  };
+}
+
+interface Liquidity {
+  id: string;
+  liquidity_id: string;
+  transaction_id: string;
+  currency: string;
+  chain: string;
+  customer_id: string;
+  external_account_id: string;
+  return_address: string;
+  liquidity_address: string;
+  address: string;
+}
+
+interface TransferredAmount {
+  transferred: Transferred;
+  liquidity: Liquidity;
 }

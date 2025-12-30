@@ -26,6 +26,7 @@ import copyContent from './reducers/copycontent-slice';
 import offlineSlice from './reducers/offline-slice';
 import fakeSlice from './reducers/fake-slice';
 import offlineTransactions from './reducers/offline-transactions';
+import kycStatus from './reducers/kyc-status-slice';
 
 const persistConfig = {
   key: 'root',
@@ -49,6 +50,7 @@ const appReducer = combineReducers({
   offlineSlice,
   offlineTransactions,
   fakeSlice, // This is temporary
+  kycStatus,
 });
 
 // export const logoutAction = () => ({ type: 'LOGOUT' });

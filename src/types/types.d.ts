@@ -5,7 +5,7 @@ export type RootStackParamList = {
   AddFundsScreen: undefined;
   AddBankScreen: undefined;
   SendToBankScreen: undefined;
-  ScanWalletScreen: undefined;
+  ScanWalletScreen: { from: 'AddUserScreen' | 'HomeSendScreen' };
   ProfileScreen: undefined;
   WalletScreen: undefined;
   RecentActivitiesScreen: undefined;
