@@ -13,8 +13,15 @@ export const isWalletAddress = (content: string) => {
   // Tron (starts with T, 34 characters)
   const tronPattern = /^T[a-zA-Z0-9]{33}$/;
 
-  return ethPattern.test(trimmed) ||
+  return (
+    ethPattern.test(trimmed) ||
     btcPattern.test(trimmed) ||
     solPattern.test(trimmed) ||
-    tronPattern.test(trimmed);
+    tronPattern.test(trimmed)
+  );
 };
+
+export function isSolanaAddress(address: string): boolean {
+  // Base58, 32–44 chars
+  return /^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(address);
+}
