@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Animated, SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { Animated, StyleSheet, Text, View } from "react-native";
 import NetInfo from "@react-native-community/netinfo";
 
 const OfflineBanner = () => {
-  const [isOffline, setIsOffline] = useState(false);
+  const [ isOffline, setIsOffline ] = useState(false);
 
   const animation = useRef(new Animated.Value(0)).current;
 
@@ -24,11 +24,11 @@ const OfflineBanner = () => {
       duration: 300,
       useNativeDriver: true,
     }).start();
-  }, [animation, isOffline]);
+  }, [ animation, isOffline ]);
 
   const translateY = animation.interpolate({
-    inputRange: [0, 1],
-    outputRange: [-100, 0],
+    inputRange: [ 0, 1 ],
+    outputRange: [ -100, 0 ],
   });
 
   // return (
@@ -45,7 +45,7 @@ const OfflineBanner = () => {
     <Animated.View
       style={[
         styles.container,
-        { transform: [{ translateY }] },
+        { transform: [ { translateY } ] },
       ]}
     >
       <View style={styles.contentContainer}>

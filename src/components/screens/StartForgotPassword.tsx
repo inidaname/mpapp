@@ -7,58 +7,69 @@ import { useForgetPasswordMutation } from "../../service/endpoints/auth-endpoint
 import { SubmitHandler, useForm } from "react-hook-form";
 
 interface Props {
-  setAllow: React.Dispatch<React.SetStateAction<boolean>>;
+  setDisabled: React.Dispatch<React.SetStateAction<boolean>>;
   setEmail: React.Dispatch<React.SetStateAction<string>>;
+  setStep: React.Dispatch<React.SetStateAction<"start" | "verify">>
 }
 
-const StartForgotPassword: React.FC<Props> = ({ setAllow, setEmail }) => {
-  const { control, handleSubmit, formState: { isValid } } = useForm<
-    PasswordForm
-  >();
+const StartForgotPassword: React.FC<Props> = ({
+  setDisabled,
+  setEmail,
+  setStep
+}) => {
+  const { control, handleSubmit, formState } =
+    useForm<PasswordForm>({
+      mode: "onChange",
+    });
 
-  const [requestPassword, { isLoading }] = useForgetPasswordMutation();
+  const [ requestPassword, { isLoading } ] =
+    useForgetPasswordMutation();
 
-  const handlePassword: SubmitHandler<PasswordForm> = async (value) => {
+  const onSubmit: SubmitHandler<PasswordForm> = async ({
+    email,
+  }) => {
     try {
-      const req = await requestPassword(value.email).unwrap();
-      setEmail(value.email);
-      console.log("req", req);
-      setAllow(false);
+      await requestPassword(email).unwrap();
+      setEmail(email);
+      setDisabled(false);
+      setStep("verify")
     } catch (error) {
-      console.log("error", error);
-      // setAllow(false);
+      console.log("forgot error", error);
+      setStep("verify")
     }
   };
 
   return (
-    <View className="w-full px-6 justify-start items-center flex-1">
+    <View className="w-full px-6 items-center flex-1">
       <FormInput
         name="email"
         label="Email Address"
         placeholder="Enter Email Address"
-        leftIcon={
-          <MaterialIcons
-            name="mail"
-            size={20}
-            color="gray"
-          />
-        }
         control={control}
         keyboardType="email-address"
         rules={{
           required: "Email is required",
-          pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+          pattern: {
+            value:
+              /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+            message: "Invalid email address",
+          },
         }}
+        leftIcon={
+          <MaterialIcons name="mail" size={20} color="gray" />
+        }
       />
+
       <TouchableOpacity
         className="self-end"
-        disabled={!isValid || isLoading}
-        onPress={handleSubmit(handlePassword)}
+        disabled={!formState.isValid || isLoading}
+        onPress={handleSubmit(onSubmit)}
       >
         <AppText
-          className={`${
-            !isValid || isLoading ? "text-gray-400" : "text-brand-700"
-          } self-end underline  text-lg mb-10 pr-5`}
+          className={`${!formState.isValid || isLoading
+            ? "text-gray-400"
+            : "text-brand-700"
+            } underline text-lg mb-10 pr-5`}
         >
           Send Code
         </AppText>

@@ -159,7 +159,7 @@ const SendComponent: React.FC<Props> = ({
         <View className="flex-row gap-2">
           <TouchableOpacity
             className="bg-brand-700 px-5 py-3 rounded-full"
-            onPress={() => navigation.navigate("ScanWalletScreen")}
+            onPress={() => navigation.replace("ScanWalletScreen", { from: "HomeSendScreen" })}
           >
             <AppText className="text-white font-bold text-[14px]">Scan</AppText>
           </TouchableOpacity>

@@ -21,7 +21,7 @@ const ExternalAccountList: React.FC<Props> = ({ selectable }) => {
   const { data, isLoading } = useGetAccountsQuery();
   const dispatch = useAppDispatch();
 
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [ selectedId, setSelectedId ] = useState<string | null>(null);
 
   useEffect(() => {
     dispatch(clearExternalAccountAll());
@@ -70,15 +70,16 @@ const ExternalAccountList: React.FC<Props> = ({ selectable }) => {
             <Pressable
               key={account.id}
               onPress={() => handlePress(account)}
+              className={'w-48'}
               style={{ opacity: selectable && isSelected ? 0.7 : 1 }}
             >
               <LinearGradient
                 key={account.id}
-                colors={GRADIENTS_COLORS[index]}
+                colors={GRADIENTS_COLORS[ index ]}
                 start={{ x: 0.25, y: 0 }}
                 end={{ x: 0.75, y: 1 }}
                 style={{ borderRadius: 10 }} // Saniyhassan+5@gmail.com
-                className="h-auto w-2/3 rounded-full mr-5 items-center justify-center"
+                className="h-auto w-full rounded-full mr-5 items-center justify-center"
               >
                 <View className="w-full h-44 rounded-2xl p-6 justify-between">
                   <PoppinText

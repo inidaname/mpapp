@@ -41,9 +41,9 @@ const PhoneNumberInput: React.FC<PhoneInputProps> = ({
     codes()
   }, [ country ])
 
-  const onSelect = (country: Country) => {
-    setCountryCode(country.callingCode || [ "" ]);
-    setCountryCca2(country.cca2);
+  const onSelect = (value: Country) => {
+    setCountryCode(value.callingCode || [ "" ]);
+    setCountryCca2(value.cca2);
   };
 
   return (

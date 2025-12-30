@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Image, RefreshControl, SectionList, View } from "react-native";
 import { MaterialIcons } from "@react-native-vector-icons/material-icons";
 
@@ -9,7 +9,7 @@ import { formatRelativeTime } from "../../helpers/formatRelativeTime";
 import { useRefreshUserAndWallet } from "../../hooks/useRefreshProfileAndWallet";
 
 const groupByMonth = (transactions: TransactionsList[]) => {
-  const sorted = [...transactions].sort(
+  const sorted = [ ...transactions ].sort(
     (a, b) =>
       new Date(b.created_at).getTime() -
       new Date(a.created_at).getTime(),
@@ -23,42 +23,53 @@ const groupByMonth = (transactions: TransactionsList[]) => {
       year: "numeric",
     });
 
-    if (!groups[key]) groups[key] = [];
-    groups[key].push(tx);
+    if (!groups[ key ]) groups[ key ] = [];
+    groups[ key ].push(tx);
   });
 
   // Convert to SectionList format
   return Object.keys(groups).map((title) => ({
     title,
-    data: groups[title],
+    data: groups[ title ],
   }));
 };
 
 const RecentActivities: React.FC = () => {
-  const [page, setPage] = useState(1);
+  const [ page, setPage ] = useState(1);
+  const loadingMoreRef = useRef(false);
   const { active_wallet_address } = useAppSelector((state) => state.wallet);
   const { data, isLoading, refetch, isFetching } = useGetTransactionQuery({
     page,
   });
   const { refreshing, onRefresh } = useRefreshUserAndWallet(refetch);
-  const [allTransactions, setAllTransactions] = useState<TransactionsList[]>(
+  const [ allTransactions, setAllTransactions ] = useState<TransactionsList[]>(
     [],
   );
 
   const sections = useMemo(
     () => groupByMonth(allTransactions),
-    [allTransactions],
+    [ allTransactions ],
   );
 
   useEffect(() => {
-    if (data?.data?.transactions) {
-      if (page === 1) {
-        setAllTransactions(data.data.transactions);
-      } else {
-        setAllTransactions((prev) => [...prev, ...data.data.transactions]);
-      }
+    if (!isFetching) {
+      loadingMoreRef.current = false;
     }
-  }, [data, page]);
+  }, [ isFetching ]);
+
+  useEffect(() => {
+    if (!data?.data?.transactions) return;
+
+    setAllTransactions((prev) => {
+      const map = new Map<string, TransactionsList>();
+
+      [ ...(page === 1 ? [] : prev), ...data.data.transactions ].forEach((tx) => {
+        map.set(tx.id, tx);
+      });
+
+      return Array.from(map.values());
+    });
+  }, [ data, page ]);
 
   const renderItem = ({ item }: { item: TransactionsList }) => (
     <View className="flex-row w-full p-4">
@@ -95,11 +106,9 @@ const RecentActivities: React.FC = () => {
 
         <AppText>
           {item.sender_address !== active_wallet_address
-            ? `+ ${
-              Array.isArray(item.amount) ? item.amount[0] : item.amount
+            ? `+ ${Array.isArray(item.amount) ? item.amount[ 0 ] : item.amount
             } USDC`
-            : `- ${
-              Array.isArray(item.amount) ? item.amount[0] : item.amount
+            : `- ${Array.isArray(item.amount) ? item.amount[ 0 ] : item.amount
             } USDC`}
         </AppText>
         <View className="w-full flex-row items-center">
@@ -161,9 +170,16 @@ const RecentActivities: React.FC = () => {
         showsVerticalScrollIndicator={false}
         onEndReachedThreshold={0.4}
         onEndReached={() => {
-          if (!isFetching && page < data?.data.totalPage) {
-            setPage((prev) => prev + 1);
+          if (
+            loadingMoreRef.current ||
+            isFetching ||
+            page >= data?.data.totalPage
+          ) {
+            return;
           }
+
+          loadingMoreRef.current = true;
+          setPage((prev) => prev + 1);
         }}
         refreshControl={
           <RefreshControl

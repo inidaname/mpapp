@@ -1,7 +1,8 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { View, TextInput, FlatList, TouchableOpacity, Image, ActivityIndicator } from "react-native";
 import AppText from '../typo/AppText';
-import { useGetCountriesQuery } from '../../service/endpoints/util-endpoitns';
+import { useLazyGetCountriesQuery } from '../../service/endpoints/util-endpoitns';
+import { getAppToken } from '../../helpers/token-helper';
 
 export interface Country {
   name: string;
@@ -22,7 +23,21 @@ const CountryList: React.FC<CountryListProps> = ({
   searchPlaceholder = "Search country...",
 }) => {
   const [ searchQuery, setSearchQuery ] = useState("");
-  const { data: countries, isLoading } = useGetCountriesQuery();
+  const [ getCountries, { data: countries, isLoading, error } ] = useLazyGetCountriesQuery();
+
+  useEffect(() => {
+    const listTheCountries = async () => {
+      const token = await getAppToken()
+      if (token) {
+        await getCountries().unwrap()
+      }
+    }
+
+    listTheCountries()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  console.log('countri', error)
 
 
   // Memoize filtered results for performance

@@ -8,6 +8,7 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { FullNavStack } from "../../types/types";
 import ExternalAccountList from "./ExternalAccountList";
+import { useAppSelector } from '../../store/redux';
 
 interface Props {
   text: string;
@@ -15,6 +16,7 @@ interface Props {
 
 const BankingDetails: React.FC<Props> = ({ text }) => {
   const navigate = useNavigation<NativeStackNavigationProp<FullNavStack>>();
+  const { isKYCDone } = useAppSelector(state => state.kycStatus)
 
   const goToAccounts = () => { navigate.navigate("AddBankScreen") }
 
@@ -26,9 +28,10 @@ const BankingDetails: React.FC<Props> = ({ text }) => {
         </AppText>
         <TouchableOpacity
           onPress={goToAccounts}
+          disabled={!isKYCDone}
           className="flex-row items-center p-2 justify-start"
         >
-          <View className="bg-brand-700 rounded-full p-1">
+          <View className={`rounded-full p-1 ${isKYCDone ? "bg-brand-700" : "bg-brand-400"}`}>
             <MaterialIcons
               name="add"
               size={20}
@@ -37,7 +40,7 @@ const BankingDetails: React.FC<Props> = ({ text }) => {
           </View>
           <AppText
             weight="medium"
-            className="text-brand-700 ml-3 text-md"
+            className={`ml-3 text-md ${isKYCDone ? "text-brand-700" : "text-brand-400"}`}
           >
             Add New
           </AppText>

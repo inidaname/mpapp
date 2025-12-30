@@ -5,9 +5,7 @@ import AppText from "../typo/AppText";
 import { useGetKYCQuery } from "../../service/endpoints/kyc-endpoints";
 
 const ActionRequired: React.FC = () => {
-  const { data, isLoading, isError, error } = useGetKYCQuery();
-
-  console.log("error", error);
+  const { data, isLoading } = useGetKYCQuery();
 
   if (data?.data.metadata.kyc.kyc_status === "approved" || isLoading) {
     return null;
@@ -21,9 +19,7 @@ const ActionRequired: React.FC = () => {
       <View className="ml-4 flex-1">
         <AppText weight="bold" className="text-xl">Action Required</AppText>
         <AppText className="text-gray-500 mt-2">
-          {isError
-            ? "Problem confirming your verification"
-            : "Your account is not verified yet please add your personal details to verify"}
+          Your account is not verified yet please add your personal details to verify
         </AppText>
       </View>
     </View>

@@ -93,7 +93,7 @@ export default function PopupMenu() {
               />
             </View>
           </Pressable>
-          <Pressable
+          {/* <Pressable
             className="px-4 py-4 my-2 border-t border-gray-100 flex-row justify-between items-center"
             onPress={() => {
               handleToggle("OfflinePaymentScreen");
@@ -107,7 +107,7 @@ export default function PopupMenu() {
                 size={25}
               />
             </View>
-          </Pressable>
+          </Pressable> */}
         </Animated.View>
       )}
     </View>
