@@ -7,126 +7,126 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		019EAB89337F49F9BCBA6232 /* Raleway-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1BA87EEB9D1D4831AD3D3836 /* Raleway-Black.ttf */; };
-		0A3E49AE75590BDC6580F16F /* Pods_Insfers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53BA566A1C0C1F5ABE2C5A33 /* Pods_Insfers.framework */; };
-		0C973CFE19F84C5E8DE1FB6E /* Poppins-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4032BA5F1DEF4A9195279AAE /* Poppins-BlackItalic.ttf */; };
-		127A6403576C4F7BAFA7B6D7 /* Poppins-ExtraLightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F3A45965604ECE84D61C13 /* Poppins-ExtraLightItalic.ttf */; };
+		071E5BE21FE244ADBC049854 /* Montserrat-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 00C85700E035452096E9F1D8 /* Montserrat-Thin.ttf */; };
+		0BB3A14093454CF186C58E3C /* Montserrat-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E19615E648324E74A86CF266 /* Montserrat-ExtraBold.ttf */; };
+		0BB838FF2FE4443081D25E2B /* Raleway-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0196C47DF5F04E698B4E1E97 /* Raleway-ExtraLight.ttf */; };
+		12148D10B3FB4C9BB68A3949 /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 423BE65B987C4ACA8AB79937 /* Montserrat-Regular.ttf */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
-		1501A85F2DFC49A98996DE8F /* Montserrat-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 793892B9C83B4E0BB5A41AA5 /* Montserrat-Black.ttf */; };
-		17B6FD2CBD3049E6BFBB83AB /* Raleway-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 98DFEDF891DC4CD582B97524 /* Raleway-Thin.ttf */; };
-		197A6859ECD3428C9DC9ED5B /* Montserrat-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A2D22FE887A3481ABE9169E8 /* Montserrat-ExtraBold.ttf */; };
-		312E8CC5BF814BEFB38CFECC /* Montserrat-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BE7779FD804A4232B6D24A53 /* Montserrat-ExtraLight.ttf */; };
-		47E4562D3EFD49558F5B1CEC /* Montserrat-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DF533D55FB8F4D3CB7D2B999 /* Montserrat-Medium.ttf */; };
-		513CB145FF22442887192506 /* Poppins-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D6A07E4C20C74C36AA438799 /* Poppins-Bold.ttf */; };
-		51A4F65A93584F989E9B9086 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CBF59C21C800480897257241 /* Colors.xcassets */; };
-		5407CF38466AE7B8DBE619EB /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
-		63A843C87EB9464B8FB0999A /* Montserrat-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 462FCF4C16514D9B89A9EABF /* Montserrat-SemiBold.ttf */; };
-		63AC3535015242F9AA356449 /* Montserrat-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 903C45C709A2442A9C5575CB /* Montserrat-MediumItalic.ttf */; };
-		658E7EC216864136A3B2F8CF /* Poppins-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1B47E5399B394579AEE0B6E4 /* Poppins-ExtraBoldItalic.ttf */; };
-		6AE95C8ACB054584BCF2CEF6 /* Poppins-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A8187BF16DCB42538A08A40E /* Poppins-Italic.ttf */; };
-		6AFE57B290374DC8AFF20ECA /* Montserrat-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6BDDF870CADB446092E8E250 /* Montserrat-ThinItalic.ttf */; };
-		6BD0FD840DA74A3FAA387B1E /* Montserrat-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 137FF7A1D7E04F47BED6E74C /* Montserrat-Thin.ttf */; };
-		6E9A253EEB4F4E67AA4D64F0 /* Poppins-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DAEFCAEF6B9641DA93F8AD85 /* Poppins-ThinItalic.ttf */; };
-		756506EE861E4F6198044DA6 /* Montserrat-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4AECF72A76E84155A45C62A7 /* Montserrat-LightItalic.ttf */; };
+		13CA8A88792744D396BFA30F /* Raleway-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 38700145BE8E4A7FAC0BB732 /* Raleway-Black.ttf */; };
+		19BCAD1440484EE89357C804 /* Montserrat-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 39C7A1BF0EE24AB795764D85 /* Montserrat-MediumItalic.ttf */; };
+		1C7A54A38AA4461FAA5653B3 /* Poppins-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF65CD862C6F4BE28CF11594 /* Poppins-BlackItalic.ttf */; };
+		1EF2AACB9CD64ECBB491451A /* Poppins-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EBC1DF96C20D4F2D8B3E2E49 /* Poppins-MediumItalic.ttf */; };
+		1F61CB7375A8452292703E7B /* Poppins-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 365E6CF85A50413C98FFC986 /* Poppins-SemiBold.ttf */; };
+		2FBB89E690EA4D269B15CD3D /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0B4F95C3B96947B4BCC06127 /* BootSplash.storyboard */; };
+		32E977F06AD34C48AF216FB5 /* Montserrat-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E612512B5F744560BEF4045A /* Montserrat-BlackItalic.ttf */; };
+		35B3A501D8DE41039AC99E62 /* Raleway-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2885F564AEDD4196959C5BA1 /* Raleway-ExtraBold.ttf */; };
+		35DD9D39B4B7422BB522A4D7 /* Raleway-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 856DD7F8920C45F19CA983B6 /* Raleway-SemiBold.ttf */; };
+		3EB6007EECF24D8497D44859 /* Montserrat-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2FFC52AB48524123B9CEDF54 /* Montserrat-Medium.ttf */; };
+		40538925D8F64B6882685BF2 /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1319527B9E1E427D91B1CA38 /* Poppins-Regular.ttf */; };
+		476653D2742A4B13B8DB7DA4 /* Montserrat-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 262A70CA8BF94B59A3627B11 /* Montserrat-BoldItalic.ttf */; };
+		531F9111CC2844D29A589774 /* Montserrat-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E538F887B2D3451EB9E11886 /* Montserrat-SemiBoldItalic.ttf */; };
+		5554F813972D6E6AF6CD8DAF /* Pods_Insfers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DCD38E7D0A1060C240D8466 /* Pods_Insfers.framework */; };
+		5DFC6809DFEF477B986529A3 /* Raleway-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ED4C06CB99444585B52D1C8F /* Raleway-Regular.ttf */; };
+		6382F4345F0F448299A1AAAF /* Raleway-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AEF4D46E90354A72BA5B6239 /* Raleway-Light.ttf */; };
+		6849AA26BD3B4756A50F9E91 /* Poppins-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 087E5FFCB3534168A25AAB55 /* Poppins-SemiBoldItalic.ttf */; };
+		73DB11F127EA4AC69CDDE88B /* Poppins-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2971AEE249494A479D6E66D8 /* Poppins-ThinItalic.ttf */; };
+		74BA2455C8DD4B02A612F7B4 /* Poppins-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 466F0E3FF7A74F73BFE1F721 /* Poppins-Bold.ttf */; };
 		761780ED2CA45674006654EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EC2CA45674006654EE /* AppDelegate.swift */; };
-		7A22307C0A284261AB02EBAC /* Poppins-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 24D9C0083E4041438D836A5F /* Poppins-Thin.ttf */; };
+		776091ED5BBE40CEBDCD8E8A /* Poppins-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6F8596F2CCA84E3B92CA8E65 /* Poppins-Medium.ttf */; };
+		7802CEC485B24A7AADCE651E /* Poppins-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8B94A1E718C445CCAFE95176 /* Poppins-LightItalic.ttf */; };
+		7BBD736E2CD84EEBA0BDD6B4 /* Poppins-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 726A34D135414614BBA497DC /* Poppins-ExtraLight.ttf */; };
+		7E915CAD2DC941E2B8CDFF91 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C6CC6C8489F1441887CFDB40 /* Colors.xcassets */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		840DA4F5260744C7B6122663 /* Poppins-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8D5496E0DD154A39AD9C8FD2 /* Poppins-Light.ttf */; };
-		88F286DD422240F78C631F31 /* Raleway-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 27435694BEAC426383B48C9D /* Raleway-Regular.ttf */; };
-		8989FEE7E7DE4B9B9CDF6662 /* Montserrat-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8C02DB9CE7594FD68359BA0F /* Montserrat-ExtraBoldItalic.ttf */; };
-		8A26692BA6D94D9B8A4C1975 /* Montserrat-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 27845DECBBEC4A789EDC1077 /* Montserrat-Light.ttf */; };
-		8B260691A34740CCB37CE572 /* Montserrat-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5A889EDE72074A11916541FF /* Montserrat-SemiBoldItalic.ttf */; };
-		94411C34609E413BA1D1C8B2 /* Poppins-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 614585B425254A99B051F433 /* Poppins-BoldItalic.ttf */; };
-		9D63CDACB7A1426286DC7FEB /* Poppins-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4D9BA637C5484B3187BF2AAD /* Poppins-Medium.ttf */; };
-		9F9280C8DDE14D34A8A74BC9 /* Poppins-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B808586264AA461589A53CFD /* Poppins-ExtraLight.ttf */; };
-		A1E2EBF01A214CC7BCC9293C /* Poppins-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 725A4CE228264B858FA908AB /* Poppins-SemiBoldItalic.ttf */; };
-		A4365756B1394048A22A3078 /* Raleway-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 510899FBC4924C68AC78049A /* Raleway-Light.ttf */; };
-		A874A99723EE4FF1BD8878E9 /* Poppins-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 616DACA167504C9FA2392579 /* Poppins-Black.ttf */; };
-		AF2558772B1740F3ABA2F1BC /* Raleway-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E471DEEE29BE489DB98C0FBF /* Raleway-ExtraLight.ttf */; };
-		B26CBD3144C4447FA4DD396E /* Poppins-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1C11334D0DD34EA1B6609DA1 /* Poppins-ExtraBold.ttf */; };
-		B27E34360F4E426CBE252A40 /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 68DF1BFAA2414CD689118E86 /* BootSplash.storyboard */; };
-		B3485584E7804381BB2D7583 /* Raleway-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 73B4C73A12274E0BA5212760 /* Raleway-SemiBold.ttf */; };
-		BEC55FD75E4F4F25AFD82A7A /* Raleway-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 44F60C80900043C982BDA8B9 /* Raleway-ExtraBold.ttf */; };
-		D26805C5B09A40979555DB12 /* Poppins-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E505B4E78CDE466E91C6E0B8 /* Poppins-MediumItalic.ttf */; };
-		D2EAB58878D04B70B53D15A8 /* Montserrat-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C5226F34139A4C7FBB01C923 /* Montserrat-BlackItalic.ttf */; };
-		D329C53D616C4D568F4F521A /* Raleway-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1D808A4B34474A07B7B33863 /* Raleway-Bold.ttf */; };
-		D3D5B6663774444E91486FF0 /* Montserrat-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 91AD4F808C6243BE89147666 /* Montserrat-BoldItalic.ttf */; };
-		D48F04B92EE3C12D003B8E19 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D48F04B82EE3C12D003B8E19 /* GoogleService-Info.plist */; };
-		D4A4709D2EEACDE1002060EA /* BLEAdvertiser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A4709C2EEACDE1002060EA /* BLEAdvertiser.swift */; };
-		D4A470A02EEAFFAF002060EA /* Insfers-Bridging-Header.h in Sources */ = {isa = PBXBuildFile; fileRef = D4A4709F2EEAFFA8002060EA /* Insfers-Bridging-Header.h */; };
-		D79437B3CE8E482C9F4A49FF /* Raleway-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C4CDA6722F214182880C81EE /* Raleway-Medium.ttf */; };
-		DB413302EB4147D8912C4B65 /* Montserrat-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 99120C8E55DB417885D7DAB0 /* Montserrat-Italic.ttf */; };
-		DF7373B24D124622A9D3C0C7 /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 04694DC79633471D9E4B3906 /* Montserrat-Regular.ttf */; };
-		E1C139B1A99940248DEE759E /* Poppins-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DEE6F2DFC9154E538E68875D /* Poppins-SemiBold.ttf */; };
-		E39A09FC2C6F45B6BDF7AC1A /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AC5D8E48C93F4DAFAEC67FD1 /* Montserrat-Bold.ttf */; };
-		EB39B13AC29E41C2B663EFCF /* Poppins-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 14A1FCE7CA7C42C4BAA1A0CA /* Poppins-LightItalic.ttf */; };
-		FD15946090104402818E406E /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FCA7926712D9442E884457F5 /* Poppins-Regular.ttf */; };
-		FDDC07C9DFC24308A11696F0 /* Montserrat-ExtraLightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 991B4F4159FB467EBBC34A23 /* Montserrat-ExtraLightItalic.ttf */; };
+		85CC3CD9841A40D3A66FA7F8 /* Montserrat-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9FD3EC5B463846E493383A2F /* Montserrat-Black.ttf */; };
+		8D6E6FDD5D2249F7B70AC070 /* Raleway-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B4AD0D9F6687400E8EA30242 /* Raleway-Thin.ttf */; };
+		92B846C71F7645789C8CA33F /* Poppins-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A9A4F1887B3347139A30F9C1 /* Poppins-Italic.ttf */; };
+		99A64E1B7B9C42779708E774 /* Poppins-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D87A87EE07D24251BCD7C2E4 /* Poppins-Light.ttf */; };
+		9D6CA1623522433EA45720DA /* Montserrat-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F3F6204E8D1D463C8C2A96FE /* Montserrat-SemiBold.ttf */; };
+		A0EFCD8B80794E34A0B64AC8 /* Montserrat-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EE3E62CB271C4901A146FBA7 /* Montserrat-ThinItalic.ttf */; };
+		A82A90BC6B4448CD8A9E0F3D /* Poppins-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EA7933667EB44910984A3249 /* Poppins-Black.ttf */; };
+		B45B5A2D0B7F4DF68661E10D /* Montserrat-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E4E0088A4035406FB7BE4EE2 /* Montserrat-ExtraBoldItalic.ttf */; };
+		B7900F8E90644F8F9EF41B20 /* Poppins-ExtraLightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5F9933E54792456FA6C597DF /* Poppins-ExtraLightItalic.ttf */; };
+		BB5CEF201A9A4D6CA83AAD1A /* Raleway-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D909355C5AFA405FAD2BA02E /* Raleway-Medium.ttf */; };
+		CDB969D198304DF3BEE40F94 /* Montserrat-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BCAF16265897420B94DB62AA /* Montserrat-Italic.ttf */; };
+		D418C69F2EEECD8200FBD571 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D418C69E2EEECD8200FBD571 /* GoogleService-Info.plist */; };
+		D442B9F82EF04F8200EFAC9F /* BlePayeeModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = D442B9F72EF04F8100EFAC9F /* BlePayeeModule.swift */; };
+		D442B9FA2EF04FB400EFAC9F /* BlePayeeModule.m in Sources */ = {isa = PBXBuildFile; fileRef = D442B9F92EF04FA800EFAC9F /* BlePayeeModule.m */; };
+		D539142CC92941DD9F604C8B /* Poppins-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 665988E9E7594A798D9B6F4A /* Poppins-ExtraBold.ttf */; };
+		D7473362F3DA4C31B771C679 /* Raleway-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A6925471CBC54C63B13C760F /* Raleway-Bold.ttf */; };
+		D905E24BEA32417CB1F86200 /* Poppins-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6F99CB9CAF5C41C6A476EA97 /* Poppins-Thin.ttf */; };
+		DC4F2732BC45426D9426DAE6 /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F9DEC3F3E55F4664A866EC99 /* Montserrat-Bold.ttf */; };
+		E3C89C81AA1644D29D61EFB8 /* Poppins-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4D3C3E6146244C3C8A344B85 /* Poppins-ExtraBoldItalic.ttf */; };
+		E4DFA97880ADD36D912E4BAE /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
+		E50885FCB9DF4CD395183F12 /* Montserrat-ExtraLightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DCE7FFECD1D444808CE013E0 /* Montserrat-ExtraLightItalic.ttf */; };
+		EDF6FC0029784E85A12F3111 /* Poppins-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 47E2B0FBF0754E21BD495B1E /* Poppins-BoldItalic.ttf */; };
+		F263484E490B4331A42D941C /* Montserrat-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EC032BFF72334313835B62F3 /* Montserrat-ExtraLight.ttf */; };
+		F4EACEC6BC23424ABF1760A6 /* Montserrat-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 363C5A6058154C61924AD547 /* Montserrat-Light.ttf */; };
+		F931BA67D6594B6894DF5876 /* Montserrat-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 391696D8A0174A4AB215B984 /* Montserrat-LightItalic.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		04694DC79633471D9E4B3906 /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Regular.ttf"; path = "../assets/fonts/Montserrat-Regular.ttf"; sourceTree = "<group>"; };
-		137FF7A1D7E04F47BED6E74C /* Montserrat-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Thin.ttf"; path = "../assets/fonts/Montserrat-Thin.ttf"; sourceTree = "<group>"; };
+		00C85700E035452096E9F1D8 /* Montserrat-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Thin.ttf"; path = "../assets/fonts/Montserrat-Thin.ttf"; sourceTree = "<group>"; };
+		0196C47DF5F04E698B4E1E97 /* Raleway-ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Raleway-ExtraLight.ttf"; path = "../assets/fonts/Raleway-ExtraLight.ttf"; sourceTree = "<group>"; };
+		087E5FFCB3534168A25AAB55 /* Poppins-SemiBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-SemiBoldItalic.ttf"; path = "../assets/fonts/Poppins-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
+		0B4F95C3B96947B4BCC06127 /* BootSplash.storyboard */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = BootSplash.storyboard; path = Insfers/BootSplash.storyboard; sourceTree = "<group>"; };
+		1319527B9E1E427D91B1CA38 /* Poppins-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Regular.ttf"; path = "../assets/fonts/Poppins-Regular.ttf"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* Insfers.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Insfers.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Insfers/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Insfers/Info.plist; sourceTree = "<group>"; };
 		13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = Insfers/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		14A1FCE7CA7C42C4BAA1A0CA /* Poppins-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-LightItalic.ttf"; path = "../assets/fonts/Poppins-LightItalic.ttf"; sourceTree = "<group>"; };
-		1B47E5399B394579AEE0B6E4 /* Poppins-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-ExtraBoldItalic.ttf"; path = "../assets/fonts/Poppins-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
-		1BA87EEB9D1D4831AD3D3836 /* Raleway-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Raleway-Black.ttf"; path = "../assets/fonts/Raleway-Black.ttf"; sourceTree = "<group>"; };
-		1C11334D0DD34EA1B6609DA1 /* Poppins-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-ExtraBold.ttf"; path = "../assets/fonts/Poppins-ExtraBold.ttf"; sourceTree = "<group>"; };
-		1D808A4B34474A07B7B33863 /* Raleway-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Raleway-Bold.ttf"; path = "../assets/fonts/Raleway-Bold.ttf"; sourceTree = "<group>"; };
-		24D9C0083E4041438D836A5F /* Poppins-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Thin.ttf"; path = "../assets/fonts/Poppins-Thin.ttf"; sourceTree = "<group>"; };
-		27435694BEAC426383B48C9D /* Raleway-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Raleway-Regular.ttf"; path = "../assets/fonts/Raleway-Regular.ttf"; sourceTree = "<group>"; };
-		27845DECBBEC4A789EDC1077 /* Montserrat-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Light.ttf"; path = "../assets/fonts/Montserrat-Light.ttf"; sourceTree = "<group>"; };
-		3B4392A12AC88292D35C810B /* Pods-Insfers.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Insfers.debug.xcconfig"; path = "Target Support Files/Pods-Insfers/Pods-Insfers.debug.xcconfig"; sourceTree = "<group>"; };
-		4032BA5F1DEF4A9195279AAE /* Poppins-BlackItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-BlackItalic.ttf"; path = "../assets/fonts/Poppins-BlackItalic.ttf"; sourceTree = "<group>"; };
-		44F60C80900043C982BDA8B9 /* Raleway-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Raleway-ExtraBold.ttf"; path = "../assets/fonts/Raleway-ExtraBold.ttf"; sourceTree = "<group>"; };
-		462FCF4C16514D9B89A9EABF /* Montserrat-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-SemiBold.ttf"; path = "../assets/fonts/Montserrat-SemiBold.ttf"; sourceTree = "<group>"; };
-		4AECF72A76E84155A45C62A7 /* Montserrat-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-LightItalic.ttf"; path = "../assets/fonts/Montserrat-LightItalic.ttf"; sourceTree = "<group>"; };
-		4D9BA637C5484B3187BF2AAD /* Poppins-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Medium.ttf"; path = "../assets/fonts/Poppins-Medium.ttf"; sourceTree = "<group>"; };
-		510899FBC4924C68AC78049A /* Raleway-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Raleway-Light.ttf"; path = "../assets/fonts/Raleway-Light.ttf"; sourceTree = "<group>"; };
-		53BA566A1C0C1F5ABE2C5A33 /* Pods_Insfers.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Insfers.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		5709B34CF0A7D63546082F79 /* Pods-Insfers.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Insfers.release.xcconfig"; path = "Target Support Files/Pods-Insfers/Pods-Insfers.release.xcconfig"; sourceTree = "<group>"; };
-		5A889EDE72074A11916541FF /* Montserrat-SemiBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-SemiBoldItalic.ttf"; path = "../assets/fonts/Montserrat-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
-		614585B425254A99B051F433 /* Poppins-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-BoldItalic.ttf"; path = "../assets/fonts/Poppins-BoldItalic.ttf"; sourceTree = "<group>"; };
-		616DACA167504C9FA2392579 /* Poppins-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Black.ttf"; path = "../assets/fonts/Poppins-Black.ttf"; sourceTree = "<group>"; };
-		68DF1BFAA2414CD689118E86 /* BootSplash.storyboard */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = BootSplash.storyboard; path = Insfers/BootSplash.storyboard; sourceTree = "<group>"; };
-		6BDDF870CADB446092E8E250 /* Montserrat-ThinItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-ThinItalic.ttf"; path = "../assets/fonts/Montserrat-ThinItalic.ttf"; sourceTree = "<group>"; };
-		725A4CE228264B858FA908AB /* Poppins-SemiBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-SemiBoldItalic.ttf"; path = "../assets/fonts/Poppins-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
-		73B4C73A12274E0BA5212760 /* Raleway-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Raleway-SemiBold.ttf"; path = "../assets/fonts/Raleway-SemiBold.ttf"; sourceTree = "<group>"; };
+		262A70CA8BF94B59A3627B11 /* Montserrat-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-BoldItalic.ttf"; path = "../assets/fonts/Montserrat-BoldItalic.ttf"; sourceTree = "<group>"; };
+		2885F564AEDD4196959C5BA1 /* Raleway-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Raleway-ExtraBold.ttf"; path = "../assets/fonts/Raleway-ExtraBold.ttf"; sourceTree = "<group>"; };
+		2971AEE249494A479D6E66D8 /* Poppins-ThinItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-ThinItalic.ttf"; path = "../assets/fonts/Poppins-ThinItalic.ttf"; sourceTree = "<group>"; };
+		2FFC52AB48524123B9CEDF54 /* Montserrat-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Medium.ttf"; path = "../assets/fonts/Montserrat-Medium.ttf"; sourceTree = "<group>"; };
+		35FAEDBA9AA25B28720FE17E /* Pods-Insfers.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Insfers.release.xcconfig"; path = "Target Support Files/Pods-Insfers/Pods-Insfers.release.xcconfig"; sourceTree = "<group>"; };
+		363C5A6058154C61924AD547 /* Montserrat-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Light.ttf"; path = "../assets/fonts/Montserrat-Light.ttf"; sourceTree = "<group>"; };
+		365E6CF85A50413C98FFC986 /* Poppins-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-SemiBold.ttf"; path = "../assets/fonts/Poppins-SemiBold.ttf"; sourceTree = "<group>"; };
+		38700145BE8E4A7FAC0BB732 /* Raleway-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Raleway-Black.ttf"; path = "../assets/fonts/Raleway-Black.ttf"; sourceTree = "<group>"; };
+		391696D8A0174A4AB215B984 /* Montserrat-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-LightItalic.ttf"; path = "../assets/fonts/Montserrat-LightItalic.ttf"; sourceTree = "<group>"; };
+		39C7A1BF0EE24AB795764D85 /* Montserrat-MediumItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-MediumItalic.ttf"; path = "../assets/fonts/Montserrat-MediumItalic.ttf"; sourceTree = "<group>"; };
+		423BE65B987C4ACA8AB79937 /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Regular.ttf"; path = "../assets/fonts/Montserrat-Regular.ttf"; sourceTree = "<group>"; };
+		466F0E3FF7A74F73BFE1F721 /* Poppins-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Bold.ttf"; path = "../assets/fonts/Poppins-Bold.ttf"; sourceTree = "<group>"; };
+		47E2B0FBF0754E21BD495B1E /* Poppins-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-BoldItalic.ttf"; path = "../assets/fonts/Poppins-BoldItalic.ttf"; sourceTree = "<group>"; };
+		4D3C3E6146244C3C8A344B85 /* Poppins-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-ExtraBoldItalic.ttf"; path = "../assets/fonts/Poppins-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
+		5F9933E54792456FA6C597DF /* Poppins-ExtraLightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-ExtraLightItalic.ttf"; path = "../assets/fonts/Poppins-ExtraLightItalic.ttf"; sourceTree = "<group>"; };
+		665988E9E7594A798D9B6F4A /* Poppins-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-ExtraBold.ttf"; path = "../assets/fonts/Poppins-ExtraBold.ttf"; sourceTree = "<group>"; };
+		6F8596F2CCA84E3B92CA8E65 /* Poppins-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Medium.ttf"; path = "../assets/fonts/Poppins-Medium.ttf"; sourceTree = "<group>"; };
+		6F99CB9CAF5C41C6A476EA97 /* Poppins-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Thin.ttf"; path = "../assets/fonts/Poppins-Thin.ttf"; sourceTree = "<group>"; };
+		726A34D135414614BBA497DC /* Poppins-ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-ExtraLight.ttf"; path = "../assets/fonts/Poppins-ExtraLight.ttf"; sourceTree = "<group>"; };
 		761780EC2CA45674006654EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = Insfers/AppDelegate.swift; sourceTree = "<group>"; };
-		793892B9C83B4E0BB5A41AA5 /* Montserrat-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Black.ttf"; path = "../assets/fonts/Montserrat-Black.ttf"; sourceTree = "<group>"; };
+		76DBC79D7EE5B901FDD2563F /* Pods-Insfers.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Insfers.debug.xcconfig"; path = "Target Support Files/Pods-Insfers/Pods-Insfers.debug.xcconfig"; sourceTree = "<group>"; };
+		7DCD38E7D0A1060C240D8466 /* Pods_Insfers.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Insfers.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Insfers/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		8C02DB9CE7594FD68359BA0F /* Montserrat-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-ExtraBoldItalic.ttf"; path = "../assets/fonts/Montserrat-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
-		8D5496E0DD154A39AD9C8FD2 /* Poppins-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Light.ttf"; path = "../assets/fonts/Poppins-Light.ttf"; sourceTree = "<group>"; };
-		903C45C709A2442A9C5575CB /* Montserrat-MediumItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-MediumItalic.ttf"; path = "../assets/fonts/Montserrat-MediumItalic.ttf"; sourceTree = "<group>"; };
-		91AD4F808C6243BE89147666 /* Montserrat-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-BoldItalic.ttf"; path = "../assets/fonts/Montserrat-BoldItalic.ttf"; sourceTree = "<group>"; };
-		98DFEDF891DC4CD582B97524 /* Raleway-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Raleway-Thin.ttf"; path = "../assets/fonts/Raleway-Thin.ttf"; sourceTree = "<group>"; };
-		99120C8E55DB417885D7DAB0 /* Montserrat-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Italic.ttf"; path = "../assets/fonts/Montserrat-Italic.ttf"; sourceTree = "<group>"; };
-		991B4F4159FB467EBBC34A23 /* Montserrat-ExtraLightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-ExtraLightItalic.ttf"; path = "../assets/fonts/Montserrat-ExtraLightItalic.ttf"; sourceTree = "<group>"; };
-		A2D22FE887A3481ABE9169E8 /* Montserrat-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-ExtraBold.ttf"; path = "../assets/fonts/Montserrat-ExtraBold.ttf"; sourceTree = "<group>"; };
-		A8187BF16DCB42538A08A40E /* Poppins-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Italic.ttf"; path = "../assets/fonts/Poppins-Italic.ttf"; sourceTree = "<group>"; };
-		AC5D8E48C93F4DAFAEC67FD1 /* Montserrat-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Bold.ttf"; path = "../assets/fonts/Montserrat-Bold.ttf"; sourceTree = "<group>"; };
-		B808586264AA461589A53CFD /* Poppins-ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-ExtraLight.ttf"; path = "../assets/fonts/Poppins-ExtraLight.ttf"; sourceTree = "<group>"; };
-		BE7779FD804A4232B6D24A53 /* Montserrat-ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-ExtraLight.ttf"; path = "../assets/fonts/Montserrat-ExtraLight.ttf"; sourceTree = "<group>"; };
-		C4CDA6722F214182880C81EE /* Raleway-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Raleway-Medium.ttf"; path = "../assets/fonts/Raleway-Medium.ttf"; sourceTree = "<group>"; };
-		C5226F34139A4C7FBB01C923 /* Montserrat-BlackItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-BlackItalic.ttf"; path = "../assets/fonts/Montserrat-BlackItalic.ttf"; sourceTree = "<group>"; };
-		CBF59C21C800480897257241 /* Colors.xcassets */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = folder.assetcatalog; name = Colors.xcassets; path = Insfers/Colors.xcassets; sourceTree = "<group>"; };
-		D427BFA42E9637AC00D8FD9E /* Insfers.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Insfers.entitlements; path = Insfers/Insfers.entitlements; sourceTree = "<group>"; };
-		D48F04B82EE3C12D003B8E19 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		D4A4709C2EEACDE1002060EA /* BLEAdvertiser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEAdvertiser.swift; sourceTree = "<group>"; };
-		D4A4709E2EEACE08002060EA /* BLEAdvertiser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLEAdvertiser.m; sourceTree = "<group>"; };
-		D4A4709F2EEAFFA8002060EA /* Insfers-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Insfers-Bridging-Header.h"; sourceTree = "<group>"; };
-		D6A07E4C20C74C36AA438799 /* Poppins-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Bold.ttf"; path = "../assets/fonts/Poppins-Bold.ttf"; sourceTree = "<group>"; };
-		D7F3A45965604ECE84D61C13 /* Poppins-ExtraLightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-ExtraLightItalic.ttf"; path = "../assets/fonts/Poppins-ExtraLightItalic.ttf"; sourceTree = "<group>"; };
-		DAEFCAEF6B9641DA93F8AD85 /* Poppins-ThinItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-ThinItalic.ttf"; path = "../assets/fonts/Poppins-ThinItalic.ttf"; sourceTree = "<group>"; };
-		DEE6F2DFC9154E538E68875D /* Poppins-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-SemiBold.ttf"; path = "../assets/fonts/Poppins-SemiBold.ttf"; sourceTree = "<group>"; };
-		DF533D55FB8F4D3CB7D2B999 /* Montserrat-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Medium.ttf"; path = "../assets/fonts/Montserrat-Medium.ttf"; sourceTree = "<group>"; };
-		E471DEEE29BE489DB98C0FBF /* Raleway-ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Raleway-ExtraLight.ttf"; path = "../assets/fonts/Raleway-ExtraLight.ttf"; sourceTree = "<group>"; };
-		E505B4E78CDE466E91C6E0B8 /* Poppins-MediumItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-MediumItalic.ttf"; path = "../assets/fonts/Poppins-MediumItalic.ttf"; sourceTree = "<group>"; };
+		856DD7F8920C45F19CA983B6 /* Raleway-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Raleway-SemiBold.ttf"; path = "../assets/fonts/Raleway-SemiBold.ttf"; sourceTree = "<group>"; };
+		8B94A1E718C445CCAFE95176 /* Poppins-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-LightItalic.ttf"; path = "../assets/fonts/Poppins-LightItalic.ttf"; sourceTree = "<group>"; };
+		9FD3EC5B463846E493383A2F /* Montserrat-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Black.ttf"; path = "../assets/fonts/Montserrat-Black.ttf"; sourceTree = "<group>"; };
+		A6925471CBC54C63B13C760F /* Raleway-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Raleway-Bold.ttf"; path = "../assets/fonts/Raleway-Bold.ttf"; sourceTree = "<group>"; };
+		A9A4F1887B3347139A30F9C1 /* Poppins-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Italic.ttf"; path = "../assets/fonts/Poppins-Italic.ttf"; sourceTree = "<group>"; };
+		AEF4D46E90354A72BA5B6239 /* Raleway-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Raleway-Light.ttf"; path = "../assets/fonts/Raleway-Light.ttf"; sourceTree = "<group>"; };
+		B4AD0D9F6687400E8EA30242 /* Raleway-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Raleway-Thin.ttf"; path = "../assets/fonts/Raleway-Thin.ttf"; sourceTree = "<group>"; };
+		BCAF16265897420B94DB62AA /* Montserrat-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Italic.ttf"; path = "../assets/fonts/Montserrat-Italic.ttf"; sourceTree = "<group>"; };
+		C6CC6C8489F1441887CFDB40 /* Colors.xcassets */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = folder.assetcatalog; name = Colors.xcassets; path = Insfers/Colors.xcassets; sourceTree = "<group>"; };
+		CF65CD862C6F4BE28CF11594 /* Poppins-BlackItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-BlackItalic.ttf"; path = "../assets/fonts/Poppins-BlackItalic.ttf"; sourceTree = "<group>"; };
+		D418C69D2EEECD2900FBD571 /* Insfers-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Insfers-Bridging-Header.h"; sourceTree = "<group>"; };
+		D418C69E2EEECD8200FBD571 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		D418C6A22EEECE5700FBD571 /* Insfers.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Insfers.entitlements; path = Insfers/Insfers.entitlements; sourceTree = "<group>"; };
+		D442B9F72EF04F8100EFAC9F /* BlePayeeModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlePayeeModule.swift; sourceTree = "<group>"; };
+		D442B9F92EF04FA800EFAC9F /* BlePayeeModule.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BlePayeeModule.m; sourceTree = "<group>"; };
+		D87A87EE07D24251BCD7C2E4 /* Poppins-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Light.ttf"; path = "../assets/fonts/Poppins-Light.ttf"; sourceTree = "<group>"; };
+		D909355C5AFA405FAD2BA02E /* Raleway-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Raleway-Medium.ttf"; path = "../assets/fonts/Raleway-Medium.ttf"; sourceTree = "<group>"; };
+		DCE7FFECD1D444808CE013E0 /* Montserrat-ExtraLightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-ExtraLightItalic.ttf"; path = "../assets/fonts/Montserrat-ExtraLightItalic.ttf"; sourceTree = "<group>"; };
+		E19615E648324E74A86CF266 /* Montserrat-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-ExtraBold.ttf"; path = "../assets/fonts/Montserrat-ExtraBold.ttf"; sourceTree = "<group>"; };
+		E4E0088A4035406FB7BE4EE2 /* Montserrat-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-ExtraBoldItalic.ttf"; path = "../assets/fonts/Montserrat-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
+		E538F887B2D3451EB9E11886 /* Montserrat-SemiBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-SemiBoldItalic.ttf"; path = "../assets/fonts/Montserrat-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
+		E612512B5F744560BEF4045A /* Montserrat-BlackItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-BlackItalic.ttf"; path = "../assets/fonts/Montserrat-BlackItalic.ttf"; sourceTree = "<group>"; };
+		EA7933667EB44910984A3249 /* Poppins-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Black.ttf"; path = "../assets/fonts/Poppins-Black.ttf"; sourceTree = "<group>"; };
+		EBC1DF96C20D4F2D8B3E2E49 /* Poppins-MediumItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-MediumItalic.ttf"; path = "../assets/fonts/Poppins-MediumItalic.ttf"; sourceTree = "<group>"; };
+		EC032BFF72334313835B62F3 /* Montserrat-ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-ExtraLight.ttf"; path = "../assets/fonts/Montserrat-ExtraLight.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		FCA7926712D9442E884457F5 /* Poppins-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Regular.ttf"; path = "../assets/fonts/Poppins-Regular.ttf"; sourceTree = "<group>"; };
+		ED4C06CB99444585B52D1C8F /* Raleway-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Raleway-Regular.ttf"; path = "../assets/fonts/Raleway-Regular.ttf"; sourceTree = "<group>"; };
+		EE3E62CB271C4901A146FBA7 /* Montserrat-ThinItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-ThinItalic.ttf"; path = "../assets/fonts/Montserrat-ThinItalic.ttf"; sourceTree = "<group>"; };
+		F3F6204E8D1D463C8C2A96FE /* Montserrat-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-SemiBold.ttf"; path = "../assets/fonts/Montserrat-SemiBold.ttf"; sourceTree = "<group>"; };
+		F9DEC3F3E55F4664A866EC99 /* Montserrat-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Bold.ttf"; path = "../assets/fonts/Montserrat-Bold.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,7 +134,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0A3E49AE75590BDC6580F16F /* Pods_Insfers.framework in Frameworks */,
+				5554F813972D6E6AF6CD8DAF /* Pods_Insfers.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -144,18 +144,18 @@
 		13B07FAE1A68108700A75B9A /* Insfers */ = {
 			isa = PBXGroup;
 			children = (
-				D4A4709F2EEAFFA8002060EA /* Insfers-Bridging-Header.h */,
-				D4A4709E2EEACE08002060EA /* BLEAdvertiser.m */,
-				D4A4709C2EEACDE1002060EA /* BLEAdvertiser.swift */,
-				D427BFA42E9637AC00D8FD9E /* Insfers.entitlements */,
+				D442B9F92EF04FA800EFAC9F /* BlePayeeModule.m */,
+				D442B9F72EF04F8100EFAC9F /* BlePayeeModule.swift */,
+				D418C6A22EEECE5700FBD571 /* Insfers.entitlements */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				761780EC2CA45674006654EE /* AppDelegate.swift */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
-				D48F04B82EE3C12D003B8E19 /* GoogleService-Info.plist */,
 				13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */,
-				68DF1BFAA2414CD689118E86 /* BootSplash.storyboard */,
-				CBF59C21C800480897257241 /* Colors.xcassets */,
+				D418C69E2EEECD8200FBD571 /* GoogleService-Info.plist */,
+				0B4F95C3B96947B4BCC06127 /* BootSplash.storyboard */,
+				C6CC6C8489F1441887CFDB40 /* Colors.xcassets */,
+				D418C69D2EEECD2900FBD571 /* Insfers-Bridging-Header.h */,
 			);
 			name = Insfers;
 			sourceTree = "<group>";
@@ -164,7 +164,7 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				53BA566A1C0C1F5ABE2C5A33 /* Pods_Insfers.framework */,
+				7DCD38E7D0A1060C240D8466 /* Pods_Insfers.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -184,7 +184,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
-				C54174EE8A134D8CA8C73EA4 /* Resources */,
+				DCA6848104FB434D816172CF /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -202,60 +202,60 @@
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				3B4392A12AC88292D35C810B /* Pods-Insfers.debug.xcconfig */,
-				5709B34CF0A7D63546082F79 /* Pods-Insfers.release.xcconfig */,
+				76DBC79D7EE5B901FDD2563F /* Pods-Insfers.debug.xcconfig */,
+				35FAEDBA9AA25B28720FE17E /* Pods-Insfers.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
 		};
-		C54174EE8A134D8CA8C73EA4 /* Resources */ = {
+		DCA6848104FB434D816172CF /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				793892B9C83B4E0BB5A41AA5 /* Montserrat-Black.ttf */,
-				C5226F34139A4C7FBB01C923 /* Montserrat-BlackItalic.ttf */,
-				AC5D8E48C93F4DAFAEC67FD1 /* Montserrat-Bold.ttf */,
-				91AD4F808C6243BE89147666 /* Montserrat-BoldItalic.ttf */,
-				A2D22FE887A3481ABE9169E8 /* Montserrat-ExtraBold.ttf */,
-				8C02DB9CE7594FD68359BA0F /* Montserrat-ExtraBoldItalic.ttf */,
-				BE7779FD804A4232B6D24A53 /* Montserrat-ExtraLight.ttf */,
-				991B4F4159FB467EBBC34A23 /* Montserrat-ExtraLightItalic.ttf */,
-				99120C8E55DB417885D7DAB0 /* Montserrat-Italic.ttf */,
-				27845DECBBEC4A789EDC1077 /* Montserrat-Light.ttf */,
-				4AECF72A76E84155A45C62A7 /* Montserrat-LightItalic.ttf */,
-				DF533D55FB8F4D3CB7D2B999 /* Montserrat-Medium.ttf */,
-				903C45C709A2442A9C5575CB /* Montserrat-MediumItalic.ttf */,
-				04694DC79633471D9E4B3906 /* Montserrat-Regular.ttf */,
-				462FCF4C16514D9B89A9EABF /* Montserrat-SemiBold.ttf */,
-				5A889EDE72074A11916541FF /* Montserrat-SemiBoldItalic.ttf */,
-				137FF7A1D7E04F47BED6E74C /* Montserrat-Thin.ttf */,
-				6BDDF870CADB446092E8E250 /* Montserrat-ThinItalic.ttf */,
-				616DACA167504C9FA2392579 /* Poppins-Black.ttf */,
-				4032BA5F1DEF4A9195279AAE /* Poppins-BlackItalic.ttf */,
-				D6A07E4C20C74C36AA438799 /* Poppins-Bold.ttf */,
-				614585B425254A99B051F433 /* Poppins-BoldItalic.ttf */,
-				1C11334D0DD34EA1B6609DA1 /* Poppins-ExtraBold.ttf */,
-				1B47E5399B394579AEE0B6E4 /* Poppins-ExtraBoldItalic.ttf */,
-				B808586264AA461589A53CFD /* Poppins-ExtraLight.ttf */,
-				D7F3A45965604ECE84D61C13 /* Poppins-ExtraLightItalic.ttf */,
-				A8187BF16DCB42538A08A40E /* Poppins-Italic.ttf */,
-				8D5496E0DD154A39AD9C8FD2 /* Poppins-Light.ttf */,
-				14A1FCE7CA7C42C4BAA1A0CA /* Poppins-LightItalic.ttf */,
-				4D9BA637C5484B3187BF2AAD /* Poppins-Medium.ttf */,
-				E505B4E78CDE466E91C6E0B8 /* Poppins-MediumItalic.ttf */,
-				FCA7926712D9442E884457F5 /* Poppins-Regular.ttf */,
-				DEE6F2DFC9154E538E68875D /* Poppins-SemiBold.ttf */,
-				725A4CE228264B858FA908AB /* Poppins-SemiBoldItalic.ttf */,
-				24D9C0083E4041438D836A5F /* Poppins-Thin.ttf */,
-				DAEFCAEF6B9641DA93F8AD85 /* Poppins-ThinItalic.ttf */,
-				1BA87EEB9D1D4831AD3D3836 /* Raleway-Black.ttf */,
-				1D808A4B34474A07B7B33863 /* Raleway-Bold.ttf */,
-				44F60C80900043C982BDA8B9 /* Raleway-ExtraBold.ttf */,
-				E471DEEE29BE489DB98C0FBF /* Raleway-ExtraLight.ttf */,
-				510899FBC4924C68AC78049A /* Raleway-Light.ttf */,
-				C4CDA6722F214182880C81EE /* Raleway-Medium.ttf */,
-				27435694BEAC426383B48C9D /* Raleway-Regular.ttf */,
-				73B4C73A12274E0BA5212760 /* Raleway-SemiBold.ttf */,
-				98DFEDF891DC4CD582B97524 /* Raleway-Thin.ttf */,
+				9FD3EC5B463846E493383A2F /* Montserrat-Black.ttf */,
+				E612512B5F744560BEF4045A /* Montserrat-BlackItalic.ttf */,
+				F9DEC3F3E55F4664A866EC99 /* Montserrat-Bold.ttf */,
+				262A70CA8BF94B59A3627B11 /* Montserrat-BoldItalic.ttf */,
+				E19615E648324E74A86CF266 /* Montserrat-ExtraBold.ttf */,
+				E4E0088A4035406FB7BE4EE2 /* Montserrat-ExtraBoldItalic.ttf */,
+				EC032BFF72334313835B62F3 /* Montserrat-ExtraLight.ttf */,
+				DCE7FFECD1D444808CE013E0 /* Montserrat-ExtraLightItalic.ttf */,
+				BCAF16265897420B94DB62AA /* Montserrat-Italic.ttf */,
+				363C5A6058154C61924AD547 /* Montserrat-Light.ttf */,
+				391696D8A0174A4AB215B984 /* Montserrat-LightItalic.ttf */,
+				2FFC52AB48524123B9CEDF54 /* Montserrat-Medium.ttf */,
+				39C7A1BF0EE24AB795764D85 /* Montserrat-MediumItalic.ttf */,
+				423BE65B987C4ACA8AB79937 /* Montserrat-Regular.ttf */,
+				F3F6204E8D1D463C8C2A96FE /* Montserrat-SemiBold.ttf */,
+				E538F887B2D3451EB9E11886 /* Montserrat-SemiBoldItalic.ttf */,
+				00C85700E035452096E9F1D8 /* Montserrat-Thin.ttf */,
+				EE3E62CB271C4901A146FBA7 /* Montserrat-ThinItalic.ttf */,
+				EA7933667EB44910984A3249 /* Poppins-Black.ttf */,
+				CF65CD862C6F4BE28CF11594 /* Poppins-BlackItalic.ttf */,
+				466F0E3FF7A74F73BFE1F721 /* Poppins-Bold.ttf */,
+				47E2B0FBF0754E21BD495B1E /* Poppins-BoldItalic.ttf */,
+				665988E9E7594A798D9B6F4A /* Poppins-ExtraBold.ttf */,
+				4D3C3E6146244C3C8A344B85 /* Poppins-ExtraBoldItalic.ttf */,
+				726A34D135414614BBA497DC /* Poppins-ExtraLight.ttf */,
+				5F9933E54792456FA6C597DF /* Poppins-ExtraLightItalic.ttf */,
+				A9A4F1887B3347139A30F9C1 /* Poppins-Italic.ttf */,
+				D87A87EE07D24251BCD7C2E4 /* Poppins-Light.ttf */,
+				8B94A1E718C445CCAFE95176 /* Poppins-LightItalic.ttf */,
+				6F8596F2CCA84E3B92CA8E65 /* Poppins-Medium.ttf */,
+				EBC1DF96C20D4F2D8B3E2E49 /* Poppins-MediumItalic.ttf */,
+				1319527B9E1E427D91B1CA38 /* Poppins-Regular.ttf */,
+				365E6CF85A50413C98FFC986 /* Poppins-SemiBold.ttf */,
+				087E5FFCB3534168A25AAB55 /* Poppins-SemiBoldItalic.ttf */,
+				6F99CB9CAF5C41C6A476EA97 /* Poppins-Thin.ttf */,
+				2971AEE249494A479D6E66D8 /* Poppins-ThinItalic.ttf */,
+				38700145BE8E4A7FAC0BB732 /* Raleway-Black.ttf */,
+				A6925471CBC54C63B13C760F /* Raleway-Bold.ttf */,
+				2885F564AEDD4196959C5BA1 /* Raleway-ExtraBold.ttf */,
+				0196C47DF5F04E698B4E1E97 /* Raleway-ExtraLight.ttf */,
+				AEF4D46E90354A72BA5B6239 /* Raleway-Light.ttf */,
+				D909355C5AFA405FAD2BA02E /* Raleway-Medium.ttf */,
+				ED4C06CB99444585B52D1C8F /* Raleway-Regular.ttf */,
+				856DD7F8920C45F19CA983B6 /* Raleway-SemiBold.ttf */,
+				B4AD0D9F6687400E8EA30242 /* Raleway-Thin.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -267,15 +267,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Insfers" */;
 			buildPhases = (
-				C38B50BA6285516D6DCD4F65 /* [CP] Check Pods Manifest.lock */,
+				5120C7125CADFEC80299E161 /* [CP] Check Pods Manifest.lock */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				00EEFC60759A1932668264C0 /* [CP] Embed Pods Frameworks */,
-				E235C05ADACE081382539298 /* [CP] Copy Pods Resources */,
-				816E7BB20B6A1A5F7874A076 /* [CP-User] [RNFB] Core Configuration */,
-				8A5151B075DFD89B05CB903F /* [CP-User] [CP-User] Embed OpenSSL Framework */,
+				7F10AC89BFB47ED4EAAA3C4E /* [CP] Embed Pods Frameworks */,
+				8E61F3031D1A956445A3D96D /* [CP] Copy Pods Resources */,
+				BCA40EA9CA9A66494F99FF1B /* [CP-User] [RNFB] Core Configuration */,
 			);
 			buildRules = (
 			);
@@ -295,7 +294,7 @@
 				LastUpgradeCheck = 1210;
 				TargetAttributes = {
 					13B07F861A680F5B00A75B9A = {
-						LastSwiftMigration = 1120;
+						LastSwiftMigration = 2610;
 					};
 				};
 			};
@@ -324,55 +323,55 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				B27E34360F4E426CBE252A40 /* BootSplash.storyboard in Resources */,
-				51A4F65A93584F989E9B9086 /* Colors.xcassets in Resources */,
-				5407CF38466AE7B8DBE619EB /* PrivacyInfo.xcprivacy in Resources */,
-				1501A85F2DFC49A98996DE8F /* Montserrat-Black.ttf in Resources */,
-				D2EAB58878D04B70B53D15A8 /* Montserrat-BlackItalic.ttf in Resources */,
-				E39A09FC2C6F45B6BDF7AC1A /* Montserrat-Bold.ttf in Resources */,
-				D3D5B6663774444E91486FF0 /* Montserrat-BoldItalic.ttf in Resources */,
-				197A6859ECD3428C9DC9ED5B /* Montserrat-ExtraBold.ttf in Resources */,
-				8989FEE7E7DE4B9B9CDF6662 /* Montserrat-ExtraBoldItalic.ttf in Resources */,
-				312E8CC5BF814BEFB38CFECC /* Montserrat-ExtraLight.ttf in Resources */,
-				FDDC07C9DFC24308A11696F0 /* Montserrat-ExtraLightItalic.ttf in Resources */,
-				DB413302EB4147D8912C4B65 /* Montserrat-Italic.ttf in Resources */,
-				8A26692BA6D94D9B8A4C1975 /* Montserrat-Light.ttf in Resources */,
-				756506EE861E4F6198044DA6 /* Montserrat-LightItalic.ttf in Resources */,
-				47E4562D3EFD49558F5B1CEC /* Montserrat-Medium.ttf in Resources */,
-				63AC3535015242F9AA356449 /* Montserrat-MediumItalic.ttf in Resources */,
-				DF7373B24D124622A9D3C0C7 /* Montserrat-Regular.ttf in Resources */,
-				63A843C87EB9464B8FB0999A /* Montserrat-SemiBold.ttf in Resources */,
-				8B260691A34740CCB37CE572 /* Montserrat-SemiBoldItalic.ttf in Resources */,
-				6BD0FD840DA74A3FAA387B1E /* Montserrat-Thin.ttf in Resources */,
-				6AFE57B290374DC8AFF20ECA /* Montserrat-ThinItalic.ttf in Resources */,
-				A874A99723EE4FF1BD8878E9 /* Poppins-Black.ttf in Resources */,
-				0C973CFE19F84C5E8DE1FB6E /* Poppins-BlackItalic.ttf in Resources */,
-				513CB145FF22442887192506 /* Poppins-Bold.ttf in Resources */,
-				94411C34609E413BA1D1C8B2 /* Poppins-BoldItalic.ttf in Resources */,
-				B26CBD3144C4447FA4DD396E /* Poppins-ExtraBold.ttf in Resources */,
-				658E7EC216864136A3B2F8CF /* Poppins-ExtraBoldItalic.ttf in Resources */,
-				D48F04B92EE3C12D003B8E19 /* GoogleService-Info.plist in Resources */,
-				9F9280C8DDE14D34A8A74BC9 /* Poppins-ExtraLight.ttf in Resources */,
-				127A6403576C4F7BAFA7B6D7 /* Poppins-ExtraLightItalic.ttf in Resources */,
-				6AE95C8ACB054584BCF2CEF6 /* Poppins-Italic.ttf in Resources */,
-				840DA4F5260744C7B6122663 /* Poppins-Light.ttf in Resources */,
-				EB39B13AC29E41C2B663EFCF /* Poppins-LightItalic.ttf in Resources */,
-				9D63CDACB7A1426286DC7FEB /* Poppins-Medium.ttf in Resources */,
-				D26805C5B09A40979555DB12 /* Poppins-MediumItalic.ttf in Resources */,
-				FD15946090104402818E406E /* Poppins-Regular.ttf in Resources */,
-				E1C139B1A99940248DEE759E /* Poppins-SemiBold.ttf in Resources */,
-				A1E2EBF01A214CC7BCC9293C /* Poppins-SemiBoldItalic.ttf in Resources */,
-				7A22307C0A284261AB02EBAC /* Poppins-Thin.ttf in Resources */,
-				6E9A253EEB4F4E67AA4D64F0 /* Poppins-ThinItalic.ttf in Resources */,
-				019EAB89337F49F9BCBA6232 /* Raleway-Black.ttf in Resources */,
-				D329C53D616C4D568F4F521A /* Raleway-Bold.ttf in Resources */,
-				BEC55FD75E4F4F25AFD82A7A /* Raleway-ExtraBold.ttf in Resources */,
-				AF2558772B1740F3ABA2F1BC /* Raleway-ExtraLight.ttf in Resources */,
-				A4365756B1394048A22A3078 /* Raleway-Light.ttf in Resources */,
-				D79437B3CE8E482C9F4A49FF /* Raleway-Medium.ttf in Resources */,
-				88F286DD422240F78C631F31 /* Raleway-Regular.ttf in Resources */,
-				B3485584E7804381BB2D7583 /* Raleway-SemiBold.ttf in Resources */,
-				17B6FD2CBD3049E6BFBB83AB /* Raleway-Thin.ttf in Resources */,
+				E4DFA97880ADD36D912E4BAE /* PrivacyInfo.xcprivacy in Resources */,
+				2FBB89E690EA4D269B15CD3D /* BootSplash.storyboard in Resources */,
+				7E915CAD2DC941E2B8CDFF91 /* Colors.xcassets in Resources */,
+				85CC3CD9841A40D3A66FA7F8 /* Montserrat-Black.ttf in Resources */,
+				32E977F06AD34C48AF216FB5 /* Montserrat-BlackItalic.ttf in Resources */,
+				DC4F2732BC45426D9426DAE6 /* Montserrat-Bold.ttf in Resources */,
+				476653D2742A4B13B8DB7DA4 /* Montserrat-BoldItalic.ttf in Resources */,
+				0BB3A14093454CF186C58E3C /* Montserrat-ExtraBold.ttf in Resources */,
+				B45B5A2D0B7F4DF68661E10D /* Montserrat-ExtraBoldItalic.ttf in Resources */,
+				F263484E490B4331A42D941C /* Montserrat-ExtraLight.ttf in Resources */,
+				E50885FCB9DF4CD395183F12 /* Montserrat-ExtraLightItalic.ttf in Resources */,
+				CDB969D198304DF3BEE40F94 /* Montserrat-Italic.ttf in Resources */,
+				F4EACEC6BC23424ABF1760A6 /* Montserrat-Light.ttf in Resources */,
+				F931BA67D6594B6894DF5876 /* Montserrat-LightItalic.ttf in Resources */,
+				3EB6007EECF24D8497D44859 /* Montserrat-Medium.ttf in Resources */,
+				19BCAD1440484EE89357C804 /* Montserrat-MediumItalic.ttf in Resources */,
+				12148D10B3FB4C9BB68A3949 /* Montserrat-Regular.ttf in Resources */,
+				9D6CA1623522433EA45720DA /* Montserrat-SemiBold.ttf in Resources */,
+				531F9111CC2844D29A589774 /* Montserrat-SemiBoldItalic.ttf in Resources */,
+				071E5BE21FE244ADBC049854 /* Montserrat-Thin.ttf in Resources */,
+				A0EFCD8B80794E34A0B64AC8 /* Montserrat-ThinItalic.ttf in Resources */,
+				A82A90BC6B4448CD8A9E0F3D /* Poppins-Black.ttf in Resources */,
+				1C7A54A38AA4461FAA5653B3 /* Poppins-BlackItalic.ttf in Resources */,
+				74BA2455C8DD4B02A612F7B4 /* Poppins-Bold.ttf in Resources */,
+				EDF6FC0029784E85A12F3111 /* Poppins-BoldItalic.ttf in Resources */,
+				D539142CC92941DD9F604C8B /* Poppins-ExtraBold.ttf in Resources */,
+				E3C89C81AA1644D29D61EFB8 /* Poppins-ExtraBoldItalic.ttf in Resources */,
+				D418C69F2EEECD8200FBD571 /* GoogleService-Info.plist in Resources */,
+				7BBD736E2CD84EEBA0BDD6B4 /* Poppins-ExtraLight.ttf in Resources */,
+				B7900F8E90644F8F9EF41B20 /* Poppins-ExtraLightItalic.ttf in Resources */,
+				92B846C71F7645789C8CA33F /* Poppins-Italic.ttf in Resources */,
+				99A64E1B7B9C42779708E774 /* Poppins-Light.ttf in Resources */,
+				7802CEC485B24A7AADCE651E /* Poppins-LightItalic.ttf in Resources */,
+				776091ED5BBE40CEBDCD8E8A /* Poppins-Medium.ttf in Resources */,
+				1EF2AACB9CD64ECBB491451A /* Poppins-MediumItalic.ttf in Resources */,
+				40538925D8F64B6882685BF2 /* Poppins-Regular.ttf in Resources */,
+				1F61CB7375A8452292703E7B /* Poppins-SemiBold.ttf in Resources */,
+				6849AA26BD3B4756A50F9E91 /* Poppins-SemiBoldItalic.ttf in Resources */,
+				D905E24BEA32417CB1F86200 /* Poppins-Thin.ttf in Resources */,
+				73DB11F127EA4AC69CDDE88B /* Poppins-ThinItalic.ttf in Resources */,
+				13CA8A88792744D396BFA30F /* Raleway-Black.ttf in Resources */,
+				D7473362F3DA4C31B771C679 /* Raleway-Bold.ttf in Resources */,
+				35B3A501D8DE41039AC99E62 /* Raleway-ExtraBold.ttf in Resources */,
+				0BB838FF2FE4443081D25E2B /* Raleway-ExtraLight.ttf in Resources */,
+				6382F4345F0F448299A1AAAF /* Raleway-Light.ttf in Resources */,
+				BB5CEF201A9A4D6CA83AAD1A /* Raleway-Medium.ttf in Resources */,
+				5DFC6809DFEF477B986529A3 /* Raleway-Regular.ttf in Resources */,
+				35DD9D39B4B7422BB522A4D7 /* Raleway-SemiBold.ttf in Resources */,
+				8D6E6FDD5D2249F7B70AC070 /* Raleway-Thin.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -393,55 +392,9 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"$REACT_NATIVE_PATH/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"$REACT_NATIVE_PATH/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
+			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"$REACT_NATIVE_PATH/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"$REACT_NATIVE_PATH/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"\\\"$WITH_ENVIRONMENT\\\" \\\"$REACT_NATIVE_XCODE\\\"\"\n";
 		};
-		00EEFC60759A1932668264C0 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Insfers/Pods-Insfers-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Insfers/Pods-Insfers-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Insfers/Pods-Insfers-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		816E7BB20B6A1A5F7874A076 /* [CP-User] [RNFB] Core Configuration */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
-			);
-			name = "[CP-User] [RNFB] Core Configuration";
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "#!/usr/bin/env bash\n#\n# Copyright (c) 2016-present Invertase Limited & Contributors\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this library except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#   http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n#\n\n##########################################################################\n##########################################################################\n#\n#  NOTE THAT IF YOU CHANGE THIS FILE YOU MUST RUN pod install AFTERWARDS\n#\n#  This file is installed as an Xcode build script in the project file\n#  by cocoapods, and you will not see your changes until you pod install\n#\n##########################################################################\n##########################################################################\n\nset -e\n\n_MAX_LOOKUPS=2;\n_SEARCH_RESULT=''\n_RN_ROOT_EXISTS=''\n_CURRENT_LOOKUPS=1\n_JSON_ROOT=\"'react-native'\"\n_JSON_FILE_NAME='firebase.json'\n_JSON_OUTPUT_BASE64='e30=' # { }\n_CURRENT_SEARCH_DIR=${PROJECT_DIR}\n_PLIST_BUDDY=/usr/libexec/PlistBuddy\n_TARGET_PLIST=\"${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}\"\n_DSYM_PLIST=\"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Info.plist\"\n\n# plist arrays\n_PLIST_ENTRY_KEYS=()\n_PLIST_ENTRY_TYPES=()\n_PLIST_ENTRY_VALUES=()\n\nfunction setPlistValue {\n  echo \"info:      setting plist entry '$1' of type '$2' in file '$4'\"\n  ${_PLIST_BUDDY} -c \"Add :$1 $2 '$3'\" $4 || echo \"info:      '$1' already exists\"\n}\n\nfunction getFirebaseJsonKeyValue () {\n  if [[ ${_RN_ROOT_EXISTS} ]]; then\n    ruby -Ku -e \"require 'rubygems';require 'json'; output=JSON.parse('$1'); puts output[$_JSON_ROOT]['$2']\"\n  else\n    echo \"\"\n  fi;\n}\n\nfunction jsonBoolToYesNo () {\n  if [[ $1 == \"false\" ]]; then\n    echo \"NO\"\n  elif [[ $1 == \"true\" ]]; then\n    echo \"YES\"\n  else echo \"NO\"\n  fi\n}\n\necho \"info: -> RNFB build script started\"\necho \"info: 1) Locating ${_JSON_FILE_NAME} file:\"\n\nif [[ -z ${_CURRENT_SEARCH_DIR} ]]; then\n  _CURRENT_SEARCH_DIR=$(pwd)\nfi;\n\nwhile true; do\n  _CURRENT_SEARCH_DIR=$(dirname \"$_CURRENT_SEARCH_DIR\")\n  if [[ \"$_CURRENT_SEARCH_DIR\" == \"/\" ]] || [[ ${_CURRENT_LOOKUPS} -gt ${_MAX_LOOKUPS} ]]; then break; fi;\n  echo \"info:      ($_CURRENT_LOOKUPS of $_MAX_LOOKUPS) Searching in '$_CURRENT_SEARCH_DIR' for a ${_JSON_FILE_NAME} file.\"\n  _SEARCH_RESULT=$(find \"$_CURRENT_SEARCH_DIR\" -maxdepth 2 -name ${_JSON_FILE_NAME} -print | /usr/bin/head -n 1)\n  if [[ ${_SEARCH_RESULT} ]]; then\n    echo \"info:      ${_JSON_FILE_NAME} found at $_SEARCH_RESULT\"\n    break;\n  fi;\n  _CURRENT_LOOKUPS=$((_CURRENT_LOOKUPS+1))\ndone\n\nif [[ ${_SEARCH_RESULT} ]]; then\n  _JSON_OUTPUT_RAW=$(cat \"${_SEARCH_RESULT}\")\n  if ! _RN_ROOT_EXISTS=$(ruby -Ku -e \"require 'json'; output=JSON.parse('$_JSON_OUTPUT_RAW'); puts output[$_JSON_ROOT]\"); then\n    echo \"error: Failed to parse firebase.json, check for syntax errors.\"\n    exit 1\n  fi\n\n  if [[ ${_RN_ROOT_EXISTS} ]]; then\n    if ! python3 --version >/dev/null 2>&1; then echo \"python3 not found, firebase.json file processing error.\" && exit 1; fi\n    _JSON_OUTPUT_BASE64=$(python3 -c 'import json,sys,base64;print(base64.b64encode(bytes(json.dumps(json.loads(open('\"'${_SEARCH_RESULT}'\"', '\"'rb'\"').read())['${_JSON_ROOT}']), '\"'utf-8'\"')).decode())' || echo \"e30=\")\n  fi\n\n  _PLIST_ENTRY_KEYS+=(\"firebase_json_raw\")\n  _PLIST_ENTRY_TYPES+=(\"string\")\n  _PLIST_ENTRY_VALUES+=(\"$_JSON_OUTPUT_BASE64\")\n\n  # config.app_data_collection_default_enabled\n  _APP_DATA_COLLECTION_ENABLED=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"app_data_collection_default_enabled\")\n  if [[ $_APP_DATA_COLLECTION_ENABLED ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FirebaseDataCollectionDefaultEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_APP_DATA_COLLECTION_ENABLED\")\")\n  fi\n\n  # config.analytics_auto_collection_enabled\n  _ANALYTICS_AUTO_COLLECTION=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"analytics_auto_collection_enabled\")\n  if [[ $_ANALYTICS_AUTO_COLLECTION ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FIREBASE_ANALYTICS_COLLECTION_ENABLED\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_ANALYTICS_AUTO_COLLECTION\")\")\n  fi\n\n  # config.analytics_collection_deactivated\n  _ANALYTICS_DEACTIVATED=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"analytics_collection_deactivated\")\n  if [[ $_ANALYTICS_DEACTIVATED ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FIREBASE_ANALYTICS_COLLECTION_DEACTIVATED\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_ANALYTICS_DEACTIVATED\")\")\n  fi\n\n  # config.analytics_idfv_collection_enabled\n  _ANALYTICS_IDFV_COLLECTION=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"analytics_idfv_collection_enabled\")\n  if [[ $_ANALYTICS_IDFV_COLLECTION ]]; then\n    _PLIST_ENTRY_KEYS+=(\"GOOGLE_ANALYTICS_IDFV_COLLECTION_ENABLED\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_ANALYTICS_IDFV_COLLECTION\")\")\n  fi\n\n  # config.analytics_default_allow_analytics_storage\n  _ANALYTICS_STORAGE=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"analytics_default_allow_analytics_storage\")\n  if [[ $_ANALYTICS_STORAGE ]]; then\n    _PLIST_ENTRY_KEYS+=(\"GOOGLE_ANALYTICS_DEFAULT_ALLOW_ANALYTICS_STORAGE\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_ANALYTICS_STORAGE\")\")\n  fi\n\n  # config.analytics_default_allow_ad_storage\n  _ANALYTICS_AD_STORAGE=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"analytics_default_allow_ad_storage\")\n  if [[ $_ANALYTICS_AD_STORAGE ]]; then\n    _PLIST_ENTRY_KEYS+=(\"GOOGLE_ANALYTICS_DEFAULT_ALLOW_AD_STORAGE\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_ANALYTICS_AD_STORAGE\")\")\n  fi\n\n  # config.analytics_default_allow_ad_user_data\n  _ANALYTICS_AD_USER_DATA=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"analytics_default_allow_ad_user_data\")\n  if [[ $_ANALYTICS_AD_USER_DATA ]]; then\n    _PLIST_ENTRY_KEYS+=(\"GOOGLE_ANALYTICS_DEFAULT_ALLOW_AD_USER_DATA\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_ANALYTICS_AD_USER_DATA\")\")\n  fi\n\n  # config.analytics_default_allow_ad_personalization_signals\n  _ANALYTICS_PERSONALIZATION=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"analytics_default_allow_ad_personalization_signals\")\n  if [[ $_ANALYTICS_PERSONALIZATION ]]; then\n    _PLIST_ENTRY_KEYS+=(\"GOOGLE_ANALYTICS_DEFAULT_ALLOW_AD_PERSONALIZATION_SIGNALS\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_ANALYTICS_PERSONALIZATION\")\")\n  fi\n\n  # config.analytics_registration_with_ad_network_enabled\n  _ANALYTICS_REGISTRATION_WITH_AD_NETWORK=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"google_analytics_registration_with_ad_network_enabled\")\n  if [[ $_ANALYTICS_REGISTRATION_WITH_AD_NETWORK ]]; then\n    _PLIST_ENTRY_KEYS+=(\"GOOGLE_ANALYTICS_REGISTRATION_WITH_AD_NETWORK_ENABLED\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_ANALYTICS_REGISTRATION_WITH_AD_NETWORK\")\")\n  fi\n\n  # config.google_analytics_automatic_screen_reporting_enabled\n  _ANALYTICS_AUTO_SCREEN_REPORTING=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"google_analytics_automatic_screen_reporting_enabled\")\n  if [[ $_ANALYTICS_AUTO_SCREEN_REPORTING ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FirebaseAutomaticScreenReportingEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_ANALYTICS_AUTO_SCREEN_REPORTING\")\")\n  fi\n\n  # config.perf_auto_collection_enabled\n  _PERF_AUTO_COLLECTION=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"perf_auto_collection_enabled\")\n  if [[ $_PERF_AUTO_COLLECTION ]]; then\n    _PLIST_ENTRY_KEYS+=(\"firebase_performance_collection_enabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_PERF_AUTO_COLLECTION\")\")\n  fi\n\n  # config.perf_collection_deactivated\n  _PERF_DEACTIVATED=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"perf_collection_deactivated\")\n  if [[ $_PERF_DEACTIVATED ]]; then\n    _PLIST_ENTRY_KEYS+=(\"firebase_performance_collection_deactivated\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_PERF_DEACTIVATED\")\")\n  fi\n\n  # config.messaging_auto_init_enabled\n  _MESSAGING_AUTO_INIT=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"messaging_auto_init_enabled\")\n  if [[ $_MESSAGING_AUTO_INIT ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FirebaseMessagingAutoInitEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_MESSAGING_AUTO_INIT\")\")\n  fi\n\n  # config.in_app_messaging_auto_colllection_enabled\n  _FIAM_AUTO_INIT=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"in_app_messaging_auto_collection_enabled\")\n  if [[ $_FIAM_AUTO_INIT ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FirebaseInAppMessagingAutomaticDataCollectionEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_FIAM_AUTO_INIT\")\")\n  fi\n\n  # config.app_check_token_auto_refresh\n  _APP_CHECK_TOKEN_AUTO_REFRESH=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"app_check_token_auto_refresh\")\n  if [[ $_APP_CHECK_TOKEN_AUTO_REFRESH ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FirebaseAppCheckTokenAutoRefreshEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_APP_CHECK_TOKEN_AUTO_REFRESH\")\")\n  fi\n\n  # config.crashlytics_disable_auto_disabler - undocumented for now - mainly for debugging, document if becomes useful\n  _CRASHLYTICS_AUTO_DISABLE_ENABLED=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"crashlytics_disable_auto_disabler\")\n  if [[ $_CRASHLYTICS_AUTO_DISABLE_ENABLED == \"true\" ]]; then\n    echo \"Disabled Crashlytics auto disabler.\" # do nothing\n  else\n    _PLIST_ENTRY_KEYS+=(\"FirebaseCrashlyticsCollectionEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"NO\")\n  fi\nelse\n  _PLIST_ENTRY_KEYS+=(\"firebase_json_raw\")\n  _PLIST_ENTRY_TYPES+=(\"string\")\n  _PLIST_ENTRY_VALUES+=(\"$_JSON_OUTPUT_BASE64\")\n  echo \"warning:   A firebase.json file was not found, whilst this file is optional it is recommended to include it to configure firebase services in React Native Firebase.\"\nfi;\n\necho \"info: 2) Injecting Info.plist entries: \"\n\n# Log out the keys we're adding\nfor i in \"${!_PLIST_ENTRY_KEYS[@]}\"; do\n  echo \"    ->  $i) ${_PLIST_ENTRY_KEYS[$i]}\" \"${_PLIST_ENTRY_TYPES[$i]}\" \"${_PLIST_ENTRY_VALUES[$i]}\"\ndone\n\nfor plist in \"${_TARGET_PLIST}\" \"${_DSYM_PLIST}\" ; do\n  if [[ -f \"${plist}\" ]]; then\n\n    # paths with spaces break the call to setPlistValue. temporarily modify\n    # the shell internal field separator variable (IFS), which normally\n    # includes spaces, to consist only of line breaks\n    oldifs=$IFS\n    IFS=\"\n\"\n\n    for i in \"${!_PLIST_ENTRY_KEYS[@]}\"; do\n      setPlistValue \"${_PLIST_ENTRY_KEYS[$i]}\" \"${_PLIST_ENTRY_TYPES[$i]}\" \"${_PLIST_ENTRY_VALUES[$i]}\" \"${plist}\"\n    done\n\n    # restore the original internal field separator value\n    IFS=$oldifs\n  else\n    echo \"warning:   A Info.plist build output file was not found (${plist})\"\n  fi\ndone\n\necho \"info: <- RNFB build script finished\"\n";
-		};
-		8A5151B075DFD89B05CB903F /* [CP-User] [CP-User] Embed OpenSSL Framework */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${BUILT_PRODUCTS_DIR}/OpenSSL.framework",
-			);
-			name = "[CP-User] [CP-User] Embed OpenSSL Framework";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OpenSSL.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "#!/bin/bash\nset -e\n\nOPENSSL_FRAMEWORK=\"${BUILT_PRODUCTS_DIR}/OpenSSL.framework\"\n\nif [ -d \"$OPENSSL_FRAMEWORK\" ]; then\n  echo \"[QuickCrypto] Copying OpenSSL.framework to app bundle\"\n  mkdir -p \"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}\"\n  cp -Rf \"$OPENSSL_FRAMEWORK\" \"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/\"\n  \n  # Code sign the framework (only if code signing is required and not a simulator build)\n  if [ \"${CODE_SIGNING_REQUIRED}\" = \"YES\" ] && [ \"${EFFECTIVE_PLATFORM_NAME}\" != \"-iphonesimulator\" ]; then\n    codesign --force --sign \"${EXPANDED_CODE_SIGN_IDENTITY}\" --preserve-metadata=identifier,entitlements --timestamp=none \"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OpenSSL.framework\" || true\n  fi\n  echo \"[QuickCrypto] Successfully embedded OpenSSL.framework\"\nelse\n  echo \"[QuickCrypto] Warning: OpenSSL.framework not found at $OPENSSL_FRAMEWORK\"\nfi\n";
-		};
-		C38B50BA6285516D6DCD4F65 /* [CP] Check Pods Manifest.lock */ = {
+		5120C7125CADFEC80299E161 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -463,7 +416,24 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		E235C05ADACE081382539298 /* [CP] Copy Pods Resources */ = {
+		7F10AC89BFB47ED4EAAA3C4E /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Insfers/Pods-Insfers-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Insfers/Pods-Insfers-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Insfers/Pods-Insfers-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8E61F3031D1A956445A3D96D /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -480,6 +450,19 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Insfers/Pods-Insfers-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		BCA40EA9CA9A66494F99FF1B /* [CP-User] [RNFB] Core Configuration */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+			);
+			name = "[CP-User] [RNFB] Core Configuration";
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/usr/bin/env bash\n#\n# Copyright (c) 2016-present Invertase Limited & Contributors\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this library except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#   http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n#\n\n##########################################################################\n##########################################################################\n#\n#  NOTE THAT IF YOU CHANGE THIS FILE YOU MUST RUN pod install AFTERWARDS\n#\n#  This file is installed as an Xcode build script in the project file\n#  by cocoapods, and you will not see your changes until you pod install\n#\n##########################################################################\n##########################################################################\n\nset -e\n\n_MAX_LOOKUPS=2;\n_SEARCH_RESULT=''\n_RN_ROOT_EXISTS=''\n_CURRENT_LOOKUPS=1\n_JSON_ROOT=\"'react-native'\"\n_JSON_FILE_NAME='firebase.json'\n_JSON_OUTPUT_BASE64='e30=' # { }\n_CURRENT_SEARCH_DIR=${PROJECT_DIR}\n_PLIST_BUDDY=/usr/libexec/PlistBuddy\n_TARGET_PLIST=\"${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}\"\n_DSYM_PLIST=\"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Info.plist\"\n\n# plist arrays\n_PLIST_ENTRY_KEYS=()\n_PLIST_ENTRY_TYPES=()\n_PLIST_ENTRY_VALUES=()\n\nfunction setPlistValue {\n  echo \"note:      setting plist entry '$1' of type '$2' in file '$4'\"\n  ${_PLIST_BUDDY} -c \"Add :$1 $2 '$3'\" $4 || echo \"note:      '$1' already exists\"\n}\n\nfunction getFirebaseJsonKeyValue () {\n  if [[ ${_RN_ROOT_EXISTS} ]]; then\n    ruby -Ku -e \"require 'rubygems';require 'json'; output=JSON.parse('$1'); puts output[$_JSON_ROOT]['$2']\"\n  else\n    echo \"\"\n  fi;\n}\n\nfunction jsonBoolToYesNo () {\n  if [[ $1 == \"false\" ]]; then\n    echo \"NO\"\n  elif [[ $1 == \"true\" ]]; then\n    echo \"YES\"\n  else echo \"NO\"\n  fi\n}\n\necho \"note: -> RNFB build script started\"\necho \"note: 1) Locating ${_JSON_FILE_NAME} file:\"\n\nif [[ -z ${_CURRENT_SEARCH_DIR} ]]; then\n  _CURRENT_SEARCH_DIR=$(pwd)\nfi;\n\nwhile true; do\n  _CURRENT_SEARCH_DIR=$(dirname \"$_CURRENT_SEARCH_DIR\")\n  if [[ \"$_CURRENT_SEARCH_DIR\" == \"/\" ]] || [[ ${_CURRENT_LOOKUPS} -gt ${_MAX_LOOKUPS} ]]; then break; fi;\n  echo \"note:      ($_CURRENT_LOOKUPS of $_MAX_LOOKUPS) Searching in '$_CURRENT_SEARCH_DIR' for a ${_JSON_FILE_NAME} file.\"\n  _SEARCH_RESULT=$(find \"$_CURRENT_SEARCH_DIR\" -maxdepth 2 -name ${_JSON_FILE_NAME} -print | /usr/bin/head -n 1)\n  if [[ ${_SEARCH_RESULT} ]]; then\n    echo \"note:      ${_JSON_FILE_NAME} found at $_SEARCH_RESULT\"\n    break;\n  fi;\n  _CURRENT_LOOKUPS=$((_CURRENT_LOOKUPS+1))\ndone\n\nif [[ ${_SEARCH_RESULT} ]]; then\n  _JSON_OUTPUT_RAW=$(cat \"${_SEARCH_RESULT}\")\n  if ! _RN_ROOT_EXISTS=$(ruby -Ku -e \"require 'json'; output=JSON.parse('$_JSON_OUTPUT_RAW'); puts output[$_JSON_ROOT]\"); then\n    echo \"error: Failed to parse firebase.json, check for syntax errors.\"\n    exit 1\n  fi\n\n  if [[ ${_RN_ROOT_EXISTS} ]]; then\n    if ! python3 --version >/dev/null 2>&1; then echo \"error: python3 not found, firebase.json file processing error.\" && exit 1; fi\n    _JSON_OUTPUT_BASE64=$(python3 -c 'import json,sys,base64;print(base64.b64encode(bytes(json.dumps(json.loads(open('\"'${_SEARCH_RESULT}'\"', '\"'rb'\"').read())['${_JSON_ROOT}']), '\"'utf-8'\"')).decode())' || echo \"e30=\")\n  fi\n\n  _PLIST_ENTRY_KEYS+=(\"firebase_json_raw\")\n  _PLIST_ENTRY_TYPES+=(\"string\")\n  _PLIST_ENTRY_VALUES+=(\"$_JSON_OUTPUT_BASE64\")\n\n  # config.app_data_collection_default_enabled\n  _APP_DATA_COLLECTION_ENABLED=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"app_data_collection_default_enabled\")\n  if [[ $_APP_DATA_COLLECTION_ENABLED ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FirebaseDataCollectionDefaultEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_APP_DATA_COLLECTION_ENABLED\")\")\n  fi\n\n  # config.analytics_auto_collection_enabled\n  _ANALYTICS_AUTO_COLLECTION=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"analytics_auto_collection_enabled\")\n  if [[ $_ANALYTICS_AUTO_COLLECTION ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FIREBASE_ANALYTICS_COLLECTION_ENABLED\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_ANALYTICS_AUTO_COLLECTION\")\")\n  fi\n\n  # config.analytics_collection_deactivated\n  _ANALYTICS_DEACTIVATED=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"analytics_collection_deactivated\")\n  if [[ $_ANALYTICS_DEACTIVATED ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FIREBASE_ANALYTICS_COLLECTION_DEACTIVATED\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_ANALYTICS_DEACTIVATED\")\")\n  fi\n\n  # config.analytics_idfv_collection_enabled\n  _ANALYTICS_IDFV_COLLECTION=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"analytics_idfv_collection_enabled\")\n  if [[ $_ANALYTICS_IDFV_COLLECTION ]]; then\n    _PLIST_ENTRY_KEYS+=(\"GOOGLE_ANALYTICS_IDFV_COLLECTION_ENABLED\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_ANALYTICS_IDFV_COLLECTION\")\")\n  fi\n\n  # config.analytics_default_allow_analytics_storage\n  _ANALYTICS_STORAGE=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"analytics_default_allow_analytics_storage\")\n  if [[ $_ANALYTICS_STORAGE ]]; then\n    _PLIST_ENTRY_KEYS+=(\"GOOGLE_ANALYTICS_DEFAULT_ALLOW_ANALYTICS_STORAGE\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_ANALYTICS_STORAGE\")\")\n  fi\n\n  # config.analytics_default_allow_ad_storage\n  _ANALYTICS_AD_STORAGE=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"analytics_default_allow_ad_storage\")\n  if [[ $_ANALYTICS_AD_STORAGE ]]; then\n    _PLIST_ENTRY_KEYS+=(\"GOOGLE_ANALYTICS_DEFAULT_ALLOW_AD_STORAGE\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_ANALYTICS_AD_STORAGE\")\")\n  fi\n\n  # config.analytics_default_allow_ad_user_data\n  _ANALYTICS_AD_USER_DATA=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"analytics_default_allow_ad_user_data\")\n  if [[ $_ANALYTICS_AD_USER_DATA ]]; then\n    _PLIST_ENTRY_KEYS+=(\"GOOGLE_ANALYTICS_DEFAULT_ALLOW_AD_USER_DATA\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_ANALYTICS_AD_USER_DATA\")\")\n  fi\n\n  # config.analytics_default_allow_ad_personalization_signals\n  _ANALYTICS_PERSONALIZATION=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"analytics_default_allow_ad_personalization_signals\")\n  if [[ $_ANALYTICS_PERSONALIZATION ]]; then\n    _PLIST_ENTRY_KEYS+=(\"GOOGLE_ANALYTICS_DEFAULT_ALLOW_AD_PERSONALIZATION_SIGNALS\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_ANALYTICS_PERSONALIZATION\")\")\n  fi\n\n  # config.analytics_registration_with_ad_network_enabled\n  _ANALYTICS_REGISTRATION_WITH_AD_NETWORK=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"google_analytics_registration_with_ad_network_enabled\")\n  if [[ $_ANALYTICS_REGISTRATION_WITH_AD_NETWORK ]]; then\n    _PLIST_ENTRY_KEYS+=(\"GOOGLE_ANALYTICS_REGISTRATION_WITH_AD_NETWORK_ENABLED\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_ANALYTICS_REGISTRATION_WITH_AD_NETWORK\")\")\n  fi\n\n  # config.google_analytics_automatic_screen_reporting_enabled\n  _ANALYTICS_AUTO_SCREEN_REPORTING=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"google_analytics_automatic_screen_reporting_enabled\")\n  if [[ $_ANALYTICS_AUTO_SCREEN_REPORTING ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FirebaseAutomaticScreenReportingEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_ANALYTICS_AUTO_SCREEN_REPORTING\")\")\n  fi\n\n  # config.perf_auto_collection_enabled\n  _PERF_AUTO_COLLECTION=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"perf_auto_collection_enabled\")\n  if [[ $_PERF_AUTO_COLLECTION ]]; then\n    _PLIST_ENTRY_KEYS+=(\"firebase_performance_collection_enabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_PERF_AUTO_COLLECTION\")\")\n  fi\n\n  # config.perf_collection_deactivated\n  _PERF_DEACTIVATED=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"perf_collection_deactivated\")\n  if [[ $_PERF_DEACTIVATED ]]; then\n    _PLIST_ENTRY_KEYS+=(\"firebase_performance_collection_deactivated\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_PERF_DEACTIVATED\")\")\n  fi\n\n  # config.messaging_auto_init_enabled\n  _MESSAGING_AUTO_INIT=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"messaging_auto_init_enabled\")\n  if [[ $_MESSAGING_AUTO_INIT ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FirebaseMessagingAutoInitEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_MESSAGING_AUTO_INIT\")\")\n  fi\n\n  # config.in_app_messaging_auto_colllection_enabled\n  _FIAM_AUTO_INIT=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"in_app_messaging_auto_collection_enabled\")\n  if [[ $_FIAM_AUTO_INIT ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FirebaseInAppMessagingAutomaticDataCollectionEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_FIAM_AUTO_INIT\")\")\n  fi\n\n  # config.app_check_token_auto_refresh\n  _APP_CHECK_TOKEN_AUTO_REFRESH=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"app_check_token_auto_refresh\")\n  if [[ $_APP_CHECK_TOKEN_AUTO_REFRESH ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FirebaseAppCheckTokenAutoRefreshEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_APP_CHECK_TOKEN_AUTO_REFRESH\")\")\n  fi\n\n  # config.crashlytics_disable_auto_disabler - undocumented for now - mainly for debugging, document if becomes useful\n  _CRASHLYTICS_AUTO_DISABLE_ENABLED=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"crashlytics_disable_auto_disabler\")\n  if [[ $_CRASHLYTICS_AUTO_DISABLE_ENABLED == \"true\" ]]; then\n    echo \"Disabled Crashlytics auto disabler.\" # do nothing\n  else\n    _PLIST_ENTRY_KEYS+=(\"FirebaseCrashlyticsCollectionEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"NO\")\n  fi\nelse\n  _PLIST_ENTRY_KEYS+=(\"firebase_json_raw\")\n  _PLIST_ENTRY_TYPES+=(\"string\")\n  _PLIST_ENTRY_VALUES+=(\"$_JSON_OUTPUT_BASE64\")\n  echo \"warning:   A firebase.json file was not found, whilst this file is optional it is recommended to include it to configure firebase services in React Native Firebase.\"\nfi;\n\necho \"note: 2) Injecting Info.plist entries: \"\n\n# Log out the keys we're adding\nfor i in \"${!_PLIST_ENTRY_KEYS[@]}\"; do\n  echo \"    ->  $i) ${_PLIST_ENTRY_KEYS[$i]}\" \"${_PLIST_ENTRY_TYPES[$i]}\" \"${_PLIST_ENTRY_VALUES[$i]}\"\ndone\n\nfor plist in \"${_TARGET_PLIST}\" \"${_DSYM_PLIST}\" ; do\n  if [[ -f \"${plist}\" ]]; then\n\n    # paths with spaces break the call to setPlistValue. temporarily modify\n    # the shell internal field separator variable (IFS), which normally\n    # includes spaces, to consist only of line breaks\n    oldifs=$IFS\n    IFS=\"\n\"\n\n    for i in \"${!_PLIST_ENTRY_KEYS[@]}\"; do\n      setPlistValue \"${_PLIST_ENTRY_KEYS[$i]}\" \"${_PLIST_ENTRY_TYPES[$i]}\" \"${_PLIST_ENTRY_VALUES[$i]}\" \"${plist}\"\n    done\n\n    # restore the original internal field separator value\n    IFS=$oldifs\n  else\n    echo \"warning:   A Info.plist build output file was not found (${plist})\"\n  fi\ndone\n\necho \"note: <- RNFB build script finished\"\n";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -487,9 +470,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D4A4709D2EEACDE1002060EA /* BLEAdvertiser.swift in Sources */,
-				D4A470A02EEAFFAF002060EA /* Insfers-Bridging-Header.h in Sources */,
+				D442B9F82EF04F8200EFAC9F /* BlePayeeModule.swift in Sources */,
 				761780ED2CA45674006654EE /* AppDelegate.swift in Sources */,
+				D442B9FA2EF04FB400EFAC9F /* BlePayeeModule.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -498,13 +481,11 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3B4392A12AC88292D35C810B /* Pods-Insfers.debug.xcconfig */;
+			baseConfigurationReference = 76DBC79D7EE5B901FDD2563F /* Pods-Insfers.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = Insfers/Insfers.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_ENTITLEMENTS = Insfers/InsfersDebug.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = CTX25V5TV4;
 				ENABLE_BITCODE = NO;
@@ -520,10 +501,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.InsfersHassan.InsfersApp.--PRODUCT-NAME-rfc1034identifier-";
-				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = com.InsfersHassan.InsfersApp;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.insfers.insfers-financeapp";
 				PRODUCT_NAME = Insfers;
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "Insfers-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -532,7 +512,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5709B34CF0A7D63546082F79 /* Pods-Insfers.release.xcconfig */;
+			baseConfigurationReference = 35FAEDBA9AA25B28720FE17E /* Pods-Insfers.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -551,9 +531,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.InsfersHassan.InsfersApp.--PRODUCT-NAME-rfc1034identifier-";
-				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = com.InsfersHassan.InsfersApp;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.insfers.insfers-financeapp";
 				PRODUCT_NAME = Insfers;
+				SWIFT_OBJC_BRIDGING_HEADER = "Insfers-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -633,6 +613,7 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = "$(inherited)";
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"-DFOLLY_NO_CONFIG",
@@ -714,6 +695,7 @@
 					"\"$(inherited)\"",
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_CFLAGS = "$(inherited)";
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"-DFOLLY_NO_CONFIG",

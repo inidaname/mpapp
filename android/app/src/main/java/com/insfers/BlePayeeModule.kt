@@ -28,7 +28,7 @@ class BlePayeeModule(reactContext: ReactApplicationContext) :
         override fun getName(): String = "BlePayeeModule"
 
         @ReactMethod
-        fun startServer() {
+        fun startServer(name: String) {
                 val adapter = bluetoothManager.adapter
                 if (!adapter.isEnabled) return // Handle properly in production
 
@@ -86,10 +86,8 @@ class BlePayeeModule(reactContext: ReactApplicationContext) :
 
         @ReactMethod
         fun setConfirmationResponse(responseJson: String) {
-                // JS calls this after verifying the payment intent
                 currentConfirmationData = responseJson.toByteArray(Charsets.UTF_8)
 
-                // Notify connected devices that value changed
                 val deviceList = bluetoothManager.getConnectedDevices(BluetoothProfile.GATT)
                 val service = gattServer?.getService(SERVICE_UUID)
                 val char = service?.getCharacteristic(CONFIRM_UUID)
@@ -99,6 +97,21 @@ class BlePayeeModule(reactContext: ReactApplicationContext) :
                                 gattServer?.notifyCharacteristicChanged(device, char, false)
                         }
                 }
+        }
+
+        @ReactMethod
+        fun stopServer() {
+                val advertiser = bluetoothManager.adapter.bluetoothLeAdvertiser
+                        advertiser?.stopAdvertising(object : AdvertiseCallback() {})
+
+                val connectedDevices = bluetoothManager.getConnectedDevices(BluetoothProfile.GATT)
+                        connectedDevices.forEach { device ->
+                                gattServer?.cancelConnection(device) 
+                        }
+
+                        gattServer?.clearServices()
+                        gattServer?.close() 
+                        gattServer = null
         }
 
         private val gattServerCallback =
