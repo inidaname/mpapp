@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import type React from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { View } from "react-native";
 
@@ -17,13 +17,18 @@ import {
   useUpdateUserMutation,
 } from "../service/endpoints/user-endpoints";
 import { useAppSelector } from '../store/redux';
+import AppText from '../components/typo/AppText';
 
-
+interface Message {
+  type: "success" | "error"
+  message: string
+}
 
 interface Props extends NativeStackScreenProps<FullNavStack> { }
 
 const EditProfileScreen: React.FC<Props> = () => {
 
+  const [ message, setMessage ] = useState<Message | null>(null)
   const [ handleUpdate, { isLoading } ] = useUpdateUserMutation();
   const { profile } = useAppSelector(state => state.user)
 
@@ -35,6 +40,16 @@ const EditProfileScreen: React.FC<Props> = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ profile?.username ]);
 
+  useEffect(() => {
+    if (!message) return;
+
+    const timer = setTimeout(() => {
+      setMessage(null);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, [ message ]);
+
   const handleForm: SubmitHandler<Partial<UserUpdate>> = async (values) => {
     const formData = new FormData();
     formData.append("username", values.username);
@@ -42,9 +57,10 @@ const EditProfileScreen: React.FC<Props> = () => {
     formData.append("phone_number", profile?.phone_number);
 
     try {
-      const update = await handleUpdate(formData).unwrap();
-      console.log("update", update);
+      await handleUpdate(formData).unwrap();
+      setMessage({ type: "success", message: "Your profile has been updated successfully." })
     } catch (error) {
+      setMessage({ type: "error", message: "Profile update failed. Please try again." })
       console.log("error", error);
     }
   };
@@ -68,6 +84,7 @@ const EditProfileScreen: React.FC<Props> = () => {
               leftIcon={<MaterialIcons name="person" size={20} />}
               placeholder="Enter Your Username"
             />
+            {message && <AppText className={message.type === "error" ? "text-red-600" : "text-green-600"}>{message.message}</AppText>}
           </View>
         </View>
         <View className="bottom-0 px-6">

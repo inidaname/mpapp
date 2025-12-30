@@ -15,11 +15,13 @@ import { COUNTRIES, CURRENCIES, US_STATES } from "../data/country";
 import { useState } from "react";
 import AppText from "../components/typo/AppText";
 import { getErrorMessage } from "../helpers/handlle-api-error";
+import { useAppSelector } from '../store/redux';
 
-interface Props extends NativeStackScreenProps<RootStackParamList> {}
+interface Props extends NativeStackScreenProps<RootStackParamList> { }
 
 const AddBankScreen: React.FC<Props> = ({ navigation }) => {
-  const [errorMsg, setErrorMsg] = useState("");
+  const [ errorMsg, setErrorMsg ] = useState("");
+  const { isKYCDone } = useAppSelector(state => state.kycStatus)
   const { control, handleSubmit, formState: { isValid }, watch } = useForm<
     ExternalAccountInput
   >({
@@ -30,7 +32,7 @@ const AddBankScreen: React.FC<Props> = ({ navigation }) => {
       },
     },
   });
-  const [addAccount, { isLoading }] = useAddAccountMutation();
+  const [ addAccount, { isLoading } ] = useAddAccountMutation();
 
   const selectedCountry = watch("address.country");
 
@@ -217,7 +219,7 @@ const AddBankScreen: React.FC<Props> = ({ navigation }) => {
           <ButtonComponent
             label="Add Bank Account"
             isLoading={isLoading}
-            isDisabled={!isValid}
+            isDisabled={!isValid || !isKYCDone}
             onPress={handleSubmit(onSubmit)}
           />
         </View>

@@ -10,7 +10,7 @@ import Transactions from "../components/Main/TransactionList";
 import { useAppSelector } from "../store/redux";
 
 interface Props
-  extends NativeStackScreenProps<RootStackParamList, "CurrencyDetail"> {}
+  extends NativeStackScreenProps<RootStackParamList, "CurrencyDetail"> { }
 
 const CurrencyDetail: React.FC<Props> = ({ navigation, route }) => {
   const { usdcWallet } = useAppSelector((state) => state.USDCWallet);
@@ -30,11 +30,11 @@ const CurrencyDetail: React.FC<Props> = ({ navigation, route }) => {
             <USDC />
 
             <FigureText className="text-6xl font-montserrat font-bold text-gray-800 mt-6">
-              ${Number(usdcWallet?.amount).toFixed(2)}
+              ${Number(usdcWallet?.amount ?? 0).toFixed(2)}
             </FigureText>
 
             <FigureText weight="bold" className="text-xl mt-4">
-              = {Number(usdcWallet?.amount).toFixed(2)}
+              = {Number(usdcWallet?.amount ?? 0).toFixed(2)}
               <FigureText className="text-sm align-bottom">USD</FigureText>
             </FigureText>
 

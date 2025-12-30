@@ -9,10 +9,11 @@ import { RootStackParamList } from "../types/types";
 import ActiveNetworks from "../components/Main/ActiveNextworks";
 import { useAppSelector } from "../store/redux";
 
-interface Props extends NativeStackScreenProps<RootStackParamList> {}
+interface Props extends NativeStackScreenProps<RootStackParamList> { }
 
-const WalletScreen: React.FC<Props> = ({}) => {
+const WalletScreen: React.FC<Props> = ({ }) => {
   const { usdcWallet } = useAppSelector((state) => state.USDCWallet);
+  console.log('usdcWallet', usdcWallet)
 
   return (
     <View className="flex-1 bg-white px-6">
@@ -28,10 +29,10 @@ const WalletScreen: React.FC<Props> = ({}) => {
             height={400}
             resizeMethod="scale"
             resizeMode="cover"
-            className="w-14 h-14"
+            className="w-10 h-10"
           />
-          <FigureText className="text-6xl font-bold font-montserrat  ml-2 text-gray-800">
-            {usdcWallet && Number(usdcWallet.amount ?? 0).toFixed(2)}
+          <FigureText className="text-6xl font-montserrat-medium  ml-2 mt-3 text-gray-800">
+            {usdcWallet ? Number(usdcWallet.amount ?? 0).toFixed(2) : 0}
           </FigureText>
         </View>
       </View>

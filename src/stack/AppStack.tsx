@@ -1,4 +1,4 @@
-import type React from "react";
+import React, { useCallback, useEffect } from "react";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
@@ -8,7 +8,7 @@ import { RootStackParamList } from "../types/types";
 
 import HomeStackTabs from "./HomeStacks";
 import AuthStack from "./AuthStach";
-import messaging from "@react-native-firebase/messaging";
+// import messaging from "@react-native-firebase/messaging";
 import { useAppSelector } from "../store/redux";
 import {
   AddBankScreen,
@@ -33,7 +33,6 @@ import {
   SettingsScreen,
   WalletScreen,
 } from "../screens";
-import { useCallback, useEffect } from "react";
 
 import { useAddDeviceNotyMutation } from "../service/endpoints/notification-endpoints";
 import { useNotification } from "../hooks/useNotificationHook";
@@ -41,6 +40,7 @@ import { useLazyGetTransactionQuery } from "../service/endpoints/transactions-en
 import { useLazyGetWalletByIdQuery } from "../service/endpoints/wallets-endpoints";
 import { useGetUserProfileQuery } from "../service/endpoints/user-endpoints";
 import OfflineBanner from '../components/utils/OfflineBanner';
+import { Platform } from 'react-native';
 // import { notificationListener } from "../helpers/notification-helps";
 
 export type RootNavigatorParams = {
@@ -109,47 +109,53 @@ const AppStack: React.FC = () => {
   const [ getWallet ] = useLazyGetWalletByIdQuery();
   const { data } = useGetUserProfileQuery();
   const { active_wallet } = useAppSelector((state) => state.wallet);
-  const { getDeviceToken, requestPermission } = useNotification(() => {
+
+  const handleNotificationEvent = useCallback(() => {
     getTransactions({ page: 1 });
-    console.log('triggered', active_wallet)
-    if (active_wallet && active_wallet.id) {
+    if (active_wallet?.id) {
       getWallet(active_wallet.id);
     }
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ active_wallet?.id ]);
+
+  const { getDeviceToken, requestPermission } = useNotification(handleNotificationEvent);
 
   useEffect(() => {
     requestPermission();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const initializeNotifications = useCallback(async () => {
-    const fcmToken = await getDeviceToken();
-
-    const exists = data?.data?.SNS?.some(
-      (item) => item.deviceToken === fcmToken.token,
-    );
-
-    console.log("data?.data?.SNS", data?.data?.SNS);
-
-    if (!exists) {
-      await addDevice({
-        deviceToken: fcmToken.token ?? "",
-        device: "android",
-      });
-    }
-
-    return messaging().onTokenRefresh(async () => {
-      await addDevice({
-        deviceToken: fcmToken.token ?? "",
-        device: "android",
-      });
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ active_wallet?.user_id, data?.data.SNS ]);
 
   useEffect(() => {
-    initializeNotifications();
-  }, [ initializeNotifications ]);
+    let isMounted = true;
+
+    const initializeNotifications = async () => {
+      const fcmToken = await getDeviceToken();
+      if (!fcmToken.token || !isMounted) return;
+
+      const exists = data?.data?.SNS?.some(
+        (item) => item.deviceToken === fcmToken.token,
+      );
+
+      if (!exists) {
+        await addDevice({
+          deviceToken: fcmToken.token,
+          device: Platform.OS === "android" ? "android" : "ios",
+        });
+      }
+    };
+
+    if (token) {
+      initializeNotifications();
+    }
+
+    return () => { isMounted = false; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ data?.data?.SNS, token ]);
+
+  // useEffect(() => {
+  //   initializeNotifications();
+  // }, [ initializeNotifications ]);
 
   // if (loading) {
   //   return (

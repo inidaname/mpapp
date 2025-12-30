@@ -3,7 +3,7 @@ import type React from "react";
 import { TouchableOpacity, View } from "react-native";
 
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { OtpInput } from "react-native-otp-entry";
+// import { OtpInput } from "react-native-otp-entry";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { FullNavStack } from "../types/types";
 import HeaderSide from "../components/Main/HeaderSide";
@@ -17,46 +17,53 @@ import {
 } from "../service/endpoints/auth-endpoints";
 import { useEffect, useState } from "react";
 import Checkbox from "@react-native-community/checkbox"
+import { useAppSelector } from '../store/redux';
 
 interface Props extends NativeStackScreenProps<FullNavStack> { }
 
 const ChangePhoneScreen: React.FC<Props> = ({ navigation }) => {
-  const { control, handleSubmit, watch, formState: { isValid } } = useForm<
+  const { control, handleSubmit, /*watch, */ formState: { isValid }, setValue } = useForm<
     PhoneOTPInput
   >();
   const [ phoneNumber, setPhoneNumber ] = useState("");
-  const [ otp, setOTP ] = useState("");
-  const [ stillValid, setStillValid ] = useState(false);
+  // const [ otp, setOTP ] = useState("");
+  // const [ stillValid, setStillValid ] = useState(false);
   const [ requestPhone, { isLoading } ] = useRequestPhoneMutation();
+  const { profile } = useAppSelector(state => state.user)
   const [ changePhone, { isLoading: changingPhone } ] = useChangePhoneMutation();
+
+  useEffect(() => {
+    setValue("phoneNumber", profile?.phone_number ?? "")
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const handleChange: SubmitHandler<PhoneOTPInput> = async (values) => {
     try {
       await requestPhone(values.phoneNumber).unwrap();
       setPhoneNumber(values.phoneNumber);
-      setStillValid(true);
+      // setStillValid(true);
     } catch (error) {
       console.log("error", error);
     }
   };
 
   const handleUpdate = async () => {
-    if (otp.length < 4) return;
+    // if (otp.length < 4) return;
     try {
-      await changePhone({ otp, phoneNumber }).unwrap();
+      await changePhone({ phoneNumber }).unwrap();
       navigation.goBack();
     } catch (error) {
       console.log("error", error);
     }
   };
 
-  const phoneValue = watch("phoneNumber");
+  // const phoneValue = watch("phoneNumber");
 
-  useEffect(() => {
-    if (phoneNumber && phoneValue !== phoneNumber) {
-      setStillValid(false);
-    }
-  }, [ phoneNumber, phoneValue ]);
+  // useEffect(() => {
+  //   if (phoneNumber && phoneValue !== phoneNumber) {
+  //     setStillValid(false);
+  //   }
+  // }, [ phoneNumber, phoneValue ]);
 
   return (
     <KeyboardAwareScrollView
@@ -100,7 +107,7 @@ const ChangePhoneScreen: React.FC<Props> = ({ navigation }) => {
               </AppText>
             </TouchableOpacity>
 
-            {stillValid && (
+            {/* {stillValid && (
               <OtpInput
                 focusColor="#215ce1"
                 numberOfDigits={4}
@@ -114,13 +121,14 @@ const ChangePhoneScreen: React.FC<Props> = ({ navigation }) => {
                   },
                 }}
               />
-            )}
+            )} */}
           </View>
         </View>
         <View className="px-6 w-full">
           <ButtonComponent
-            isDisabled={!stillValid || otp.length < 4 || changingPhone}
+            isDisabled={phoneNumber.length > 0}
             label="Update"
+            isLoading={changingPhone}
             onPress={handleUpdate}
           />
         </View>

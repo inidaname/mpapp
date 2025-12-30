@@ -16,10 +16,10 @@ import {
 } from "../store/reducers/scan-wallet-slice";
 import AppText from "../components/typo/AppText";
 
-type Props = NativeStackScreenProps<FullNavStack>;
+type Props = NativeStackScreenProps<FullNavStack, "ScanWalletScreen">;
 
-export default function ScanWalletScreen({ navigation }: Props) {
-  const [hasPermission, setHasPermission] = useState(false);
+export default function ScanWalletScreen({ navigation, route }: Props) {
+  const [ hasPermission, setHasPermission ] = useState(false);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -67,28 +67,39 @@ export default function ScanWalletScreen({ navigation }: Props) {
       Alert.alert(
         "Camera Unavailable",
         "Your device does not allow camera access.",
-        [{ text: "OK", onPress: () => navigation.goBack() }],
+        [ { text: "OK", onPress: () => navigation.goBack() } ],
       );
     })();
-  }, [navigation]);
+  }, [ navigation ]);
 
   const device = useCameraDevice("back");
 
   const codeScanner = useCodeScanner({
-    codeTypes: ["qr"],
+    codeTypes: [ "qr" ],
     onCodeScanned: (codes) => {
       if (codes.length > 0) {
-        const qr = codes[0].value || "";
+        const qr = codes[ 0 ].value || "";
         // navigation.navigate("Home", {
         //   screen: "Send",
         //   params: { wallet_address: qr },
         // });
         dispatch(setScannedAddress(qr));
         dispatch(setScanned(true));
-        navigation.goBack();
+        handleNavigation(qr)
       }
     },
   });
+
+  const handleNavigation = (qr?: string) => {
+    if (route.params?.from === "HomeSendScreen") {
+      navigation.replace("Home", {
+        screen: "Send",
+        params: { wallet_address: qr },
+      });
+    } else {
+      navigation.replace(route.params?.from)
+    }
+  }
 
   if (!device) {
     return (
@@ -117,7 +128,7 @@ export default function ScanWalletScreen({ navigation }: Props) {
 
       {/* Title row */}
       <View style={styles.topBar}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        <TouchableOpacity onPress={() => { handleNavigation() }}>
           <Text style={styles.back}>×</Text>
         </TouchableOpacity>
 
@@ -129,10 +140,10 @@ export default function ScanWalletScreen({ navigation }: Props) {
       <View style={styles.overlay}>
         <View style={styles.scanArea}>
           {/* Four corner strokes */}
-          <View style={[styles.corner, styles.tl]} />
-          <View style={[styles.corner, styles.tr]} />
-          <View style={[styles.corner, styles.bl]} />
-          <View style={[styles.corner, styles.br]} />
+          <View style={[ styles.corner, styles.tl ]} />
+          <View style={[ styles.corner, styles.tr ]} />
+          <View style={[ styles.corner, styles.bl ]} />
+          <View style={[ styles.corner, styles.br ]} />
         </View>
       </View>
     </View>

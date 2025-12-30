@@ -12,9 +12,9 @@ interface Props extends NativeStackScreenProps<FullNavStack, "KYCScreen"> { }
 
 const KycScreen: React.FC<Props> = ({ route, navigation }) => {
   const { kycLink, tosLink } = route.params;
-  const { data, refetch } = useGetKYCQuery();
+  const { refetch } = useGetKYCQuery();
   const [ currentUrl, setCurrentUrl ] = useState(tosLink);
-  const [ phase, setPhase ] = useState<"tos" | "kyc">("tos");
+  // const [ phase, setPhase ] = useState<"tos" | "kyc">("tos");
 
 
   // Inside your component or a useEffect
@@ -44,38 +44,57 @@ const KycScreen: React.FC<Props> = ({ route, navigation }) => {
     requestCameraPermission();
   }, []);
 
-  const handleNavigationStateChange = async (navState: { url: string }) => {
-    const { url } = navState;
+  const handleMessage = async (event: any) => {
+    try {
+      const payload = JSON.parse(event.nativeEvent.data);
 
-    if (phase === "tos" && url.startsWith("https://kyc.insfers.com/")) {
-      await refetch().unwrap();
-      setPhase("kyc");
-      setCurrentUrl(kycLink);
-    }
-
-    if (phase === "kyc" && url.startsWith("https://kyc.insfers.com")) {
-      if (data?.data?.metadata?.kyc?.tos_status !== "approved") {
-        navigation.goBack();
-      } else {
-        navigation.replace("KycStatus");
+      if (payload.event === "TOS_COMPLETED") {
+        await refetch().unwrap();
+        // setPhase("kyc");
+        setCurrentUrl(kycLink);
       }
+
+      if (payload.event === "KYC_COMPLETED") {
+        await refetch().unwrap();
+        navigation.goBack();
+      }
+    } catch (e) {
+      console.warn("Invalid message from WebView", e);
+      navigation.goBack();
     }
   };
+
+
+  // const handleNavigationStateChange = async (navState: { url: string }) => {
+  //   const { url } = navState;
+
+  //   if (phase === "tos" && url.startsWith("https://kyc.insfers.com/")) {
+  //     await refetch().unwrap();
+  //     setPhase("kyc");
+  //     setCurrentUrl(kycLink);
+  //   }
+
+  //   if (phase === "kyc" && url.startsWith("https://kyc.insfers.com")) {
+  //     if (data?.data?.metadata?.kyc?.tos_status !== "approved") {
+  //       navigation.goBack();
+  //     }
+  //   }
+  // };
 
   return (
     <View style={{ flex: 1 }}>
       <WebView
         source={{ uri: currentUrl }}
-        onNavigationStateChange={handleNavigationStateChange}
+        onMessage={handleMessage}
         startInLoadingState
         renderLoading={() => (
           <ActivityIndicator style={{ flex: 1 }} size="large" />
         )}
-        originWhitelist={[ '*' ]}
-        allowsInlineMediaPlayback={true}
+        originWhitelist={[ "*" ]}
+        javaScriptEnabled
+        domStorageEnabled
+        allowsInlineMediaPlayback
         mediaPlaybackRequiresUserAction={false}
-        javaScriptEnabled={true}
-        domStorageEnabled={true}
         mediaCapturePermissionGrantType="grantIfSameHostElsePrompt"
       />
     </View>

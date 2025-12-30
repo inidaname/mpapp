@@ -3,8 +3,11 @@ import type React from "react";
 
 import {
   FlatList,
+  KeyboardAvoidingView,
   Modal,
+  Platform,
   Pressable,
+  ScrollView,
   TextInput,
   TouchableOpacity,
   View,
@@ -17,6 +20,7 @@ import {
   useAddContactMutation,
   useGetContactsQuery,
   useLazyGetContactsQuery,
+  useLazySearchContactQuery,
 } from "../service/endpoints/contacts-endpoints";
 import Avatar from "../components/Avatar";
 import { useEffect, useState } from "react";
@@ -33,18 +37,19 @@ import {
 } from "../store/reducers/scan-wallet-slice";
 import { useNavigation } from "@react-navigation/native";
 import { useRefreshUserAndWallet } from "../hooks/useRefreshProfileAndWallet";
+import { generateUsername } from '../helpers/username';
+import { isSolanaAddress, isWalletAddress } from '../helpers/is-wallet-address';
 
 interface FormUserData {
-  first_name: string;
-  last_name: string;
-  chain: string;
+  username: string
+  chain?: string;
   address: string;
 }
 
 type Props = NativeStackScreenProps<FullNavStack>;
 
 const ListContacts: React.FC<{ search: string }> = ({ search }) => {
-  const [getContact, { data, isLoading }] = useLazyGetContactsQuery();
+  const [ getContact, { data, isLoading } ] = useLazyGetContactsQuery();
   const { refetch } = useGetContactsQuery({ search });
   const navigation = useNavigation<NativeStackNavigationProp<FullNavStack>>();
   const dispatch = useAppDispatch();
@@ -52,7 +57,7 @@ const ListContacts: React.FC<{ search: string }> = ({ search }) => {
 
   useEffect(() => {
     getContact({ search });
-  }, [search]);
+  }, [ search ]);
 
   const sendToWallet = (address: string) => {
     dispatch(setScannedAddress(address));
@@ -137,47 +142,111 @@ const ListContacts: React.FC<{ search: string }> = ({ search }) => {
     />
   );
 };
-
 const AddUserScreen: React.FC<Props> = ({ navigation }) => {
-  const [search, setSearch] = useState("");
-  const [open, setOpen] = useState(false);
-  const { address, scanned } = useAppSelector((state) => state.scanWallet);
-  const [addContact, { isLoading }] = useAddContactMutation();
+  const [ search, setSearch ] = useState("");
+  const [ open, setOpen ] = useState(false);
+  const [ resolved, setResolved ] = useState(false);
+  const [ showChainField, setShowChainField ] = useState(false);
+
+  const { address, scanned } = useAppSelector(state => state.scanWallet);
   const dispatch = useAppDispatch();
+
+  const [ addContact, { isLoading } ] = useAddContactMutation();
+  const [ searchContact ] = useLazySearchContactQuery();
+
   const {
     control,
     handleSubmit,
     reset,
     formState: { errors, isValid },
+    // getValues,
   } = useForm<FormUserData>({
     defaultValues: {
-      first_name: "",
-      last_name: "",
+      username: "",
+      address: "",
       chain: "",
-      address: address ?? "",
     },
     mode: "onChange",
   });
 
-  useEffect(() => {
-    if (scanned && !open) {
-      setOpen(true);
-      dispatch(setScanned(false));
-    }
-  }, [scanned, open]);
+  // -------------------------
+  // Core resolver logic
+  // -------------------------
+  const resolveContact = async (value: string) => {
+    try {
+      const result = await searchContact(value).unwrap();
 
-  const onSubmit: SubmitHandler<FormUserData> = async (data) => {
+      // 1. Backend found a user (username lookup)
+      if (result?.username && result?.address) {
+        reset({
+          username: result.username,
+          address: result.address,
+          chain: "",
+        });
+
+        setShowChainField(false);
+        setResolved(true);
+        return;
+      }
+
+      // 2. Wallet address provided
+      if (isWalletAddress(value)) {
+        const solana = isSolanaAddress(value);
+
+        reset({
+          username: generateUsername(),
+          address: value,
+          chain: solana ? "solana" : "",
+        });
+
+        setShowChainField(!solana);
+        setResolved(true);
+        return;
+      }
+
+      // 3. Username not found
+      reset({
+        username: value,
+        address: "",
+        chain: "",
+      });
+
+      setResolved(false);
+      setShowChainField(false);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  // -------------------------
+  // Wallet scan handler
+  // -------------------------
+  useEffect(() => {
+    if (scanned && address) {
+      resolveContact(address);
+      dispatch(setScanned(false));
+      setOpen(true);
+    }
+  }, [ scanned, address ]);
+
+  // -------------------------
+  // Submit
+  // -------------------------
+  const onSubmit: SubmitHandler<FormUserData> = async data => {
     try {
       await addContact(data).unwrap();
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      console.log(err);
     } finally {
       setOpen(false);
+      setResolved(false);
+      setShowChainField(false);
       reset();
     }
   };
+
   return (
-    <View className="flex-1 w-full bg-white">
+    <View className="flex-1 bg-white">
       <HeaderSide heading="Add User" isWithBack />
       <View className="px-6 mt-6 relative justify-start w-full justify-center items-center">
         <View className="absolute left-9">
@@ -207,134 +276,137 @@ const AddUserScreen: React.FC<Props> = ({ navigation }) => {
       </View>
 
       <Modal visible={open} transparent animationType="slide">
-        <View className="flex-1 justify-center items-center bg-black/40">
-          <View className="w-11/12 bg-white p-6 rounded-xl">
-            <AppText className="text-2xl font-semibold mb-4">Add User</AppText>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={{ flex: 1 }}
+        >
+          <ScrollView
+            contentContainerClassName='w-full flex-1'
+            keyboardShouldPersistTaps="handled"
+          >
+            <View className="flex-1 justify-center items-center bg-black/40">
+              <View className="w-11/12 bg-white p-6 rounded-xl">
+                <AppText className="text-2xl font-semibold mb-4">
+                  Add Contact
+                </AppText>
 
-            {/* First Name */}
-            <Controller
-              control={control}
-              name="first_name"
-              rules={{ required: "First Name of the contact is required" }}
-              render={({ field: { onChange, value } }) => (
-                <>
-                  <TextInput
-                    placeholder="First Name"
-                    value={value}
-                    onChangeText={onChange}
-                    className="border border-gray-300 rounded-lg p-3 mb-3"
+                {/* Username */}
+                <Controller
+                  control={control}
+                  name="username"
+                  // rules={{ required: "Username is required" }}
+                  render={({ field: { onChange, value } }) => (
+                    <>
+                      <TextInput
+                        placeholder="Username"
+                        value={value}
+                        onChangeText={onChange}
+                        onBlur={() => {
+                          if (value?.length >= 3) {
+                            resolveContact(value);
+                          }
+                        }}
+                        className="border border-gray-300 rounded-lg p-3 mb-3"
+                      />
+                      {errors.username && (
+                        <AppText className="text-red-600 text-sm">
+                          {errors.username.message}
+                        </AppText>
+                      )}
+                    </>
+                  )}
+                />
+
+                {/* Chain (conditional) */}
+                {showChainField && (
+                  <Controller
+                    control={control}
+                    name="chain"
+                    rules={{ required: "Blockchain is required" }}
+                    render={({ field: { onChange, value } }) => (
+                      <>
+                        <TextInput
+                          placeholder="Chain (solana, ethereum)"
+                          value={value}
+                          onChangeText={onChange}
+                          className="border border-gray-300 rounded-lg p-3 mb-3"
+                        />
+                        {errors.chain && (
+                          <AppText className="text-red-600 text-sm">
+                            {errors.chain.message}
+                          </AppText>
+                        )}
+                      </>
+                    )}
                   />
-                  {errors.first_name && (
-                    <AppText className="text-red-600 text-sm mt-1">
-                      {errors.first_name.message}
-                    </AppText>
+                )}
+
+                {/* Address */}
+                <Controller
+                  control={control}
+                  name="address"
+                  rules={{ required: "Wallet address is required" }}
+                  render={({ field: { onChange, value } }) => (
+                    <>
+                      <View className="flex-row items-center gap-4 mb-6">
+                        <TextInput
+                          placeholder="Wallet Address"
+                          value={value}
+                          onChangeText={onChange}
+                          className="border border-gray-300 rounded-lg p-3 flex-1"
+                        />
+                        <TouchableOpacity
+                          className="bg-brand-700 px-5 py-4 rounded-full"
+                          onPress={() => {
+                            setOpen(false);
+                            navigation.replace("ScanWalletScreen", {
+                              from: "AddUserScreen",
+                            });
+                          }}
+                        >
+                          <AppText className="text-white font-bold">
+                            Scan
+                          </AppText>
+                        </TouchableOpacity>
+                      </View>
+                      {errors.address && (
+                        <AppText className="text-red-600 text-sm">
+                          {errors.address.message}
+                        </AppText>
+                      )}
+                    </>
                   )}
-                </>
-              )}
-            />
+                />
 
-            {/* Last Name */}
-            <Controller
-              control={control}
-              name="last_name"
-              rules={{ required: "Last Name of the contact is required" }}
-              render={({ field: { onChange, value } }) => (
-                <>
-                  <TextInput
-                    placeholder="Last Name"
-                    value={value}
-                    onChangeText={onChange}
-                    className="border border-gray-300 rounded-lg p-3 mb-3"
-                  />
-                  {errors.last_name && (
-                    <AppText className="text-red-600 text-sm mt-1">
-                      {errors.last_name.message}
-                    </AppText>
-                  )}
-                </>
-              )}
-            />
+                {/* Actions */}
+                <View className="flex-row justify-between">
+                  <Pressable
+                    className="px-4 py-3 rounded-lg bg-gray-300"
+                    onPress={() => {
+                      setOpen(false);
+                      setResolved(false);
+                      setShowChainField(false);
+                      reset();
+                    }}
+                  >
+                    <AppText>Cancel</AppText>
+                  </Pressable>
 
-            {/* Chain */}
-            <Controller
-              control={control}
-              name="chain"
-              rules={{ required: "Blockchain contact is required" }}
-              render={({ field: { onChange, value } }) => (
-                <>
-                  <TextInput
-                    placeholder="Chain (solana, ethereum)"
-                    value={value}
-                    onChangeText={onChange}
-                    className="border border-gray-300 rounded-lg p-3 mb-3"
-                  />
-                  {errors.chain && (
-                    <AppText className="text-red-600 text-sm mt-1">
-                      {errors.chain.message}
-                    </AppText>
-                  )}
-                </>
-              )}
-            />
-
-            {/* Address */}
-            <Controller
-              control={control}
-              name="address"
-              rules={{ required: "The wallet Address contact is required" }}
-              render={({ field: { onChange, value } }) => (
-                <>
-                  <View className="flex-row items-center mb-6 justify-center gap-4">
-                    <TextInput
-                      placeholder="Wallet Address"
-                      value={value}
-                      onChangeText={onChange}
-                      className="border border-gray-300 rounded-lg p-3  flex-1"
-                    />
-                    <TouchableOpacity
-                      className="bg-brand-700 px-5 py-4 rounded-full"
-                      onPress={() => {
-                        setOpen(false);
-                        navigation.navigate("ScanWalletScreen");
-                      }}
-                    >
-                      <AppText className="text-white font-bold text-[16px]">
-                        Scan
-                      </AppText>
-                    </TouchableOpacity>
-                  </View>
-                  {errors.address && (
-                    <AppText className="text-red-600 text-sm mt-1">
-                      {errors.address.message}
-                    </AppText>
-                  )}
-                </>
-              )}
-            />
-
-            <View className="flex-row justify-between">
-              <Pressable
-                className="px-4 py-3 rounded-lg bg-gray-300"
-                onPress={() => {
-                  setOpen(false);
-                  reset();
-                }}
-              >
-                <AppText>Cancel</AppText>
-              </Pressable>
-
-              <Pressable
-                className={`px-4 py-3 rounded-lg ${
-                  !isValid || isLoading ? "bg-brand-300" : "bg-brand-700"
-                }`}
-                onPress={handleSubmit(onSubmit)}
-                disabled={!isValid || isLoading}
-              >
-                <AppText className="text-white">Save</AppText>
-              </Pressable>
+                  <Pressable
+                    className={`px-4 py-3 rounded-lg ${!isValid || !resolved || isLoading
+                      ? "bg-brand-300"
+                      : "bg-brand-700"
+                      }`}
+                    onPress={handleSubmit(onSubmit)}
+                    disabled={!isValid || !resolved || isLoading}
+                  >
+                    <AppText className="text-white">Save</AppText>
+                  </Pressable>
+                </View>
+              </View>
             </View>
-          </View>
-        </View>
+          </ScrollView>
+        </KeyboardAvoidingView>
       </Modal>
     </View>
   );
