@@ -1,4 +1,4 @@
-import { SUPPORT_COUNTRIES } from '../../data/supporting-countries';
+// import { SUPPORT_COUNTRIES } from '../../data/supporting-countries';
 import { apiSlice } from '../apiSlice';
 
 const utilEndpoints = apiSlice.injectEndpoints({
@@ -20,9 +20,7 @@ const utilEndpoints = apiSlice.injectEndpoints({
       }),
       transformResponse: (response: APIData<CountriesAPI[]>) => {
         console.log(response);
-        return response.data.filter(item =>
-          SUPPORT_COUNTRIES.includes(item.name),
-        );
+        return response.data;
       },
     }),
   }),

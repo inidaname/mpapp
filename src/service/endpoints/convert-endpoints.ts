@@ -1,22 +1,25 @@
-import { apiSlice } from "../apiSlice";
+import { apiSlice } from '../apiSlice';
 
 const convertEndpoint = apiSlice.injectEndpoints({
-  endpoints: (build) => ({
+  endpoints: build => ({
     convertFundsToWallet: build.mutation<APIData<ConvertData>, ConvertInput>({
-      query: (body) => ({
+      query: body => ({
         url: `/transactions/on-ramp`,
-        method: "POST",
+        method: 'POST',
         body,
       }),
-      invalidatesTags: ["transactions"],
+      invalidatesTags: ['transactions'],
     }),
-    convertFundsToBank: build.mutation<APIData<ConvertData>, WalletBankInput>({
-      query: (body) => ({
+    convertFundsToBank: build.mutation<
+      APIData<TransferredAmount>,
+      WalletBankInput
+    >({
+      query: body => ({
         url: `/transactions/off-ramp`,
-        method: "POST",
+        method: 'POST',
         body,
       }),
-      invalidatesTags: ["transactions"],
+      invalidatesTags: ['transactions'],
     }),
   }),
 });

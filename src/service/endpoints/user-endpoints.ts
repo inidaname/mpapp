@@ -1,3 +1,4 @@
+import { setKYCStatus } from '../../store/reducers/kyc-status-slice';
 import { setUserProfile } from '../../store/reducers/user-slice';
 import {
   setActiveWallet,
@@ -28,8 +29,11 @@ const userEndpoints = apiSlice.injectEndpoints({
 
           const profile = data.data;
           const wallets = profile.Wallet || [];
-          console.log('wallets', wallets);
           const activeWallet = wallets.find(w => w.is_active);
+
+          if (data.data.kyc_status === 'APPROVED') {
+            dispatch(setKYCStatus(true));
+          }
 
           dispatch(setUserProfile({ profile }));
           dispatch(setWallets(wallets));
@@ -48,7 +52,7 @@ const userEndpoints = apiSlice.injectEndpoints({
               await dispatch(
                 (apiSlice.endpoints as any).createWallet.initiate({
                   accountType: 'EOA',
-                  blockchains: ['SOL-DEVNET'],
+                  blockchains: 'SOL',
                 }),
               ).unwrap();
 
@@ -62,6 +66,8 @@ const userEndpoints = apiSlice.injectEndpoints({
               console.log('wallet creation failed:', createErr);
             }
           }
+
+          await dispatch((apiSlice.endpoints as any).getKYC.initiate());
         } catch (err) {
           console.log('profile fetch failed:');
         }
